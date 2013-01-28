@@ -1,0 +1,23 @@
+importFrom(Hmisc, 
+  hdquantile,
+	wtd.mean, 
+  wtd.var, 
+  wtd.quantile, 
+  wtd.rank, 
+  wtd.table,
+	binconf				 
+)
+	
+importFrom(scales, 
+  alpha
+)
+
+importFrom(RColorBrewer, 
+  brewer.pal
+)
+
+importFrom(plyr, 
+  dlply
+)
+
+exportPattern("^[^\\.]")

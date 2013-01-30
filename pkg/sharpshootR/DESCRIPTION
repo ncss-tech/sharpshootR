@@ -2,7 +2,7 @@ Package: sharpshootR
 Type: Package
 Title: A collection of functions to support soil survey
 Description: A collection of functions to support soil survey
-Version: 0.1
+Version: 0.2
 Date: 2013-01-28
 Author: USDA-NRCS Soil Survey Staff
 Maintainer: Dylan Beaudette <dylan.beaudette@ca.usda.gov>
@@ -10,5 +10,5 @@ License: GPL (>= 2)
 Repository: CRAN
 URL: http://aqp.r-forge.r-project.org/
 Suggests: aqp, soilDB
-Depends: R (>= 2.15.0), igraph, circular
+Depends: R (>= 2.15.0), igraph, circular, ape
 Imports: Hmisc, RColorBrewer, plyr, scales

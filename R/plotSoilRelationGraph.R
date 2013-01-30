@@ -1,3 +1,4 @@
+# note that this relys on ape plotting functions
 plotSoilRelationGraph <- function(m, s, type='network') {
 	
 	# generate graph
@@ -14,10 +15,17 @@ plotSoilRelationGraph <- function(m, s, type='network') {
 	g.com.length <- length(g.com)
 	g.com.membership <- membership(g.com)
 
-	# colors for communities
-	if(g.com.length <= 9) cols <- brewer.pal(n=g.com.length, name='Set1') else cols <- colorRampPalette(brewer.pal(n=9, name='Set1'))(g.com.length)
-
+	# colors for communities: choose color palette based on number of communities
+	if(g.com.length <= 9 & g.com.length > 2) 
+		cols <- brewer.pal(n=g.com.length, name='Set1') 
+	if(g.com.length < 3) 
+		cols <- brewer.pal(n=3, name='Set1')
+	if(g.com.length > 9)
+		cols <- colorRampPalette(brewer.pal(n=9, name='Set1'))(g.com.length)
+	
+	# add some transparency
 	cols.alpha <- alpha(cols, 0.65)
+	# set colors based on community membership
 	V(g)$color <- cols.alpha[membership(g.com)]
 
 	# generate vector of fonts, highlighting main soil

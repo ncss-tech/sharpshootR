@@ -12,6 +12,16 @@ importFrom(scales,
   alpha
 )
 
+importFrom(circular, 
+  circular,
+  mean.circular,
+	rho.circular,
+  plot.circular,
+	density.circular,
+	axis.circular,
+	arrows.circular
+)
+
 importFrom(RColorBrewer, 
   brewer.pal
 )

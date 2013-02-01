@@ -9,13 +9,14 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', max.depth=150, n.depth.ti
 	spc$greatgroup <- factor(spc$greatgroup)
 	spc$subgroup <- factor(spc$subgroup)
 	
-	# cluster using divisive algorithm
+	# extract site attributes as data.frame
 	s <- site(spc)
+	# copy soil ID to row.names, so that they are preserved in the distance matrix
+	row.names(s) <- s[[idname(spc)]]
+	
+	# compute distance matrix from first 4 levels of Soil Taxonomy
 	s.dist <- daisy(s[, c('soilorder', 'suborder', 'greatgroup', 'subgroup')], metric='gower')
 	s.hclust <- as.hclust(diana(s.dist))
-	
-	# add series name as labels
-	s.hclust$labels <- s[[idname(spc)]]
 	
 	# convert to phylo class
 	dend <- as.phylo(s.hclust)
@@ -46,4 +47,7 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', max.depth=150, n.depth.ti
 	
 	# add labels-- note manual tweaking of y-coordinates
 	text(lab.x.positions, lab.y.positions, unique.lab, cex=cex.taxon.labels, adj=0.5, font=3)
+	
+	# invisibly return the distance matrix, just in case
+	invisible(s.dist)
 }

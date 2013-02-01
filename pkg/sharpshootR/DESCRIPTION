@@ -9,6 +9,6 @@ Maintainer: Dylan Beaudette <dylan.beaudette@ca.usda.gov>
 License: GPL (>= 2)
 Repository: CRAN
 URL: http://aqp.r-forge.r-project.org/
-Suggests: aqp, soilDB
-Depends: R (>= 2.15.0), igraph, circular, ape
-Imports: Hmisc, RColorBrewer, plyr, scales
+Suggests: soilDB, MASS
+Depends: R (>= 2.15.0), aqp, igraph, ape, cluster
+Imports: Hmisc, RColorBrewer, plyr, scales, circular

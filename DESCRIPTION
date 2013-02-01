@@ -3,7 +3,7 @@ Type: Package
 Title: A collection of functions to support soil survey
 Description: A collection of functions to support soil survey
 Version: 0.2
-Date: 2013-01-28
+Date: 2013-01-30
 Author: USDA-NRCS Soil Survey Staff
 Maintainer: Dylan Beaudette <dylan.beaudette@ca.usda.gov>
 License: GPL (>= 2)

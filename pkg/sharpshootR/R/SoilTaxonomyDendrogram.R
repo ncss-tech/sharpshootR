@@ -21,8 +21,10 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', max.depth=150, n.depth.ti
 	# convert to phylo class
 	dend <- as.phylo(s.hclust)
 	
-	# extract dendrogram geometry
-	edge.length.range <- range(dend$edge.length)
+	# determine best-possible locations for taxa names
+	max.dist <- max(s.dist)
+	taxa.lab.y.vect <- c(max.dist / 1.6666666, (max.dist / 1.6666666) + 0.12)
+	
 	
 	# setup plot and add dendrogram
 	par(mar=c(0,0,0,0))
@@ -43,7 +45,7 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', max.depth=150, n.depth.ti
 	unique.lab <- unique(lab)
 	group.lengths <- rle(as.numeric(lab))$lengths
 	lab.x.positions <- (cumsum(group.lengths) - (group.lengths / 2)) + 0.5
-	lab.y.positions <- rep(c(0.6, 0.72), length.out=length(unique.lab))
+	lab.y.positions <- rep(taxa.lab.y.vect, length.out=length(unique.lab))
 	
 	# add labels-- note manual tweaking of y-coordinates
 	text(lab.x.positions, lab.y.positions, unique.lab, cex=cex.taxon.labels, adj=0.5, font=3)

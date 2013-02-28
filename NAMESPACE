@@ -5,7 +5,7 @@ importFrom(Hmisc,
   wtd.quantile, 
   wtd.rank, 
   wtd.table,
-	binconf				 
+  binconf				 
 )
 	
 importFrom(scales, 
@@ -15,11 +15,11 @@ importFrom(scales,
 importFrom(circular, 
   circular,
   mean.circular,
-	rho.circular,
+  rho.circular,
   plot.circular,
-	density.circular,
-	axis.circular,
-	arrows.circular
+  density.circular,
+  axis.circular,
+  arrows.circular
 )
 
 importFrom(RColorBrewer, 

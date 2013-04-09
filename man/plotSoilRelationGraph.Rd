@@ -36,6 +36,27 @@ plotSoilRelationGraph(m, s='amador', type='dendrogram')
 title('unweighted')
 plotSoilRelationGraph(m.wt, s='amador', type='dendrogram')
 title('weighted')
+
+
+## get similar data from soilweb, for the Pardee series
+if(require(plyr)) {
+	s <- 'pardee'
+	u <- url(URLencode(paste('http://casoilresource.lawr.ucdavis.edu/soil_web/reflector_api/soils.php?what=soil_series_component_query&q_string=', s, sep='')))
+
+	# fetch data
+	d <- read.table(u, sep='|', header=TRUE, stringsAsFactors=FALSE)
+
+	# normalize component names
+	d$compname <- tolower(d$compname)
+
+	# aggregate component percentages when multiple components of the same name are present
+	d <- ddply(d, c('mukey','compname'), summarise, comppct_r=sum(comppct_r))
+	d <- d[order(d$mukey, d$comppct_r), ]
+
+	# build weighted-adj. matrix and plot
+	m <- component.adj.matrix(d, wt='comppct_r')
+	plotSoilRelationGraph(m, s=s, type='dendrogram')
+}
 }
 
 \keyword{hplot}

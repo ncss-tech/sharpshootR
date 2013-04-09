@@ -11,7 +11,7 @@ plotSoilRelationGraph <- function(m, s, type='network') {
 	v.size <- sqrt(degree(g)) * 2
 
 	# community metrics
-	g.com <- fastgreedy.community(g)
+	g.com <- fastgreedy.community(g) ## TODO: this can crash sometimes (plano series to ka)
 	g.com.length <- length(g.com)
 	g.com.membership <- membership(g.com)
 

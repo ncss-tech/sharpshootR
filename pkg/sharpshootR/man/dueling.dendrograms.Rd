@@ -37,6 +37,7 @@ d.2 <- profile_compare(sp3, vars=c('clay', 'L'), k=0, max_d=100, rescale.result=
 
 # graphically compare
 dueling.dendrograms(d.1, d.2, lab.1='clay and CEC', lab.2='clay and L')
+
 }
 
 \keyword{hplots}

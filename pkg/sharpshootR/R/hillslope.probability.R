@@ -1,6 +1,10 @@
 
 # 's' is a vector of soil series names, in lower-case
 hillslope.probability <- function(s) {
+	# check for required packages
+	if(!require(reshape))
+		stop('please install the `reshape` package', call.=FALSE)
+	
 	# format IN statement
 	in.statement <- format_SQL_in_statement(s)
 	

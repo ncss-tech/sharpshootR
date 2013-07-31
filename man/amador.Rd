@@ -12,7 +12,5 @@
     \item{\code{comppct_r}}{component percentage}
   }
 }
-\details{}
 \source{USDA-NRCS SSURGO Database}
-\examples{}
 \keyword{datasets}

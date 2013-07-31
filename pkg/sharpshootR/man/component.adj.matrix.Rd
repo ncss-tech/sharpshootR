@@ -13,7 +13,6 @@ component.adj.matrix(d, mu = "mukey", co = "compname", wt=NULL)
   \item{co}{name of the column containing the component ID (typically 'compname')}
   \item{wt}{name of the column containing the component weight percent (typically 'comppct_r')}
 }
-\details{}
 \value{an ajacency matrix suitable for use with igraph functions}
 \author{D.E. Beaudette}
 

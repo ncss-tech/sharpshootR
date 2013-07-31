@@ -16,9 +16,8 @@
 \author{D.E. Beaudette}
 
 \examples{
-require(soilDB)
-require(reshape)
-	
+library(soilDB)
+
 # soil series of interest
 s <- c('auburn', 'pardee', 'amador', 'pentz')
 

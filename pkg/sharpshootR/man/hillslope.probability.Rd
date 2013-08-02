@@ -16,6 +16,7 @@
 \author{D.E. Beaudette}
 
 \examples{
+\dontrun{
 library(soilDB)
 
 # soil series of interest
@@ -23,6 +24,7 @@ s <- c('auburn', 'pardee', 'amador', 'pentz')
 
 # generate hillslope probability table
 hillslope.probability(s)
+}
 }
 
 \keyword{manip}

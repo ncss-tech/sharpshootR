@@ -22,7 +22,9 @@ aspect.plot <- function(p, p.bins=60, p.bw=30, p.axis=seq(0, 350, by=10), plot.t
 	lines(density(c.p, bw=p.bw), col='RoyalBlue', lty=2)
 	
 	# add axes: note work-around for strange bug...
-	axis.circular(at=(-a.p) + 90, labels=a.p, cex=0.6)
+# 	axis.circular(at=a.p, labels=a.p, cex=0.6) # currently buggy  in circular 0.4-3 (2011-07-18)
+	axis.circular(at=(-a.p) + 90, labels=a.p, cex=0.6) # work-around
+	
 	
 	# annotate north
 	text(0, 1.125, 'North', cex=0.85, font=1)

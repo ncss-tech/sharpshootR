@@ -1,15 +1,6 @@
 # visually compare two related dendrograms
-# d.1: left-hand dissimilarity matrix, rescaled to [0,1]
-# d.2: right-hand dissimilarity matrix, rescaled to [0,1]
-# lab.1: left-hand title
-# lab.2: right-hand title
-dueling.dendrograms <- function(d.1, d.2, lab.1='D1', lab.2='D2', cex.nodelabels=0.75, arrow.length=0.05) {
+dueling.dendrograms <- function(p.1, p.2, lab.1='D1', lab.2='D2', cex.nodelabels=0.75, arrow.length=0.05) {
 	
-	# cluster via divisive hierarchical algorithm
-	# convert to 'phylo' class
-	phylo.d1 <- as.phylo(as.hclust(diana(d.1)))
-	phylo.d2 <- as.phylo(as.hclust(diana(d.2)))
-
 	# setup some geometry for connecting lines / arrows
 	arrow.left <- 0.1
 	arrow.right <- 0.9
@@ -19,14 +10,14 @@ dueling.dendrograms <- function(d.1, d.2, lab.1='D1', lab.2='D2', cex.nodelabels
 	lo <- layout(matrix(c(1,3,2), ncol=3), widths=c(1, 1, 1)) # check with: layout.show(lo)
 
 	# left-hand side dendrogram
-	plot(phylo.d1, cex=cex.nodelabels, font=1, no.margin=TRUE, direction='rightwards', label.offset=0.015)
+	plot(p.1, cex=cex.nodelabels, font=1, no.margin=TRUE, direction='rightwards', label.offset=0.015)
 	mtext(lab.1, side=3, line=-1.5, font=2, cex=0.75)
 
 	# save results of phylo environment
 	p.left <- get("last_plot.phylo", envir = .PlotPhyloEnv)
 
 	# right-hand side dendrogram
-	plot(phylo.d2, cex=cex.nodelabels, font=1, direction='leftwards', no.margin=TRUE, label.offset=0.015)
+	plot(p.2, cex=cex.nodelabels, font=1, direction='leftwards', no.margin=TRUE, label.offset=0.015)
 	mtext(lab.2, side=3, line=-1.5, font=2, cex=0.75)
 
 	# save results of phylo environment

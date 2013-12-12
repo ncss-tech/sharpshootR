@@ -37,11 +37,16 @@ dissimilarity.sketch <- function(x, n.groups=2, v=c('clay', 'total_frags_pct')) 
   # convert SPC into data.frame
   df <- as(x, 'data.frame')
   
-  # return pedon ID + hzname for those values at or outside of 5th--95th pctile range
+  # return pedon ID + hzname for those values:
+  # based on "outliers" as defined by standard box-whisker plot interpretation
   values.to.check <- sapply(v, simplify=FALSE, FUN=function(v.i) {
-    e <- ecdf(df[[v.i]])(df[[v.i]])
-    outlier.idx <- which(e > 0.95 | e < 0.05)
-    paste(df$pedon_id[outlier.idx], df$hzname[outlier.idx], sep='-')
+    # stolen from boxplot.stats
+    x.i <- df[[v.i]]
+    stats <- fivenum(x.i, na.rm=TRUE)
+    iqr <- diff(stats[c(2, 4)])
+    outlier.idx <- which(x.i < (stats[2] - 1.5 * iqr) | x.i > (stats[4] + 1.5 * iqr))
+    res <- paste(df$pedon_id[outlier.idx], '-', df$hzname[outlier.idx], ':', x.i[outlier.idx], sep='')
+    if(length(outlier.idx) > 0) return(res) else return(NA)
   })
   
   
@@ -61,7 +66,7 @@ dissimilarity.sketch <- function(x, n.groups=2, v=c('clay', 'total_frags_pct')) 
   # box-whisker plot
   par(mar=c(0.125,0.125,0.25,0.25))
   boxplot(value ~ variable, data=m, horizontal=TRUE, las=1, cex.axis=0.75, xlab='Percent', boxwex=0.5, border=grey(0.5), axes=FALSE)
-  text(x=tapply(m$value, m$variable, median, na.rm=TRUE), y=(1:2)+0.35, levels(m$variable), cex=1, font=2, pos=4)
+  text(x=tapply(m$value, m$variable, median, na.rm=TRUE), y=(1:length(v))+0.35, levels(m$variable), cex=1, font=2, pos=4)
   points(m$value, jitter(as.numeric(m$variable)), col=cols[m$group], pch=0)
   axis(side=1, line=-1.5, cex.axis=0.75, padj=-1)
   

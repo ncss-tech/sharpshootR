@@ -63,12 +63,12 @@ dissimilarity.sketch <- function(x, n.groups=2, v=c('clay', 'total_frags_pct')) 
   plot(p, label.offset=0.01, x.lim=c(0,0.75), font=1, cex=0.75)
   tiplabels(pch=15, col=cols[g])
   
-  # box-whisker plot
+  # box-whisker plot + jittered points
   par(mar=c(0.125,0.125,0.25,0.25))
   boxplot(value ~ variable, data=m, horizontal=TRUE, las=1, cex.axis=0.75, xlab='Percent', boxwex=0.5, border=grey(0.5), axes=FALSE)
   text(x=tapply(m$value, m$variable, median, na.rm=TRUE), y=(1:length(v))+0.35, levels(m$variable), cex=1, font=2, pos=4)
-  points(m$value, jitter(as.numeric(m$variable)), col=cols[m$group], pch=0)
-  axis(side=1, line=-1.5, cex.axis=0.75, padj=-1)
+  points(m$value, jitter(as.numeric(m$variable)), col=cols[m$group], pch=0, cex=1)
+  axis(side=1, line=-1.25, cex.axis=0.75, padj=-1)
   
   # lower panel: profiles
   par(mar=c(0.25,0.25,0.25,2))

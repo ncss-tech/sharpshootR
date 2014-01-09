@@ -1,3 +1,12 @@
+## Ideas:
+# http://bommaritollc.com/2012/06/17/summary-community-detection-algorithms-igraph-0-6/?utm_source=rss&utm_medium=rss&utm_campaign=summary-community-detection-algorithms-igraph-0-6
+# http://stackoverflow.com/questions/9471906/what-are-the-differences-between-community-detection-algorithms-in-igraph
+
+## TODO: community evaluation will crash with most community detection algorithms:
+#     examples: plano, miami
+
+## NOTE: dendrogram representation of community structure is only possible with some community detection algorithms
+
 # note that this relys on ape plotting functions
 plotSoilRelationGraph <- function(m, s, type='network') {
 	
@@ -11,7 +20,7 @@ plotSoilRelationGraph <- function(m, s, type='network') {
 	v.size <- sqrt(degree(g)) * 2
 
 	# community metrics
-	g.com <- fastgreedy.community(g) ## TODO: this can crash sometimes (plano series to ka)
+	g.com <- fastgreedy.community(g) ## this can crash with some networks
 	g.com.length <- length(g.com)
 	g.com.membership <- membership(g.com)
 

@@ -1,3 +1,11 @@
+# compute pair-wise weightes for soil-relation graph
+.pair.wise.wts <- function(d, wt) {
+  x <- d[[wt]]
+  x <- x / sum(x)
+  w <- outer(x, x, FUN='*')
+  return(w)
+}
+
 component.adj.matrix <-function(d, mu='mukey', co='compname', wt=NULL) {
 	# extract a list of component names that occur together
 	l <- dlply(d, mu, function(i) unique(i[[co]]))
@@ -41,9 +49,10 @@ component.adj.matrix <-function(d, mu='mukey', co='compname', wt=NULL) {
 		}
 	}
 	
-	# reset diagonal of the matrix
+	# set diagonal and lower triangle to 0
+	m[lower.tri(m)] <- 0
 	diag(m) <- 0
-	
+  
 	# scale
 	m <- m / max(m, na.rm=TRUE)
 	

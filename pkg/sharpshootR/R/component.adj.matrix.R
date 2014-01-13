@@ -7,6 +7,8 @@
 #   return(w)
 # }
 
+
+## new method based on dissimilarity eval of community matrix
 component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', method='community.matrix', standardization='max', metric='jaccard') {
 	
   # sanity check

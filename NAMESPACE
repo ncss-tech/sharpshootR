@@ -1,3 +1,8 @@
+importFrom(vegan,
+  decostand,
+  vegdist
+)
+
 importFrom(reshape2,
   dcast
 )
@@ -31,7 +36,9 @@ importFrom(RColorBrewer,
 )
 
 importFrom(plyr, 
-  dlply
+  dlply,
+  ddply,
+  summarise
 )
 
 exportPattern("^[^\\.]")

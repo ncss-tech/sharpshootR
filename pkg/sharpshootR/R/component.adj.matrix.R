@@ -64,11 +64,12 @@ component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', me
       stop('must supply a column name containing weights')
     
     # reshape to component x mukey community matrix
-    d.wide <- dcast(d, compname ~ mukey, value.var='weight', fill=0)
+    fm <- as.formula(paste(co, ' ~ ', mu, sep=''))
+    d.wide <- dcast(d, fm, value.var='weight', fill=0)
     
     # convert into community matrix by moving first column -> row.names
     d.mat <- as.matrix(d.wide[, -1])
-    dimnames(d.mat)[[1]] <- d.wide$compname
+    dimnames(d.mat)[[1]] <- d.wide[[co]]
     
     # convert community matrix into dissimilarity matrix
     ## standardization method and distance metric MATTER

@@ -9,7 +9,7 @@
 
 
 ## new method based on dissimilarity eval of community matrix
-component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', method='community.matrix', standardization='max', metric='jaccard') {
+component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', method='community.matrix', standardization='max', metric='jaccard', rm.orphans=TRUE) {
 	
   # sanity check
   if(! method %in% c('community.matrix', 'occurrence')) {
@@ -25,14 +25,22 @@ component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', me
   # re-order
   d <- d[order(d[[mu]], d[[co]]), ]
   
-  # naive method, no weighting
-  if(method == 'occurrence') {
-    # extract a list of component names that occur together
-    l <- dlply(d, mu, function(i) unique(i[[co]]))
-    
+  # extract a list of component names that occur together
+  l <- dlply(d, mu, function(i) unique(i[[co]]))
+  
+  # optionally keep map units with only a single component
+  if(rm.orphans) {
     # include only those components that occur with other components
     mu.multiple.components <- names(which(sapply(l, function(i) length(i) > 1)))
-    u <- unique(d[[co]][d[[mu]] %in% mu.multiple.components])
+    
+    # subset, keeping only those map units with > 1 component
+    d <- d[which(d[[mu]] %in% mu.multiple.components), ]
+  }
+  
+  # naive method, no weighting
+  if(method == 'occurrence') {
+    # get unique vector of component names and sort
+    u <- unique(d[[co]])
     u <- sort(u)
     
     # empty adjacency matrix

@@ -8,7 +8,7 @@
 ## NOTE: dendrogram representation of community structure is only possible with some community detection algorithms
 
 # note that this relys on ape plotting functions
-plotSoilRelationGraph <- function(m, s, type='network') {
+plotSoilRelationGraph <- function(m, s='', type='network') {
 	
 	# generate graph
 	g <- graph.adjacency(m, mode='upper', weighted=TRUE)

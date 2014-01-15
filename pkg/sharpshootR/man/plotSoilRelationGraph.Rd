@@ -3,12 +3,12 @@
 \title{Plot a component relation graph}
 \description{Plot a component relation graph based on an adjacency or similarity matrix.}
 \usage{
-plotSoilRelationGraph(m, s, type = "network")
+plotSoilRelationGraph(m, s='', type = "network")
 }
 
 \arguments{
   \item{m}{adjacency matrix}
-  \item{s}{central component}
+  \item{s}{central component; an empty character string is interpreted as no central component}
   \item{type}{plot style ('network', or 'dendrogram')}
 }
 

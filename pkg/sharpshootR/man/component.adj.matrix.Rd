@@ -5,7 +5,8 @@
 \description{Create an adjacency matrix from SSURGO component data}
 \usage{
 component.adj.matrix(d, mu='mukey', co='compname', wt='comppct_r', 
-method='community.matrix', standardization='max', metric='jaccard')
+method='community.matrix', standardization='max', metric='jaccard',
+rm.orphans=TRUE)
 }
 
 \arguments{
@@ -16,8 +17,9 @@ method='community.matrix', standardization='max', metric='jaccard')
   \item{method}{one of either: `community.matrix`, or `occurrence`; see details}
   \item{standardization}{community matrix standardization method, passed to \code{decostand}}
   \item{metric}{community matrix dissimilarity metric, passed to \code{vegdist}}
+  \item{rm.orphans}{logical, should map units with a single component be ommitted? (typically yes)}
 }
-\value{a similatiy matrix / ajacency matrix suitable for use with igraph functions}
+\value{a similatiy matrix / ajacency matrix suitable for use with \code{igraph} functions or anything else that can accomodate a similarity matrix.}
 \author{D.E. Beaudette}
 
 \details{Pending...}

@@ -24,6 +24,8 @@ CDECsnowQuery(course, start_yr, end_yr)
 \note{Snow course locations, ID numbers, and other information can be found here: \url{http://cdec.water.ca.gov/misc/SnowCourses.html}}
 
 \examples{
+\dontrun{
 # get data for course numbe 129
 x <- CDECsnowQuery(course=129, start_yr=2010, end_yr=2011)
+}
 }

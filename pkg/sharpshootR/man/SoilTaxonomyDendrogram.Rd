@@ -4,7 +4,10 @@
 \title{Soil Taxonomy Dendrogram}
 \description{Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimmilarity matrix is computed using Gower's distance metric for nominal-scale variables, based on order, sub order, great group, and subgroup level taxa. See the Details and Examples sections below for more information.}
 \usage{
-SoilTaxonomyDendrogram(spc, name = "hzname", max.depth = 150, n.depth.ticks = 6, scaling.factor = 0.015, cex.names = 0.75, cex.id = 0.75, axis.line.offset = -4, width = 0.1, y.offset = 0.5, cex.taxon.labels = 0.66)
+SoilTaxonomyDendrogram(spc, name = "hzname", max.depth = 150, 
+n.depth.ticks = 6, scaling.factor = 0.015, cex.names = 0.75, 
+cex.id = 0.75, axis.line.offset = -4, width = 0.1, y.offset = 0.5, 
+cex.taxon.labels = 0.66)
 }
 
 \arguments{

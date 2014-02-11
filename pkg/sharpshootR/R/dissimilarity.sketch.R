@@ -32,7 +32,7 @@ dissimilarity.sketch <- function(x, n.groups=2, v=c('clay', 'total_frags_pct')) 
   # cut into groups
   g <- cutree(h, n.groups)
   # merge into site data
-  site(x) <- data.frame(pedon_id=names(g), group=g, stringsAsFactors=FALSE)
+  site(x) <- data.frame(peiid=names(g), group=g, stringsAsFactors=FALSE)
   
   # convert SPC into data.frame
   df <- as(x, 'data.frame')

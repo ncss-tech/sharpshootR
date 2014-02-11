@@ -8,7 +8,8 @@
 ## NOTE: dendrogram representation of community structure is only possible with some community detection algorithms
 
 # note that this relys on ape plotting functions
-plotSoilRelationGraph <- function(m, s='', type='network') {
+# ... are passed onto plot.igraph or plot.phylo
+plotSoilRelationGraph <- function(m, s='', plot.style='network', ...) {
 	
 	# generate graph
 	g <- graph.adjacency(m, mode='upper', weighted=TRUE)
@@ -45,11 +46,11 @@ plotSoilRelationGraph <- function(m, s='', type='network') {
 	cex.vect <- rep(1, times=length(g.com.membership))
 	cex.vect[which(names(g.com.membership) == s)] <- 1.25
 	
-	if(type == 'network') {
+	if(plot.style == 'network') {
 		set.seed(1010101) # consistant output
-		plot(g.com, g, layout=layout.fruchterman.reingold, vertex.size=v.size, vertex.label.color='black', vertex.label.cex=cex.vect, vertex.label.font=font.vect, colbar=cols.alpha, mark.groups=NULL, edge.color=c('grey','black')[crossing(g.com, g)+1])
+		plot(g.com, g, layout=layout.fruchterman.reingold, vertex.size=v.size, vertex.label.color='black', vertex.label.cex=cex.vect, vertex.label.font=font.vect, colbar=cols.alpha, mark.groups=NULL, edge.color=c('grey','black')[crossing(g.com, g)+1], ...)
 		}
-	if(type == 'dendrogram') {
-		dendPlot(g.com, label.offset=0.1, font=font.vect, col='black', cex=cex.vect, colbar=cols)
+	if(plot.style == 'dendrogram') {
+		dendPlot(g.com, label.offset=0.1, font=font.vect, col='black', cex=cex.vect, colbar=cols, ...)
 		}
 	}

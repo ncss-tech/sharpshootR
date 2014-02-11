@@ -3,13 +3,14 @@
 \title{Plot a component relation graph}
 \description{Plot a component relation graph based on an adjacency or similarity matrix.}
 \usage{
-plotSoilRelationGraph(m, s='', type = "network")
+plotSoilRelationGraph(m, s='', plot.style = "network", ...)
 }
 
 \arguments{
   \item{m}{adjacency matrix}
   \item{s}{central component; an empty character string is interpreted as no central component}
-  \item{type}{plot style ('network', or 'dendrogram')}
+  \item{plot.style}{plot style ('network', or 'dendrogram')}
+  \item{\dots}{further arguments passed to plotting function}
 }
 
 \author{D.E. Beaudette}
@@ -26,15 +27,15 @@ m <- component.adj.matrix(amador)
 plotSoilRelationGraph(m, s='amador')
 
 # dendrogram representation
-plotSoilRelationGraph(m, s='amador', type='dendrogram')
+plotSoilRelationGraph(m, s='amador', plot.style='dendrogram')
 
 # compare methods
 m.o <- component.adj.matrix(amador, method='occurrence')
 
 par(mfcol=c(1,2))
-plotSoilRelationGraph(m, s='amador', type='dendrogram')
+plotSoilRelationGraph(m, s='amador', plot.style='dendrogram')
 title('community matrix')
-plotSoilRelationGraph(m.o, s='amador', type='dendrogram')
+plotSoilRelationGraph(m.o, s='amador', plot.style='dendrogram')
 title('occurence')
 
 
@@ -53,7 +54,11 @@ d <- subset(d, subset=compkind == 'Series')
 
 # build adj. matrix and plot
 m <- component.adj.matrix(d)
-plotSoilRelationGraph(m, s=s, type='dendrogram')
+plotSoilRelationGraph(m, s=s, plot.style='dendrogram')
+
+# alter plotting style, see ?plot.phylo
+plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='fan')
+plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='unrooted', use.edge.length=FALSE)
 }
 
 \keyword{hplot}

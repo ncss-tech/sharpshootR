@@ -3,6 +3,11 @@ importFrom(vegan,
   vegdist
 )
 
+importFrom(sp,
+  spsample
+)
+
+
 importFrom(reshape2,
   dcast
 )

@@ -21,7 +21,7 @@ aspect.plot <- function(p, p.bins=60, p.bw=30, stack=TRUE, p.axis=seq(0, 350, by
 	# add circular density, bw is th  e smoothness parameter
 	lines(density(c.p, bw=p.bw), col=line.col, lty=line.lty, lwd=line.lwd)
 	
-	# add axes: note work-around for strange bug...
+	# add axes:
 	axis.circular(at=a.p, labels=a.p, cex=0.6) #  buggy  in circular <= 0.4-3 (2011-07-18)	
 	
 	# annotate north

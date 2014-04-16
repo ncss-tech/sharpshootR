@@ -11,6 +11,9 @@
 ## new method based on dissimilarity eval of community matrix
 component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', method='community.matrix', standardization='max', metric='jaccard', rm.orphans=TRUE) {
 	
+  # appease R CMD check
+  .wt <- NULL
+  
   # sanity check
   if(! method %in% c('community.matrix', 'occurrence')) {
     stop('please specify a method: `community.matrix` | `occurrence`')

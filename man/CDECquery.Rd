@@ -19,13 +19,10 @@
 \author{D.E. Beaudette}
 
 \details{
-
 \describe{
   \item{Station IDs can be found here: \url{http://cdec.water.ca.gov/staInfo.html}}
-  \item{Sensor IDs can be found using this URL \url{http://cdec.water.ca.gov/cgi-progs/queryCSV?station_id=}, followed by the station ID.}
+  \item{Sensor IDs can be found using this URL \url{cdec.water.ca.gov/cgi-progs/queryCSV?station_id=}, followed by the station ID.}
 }
-
-
 }
 
 

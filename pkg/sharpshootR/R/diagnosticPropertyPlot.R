@@ -15,6 +15,16 @@ diagnosticPropertyPlot <- function(f, v, k, id='pedon_id') {
   # save diagnostic properties
   m <- s[, v]
   
+  # optionally check for any vars that are all FALSE and kick them out
+  vars.not.missing <- apply(m, 2, any)
+  
+  # if any are all FALSE, then remove from m and v
+  if(any(!vars.not.missing)) {
+    not.missing <- which(vars.not.missing)
+    m <- m[, not.missing]
+    v <- v[not.missing]
+  }
+  
   # convert to factors
   m <- as.data.frame(lapply(m, factor))
   
@@ -42,16 +52,15 @@ diagnosticPropertyPlot <- function(f, v, k, id='pedon_id') {
   plot(p, cex=0.75, label.offset=0.05, y.lim=c(1.5, n.profiles-0.5))
   tiplabels(pch=15, col=h.cut, cex=1.125, adj=0.52)
   
-  # order of profiles in dendrogram
-  o.profiles <- h.profiles$order
-  
   # compute dissimilarity between variables
   d.vars <- daisy(as.data.frame(t(m)), metric='gower')
   h.vars <- as.hclust(diana(d.vars))
   
+  # order of profiles in dendrogram
+  o.profiles <- h.profiles$order
+  
   # vector of variable names as plotted in dendrogram
   o.vars <- h.vars$order
-#   o.vars <- 1:length(v)
   
   # plot image matrix, with rows re-ordered according to dendrogram
   par(mar=c(1,6,6,1))
@@ -66,3 +75,96 @@ diagnosticPropertyPlot <- function(f, v, k, id='pedon_id') {
   rd <- cbind(s[, c('peiid', id)], g=h.cut)
   return(invisible(list(rd=rd, profile.order=o.profiles, var.order=o.vars)))
 }
+
+
+# this will break when using a non-unique ID
+diagnosticPropertyPlot2 <- function(f, v, k, id='pedon_id') {
+  # hack:
+  require(latticeExtra)
+  require(reshape2)
+  require(grid)
+  
+  # extract site data
+  s <- site(f)
+  
+  ## TODO: why would there be NA in here?
+  # filter NA
+  no.na.idx <- which(complete.cases(s[, v]))
+  s <- s[no.na.idx, ]
+  
+  # save diagnostic properties
+  m <- s[, v]
+  
+  # optionally check for any vars that are all FALSE and kick them out
+  vars.not.missing <- apply(m, 2, any)
+  
+  # if any are all FALSE, then remove from m and v
+  if(any(!vars.not.missing)) {
+    not.missing <- which(vars.not.missing)
+    m <- m[, not.missing]
+    v <- v[not.missing]
+  }
+  
+  # convert to factors
+  m <- as.data.frame(lapply(m, factor))
+  
+  # get number of vars + number of profiles
+  n.vars <- ncol(m)
+  n.profiles <- nrow(m)
+  
+  # compute dissimilarity between profiles
+  d <- daisy(m, metric='gower')
+  h.profiles <- as.hclust(diana(d))
+  
+  # compute dissimilarity between variables
+  d.vars <- daisy(as.data.frame(t(m)), metric='gower')
+  h.vars <- as.hclust(diana(d.vars))
+  
+  # cut tree at user-specified number of groups
+  h.cut <- cutree(h.profiles, k=k)
+  
+  # format for plotting
+  m.plot <- data.frame(id=s[[id]], m, stringsAsFactors=FALSE)
+  m.plot.long <- melt(m.plot, id.vars='id')
+  # convert TRUE/FALSE into factor
+  m.plot.long$value <- factor(m.plot.long$value)
+  
+  # order of profiles in dendrogram
+  o.profiles <- h.profiles$order
+  
+  # vector of variable names as plotted in dendrogram
+  o.vars <- h.vars$order
+  
+  # set factor levels for ordering of level plot
+  m.plot.long$id <- factor(m.plot.long$id, levels=m.plot$id[o.profiles])
+  m.plot.long$variable <- factor(m.plot.long$variable, levels=v[o.vars])
+  
+  # lattice plot
+  p <- levelplot(value ~ variable * id, data=m.plot.long,
+  col.regions=c(grey(0.9), 'RoyalBlue'), cuts=1, xlab='', ylab='', 
+  colorkey = FALSE, 
+  scales=list(tck=0, x=list(rot=45)),
+  legend=list(
+      right=list(fun=dendrogramGrob, args=list(x = as.dendrogram(h.profiles), side="right", size=15, add=list(
+        rect=list(fill=h.cut, cex=0.5)))),
+      top=list(fun=dendrogramGrob, args=list(x=as.dendrogram(h.vars), side="top", size=4))
+      ),
+  panel=function(...) {
+    panel.levelplot(...)
+    # horizontal lines
+    panel.segments(x0=0.5, y0=1:(n.profiles+1)-0.5, x1=n.vars+0.5, y1=1:(n.profiles+1)-0.5)
+    # vertical lines
+    panel.segments(x0=1:(n.vars+1)-0.5, y0=0.5, x1=1:(n.vars+1)-0.5, y1=n.profiles + 0.5)
+  }
+  )
+  
+  # print to graphics device
+  print(p)
+  
+  ## TODO: back-fill with any missing values?
+  # return values
+  rd <- cbind(s[, c('peiid', id)], g=h.cut)
+  return(invisible(list(rd=rd, profile.order=o.profiles, var.order=o.vars)))
+}
+
+

@@ -51,6 +51,7 @@ diagnosticPropertyPlot <- function(f, v, k, id='pedon_id') {
   
   # vector of variable names as plotted in dendrogram
   o.vars <- h.vars$order
+#   o.vars <- 1:length(v)
   
   # plot image matrix, with rows re-ordered according to dendrogram
   par(mar=c(1,6,6,1))

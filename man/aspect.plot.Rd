@@ -8,7 +8,7 @@ aspect.plot(p, p.bins = 60, p.bw = 30, stack=TRUE, p.axis = seq(0, 350, by = 10)
 line.col='RoyalBlue', line.lwd=1, line.lty=2, arrow.col=line.col, arrow.lwd=1, arrow.lty=1,
 ...)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{p}{a vector of aspect angles in degrees, measured clock-wise from North}
   \item{p.bins}{number of bins to use for circular histogram}

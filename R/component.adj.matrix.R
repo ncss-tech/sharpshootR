@@ -93,8 +93,12 @@ component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', me
     m[lower.tri(m)] <- 0
     diag(m) <- 0
   }
-
-	
+  
+  # set some attributes for later
+  attr(m, 'method') <- method
+  attr(m, 'standardization') <- standardization
+  attr(m, 'metric') <- metric
+  
 	# done
 	return(m)
 }

@@ -32,9 +32,9 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', max.depth=150, n.depth.ti
 	
 	# get the last plot geometry
 	lastPP <- get("last_plot.phylo", envir = .PlotPhyloEnv)
-	
+  
 	# vector of indices for plotting soil profiles below leaves of dendrogram
-	new_order <- sapply(1:lastPP$Ntip, function(i) which(as.integer(lastPP$xx[1:lastPP$Ntip]) == i))
+	new_order <- s.hclust$order
 	
 	# plot the profiles, in the ordering defined by the dendrogram
 	# with a couple fudge factors to make them fit

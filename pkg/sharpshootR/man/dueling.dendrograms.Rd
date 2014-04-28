@@ -40,7 +40,7 @@ p.2 <- as.phylo(as.hclust(diana(d.2)))
 # graphically compare two dendrograms
 dueling.dendrograms(p.1, p.2, lab.1='clay and CEC', lab.2='clay and L')
 
-# graphically check the results of ladderize()
+# graphically check the results of ladderize() from ape package
 dueling.dendrograms(p.1, ladderize(p.1), lab.1='standard', lab.2='ladderized')
 
 # sanity-check: compare something to itself

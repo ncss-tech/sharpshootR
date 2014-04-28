@@ -38,7 +38,7 @@ title('community matrix')
 plotSoilRelationGraph(m.o, s='amador', plot.style='dendrogram')
 title('occurence')
 
-
+\dontrun{
 # get similar data from soilweb, for the Pardee series
 s <- 'pardee'
 u <- url(URLencode(paste('http://casoilresource.lawr.ucdavis.edu/soil_web/reflector_api/soils.php?what=soil_series_component_query&q_string=', s, sep='')))
@@ -59,6 +59,7 @@ plotSoilRelationGraph(m, s=s, plot.style='dendrogram')
 # alter plotting style, see ?plot.phylo
 plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='fan')
 plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='unrooted', use.edge.length=FALSE)
+}
 }
 
 \keyword{hplot}

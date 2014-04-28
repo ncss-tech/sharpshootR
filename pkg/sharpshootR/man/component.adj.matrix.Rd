@@ -19,7 +19,7 @@ rm.orphans=TRUE)
   \item{metric}{community matrix dissimilarity metric, passed to \code{vegdist}}
   \item{rm.orphans}{logical, should map units with a single component be ommitted? (typically yes)}
 }
-\value{a similatiy matrix / ajacency matrix suitable for use with \code{igraph} functions or anything else that can accomodate a similarity matrix.}
+\value{a similatiy matrix / ajacency matrix suitable for use with \code{igraph} functions or anything else that can accomodate a _similarity_ matrix.}
 \author{D.E. Beaudette}
 
 \details{Pending...}

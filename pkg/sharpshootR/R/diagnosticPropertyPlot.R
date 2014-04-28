@@ -79,11 +79,7 @@ diagnosticPropertyPlot <- function(f, v, k, id='pedon_id') {
 
 # this will break when using a non-unique ID
 diagnosticPropertyPlot2 <- function(f, v, k, id='pedon_id') {
-  # hack:
-  require(latticeExtra)
-  require(reshape2)
-  require(grid)
-  
+    
   # extract site data
   s <- site(f)
   
@@ -143,7 +139,7 @@ diagnosticPropertyPlot2 <- function(f, v, k, id='pedon_id') {
   p <- levelplot(value ~ variable * id, data=m.plot.long,
   col.regions=c(grey(0.9), 'RoyalBlue'), cuts=1, xlab='', ylab='', 
   colorkey = FALSE, 
-  scales=list(tck=0, x=list(rot=45)),
+  scales=list(tck=0, x=list(rot=90)),
   legend=list(
       right=list(fun=dendrogramGrob, args=list(x = as.dendrogram(h.profiles), side="right", size=15, add=list(
         rect=list(fill=h.cut, cex=0.5)))),

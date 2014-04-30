@@ -1,3 +1,7 @@
+# TODO: make these more specific
+import(aqp)
+import(ape)
+
 importFrom(igraph,
   graph.adjacency,
   V,

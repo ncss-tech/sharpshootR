@@ -42,7 +42,8 @@ for Soil Scientists. Computers & Geosciences: 52: 258--268. (doi: 10.1016/j.cage
 library(soilDB)
 
 # soils of interest
-s.list <- c('musick', 'cecil', 'drummer', 'amador', 'pentz', 'reiff', 'san joaquin','montpellier','grangeville','pollasky','ramona')
+s.list <- c('musick', 'cecil', 'drummer', 'amador', 'pentz', 'reiff', 
+'san joaquin','montpellier','grangeville','pollasky','ramona')
 
 # fetch and convert data into an SPC
 h <- fetchOSD(s.list)

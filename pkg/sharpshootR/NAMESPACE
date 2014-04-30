@@ -1,5 +1,26 @@
+importFrom(igraph,
+  graph.adjacency,
+  V,
+  'V<-',
+  degree,
+  fastgreedy.community,
+  membership,
+  layout.fruchterman.reingold,
+  crossing,
+  dendPlot,
+  plot.communities,
+  plot.igraph
+)
+
+importFrom(cluster,
+  daisy,
+  diana
+)
+
 importFrom(lattice,
-  levelplot
+  levelplot,
+  panel.levelplot,
+  panel.segments
 )
 
 importFrom(latticeExtra,

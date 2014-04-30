@@ -43,20 +43,24 @@ x <- CDECquery(id='spw', sensor=45, interval='D', start='1900-01-01', end='2015-
 a <- ddply(x, c('year', 'month'), summarize, s=sum(value, na.rm=TRUE))
 
 # make a nice color ramp function, scaled by the skewness of the underlying distribution
-cols <- colorRampPalette(brewer.pal(9, 'Spectral'), space='Lab', interpolate='spline', bias=skewness(a$s, na.rm=TRUE))
+cols <- colorRampPalette(brewer.pal(9, 'Spectral'), 
+space='Lab', interpolate='spline', bias=skewness(a$s, na.rm=TRUE))
 
 # plot, each pixel is colored by the total precip by year/month
-levelplot(s ~ year * month, data=a, col.regions=cols, xlab='', ylab='', scales=list(x=list(tick.number=10)), main='Monthly Total Precipitation (inches) SPW')
+levelplot(s ~ year * month, data=a, col.regions=cols, xlab='', 
+ylab='', scales=list(x=list(tick.number=10)), main='Monthly Total Precipitation (inches) SPW')
 
 
 # get pre-aggregated monthly data from Sonora RS
 x <- CDECquery(id='sor', sensor=2, interval='M', start='1900-01-01', end='2015-01-01')
 
 # make a nice color ramp function, scaled by the skewness of the underlying distribution
-cols <- colorRampPalette(brewer.pal(9, 'Spectral'), space='Lab', interpolate='spline', bias=skewness(x$value, na.rm=TRUE))
+cols <- colorRampPalette(brewer.pal(9, 'Spectral'), space='Lab', 
+interpolate='spline', bias=skewness(x$value, na.rm=TRUE))
 
 # plot
-levelplot(value ~ year * month, data=x, col.regions=cols, xlab='', ylab='', scales=list(x=list(tick.number=20)), main='Monthly Total Precipitation (inches) SOR')
+levelplot(value ~ year * month, data=x, col.regions=cols, xlab='', 
+ylab='', scales=list(x=list(tick.number=20)), main='Monthly Total Precipitation (inches) SOR')
 }
 }
 

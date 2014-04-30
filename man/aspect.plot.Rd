@@ -4,8 +4,10 @@
 \title{Plot Aspect Data}
 \description{Plot a graphical summary of multiple aspect measurements on a circular diagram.}
 \usage{
-aspect.plot(p, p.bins = 60, p.bw = 30, stack=TRUE, p.axis = seq(0, 350, by = 10), plot.title = NULL,
-line.col='RoyalBlue', line.lwd=1, line.lty=2, arrow.col=line.col, arrow.lwd=1, arrow.lty=1,
+aspect.plot(p, p.bins = 60, p.bw = 30, stack=TRUE, 
+p.axis = seq(0, 350, by = 10), plot.title = NULL,
+line.col='RoyalBlue', line.lwd=1, line.lty=2, 
+arrow.col=line.col, arrow.lwd=1, arrow.lty=1,
 ...)
 }
 

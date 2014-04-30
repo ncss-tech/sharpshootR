@@ -2,7 +2,8 @@
 \alias{dueling.dendrograms}
 \title{Dueling Dendrograms}
 \description{Graphically compare two related dendrograms}
-\usage{dueling.dendrograms(p.1, p.2, lab.1 = "D1", lab.2 = "D2", cex.nodelabels=0.75, arrow.length=0.05)}
+\usage{dueling.dendrograms(p.1, p.2, lab.1 = "D1", 
+lab.2 = "D2", cex.nodelabels=0.75, arrow.length=0.05)}
 
 \arguments{
   \item{p.1}{left-hand phylo-class dendrogram}
@@ -47,7 +48,8 @@ dueling.dendrograms(p.1, ladderize(p.1), lab.1='standard', lab.2='ladderized')
 dueling.dendrograms(p.1, p.1, lab.1='same', lab.2='same')
 
 # graphically compare diana() to agnes() using d.2
-dueling.dendrograms(as.phylo(as.hclust(diana(d.2))), as.phylo(as.hclust(agnes(d.2))), lab.1='diana', lab.2='agnes')
+dueling.dendrograms(as.phylo(as.hclust(diana(d.2))), 
+as.phylo(as.hclust(agnes(d.2))), lab.1='diana', lab.2='agnes')
 }
 
 \keyword{hplots}

@@ -41,7 +41,9 @@ title('occurence')
 \dontrun{
 # get similar data from soilweb, for the Pardee series
 s <- 'pardee'
-u <- url(URLencode(paste('http://casoilresource.lawr.ucdavis.edu/soil_web/reflector_api/soils.php?what=soil_series_component_query&q_string=', s, sep='')))
+u <- url(URLencode(paste(
+'http://casoilresource.lawr.ucdavis.edu/soil_web/reflector_api/soils.php?',
+'what=soil_series_component_query&q_string=', s, sep='')))
 
 # fetch data
 d <- read.table(u, sep='|', header=TRUE, stringsAsFactors=FALSE)

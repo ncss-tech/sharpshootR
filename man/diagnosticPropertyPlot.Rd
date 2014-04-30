@@ -39,7 +39,9 @@ sdc <- getSoilDepthClass(gopheridge)
 site(gopheridge) <- sdc
 
 # diagnostic properties to consider, no need to convert to factors
-v <- c('lithic.contact', 'paralithic.contact', 'argillic.horizon', 'cambic.horizon', 'ochric.epipedon', 'mollic.epipedon', 'very.shallow', 'shallow', 'mod.deep', 'deep', 'very.deep')
+v <- c('lithic.contact', 'paralithic.contact', 'argillic.horizon', 
+'cambic.horizon', 'ochric.epipedon', 'mollic.epipedon', 'very.shallow',
+'shallow', 'mod.deep', 'deep', 'very.deep')
 
 # base graphics
 x <- diagnosticPropertyPlot(gopheridge, v, k=5)

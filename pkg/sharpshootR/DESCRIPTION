@@ -10,5 +10,5 @@ License: GPL (>= 2)
 Repository: CRAN
 URL: http://aqp.r-forge.r-project.org/
 Suggests: soilDB, MASS
-Depends: R (>= 2.15.0), aqp (>= 1.7), ape
+Depends: R (>= 2.15.0), aqp, ape
 Imports: igraph, cluster, lattice, latticeExtra, vegan, sp, reshape2, Hmisc, scales, circular, RColorBrewer, plyr

@@ -31,6 +31,7 @@ diagnosticPropertyPlot2(f, v, k, id = "pedon_id")
 
 
 \examples{
+\dontrun{
 # sample data, an SPC
 data(gopheridge, package='soilDB')
 
@@ -51,6 +52,7 @@ x <- diagnosticPropertyPlot2(gopheridge, v, k=3)
 
 # check output
 str(x)
+}
 }
 
 \keyword{hplots}

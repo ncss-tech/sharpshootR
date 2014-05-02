@@ -25,8 +25,8 @@ diagnosticPropertyPlot <- function(f, v, k, id='pedon_id') {
     v <- v[not.missing]
   }
   
-  # convert to factors
-  m <- as.data.frame(lapply(m, factor))
+  # convert to factors, we have to specify the levels as there are cases with all TRUE or FALSE
+  m <- as.data.frame(lapply(m, factor, levels=c('FALSE', 'TRUE')))
   
   # make a copy of the matrix for plotting, as numerical data and transpose
   m.plot <- t(as.matrix(as.data.frame(lapply(m, as.numeric))))
@@ -101,8 +101,8 @@ diagnosticPropertyPlot2 <- function(f, v, k, id='pedon_id') {
     v <- v[not.missing]
   }
   
-  # convert to factors
-  m <- as.data.frame(lapply(m, factor))
+  # convert to factors, we have to specify the levels as there are cases with all TRUE or FALSE
+  m <- as.data.frame(lapply(m, factor, levels=c('FALSE', 'TRUE')))
   
   # get number of vars + number of profiles
   n.vars <- ncol(m)
@@ -123,7 +123,7 @@ diagnosticPropertyPlot2 <- function(f, v, k, id='pedon_id') {
   m.plot <- data.frame(id=s[[id]], m, stringsAsFactors=FALSE)
   m.plot.long <- melt(m.plot, id.vars='id')
   # convert TRUE/FALSE into factor
-  m.plot.long$value <- factor(m.plot.long$value)
+  m.plot.long$value <- factor(m.plot.long$value, levels=c('FALSE', 'TRUE'))
   
   # order of profiles in dendrogram
   o.profiles <- h.profiles$order

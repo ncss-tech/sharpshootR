@@ -39,6 +39,7 @@ for Soil Scientists. Computers & Geosciences: 52: 258--268. (doi: 10.1016/j.cage
 \author{D.E. Beaudette}
 
 \examples{
+\dontrun{
 library(soilDB)
 
 # soils of interest
@@ -54,6 +55,7 @@ SoilTaxonomyDendrogram(h)
 # again, this time save the pair-wise dissimilarity matrix
 # note that there isn't a lot of discrimination between soils
 (d <- SoilTaxonomyDendrogram(h))
+}
 }
 
 \keyword{hplots}

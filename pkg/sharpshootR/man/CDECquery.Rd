@@ -71,16 +71,19 @@ xyplot(capacity ~ datetime, groups=which, data=g, type='l',
 
 
 ##
-# New Melones monthly data 
-new.melones.monthly <- CDECquery(id='nml', sensor=15, interval='M', start='2000-09-01', end='2015-01-01')
+# New Melones monthly data, retrieve as far back in time as possible 
+new.melones.monthly <- CDECquery(id='nml', sensor=15, interval='M', start='1900-01-01', end='2015-01-01')
+# convert to pct. capacity
+new.melones.monthly$capacity <- new.melones.monthly$value / 2400000 * 100
 
-# make a nice color ramp function, scaled by the skewness of the underlying distribution
+
+# make a nice color ramp function
 cols <- colorRampPalette(brewer.pal(9, 'Spectral'), 
-space='Lab', interpolate='spline', bias=skewness(new.melones.monthly$value, na.rm=TRUE))
+space='Lab', interpolate='spline')
 
 # plot, each pixel is colored by the total precip by year/month
-levelplot(value ~ year * month, data=new.melones.monthly, col.regions=cols, xlab='', 
-ylab='', scales=list(x=list(tick.number=10)), main='New Melones Storage (ac.ft.)')
+levelplot(capacity ~ year * month, data=new.melones.monthly, col.regions=cols, xlab='', 
+ylab='', scales=list(x=list(tick.number=20)), main='New Melones Capacity (%)')
 
 
 ##

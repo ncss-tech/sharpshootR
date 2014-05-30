@@ -93,13 +93,17 @@ x <- CDECquery(id='spw', sensor=45, interval='D', start='1900-01-01', end='2015-
 # compute total precip by year/month
 a <- ddply(x, c('year', 'month'), summarize, s=sum(value, na.rm=TRUE))
 
+# convert monthly precipitation values into Z-scores by month
+a.scaled <- ddply(a, 'month', summarize, year=year, scaled.ppt=scale(s))
+
 # make a nice color ramp function, scaled by the skewness of the underlying distribution
 cols <- colorRampPalette(brewer.pal(9, 'Spectral'), 
-space='Lab', interpolate='spline', bias=skewness(a$s, na.rm=TRUE))
+space='Lab', interpolate='spline', bias=skewness(a.scaled$scaled.ppt, na.rm=TRUE))
 
 # plot, each pixel is colored by the total precip by year/month
-levelplot(s ~ year * month, data=a, col.regions=cols, xlab='', 
-ylab='', scales=list(x=list(tick.number=10)), main='Monthly Total Precipitation (inches) SPW')
+levelplot(scaled.ppt ~ year * month, data=a.scaled, col.regions=cols, xlab='', 
+ylab='', scales=list(x=list(tick.number=10)), 
+main='Monthly Total Precipitation (as z-score) SPW')
 
 
 ##

@@ -1,3 +1,5 @@
+## TODO: figure out a better approach for alignment of dendrogram / image axis labels
+
 # f: SPC with diagnostic boolean variables
 # v: named variables
 # k: number of groups to highlight
@@ -49,7 +51,7 @@ diagnosticPropertyPlot <- function(f, v, k, id='pedon_id') {
     
   # plot profile dendrogram
   par(mar=c(1,1,6,1))
-  plot(p, cex=0.75, label.offset=0.05, y.lim=c(1.5, n.profiles-0.5))
+  plot(p, cex=0.75, label.offset=0.05, y.lim=c(1.125, n.profiles))
   tiplabels(pch=15, col=h.cut, cex=1.125, adj=0.52)
   
   # compute dissimilarity between variables

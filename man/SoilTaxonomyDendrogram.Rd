@@ -28,7 +28,12 @@ cex.taxon.labels = 0.66)
 
 }
 
-\value{The pair-wise dissimilarity matrix is invisibly returned. See examples below for ideas on how to access and further use these data.}
+\value{An invisibly-returned list containing:
+\describe{
+\item{\code{order}}{ordering of profiles in figure}
+\item{\code{dist}}{pair-wise dissimilarity matrix}
+}
+}
 
 \references{
 D.E. Beaudette, P. Roudier and A.T. O'Geen. 2012. Algorithms for Quantitative Pedology, a Toolkit

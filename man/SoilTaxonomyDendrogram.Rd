@@ -30,7 +30,6 @@ cex.taxon.labels = 0.66)
 
 \value{An invisibly-returned list containing:
 \describe{
-\item{\code{order}}{ordering of profiles in figure}
 \item{\code{dist}}{pair-wise dissimilarity matrix}
 }
 }

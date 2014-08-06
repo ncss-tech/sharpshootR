@@ -51,5 +51,5 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', max.depth=150, n.depth.ti
 	text(lab.x.positions, lab.y.positions, unique.lab, cex=cex.taxon.labels, adj=0.5, font=3)
 	
 	# invisibly return the distance matrix, just in case
-	invisible(s.dist)
+	invisible(list(order=new_order, dist=s.dist))
 }

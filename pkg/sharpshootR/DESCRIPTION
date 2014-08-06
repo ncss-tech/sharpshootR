@@ -2,8 +2,8 @@ Package: sharpshootR
 Type: Package
 Title: A collection of functions to support soil survey
 Description: A collection of functions to support soil survey
-Version: 0.6-4
-Date: 2014-06-10
+Version: 0.6-5
+Date: 2014-08-06
 Author: USDA-NRCS Soil Survey Staff
 Maintainer: Dylan Beaudette <dylan.beaudette@ca.usda.gov>
 License: GPL (>= 2)

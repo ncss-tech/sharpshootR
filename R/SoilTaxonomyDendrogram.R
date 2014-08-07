@@ -38,7 +38,7 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', max.depth=150, n.depth.ti
 	
 	# plot the profiles, in the ordering defined by the dendrogram
 	# with a couple fudge factors to make them fit
-	plot(spc, name=name, plot.order=new_order, max.depth=max.depth, n.depth.ticks=n.depth.ticks, scaling.factor=scaling.factor, cex.names=cex.names, cex.id=cex.id, axis.line.offset=axis.line.offset, width=width, y.offset=max(lastPP$yy) + y.offset, add=TRUE)
+	plot(spc, name=name, plot.order=new_order, max.depth=max.depth, n.depth.ticks=n.depth.ticks, scaling.factor=scaling.factor, cex.names=cex.names, cex.id=cex.id, axis.line.offset=axis.line.offset, width=width, y.offset=max(lastPP$yy) + y.offset, id.style='side', add=TRUE)
 	
 	# generate taxonomic labels and their positions under the dendrogram
 	lab <- s[new_order, 'subgroup']

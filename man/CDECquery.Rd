@@ -72,7 +72,9 @@ xyplot(capacity ~ datetime, groups=which, data=g, type='l',
 
 ##
 # New Melones monthly data, retrieve as far back in time as possible 
-new.melones.monthly <- CDECquery(id='nml', sensor=15, interval='M', start='1900-01-01', end='2015-01-01')
+new.melones.monthly <- CDECquery(id='nml', sensor=15, interval='M', 
+start='1900-01-01', end='2015-01-01')
+
 # convert to pct. capacity
 new.melones.monthly$capacity <- new.melones.monthly$value / 2400000 * 100
 

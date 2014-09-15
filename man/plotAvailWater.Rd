@@ -4,7 +4,8 @@
 \title{Visual Demontration of Available Soil Water}
 \description{Generate a simplistic diagram of the various fractions of water held within soil pore-space.}
 \usage{
-plotAvailWater(x, width = 0.25, cols = c(grey(0.5), "DarkGreen", "LightBlue", "RoyalBlue"), name.cex = 0.8)
+plotAvailWater(x, width = 0.25, cols = c(grey(0.5), 
+"DarkGreen", "LightBlue", "RoyalBlue"), name.cex = 0.8)
 }
 
 \arguments{
@@ -33,7 +34,9 @@ plotAvailWater(s, name.cex=1.25)
 \dontrun{
 library(soilDB)
 
-q <- "SELECT hzdept_r as hztop, hzdepb_r as hzbottom, hzname as name, wsatiated_r/100.0 as sat, wthirdbar_r/100.0 as fc, wfifteenbar_r/100.0 as pwp, awc_r as awc
+q <- "SELECT hzdept_r as hztop, hzdepb_r as hzbottom, 
+hzname as name, wsatiated_r/100.0 as sat, 
+wthirdbar_r/100.0 as fc, wfifteenbar_r/100.0 as pwp, awc_r as awc
 FROM chorizon 
 WHERE cokey IN (SELECT cokey from component where compname = 'dunstone') 
 AND wsatiated_r IS NOT NULL 

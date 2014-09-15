@@ -4,15 +4,17 @@
 \title{Plot Aspect Data}
 \description{Plot a graphical summary of multiple aspect measurements on a circular diagram.}
 \usage{
-aspect.plot(p, p.bins = 60, p.bw = 30, stack=TRUE, 
+aspect.plot(p, q=c(0.05, 0.5, 0.95), p.bins = 60, p.bw = 30, stack=TRUE, 
 p.axis = seq(0, 350, by = 10), plot.title = NULL,
 line.col='RoyalBlue', line.lwd=1, line.lty=2, 
 arrow.col=line.col, arrow.lwd=1, arrow.lty=1,
+arrow.length=0.15,
 ...)
 }
 
 \arguments{
   \item{p}{a vector of aspect angles in degrees, measured clock-wise from North}
+  \item{q}{a vector of desired quantiles}
   \item{p.bins}{number of bins to use for circular histogram}
   \item{p.bw}{bandwidth used for circular density estimation}
   \item{stack}{TRUE/FALSE, should the individual points be stacked into \code{p.bins} number of bins and plotted}
@@ -24,6 +26,7 @@ arrow.col=line.col, arrow.lwd=1, arrow.lty=1,
   \item{arrow.col}{arrow color}
   \item{arrow.lwd}{arrow line width}
   \item{arrow.lty}{arrow line style}
+  \item{arrow.length}{arrow head length}
   \item{\dots}{further arguments passed to \code{plot.circular}}
   
 }

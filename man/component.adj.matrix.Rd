@@ -6,7 +6,7 @@
 \usage{
 component.adj.matrix(d, mu='mukey', co='compname', wt='comppct_r', 
 method='community.matrix', standardization='max', metric='jaccard',
-rm.orphans=TRUE)
+rm.orphans=TRUE, similarity=TRUE)
 }
 
 \arguments{
@@ -18,6 +18,7 @@ rm.orphans=TRUE)
   \item{standardization}{community matrix standardization method, passed to \code{decostand}}
   \item{metric}{community matrix dissimilarity metric, passed to \code{vegdist}}
   \item{rm.orphans}{logical, should map units with a single component be ommitted? (typically yes)}
+  \item{similarity}{logical, return a similarity matrix? (if FALSE, a distance matrix is returned)}
 }
 \value{a similatiy matrix / ajacency matrix suitable for use with \code{igraph} functions or anything else that can accomodate a _similarity_ matrix.}
 \author{D.E. Beaudette}

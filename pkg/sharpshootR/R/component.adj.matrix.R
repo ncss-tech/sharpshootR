@@ -9,7 +9,7 @@
 
 
 ## new method based on dissimilarity eval of community matrix
-component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', method='community.matrix', standardization='max', metric='jaccard', rm.orphans=TRUE) {
+component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', method='community.matrix', standardization='max', metric='jaccard', rm.orphans=TRUE, similarity=TRUE) {
 	
   # appease R CMD check
   .wt <- NULL
@@ -84,20 +84,24 @@ component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', me
     
     # convert community matrix into dissimilarity matrix
     ## standardization method and distance metric MATTER
-    d.dist <- vegdist(decostand(d.mat, method=standardization), method=metric)
+    m <- vegdist(decostand(d.mat, method=standardization), method=metric)
     
     # convert to similarity matrix: S = max(D) - D [Kaufman & Rousseeuw]
-    m <- as.matrix(max(d.dist) - d.dist)
-    
-    # set diagonal and lower triangle to 0
-    m[lower.tri(m)] <- 0
-    diag(m) <- 0
+    if(similarity == TRUE) {
+      m <- as.matrix(max(m) - m)
+      mat.type <- 'similarity'
+      
+      # set diagonal and lower triangle to 0
+      m[lower.tri(m)] <- 0
+      diag(m) <- 0
+      
+      # set some attributes for later
+      attr(m, 'method') <- method
+      attr(m, 'standardization') <- standardization
+      attr(m, 'metric') <- metric
+    }
+        
   }
-  
-  # set some attributes for later
-  attr(m, 'method') <- method
-  attr(m, 'standardization') <- standardization
-  attr(m, 'metric') <- metric
   
 	# done
 	return(m)

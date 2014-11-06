@@ -60,14 +60,17 @@ plotTransect <- function(s, grad.var.name, transect.col='RoyalBlue', axis.probs=
   axis(side=1, at=1:length(s), labels=round(transect$distance/1000), cex.axis=0.75)
   mtext(distance.axis.title, side=1, line=2, font=2, cex=0.75)
   
-  # add gradient line
-  lines(transect$scaled.distance, transect$scaled.grad, type='b', lwd=2, pch=21, col=transect.col, cex=1.25)
-  
   # link gradient points to profiles
   segments(x0=1:length(s), y0=y.offset-15, x1=transect$scaled.distance, y1=transect$scaled.grad, lty=1)
   
   # add arrows
   arrows(x0=1:length(s), y0=y.offset-15, x1=1:length(s), y1=y.offset-2, length = 0.1, code=2, lty=1)
+  
+  # add gradient line
+  lines(transect$scaled.distance, transect$scaled.grad, lwd=2, col=transect.col)
+  
+  # add gradient points
+  points(transect$scaled.distance, transect$scaled.grad, lwd=2, pch=21, cex=1.25, bg=transect.col, col='black')
   
   # invisibly return computed transect geometry
   invisible(transect)

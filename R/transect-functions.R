@@ -18,7 +18,7 @@ dist.along.grad <- function(coords, var, grad.scaled.min, grad.scaled.max) {
 }
 
 # plot a transect with profiles below
-plotTransect <- function(s, grad.var.name, transect.col='RoyalBlue', axis.probs=seq(from=0, to=1, by = 0.25), y.offset=100, scaling.factor=0.5, distance.axis.title='Distance Along Transect (km)', crs=NULL, grad.axis.title=NULL, ...){
+plotTransect <- function(s, grad.var.name, transect.col='RoyalBlue', tick.number=7, y.offset=100, scaling.factor=0.5, distance.axis.title='Distance Along Transect (km)', crs=NULL, grad.axis.title=NULL, ...){
   
   # internal offsets
   
@@ -38,11 +38,13 @@ plotTransect <- function(s, grad.var.name, transect.col='RoyalBlue', axis.probs=
   # create transect
   transect <- dist.along.grad(coords, site(s)[[grad.var.name]], grad.scaled.min=0, grad.scaled.max=y.offset-15)
   
-  ## TODO: can we do better than this?
-  # eval axis / gridline locations and labels
-  axis.pos <- quantile(transect$scaled.grad, probs=axis.probs)
-  axis.labels <- rev(round(quantile(transect$variable, probs=axis.probs)))
+  # use a linear model to translate original gradient -> scaled gradient 
+  l <- lm(scaled.grad ~ variable, data=transect)
   
+  # establish gradient axis tick marks
+  axis.labels <- pretty(transect$variable, n=tick.number)
+  axis.pos <- round(predict(l, data.frame(variable=axis.labels)))
+    
   # setup basic plot
   plot(s, plot.order=transect$grad.order, y.offset=y.offset, scaling.factor=scaling.factor, id.style='side', ...)
   

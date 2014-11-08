@@ -5,7 +5,7 @@
 \description{Plot a collection of Soil Profiles linked to their position along some gradient (e.g. transect).}
 \usage{
 plotTransect(s, grad.var.name, transect.col = "RoyalBlue", 
-axis.probs = seq(from = 0, to = 1, by = 0.25), y.offset = 100, 
+tick.number=7, y.offset = 100, 
 scaling.factor = 0.5, 
 distance.axis.title = "Distance Along Transect (km)", 
 crs = NULL, grad.axis.title = NULL, ...)
@@ -15,7 +15,7 @@ crs = NULL, grad.axis.title = NULL, ...)
   \item{s}{a \code{SoilProfileCollection} object}
   \item{grad.var.name}{the name of a site-level attribute containing gradient values}
   \item{transect.col}{color used to plot gradient (transect) values}
-  \item{axis.probs}{quantiles at which axis labels will be printed}
+  \item{tick.number}{number of desired ticks and labels on the gradient axis}
   \item{y.offset}{vertical offset used to position profile sketches}
   \item{scaling.factor}{scaling factor used to adjust profile sketches}
   \item{distance.axis.title}{a tital for the along-transect distances}

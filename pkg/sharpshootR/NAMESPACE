@@ -36,9 +36,15 @@ importFrom(vegan,
   vegdist
 )
 
+importFrom(soilDB,
+  format_SQL_in_statement,
+  SDA_query
+)
+
 importFrom(sp,
   spsample,
-  coordinates
+  coordinates,
+  spTransform
 )
 
 importFrom(reshape2,

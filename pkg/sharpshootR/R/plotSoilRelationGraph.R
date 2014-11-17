@@ -13,13 +13,13 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', ...) {
 	
 	# generate graph
 	g <- graph.adjacency(m, mode='upper', weighted=TRUE)
-	
+  
 	# transfer names
 	V(g)$label <- V(g)$name 
 
 	# adjust size of vertex based on degree of connectivity
 	v.size <- sqrt(degree(g)) * 2
-
+  
 	# community metrics
 	g.com <- fastgreedy.community(g) ## this can crash with some networks
 	g.com.length <- length(g.com)
@@ -53,4 +53,4 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', ...) {
 	if(plot.style == 'dendrogram') {
 		dendPlot(g.com, label.offset=0.1, font=font.vect, col='black', cex=cex.vect, colbar=cols, ...)
 		}
-	}
+}

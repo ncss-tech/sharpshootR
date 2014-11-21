@@ -7,18 +7,43 @@
 
 ## NOTE: dendrogram representation of community structure is only possible with some community detection algorithms
 
+.maximum.spanning.tree <- function(x){
+  # convert cost representation of weights to "strength"
+  E(x)$weight <- -1 * E(x)$weight
+  # compute min spanning tree on "strength"
+  x <- minimum.spanning.tree(x)
+  # convert "strength" representation of weights back to cost
+  E(x)$weight <- -1 * E(x)$weight
+  return(x)
+}
+
 # note that this relys on ape plotting functions
 # ... are passed onto plot.igraph or plot.phylo
-plotSoilRelationGraph <- function(m, s='', plot.style='network', ...) {
+plotSoilRelationGraph <- function(m, s='', plot.style='network', spanning.tree=NULL, del.edges=NULL, vertex.scaling.factor=4, ...) {
 	
 	# generate graph
 	g <- graph.adjacency(m, mode='upper', weighted=TRUE)
+  
+  # optionally prune weak edges
+  if(!is.null(del.edges))
+	  g <- delete.edges(g, E(g) [ weight < quantile(weight, del.edges) ])
+  
+	# optionally compute min/max spanning tree
+  if(! is.null(spanning.tree)) {
+    if(spanning.tree == 'min'){
+      g <- minimum.spanning.tree(g)
+    }
+    
+    if(spanning.tree == 'max'){
+      g <- .maximum.spanning.tree(g)
+    }
+  }
   
 	# transfer names
 	V(g)$label <- V(g)$name 
 
 	# adjust size of vertex based on degree of connectivity
-	v.size <- sqrt(degree(g)) * 2
+	v.size <- sqrt(degree(g)) * vertex.scaling.factor
   
 	# community metrics
 	g.com <- fastgreedy.community(g) ## this can crash with some networks

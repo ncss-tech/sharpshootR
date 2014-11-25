@@ -19,12 +19,12 @@
 
 # note that this relys on ape plotting functions
 # ... are passed onto plot.igraph or plot.phylo
-plotSoilRelationGraph <- function(m, s='', plot.style='network', spanning.tree=NULL, del.edges=NULL, vertex.scaling.factor=4, ...) {
+plotSoilRelationGraph <- function(m, s='', plot.style='network', spanning.tree=NULL, del.edges=NULL, vertex.scaling.factor=4, edge.scaling.factor=1, edge.transparency=1, ...) {
 	
 	# generate graph
 	g <- graph.adjacency(m, mode='upper', weighted=TRUE)
   
-  # optionally prune weak edges
+  # optionally prune weak edges less than threshold quantile
   if(!is.null(del.edges))
 	  g <- delete.edges(g, E(g) [ weight < quantile(weight, del.edges) ])
   
@@ -42,8 +42,11 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', spanning.tree=N
 	# transfer names
 	V(g)$label <- V(g)$name 
 
-	# adjust size of vertex based on degree of connectivity
+	# adjust size of vertex based on degree
 	v.size <- sqrt(degree(g)) * vertex.scaling.factor
+  
+  # adjust edge width based on weight
+  E(g)$width <- sqrt(E(g)$weight) * edge.scaling.factor
   
 	# community metrics
 	g.com <- fastgreedy.community(g) ## this can crash with some networks
@@ -58,11 +61,13 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', spanning.tree=N
 	if(g.com.length > 9)
 		cols <- colorRampPalette(brewer.pal(n=9, name='Set1'))(g.com.length)
 	
-	# add some transparency
-	cols.alpha <- alpha(cols, 0.65)
 	# set colors based on community membership
+	cols.alpha <- alpha(cols, 0.65)
 	V(g)$color <- cols.alpha[membership(g.com)]
-
+  
+  # set edge colors
+	E(g)$color <- alpha(c('grey','black')[crossing(g.com, g)+1], edge.transparency)
+  
 	# generate vector of fonts, highlighting main soil
 	font.vect <- rep(1, times=length(g.com.membership))
 	font.vect[which(names(g.com.membership) == s)] <- 2
@@ -73,7 +78,7 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', spanning.tree=N
 	
 	if(plot.style == 'network') {
 		set.seed(1010101) # consistant output
-		plot(g.com, g, layout=layout.fruchterman.reingold, vertex.size=v.size, vertex.label.color='black', vertex.label.cex=cex.vect, vertex.label.font=font.vect, colbar=cols.alpha, mark.groups=NULL, edge.color=c('grey','black')[crossing(g.com, g)+1], ...)
+		plot(g, layout=layout.fruchterman.reingold, vertex.size=v.size, vertex.label.color='black', vertex.label.cex=cex.vect, vertex.label.font=font.vect, ...)
 		}
 	if(plot.style == 'dendrogram') {
 		dendPlot(g.com, label.offset=0.1, font=font.vect, col='black', cex=cex.vect, colbar=cols, ...)

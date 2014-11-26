@@ -4,13 +4,15 @@ import(ape)
 
 importFrom(igraph,
   graph.adjacency,
+  get.edgelist,
+  E,
+  'E<-',
   V,
   'V<-',
   degree,
   fastgreedy.community,
   membership,
   layout.fruchterman.reingold,
-  crossing,
   dendPlot,
   plot.communities,
   plot.igraph

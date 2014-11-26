@@ -17,9 +17,9 @@
   return(x)
 }
 
-# note that this relys on ape plotting functions
+# dendrogram representation relies on ape plotting functions
 # ... are passed onto plot.igraph or plot.phylo
-plotSoilRelationGraph <- function(m, s='', plot.style='network', spanning.tree=NULL, del.edges=NULL, vertex.scaling.factor=4, edge.scaling.factor=1, edge.transparency=1, edge.col=grey(0.75), edge.highlight.col='red', ...) {
+plotSoilRelationGraph <- function(m, s='', plot.style='network', spanning.tree=NULL, del.edges=NULL, vertex.scaling.factor=2, edge.scaling.factor=1, edge.transparency=1, edge.col=grey(0.5), edge.highlight.col='royalblue', ...) {
 	
 	# generate graph
 	g <- graph.adjacency(m, mode='upper', weighted=TRUE)
@@ -30,23 +30,26 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', spanning.tree=N
   
 	# optionally compute min/max spanning tree
   if(! is.null(spanning.tree)) {
-    if(spanning.tree == 'min'){
-      g <- minimum.spanning.tree(g)
-    }
-    
+    # interesting, but hard to interpret still
     if(spanning.tree == 'max'){
       g <- .maximum.spanning.tree(g)
+    }
+    # this isn't all that useful
+    if(spanning.tree == 'min'){
+      g <- minimum.spanning.tree(g)
     }
   }
   
 	# transfer names
 	V(g)$label <- V(g)$name 
 
-	# adjust size of vertex based on degree
-	v.size <- sqrt(degree(g)) * vertex.scaling.factor
+	# adjust size of vertex based on sqrt(degree / max(degree))
+  g.degree <- degree(g)
+	v.size <- sqrt(g.degree/max(g.degree)) * 10 * vertex.scaling.factor
   
-  # adjust edge width based on weight
-  E(g)$width <- sqrt(E(g)$weight) * edge.scaling.factor
+  # optionally adjust edge width based on weight
+  if(!missing(edge.scaling.factor))
+    E(g)$width <- sqrt(E(g)$weight) * edge.scaling.factor
   
 	# community metrics
 	g.com <- fastgreedy.community(g) ## this can crash with some networks
@@ -92,4 +95,7 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', spanning.tree=N
 	if(plot.style == 'dendrogram') {
 		dendPlot(g.com, label.offset=0.1, font=font.vect, col='black', cex=cex.vect, colbar=cols, ...)
 		}
+  
+  # invisibly return the graph
+  invisible(g)
 }

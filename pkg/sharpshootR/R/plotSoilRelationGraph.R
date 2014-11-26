@@ -19,7 +19,7 @@
 
 # note that this relys on ape plotting functions
 # ... are passed onto plot.igraph or plot.phylo
-plotSoilRelationGraph <- function(m, s='', plot.style='network', spanning.tree=NULL, del.edges=NULL, vertex.scaling.factor=4, edge.scaling.factor=1, edge.transparency=1, ...) {
+plotSoilRelationGraph <- function(m, s='', plot.style='network', spanning.tree=NULL, del.edges=NULL, vertex.scaling.factor=4, edge.scaling.factor=1, edge.transparency=1, edge.col=grey(0.75), edge.highlight.col='red', ...) {
 	
 	# generate graph
 	g <- graph.adjacency(m, mode='upper', weighted=TRUE)
@@ -65,8 +65,17 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', spanning.tree=N
 	cols.alpha <- alpha(cols, 0.65)
 	V(g)$color <- cols.alpha[membership(g.com)]
   
-  # set edge colors
-	E(g)$color <- alpha(c('grey','black')[crossing(g.com, g)+1], edge.transparency)
+  # get an index to edges associated with series specified in 's'
+  el <- get.edgelist(g)
+	idx <- unique(c(which(el[, 1] == s), which(el[, 2] == s)))
+	
+	# set default edge color
+  E(g)$color <- edge.col
+	# set edge colors based on optional series name to highlight
+  E(g)$color[idx] <- alpha(edge.highlight.col, edge.transparency)
+  
+  # previous coloring of edges based on in/out community
+  # E(g)$color <- alpha(c('grey','black')[crossing(g.com, g)+1], edge.transparency)
   
 	# generate vector of fonts, highlighting main soil
 	font.vect <- rep(1, times=length(g.com.membership))

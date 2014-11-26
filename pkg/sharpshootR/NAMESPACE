@@ -10,11 +10,12 @@ importFrom(igraph,
   V,
   'V<-',
   degree,
+  minimum.spanning.tree,
+  delete.edges,
   fastgreedy.community,
   membership,
   layout.fruchterman.reingold,
   dendPlot,
-  plot.communities,
   plot.igraph
 )
 

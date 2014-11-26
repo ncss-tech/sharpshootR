@@ -21,6 +21,9 @@
 # ... are passed onto plot.igraph or plot.phylo
 plotSoilRelationGraph <- function(m, s='', plot.style='network', spanning.tree=NULL, del.edges=NULL, vertex.scaling.factor=2, edge.scaling.factor=1, edge.transparency=1, edge.col=grey(0.5), edge.highlight.col='royalblue', ...) {
 	
+  # dumb hack to make R CMD check happy
+  weight <- NULL
+  
 	# generate graph
 	g <- graph.adjacency(m, mode='upper', weighted=TRUE)
   

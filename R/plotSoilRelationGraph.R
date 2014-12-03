@@ -19,7 +19,7 @@
 
 # dendrogram representation relies on ape plotting functions
 # ... are passed onto plot.igraph or plot.phylo
-plotSoilRelationGraph <- function(m, s='', plot.style='network', spanning.tree=NULL, del.edges=NULL, vertex.scaling.factor=2, edge.scaling.factor=1, edge.transparency=1, edge.col=grey(0.5), edge.highlight.col='royalblue', ...) {
+plotSoilRelationGraph <- function(m, s='', plot.style='network', spanning.tree=NULL, del.edges=NULL, vertex.scaling.factor=2, edge.scaling.factor=1, edge.transparency=1, edge.col=grey(0.5), edge.highlight.col='royalblue', g.layout=layout.fruchterman.reingold, ...) {
 	
   # dumb hack to make R CMD check happy
   weight <- NULL
@@ -33,13 +33,38 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', spanning.tree=N
   
 	# optionally compute min/max spanning tree
   if(! is.null(spanning.tree)) {
-    # interesting, but hard to interpret still
+    # min spanning tree: not clear how this is useful
+    if(spanning.tree == 'min'){
+      g <- minimum.spanning.tree(g)
+    }
+    
+    # max spanning tree: useful when loading an entire region
     if(spanning.tree == 'max'){
       g <- .maximum.spanning.tree(g)
     }
-    # this isn't all that useful
-    if(spanning.tree == 'min'){
-      g <- minimum.spanning.tree(g)
+    
+    ## TODO: this needs more testing
+    # max spanning tree + edges with weights > n-tile added back
+    if(is.numeric(spanning.tree)){
+      # select edges and store weights
+      es <- E(g) [ weight > quantile(weight, spanning.tree) ]
+      es.w <- es$weight
+      # trap ovious errors
+      if(length(es.w) < 1)
+        stop('no edges selected, use a smaller value for `spanning.tree`')
+      
+      # convert edge sequence to matrix of vertex ids
+      e <- get.edges(g, es)
+      # compute max spanning tree
+      g.m <- .maximum.spanning.tree(g)
+      
+      ## TODO: there must be a better way
+      # add edges and weight back one at a time
+      for(i in 1:nrow(e)){
+        g.m <- add.edges(g.m, e[i, ], weight=es.w[i])
+      }
+      # remove duplicate edges
+      g <- simplify(g.m)
     }
   }
   
@@ -93,7 +118,7 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', spanning.tree=N
 	
 	if(plot.style == 'network') {
 		set.seed(1010101) # consistant output
-		plot(g, layout=layout.fruchterman.reingold, vertex.size=v.size, vertex.label.color='black', vertex.label.cex=cex.vect, vertex.label.font=font.vect, ...)
+		plot(g, layout=g.layout, vertex.size=v.size, vertex.label.color='black', vertex.label.cex=cex.vect, vertex.label.font=font.vect, ...)
 		}
 	if(plot.style == 'dendrogram') {
 		dendPlot(g.com, label.offset=0.1, font=font.vect, col='black', cex=cex.vect, colbar=cols, ...)

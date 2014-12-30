@@ -3,6 +3,9 @@ import(aqp)
 import(ape)
 
 importFrom(igraph,
+  graph.edgelist,
+  count.multiple,
+  get.adjacency,
   graph.adjacency,
   get.edgelist,
   get.edges,

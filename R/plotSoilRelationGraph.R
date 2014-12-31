@@ -111,17 +111,13 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', spanning.tree=N
 	# generate vector of fonts, highlighting main soil
 	font.vect <- rep(1, times=length(g.com.membership))
 	font.vect[which(names(g.com.membership) == s)] <- 2
-
-	# generate vector of label cex, highlighting main soil
-	cex.vect <- rep(1, times=length(g.com.membership))
-	cex.vect[which(names(g.com.membership) == s)] <- 1.25
 	
 	if(plot.style == 'network') {
 		set.seed(1010101) # consistant output
-		plot(g, layout=g.layout, vertex.size=v.size, vertex.label.color='black', vertex.label.cex=cex.vect, vertex.label.font=font.vect, ...)
+		plot(g, layout=g.layout, vertex.size=v.size, vertex.label.color='black', vertex.label.font=font.vect, ...)
 		}
 	if(plot.style == 'dendrogram') {
-		dendPlot(g.com, label.offset=0.1, font=font.vect, col='black', cex=cex.vect, colbar=cols, ...)
+		dendPlot(g.com, label.offset=0.1, font=font.vect, col='black', colbar=cols, ...)
 		}
   
   # invisibly return the graph

@@ -21,8 +21,9 @@
 \details{
 \describe{
   \item{1.}{Station IDs can be found here: \url{http://cdec.water.ca.gov/staInfo.html}}
-  \item{2.}{Sensor IDs can be found using this URL \url{http://cdec.water.ca.gov/cgi-progs/queryCSV?station_id=}, followed by the station ID.}
-  \item{3.}{Resevoir capacities can be found here \url{http://cdec.water.ca.gov/misc/resinfo.html}}
+  \item{2.}{Sensor IDs can be found using this URL: \url{http://cdec.water.ca.gov/cgi-progs/queryCSV?station_id=}, followed by the station ID.}
+  \item{3.}{Resevoir capacities can be found here: \url{http://cdec.water.ca.gov/misc/resinfo.html}}
+  \item{4.}{A new interactive map of CDEC stations can be found here: \url{http://cdec.water.ca.gov/cdecstation/}}
 }
 }
 
@@ -119,6 +120,11 @@ interpolate='spline', bias=skewness(x$value, na.rm=TRUE))
 # plot
 levelplot(value ~ year * month, data=x, col.regions=cols, xlab='', 
 ylab='', scales=list(x=list(tick.number=20)), main='Monthly Total Precipitation (inches) SOR')
+
+
+
+
+
 }
 }
 

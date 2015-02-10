@@ -54,8 +54,9 @@ diagnosticPropertyPlot <- function(f, v, k, id='pedon_id') {
   plot(p, cex=0.75, label.offset=0.05, y.lim=c(1.125, n.profiles))
   tiplabels(pch=15, col=h.cut, cex=1.125, adj=0.52)
   
+  ## note: transpose converts logical -> character, must re-init factors
   # compute dissimilarity between variables
-  d.vars <- daisy(as.data.frame(t(m)), metric='gower')
+  d.vars <- daisy(data.frame(t(m), stringsAsFactors=TRUE), metric='gower')
   h.vars <- as.hclust(diana(d.vars))
   
   # order of profiles in dendrogram
@@ -114,8 +115,9 @@ diagnosticPropertyPlot2 <- function(f, v, k, id='pedon_id') {
   d <- daisy(m, metric='gower')
   h.profiles <- as.hclust(diana(d))
   
+  ## note: transpose converts logical -> character, must re-init factors
   # compute dissimilarity between variables
-  d.vars <- daisy(as.data.frame(t(m)), metric='gower')
+  d.vars <- daisy(data.frame(t(m), stringsAsFactors=TRUE), metric='gower')
   h.vars <- as.hclust(diana(d.vars))
   
   # cut tree at user-specified number of groups

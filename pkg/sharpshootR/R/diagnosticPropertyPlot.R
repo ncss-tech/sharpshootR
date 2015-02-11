@@ -9,6 +9,9 @@ diagnosticPropertyPlot <- function(f, v, k, id='pedon_id') {
   # extract site data
   s <- site(f)
   
+  # keep only those variables that exist
+  v <- names(s)[na.omit(match(v, names(s)))]
+  
   ## TODO: why would there be NA in here?
   # filter NA
   no.na.idx <- which(complete.cases(s[, v]))
@@ -85,6 +88,9 @@ diagnosticPropertyPlot2 <- function(f, v, k, id='pedon_id') {
     
   # extract site data
   s <- site(f)
+  
+  # keep only those variables that exist
+  v <- names(s)[na.omit(match(v, names(s)))]
   
   ## TODO: why would there be NA in here?
   # filter NA

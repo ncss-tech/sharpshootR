@@ -11,7 +11,7 @@ diagnosticPropertyPlot2(f, v, k, id = "pedon_id")
 
 \arguments{
   \item{f}{a \code{SoilProfileCollection} object}
-  \item{v}{a character vector of site-level attributes that are boolean (e.g. TRUE/FALSE) data}
+  \item{v}{a character vector of site-level attribute names that are boolean (e.g. TRUE/FALSE) data}
   \item{k}{an integer, number of groups to highlight}
   \item{id}{the name of the site-level attribute containing an ID to include next next to leave of the diagnostic property dendrogram}
 }

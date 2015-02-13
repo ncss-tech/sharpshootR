@@ -1,7 +1,7 @@
 polygonAdjacency <- function(x, v='MUSYM') {
   
   # sanity check: package requirements
-  if(!require(spdep))
+  if(!requireNamespace(spdep))
     stop('please install the `spdep` package', call. = FALSE)
   
   # compute neighbor list

@@ -25,7 +25,7 @@ plotTransect <- function(s, grad.var.name, transect.col='RoyalBlue', tick.number
   # optionally convert to planar CRS
   if(!missing(crs)) {
     # need rgdal
-    if(!requireNamespace(rgdal))
+    if(!requireNamespace('rgdal'))
       stop('Transformation of coordinates requires the `rgdal` package.', call.=FALSE)
     
     # perform transformation and extract coordinates from SPC

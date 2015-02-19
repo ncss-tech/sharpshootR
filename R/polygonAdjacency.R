@@ -5,7 +5,7 @@ polygonAdjacency <- function(x, v='MUSYM') {
     stop('please install the `spdep` package', call. = FALSE)
   
   # compute neighbor list
-  nb <- poly2nb(x)
+  nb <- spdep::poly2nb(x)
   
   # init empty list to store common attribute polygon IDs
   # list index references the original polygon number

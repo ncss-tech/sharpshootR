@@ -1,11 +1,13 @@
-polygonAdjacency <- function(x, v.commonLines='MUSYM', v.joinDocument=NULL, snapping.tolerance) {
+
+# snapping tolerance is in the units of coordinates
+polygonAdjacency <- function(x, v.commonLines='MUSYM', v.joinDocument=NULL, ...) {
   
   # sanity check: package requirements
   if(!requireNamespace('spdep'))
     stop('please install the `spdep` package', call. = FALSE)
   
   # compute neighbor list
-  nb <- spdep::poly2nb(x, snap = snapping.tolerance)
+  nb <- spdep::poly2nb(x, ...)
   
   # init empty list to store common attribute polygon IDs
   # list index references the original polygon number

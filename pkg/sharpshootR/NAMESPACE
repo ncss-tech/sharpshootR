@@ -36,6 +36,10 @@ importFrom(lattice,
   panel.segments
 )
 
+importFrom(digest,
+  digest
+)
+
 importFrom(latticeExtra,
   dendrogramGrob
 )

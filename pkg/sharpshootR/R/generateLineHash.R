@@ -1,3 +1,5 @@
+# generate a MD5 hash using a line's start / end coordinates 
+# after rounding to a fixed precision
 generateLineHash <- function(x, precision=-1) {
   the.lines <- slot(x, 'lines')
   # sanity check:

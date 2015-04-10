@@ -1,6 +1,6 @@
 
-# snapping tolerance is in the units of coordinates
-polygonAdjacency <- function(x, v.commonLines='MUSYM', v.joinDocument=NULL, ...) {
+# optional arguments are passed to poly2nb
+polygonAdjacency <- function(x, v='MUSYM', ...) {
   
   # sanity check: package requirements
   if(!requireNamespace('spdep'))
@@ -14,7 +14,7 @@ polygonAdjacency <- function(x, v.commonLines='MUSYM', v.joinDocument=NULL, ...)
   # each list item contains indexes to neighbors with the same map unit symbol
   common.polys <- list()
     
-  # init empy list to store adjacency information via attribute `v.commonLines`
+  # init empy list to store adjacency information via attribute `v`
   edge.list <- list()
   
   # iterate over polygons
@@ -22,8 +22,8 @@ polygonAdjacency <- function(x, v.commonLines='MUSYM', v.joinDocument=NULL, ...)
     # get the neighbors for polygon i
     n.idx <- nb[[i]]
     # keep track of the current polygon's attribute and its neighbors'
-    this.attr <- x[[v.commonLines]][i]
-    this.nb <- x[[v.commonLines]][n.idx]
+    this.attr <- x[[v]][i]
+    this.nb <- x[[v]][n.idx]
     # get an index to those neighbors that share the same symbol
     common.symbol.idx <- which(this.attr == this.nb)
     
@@ -31,33 +31,10 @@ polygonAdjacency <- function(x, v.commonLines='MUSYM', v.joinDocument=NULL, ...)
     common.polys[[i]] <- n.idx[common.symbol.idx]
     
     # store edge list information
-    
-    # if a second variable is used (join document)
-    # keep only those edges that are between two different surveys
-    if(!is.null(v.joinDocument)) {
-      this.attr.join <- x[[v.joinDocument]][i]
-      this.nb.join <- x[[v.joinDocument]][n.idx]
-      # get an index to those neighbors that are not from the same survey
-      join.idx <- which(this.attr.join != this.nb.join)
-      
-      # if there is no matching neighbor, then pad with NA
-      if(length(this.nb.join) == 0)
-        this.nb.join <- NA
-      
-      # only append edge if it is between two different surveys
-      if(length(join.idx) > 0)
-        edge.list[[i]] <- cbind(this.attr, this.nb[join.idx])
-        
-    }
-    
-    # regular mode, don't consider a second attribute for join documents
-    else {
-      # if there is no matching neighbor, then pad with NA
-      if(length(this.nb) == 0)
-        this.nb <- NA
-      edge.list[[i]] <- cbind(this.attr, this.nb)
-    }
-      
+    # if there is no matching neighbor, then pad with NA
+    if(length(this.nb) == 0)
+      this.nb <- NA
+    edge.list[[i]] <- cbind(this.attr, this.nb)   
   }
   
   # get a unique set of polygon indices to investigate

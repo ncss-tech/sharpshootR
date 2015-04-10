@@ -3,14 +3,13 @@
 \title{Evaluate Spatial Adjacency of SpaitialPolygonsDataFrame Objects}
 \description{This function utilizes the `spdep` and `igraph` packages to evaluate several measures of spatial connectivity.}
 \usage{
-polygonAdjacency(x, v.commonLines='MUSYM', v.joinDocument=NULL, snapping.tolerance)
+polygonAdjacency(x, v='MUSYM', ...)
 }
 
 \arguments{
   \item{x}{a \code{SpatialPolygonsDataFrame} object}
-  \item{v.commonLines}{name of the field in the attribute table to use when searching for `common lines`, see details}
-  \item{v.joinDocument}{name of the field in the attribute table to use when searching joins between surveys}
-  \item{snapping.tolerance}{snapping tolerance in the units of CRS of `x`}
+  \item{v}{name of the field in the attribute table to use when searching for `common lines`, see details}
+  \item{\dots}{additional arguments passed to \code{spdep::poly2nb}}
 }
 \details{Pending.}
 
@@ -33,8 +32,11 @@ library(sharpshootR)
 # load some data
 x <- readOGR(dsn='L:/CA630/FG_CA630_OFFICIAL.gdb', layer='ca630_a', stringsAsFactors=FALSE)
 
-# compute spatial adjacency summary, using 1m snapping tolerance
-res <- polygonAdjacency(x, v.commonLines='MUSYM')
+# remove NOTCOM, DA, and empty (non-NA) symbols
+x <- x[which(! x$MUSYM %in% c('NOTCOM', 'DA', ' ', '')), ]
+
+# compute spatial adjacency summary
+res <- polygonAdjacency(x, v='MUSYM')
 
 # graphical check: slow for large number of features
 plot(x)

@@ -2,8 +2,8 @@ Package: sharpshootR
 Type: Package
 Title: A Soil Survey Toolkit
 Description: Miscellaneous soil data management, summary, visualization, and conversion utilities to support soil survey.
-Version: 0.7-2
-Date: 2015-02-19
+Version: 0.8
+Date: 2015-04-10
 Author: USDA-NRCS Soil Survey Staff
 Maintainer: Dylan Beaudette <dylan.beaudette@ca.usda.gov>
 License: GPL (>= 2)
@@ -11,4 +11,4 @@ Repository: CRAN
 URL: http://aqp.r-forge.r-project.org/
 Suggests: MASS, rgdal, spdep
 Depends: R (>= 2.15.0)
-Imports: aqp, ape, soilDB, igraph, cluster, lattice, latticeExtra, vegan, sp, reshape2, Hmisc, scales, circular, RColorBrewer, plyr
+Imports: aqp, ape, soilDB, igraph, cluster, lattice, latticeExtra, vegan, sp, reshape2, Hmisc, scales, circular, RColorBrewer, plyr, digest

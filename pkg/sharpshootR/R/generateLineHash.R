@@ -1,6 +1,6 @@
 # generate a MD5 hash using a line's start / end coordinates 
-# after rounding to a fixed precision
-generateLineHash <- function(x, algo='murmur32') {
+# after rounding to a fixed precision, related to snapping tolerances
+generateLineHash <- function(x, precision=-1, algo='murmur32') {
   the.lines <- slot(x, 'lines')
   # sanity check:
   # (there should only be 1 / Line object)
@@ -16,7 +16,8 @@ generateLineHash <- function(x, algo='murmur32') {
     n <- nrow(i)
     start.coord <- i[1, ]
     end.coord <- i[n, ]
-    hash <- digest(c(start.coord, end.coord), algo=algo)
+    rounded.coords <- round(c(start.coord, end.coord), digits = precision)
+    hash <- digest(rounded.coords, algo=algo)
     return(hash)
   })
   

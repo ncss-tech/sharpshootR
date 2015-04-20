@@ -13,7 +13,7 @@ g.layout=layout.fruchterman.reingold,
 \arguments{
   \item{m}{adjacency matrix}
   \item{s}{central component; an empty character string is interpreted as no central component}
-  \item{plot.style}{plot style ('network', or 'dendrogram')}
+  \item{plot.style}{plot style ('network', or 'dendrogram'), or 'none' for no graphical output}
   \item{spanning.tree}{plot the minimim or maximum spaning tree ('min', 'max'), or, max spanning tree plus edges with weight greater than the n-th quantile specified in `spanning.tree`. See details and examples.}
   \item{del.edges}{optionally delete edges with weights less than the specified quantile (0-1)}
   \item{vertex.scaling.factor}{scaling factor applied to vertex size}

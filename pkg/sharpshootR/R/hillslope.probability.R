@@ -37,7 +37,7 @@ hillslope.probability <- function(s) {
 	# re-level hillslope positions
 	x$hillslopeprof <- factor(x$hillslopeprof, levels=c('Toeslope', 'Footslope', 'Backslope', 'Shoulder', 'Summit'))
 	# convert from long-wide format
-	y <- dcast(x, compname ~ hillslopeprof, value.var='p')
+	y <- dcast(x, compname ~ hillslopeprof, value.var='p', drop=FALSE)
 	return(y)
 }
 

@@ -5,18 +5,19 @@
 \title{Diagnostic Property Plot}
 \description{Generate a graphical description of the presence/absence of soil diagnostic properties.}
 \usage{
-diagnosticPropertyPlot(f, v, k, id = "pedon_id")
-diagnosticPropertyPlot2(f, v, k, id = "pedon_id")
+diagnosticPropertyPlot(f, v, k, grid.label='pedon_id', dend.label='pedon_id')
+diagnosticPropertyPlot2(f, v, k, grid.label='pedon_id')
 }
 
 \arguments{
   \item{f}{a \code{SoilProfileCollection} object}
   \item{v}{a character vector of site-level attribute names that are boolean (e.g. TRUE/FALSE) data}
   \item{k}{an integer, number of groups to highlight}
-  \item{id}{the name of the site-level attribute containing an ID to include next next to leave of the diagnostic property dendrogram}
+  \item{grid.label}{the name of a site-level attribute (usually unique) annotating the y-axis of the grid}
+  \item{dend.label}{the name of a site-level attribute (usually unique) annotating dendrogram terminal leaves}
 }
 
-\details{This function attempts to display several pieces of information within a single figure. First, soil profiles are sorted according to the presence/absence of diagnostic features named in \code{v}. Second, these diagnostic features are sorted according to their distribution among soil profiles. Third, a binary grid is established with row-ordering of profiles based on step 1 and column-ordering based on step 2. Blue cell represent the presence of a diagnostic feature. Soils with similar diagnostic features should 'clump' together. See examples below.}
+\details{This function attempts to display several pieces of information within a single figure. First, soil profiles are sorted according to the presence/absence of diagnostic features named in \code{v}. Second, these diagnostic features are sorted according to their distribution among soil profiles. Third, a binary grid is established with row-ordering of profiles based on step 1 and column-ordering based on step 2. Blue cells represent the presence of a diagnostic feature. Soils with similar diagnostic features should 'clump' together. See examples below.}
 
 \value{a list is silently returned by this function, containing:
 \describe{
@@ -27,8 +28,8 @@ diagnosticPropertyPlot2(f, v, k, id = "pedon_id")
 }
 
 \author{D.E. Beaudette and J.M. Skovlin}
-\note{\code{diagnosticPropertyPlot2} is a lattice-based version, and requires a unique value passed to \code{id}.}
 
+\seealso{\code{\link{multinominal2logical}}}
 
 \examples{
 \dontrun{

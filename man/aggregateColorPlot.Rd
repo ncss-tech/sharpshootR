@@ -10,7 +10,7 @@ rect.border='black', ...)
 }
 
 \arguments{
-  \item{x}{a list, results from aqp::aggregateColor()}
+  \item{x}{a list, results from \code{aqp::aggregateColor()}}
   \item{label.font}{font specification for color labels}
   \item{label.cex}{font size for color lables}
   \item{buffer.pct}{extra space between labels and color rectangles}
@@ -36,18 +36,12 @@ loafercreek$genhz <- generalize.hz(loafercreek$hzname, n, p)
 loafercreek$genhz[loafercreek$genhz == 'not-used'] <- NA
 loafercreek$genhz <- factor(loafercreek$genhz)
 
-# run 2x to compare scaling methods
-a.1 <- aggregateColor(loafercreek, 'genhz', scaling='horizon')
-a.2 <- aggregateColor(loafercreek, 'genhz', scaling='profile')
+# aggregate color data, this function is from the `aqp` package
+a <- aggregateColor(loafercreek, 'genhz')
 
-# plot results with helper function
+# plot
 par(mar=c(1,4,4,1))
-aggregateColorPlot(a.1,  main='normalized by horizon', print.n.hz = TRUE)
-aggregateColorPlot(a.2, main='normalized by profile')
-
-# aggregate results are the same using both scaling methods
-a.1$aggregate.data
-a.2$aggregate.data
+aggregateColorPlot(a, print.n.hz = TRUE)
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

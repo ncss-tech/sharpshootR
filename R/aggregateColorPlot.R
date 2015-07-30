@@ -1,7 +1,7 @@
 
 
 # x: results from aggregateColor()
-aggregateColorPlot <- function(x, label.font=1, label.cex=0.65, buffer.pct=0.02, print.n.hz=FALSE, rect.border='black', ...) {
+aggregateColorPlot <- function(x, print.label=TRUE, label.font=1, label.cex=0.65, buffer.pct=0.02, print.n.hz=FALSE, rect.border='black', horizontal.borders=FALSE, ...) {
  
   # extract just the scaled data from the results of aggregateColor()
   s.scaled <- x$scaled.data
@@ -44,12 +44,18 @@ aggregateColorPlot <- function(x, label.font=1, label.cex=0.65, buffer.pct=0.02,
       # convert text heights into equivelent widths
       text.heights <- text.heights / plot.asp
       # compare re-scaled text heights with rectangle widths (weights) + some buffer
-      print.label <- which(text.heights < (s.i$weight - buffer.pct) )
+      label.fits <- which(text.heights < (s.i$weight - buffer.pct) )
       
       # print labels
-      if(length(print.label) > 0)
-        text(x=centers[print.label], y=i, labels=color.labels[print.label], col='white', font=label.font, cex=label.cex, srt=90)
+      if(print.label & (length(label.fits) > 0))
+        text(x=centers[label.fits], y=i, labels=color.labels[label.fits], col='white', font=label.font, cex=label.cex, srt=90)
     }
+  }
+  
+  # add horizontal separator lines, typically used when rectange borders are not drawn
+  if(horizontal.borders){
+    hz.line.y <- 1:(length(names(s.scaled))-1) + 0.5
+    segments(x0 = 0, y0 = hz.line.y, x1 = 1, y1 = hz.line.y, lwd=2)
   }
   
   ## TODO: make these adjustable

@@ -1,6 +1,6 @@
 
 ## TODO: document and test
-constantDensitySampling <- function(x, n.pts.per.ac=1, min.samples=3, sampling.type='hexagonal', iterations=10, polygon.id='pID', ...) {
+constantDensitySampling <- function(x, polygon.id='pID', ...) {
   
   # retain proj4 information
   p4s <- proj4string(x)
@@ -12,7 +12,7 @@ constantDensitySampling <- function(x, n.pts.per.ac=1, min.samples=3, sampling.t
   #   stopCluster(cl)
   
   # sample and return a list, one element / valid polygon
-  res <- lapply(slot(x, 'polygons'), sample.by.poly, n.pts.per.ac=n.pts.per.ac, min.samples=min.samples, p4s=p4s, ...)
+  res <- lapply(slot(x, 'polygons'), sample.by.poly, p4s=p4s, ...)
   
   # this happens when there aren't enough sample points based on min.samples
   # check for NULL in this list-- cases where it was too difficult to place a point
@@ -58,7 +58,7 @@ constantDensitySampling <- function(x, n.pts.per.ac=1, min.samples=3, sampling.t
 # min.samples: minimum requested samples / polygon
 # iterations: number of sampling "tries"
 # ...: additional arguments to spsample
-sample.by.poly <- function(p, n.pts.per.ac=1, min.samples=5, sampling.type='hexagonal', iterations=10, p4s=NULL, ...) {
+sample.by.poly <- function(p, n.pts.per.ac=1, min.samples=5, sampling.type='hexagonal', iterations=10, p4s=NULL) {
   # convert _projected_ units to acres
   ac.i <- p@area * 2.47e-4
   # determine number of points based on requested density
@@ -67,7 +67,7 @@ sample.by.poly <- function(p, n.pts.per.ac=1, min.samples=5, sampling.type='hexa
   # polygon must be at least large enough to support requested number of samples
   if(n.samples >= min.samples) {
     # trap errors caused by bad geometry
-    s.i <- try(spsample(p, n=n.samples, type=sampling.type, iter=iterations, ...), silent=TRUE)
+    s.i <- try(spsample(p, n=n.samples, type=sampling.type, iter=iterations), silent=TRUE)
     
     # errors? return NULL
     if(class(s.i) == 'try-error')

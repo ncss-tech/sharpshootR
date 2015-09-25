@@ -1,5 +1,3 @@
-
-## TODO: document and test
 constantDensitySampling <- function(x, polygon.id='pID', ...) {
   
   # retain proj4 information
@@ -57,7 +55,7 @@ constantDensitySampling <- function(x, polygon.id='pID', ...) {
 # n: number of points per acre (results will be close)
 # min.samples: minimum requested samples / polygon
 # iterations: number of sampling "tries"
-# ...: additional arguments to spsample
+# p4s: proj4string assigned to SpatialPoints object
 sample.by.poly <- function(p, n.pts.per.ac=1, min.samples=5, sampling.type='hexagonal', iterations=10, p4s=NULL) {
   # convert _projected_ units to acres
   ac.i <- p@area * 2.47e-4

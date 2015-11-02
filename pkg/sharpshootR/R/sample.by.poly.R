@@ -16,7 +16,7 @@ constantDensitySampling <- function(x, polygon.id='pID', ...) {
   # check for NULL in this list-- cases where it was too difficult to place a point
   null.items <- which(sapply(res, is.null))
   if(length(null.items) > 0) {
-#     message('polygon too small for requested minumum number of samples')
+    message('some polygons were too small for the requested number of samples')
     res <- res[-null.items]
   }
     

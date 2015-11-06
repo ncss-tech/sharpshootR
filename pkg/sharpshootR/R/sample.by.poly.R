@@ -26,12 +26,12 @@ constantDensitySampling <- function(x, polygon.id='pID', ...) {
   for(i in seq_along(res)) {
     
     # number of points
-    n <- length(dimnames(res[[i]]@coords)[[1]])
+    n <- length(res[[i]])
     
     # new row names seq
     i.seq <- seq(from=(total + 1), to=(total + n))
     
-    # reset dimnames
+    # reset rownames
     dimnames(res[[i]]@coords)[[1]] <- as.character(i.seq)
     
     # increment counter

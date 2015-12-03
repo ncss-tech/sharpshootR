@@ -57,7 +57,9 @@ importFrom(soilDB,
 importFrom(sp,
   spsample,
   coordinates,
-  spTransform
+  spTransform,
+  over,
+  SpatialPointsDataFrame
 )
 
 importFrom(reshape2,

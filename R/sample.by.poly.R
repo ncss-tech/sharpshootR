@@ -43,7 +43,7 @@ constantDensitySampling <- function(x, polygon.id='pID', ...) {
     res <- do.call('rbind', res)
   
   # upgrade to SPDF with polygon ID
-  pID.df <- over(res, x)[, polygon.id, drop=FALSE]
+  pID.df <- sp::over(res, x)[, polygon.id, drop=FALSE]
   res <- SpatialPointsDataFrame(res, data=pID.df)
 
   return(res)

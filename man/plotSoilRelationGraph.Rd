@@ -1,5 +1,7 @@
 \name{plotSoilRelationGraph}
 \alias{plotSoilRelationGraph}
+\alias{plotSoilRelationChordGraph}
+
 \title{Plot a component relation graph}
 \description{Plot a component relation graph based on an adjacency or similarity matrix.}
 \usage{

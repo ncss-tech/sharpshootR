@@ -1,3 +1,19 @@
+# R 3.0 compatibility:
+
+importFrom("grDevices", "colorRampPalette", "grey")
+
+importFrom("graphics", "abline", "arrows", "axis", "image", "layout",
+             "legend", "lines", "mtext", "par", "points", "rect",
+             "segments", "strheight", "text")
+
+importFrom("methods", "as", "slot")
+
+importFrom("stats", "as.dendrogram", "as.formula", "as.hclust",
+             "complete.cases", "cutree", "density", "lm", "median",
+             "na.omit", "predict", "quantile")
+
+importFrom("utils", "URLencode", "download.file", "read.csv")
+
 # TODO: make these more specific
 import(aqp)
 import(ape)

@@ -1,6 +1,5 @@
 \name{sample.by.poly}
 \alias{sample.by.poly}
-\alias{constantDensitySampling}
 
 \title{Sample a Polygon at Fixed Density}
 \description{Generate sampling points within a SpatialPolygon object, according to a specified sampling density.}

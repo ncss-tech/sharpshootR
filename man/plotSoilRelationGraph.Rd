@@ -4,9 +4,10 @@
 \title{Plot a component relation graph}
 \description{Plot a component relation graph based on an adjacency or similarity matrix.}
 \usage{
-plotSoilRelationGraph(m, s='', plot.style='network', spanning.tree=NULL, 
-del.edges=NULL, vertex.scaling.factor=2, edge.scaling.factor=1, 
-edge.transparency=1, edge.col=grey(0.5), edge.highlight.col='royalblue', 
+plotSoilRelationGraph(m, s='', plot.style='network', graph.mode='upper', 
+spanning.tree=NULL, del.edges=NULL, vertex.scaling.factor=2, 
+edge.scaling.factor=1, edge.transparency=1, edge.col=grey(0.5), 
+edge.highlight.col='royalblue', 
 g.layout=layout.fruchterman.reingold,
 ...)
 }
@@ -15,6 +16,7 @@ g.layout=layout.fruchterman.reingold,
   \item{m}{adjacency matrix}
   \item{s}{central component; an empty character string is interpreted as no central component}
   \item{plot.style}{plot style ('network', or 'dendrogram'), or 'none' for no graphical output}
+  \item{graph.mode}{interpretation of adjacency matrix: 'upper' or 'directed', see details}
   \item{spanning.tree}{plot the minimim or maximum spaning tree ('min', 'max'), or, max spanning tree plus edges with weight greater than the n-th quantile specified in `spanning.tree`. See details and examples.}
   \item{del.edges}{optionally delete edges with weights less than the specified quantile (0-1)}
   \item{vertex.scaling.factor}{scaling factor applied to vertex size}
@@ -30,7 +32,9 @@ g.layout=layout.fruchterman.reingold,
 
 \details{Vertex size is based on a normalized index of connectivity: size = sqrt(degree(g)/max(degree(g))) * scaling.factor. Edge width can be optionally scaled by edge weight by specifying an \code{edge.scaling.factor} value. The maximum spanning tree represents a sub-graph where the sum of edge weights are maximized. The mimimum spanning tree represents a sub-graph where the sum of edge weights are minimized. The maximum spanning tree is likely a more useful simplification of the full graph, in which only the strongest relationships (e.g. most common co-occurrences) are preserved.
 
-The maximum spanning tree + edges with weights > n-th quantile is an experimental hybrid. The 'backbone' of the graph is created by the maximum spanning tree, and augmented by 'strong' auxillary edges-- defined by a value between 0 and 1.}
+The maximum spanning tree + edges with weights > n-th quantile is an experimental hybrid. The 'backbone' of the graph is created by the maximum spanning tree, and augmented by 'strong' auxillary edges-- defined by a value between 0 and 1.
+
+The \code{graph.mode} argument is passed to \code{igraph::graph_from_adjacency_matrix()} and determines how vertex relationships are coded in the adjacency matrix \code{m}. Typically, the default value of 'upper' (the upper triangle of \code{m} contains adjacency information) is the desired mode. If \code{m} contains directional information, set \code{graph.mode} to 'directed'. This has the side-effect of altering the default community detection algorithm from \code{igraph::cluster_fast_greedy} to \code{igraph::cluster_walktrap}.}
 
 \value{an igraph `graph` object is invisibly returned}
 

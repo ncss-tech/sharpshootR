@@ -8,7 +8,7 @@ plotSoilRelationGraph(m, s='', plot.style='network', graph.mode='upper',
 spanning.tree=NULL, del.edges=NULL, vertex.scaling.factor=2, 
 edge.scaling.factor=1, edge.transparency=1, edge.col=grey(0.5), 
 edge.highlight.col='royalblue', 
-g.layout=layout.fruchterman.reingold,
+g.layout=layout_with_fr,
 ...)
 }
 
@@ -24,7 +24,7 @@ g.layout=layout.fruchterman.reingold,
   \item{edge.transparency}{optional transparency setting for edges (0-1)}
   \item{edge.col}{edge color, applied to all edges}
   \item{edge.highlight.col}{edge color applied to all edges connecting to component named in \code{s}}
-  \item{g.layout}{an igraph layout function, defaults to \code{layout.fruchterman.reingold}}
+  \item{g.layout}{an igraph layout function, defaults to \code{layout_with_fr}}
   \item{\dots}{further arguments passed to plotting function}
 }
 

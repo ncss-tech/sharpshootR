@@ -37,7 +37,7 @@ importFrom(igraph,
   cluster_walktrap,
   cluster_fast_greedy,
   membership,
-  layout.fruchterman.reingold,
+  layout_with_fr,
   dendPlot,
   plot.igraph
 )

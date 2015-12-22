@@ -7,6 +7,10 @@
 
 ## NOTE: dendrogram representation of community structure is only possible with some community detection algorithms
 
+## TODO: investigate some heuristics for layout algorithm selection:
+### layout_with_fr works most of the time
+### layout_with_lgl works for most large graphs, but not when there are many disconnected sub-graphs
+
 .maximum.spanning.tree <- function(x){
   # convert cost representation of weights to "strength"
   E(x)$weight <- -1 * E(x)$weight
@@ -19,14 +23,40 @@
 
 # dendrogram representation relies on ape plotting functions
 # ... are passed onto plot.igraph or plot.phylo
-plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upper', spanning.tree=NULL, del.edges=NULL, vertex.scaling.factor=2, edge.scaling.factor=1, edge.transparency=1, edge.col=grey(0.5), edge.highlight.col='royalblue', g.layout=layout.fruchterman.reingold, ...) {
+# 2015-12-22: swap layout algorithms when > 20 individuals
+plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upper', spanning.tree=NULL, del.edges=NULL, vertex.scaling.factor=2, edge.scaling.factor=1, edge.transparency=1, edge.col=grey(0.5), edge.highlight.col='royalblue', g.layout=layout_with_fr, ...) {
 	
   # dumb hack to make R CMD check happy
   weight <- NULL
   
 	# generate graph
-	g <- graph.adjacency(m, mode=graph.mode, weighted=TRUE, )
+	g <- graph.adjacency(m, mode=graph.mode, weighted=TRUE)
   
+	### TODO ###
+	## figure out some hueristics for selecting a method: layout_with_fr is almost always the best one
+	
+	# when there are many clusters, layout_with_lgl doesn't work properly
+	# switch back to layout_with_fr when > 5
+	# g.n.clusters <-  clusters(g)$no
+	
+	# maybe this can be used as a hueristic as well:
+	# betweenness(g)
+	
+# 	# select layout if not provided
+# 	if(missing(g.layout)) {
+# 	  if(dim(m)[1] > 20 & g.n.clusters < 5) {
+# 	    g.layout <- layout_with_lgl
+# 	    message('layout: Large Graph Layout algorithm')
+# 	  }
+# 	  
+# 	  else {
+# 	    g.layout <- layout_with_fr
+# 	    message('layout: Fruchterman-Reingold algorithm')
+# 	  }
+# 	  
+# 	}
+	### TODO ###
+	
   # optionally prune weak edges less than threshold quantile
   if(!is.null(del.edges))
 	  g <- delete.edges(g, E(g) [ weight < quantile(weight, del.edges) ])

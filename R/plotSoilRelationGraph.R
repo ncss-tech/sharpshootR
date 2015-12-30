@@ -153,7 +153,7 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upp
 		plot(g, layout=g.layout, vertex.size=v.size, vertex.label.color='black', vertex.label.font=font.vect, ...)
 		}
 	if(plot.style == 'dendrogram') {
-		dendPlot(g.com, label.offset=0.1, font=font.vect, col='black', colbar=cols, ...)
+	  plot_dendrogram(g.com, mode='phylo', use.modularity = TRUE, label.offset=0.1, font=font.vect, palette=cols, ...)
 		}
   
   # invisibly return the graph

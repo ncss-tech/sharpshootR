@@ -111,12 +111,17 @@ diagnosticPropertyPlot <- function(f, v, k, grid.label='pedon_id', dend.label='p
 }
 
 
-
+# similar version with lattice
 diagnosticPropertyPlot2 <- function(f, v, k, grid.label='pedon_id') {
   
-  ## TODO: implement this
   # setup colors
-  cols <- colorRampPalette(brewer.pal(n=9, name='Set1'))(k)
+  if(k <= 9 & k > 2) 
+    cols <- brewer.pal(n=k, name='Set1') 
+  if(k < 3) 
+    cols <- brewer.pal(n=3, name='Set1')
+  if(k > 9)
+    cols <- colorRampPalette(brewer.pal(n=9, name='Set1'))(k)
+  
   
   # get internal, unique ID
   id <- idname(f)
@@ -189,8 +194,8 @@ diagnosticPropertyPlot2 <- function(f, v, k, grid.label='pedon_id') {
   colorkey = FALSE, 
   scales=list(tck=0, x=list(rot=90), y=list(at=1:length(o.profiles), labels=s.gl[o.profiles])),
   legend=list(
-      right=list(fun=dendrogramGrob, args=list(x = as.dendrogram(h.profiles), side="right", size=15, add=list(
-        rect=list(fill=h.cut, cex=0.5)))),
+      right=list(fun=dendrogramGrob, args=list(x = as.dendrogram(h.profiles), side="right", size=10, add=list(
+        rect=list(fill=cols[h.cut])))),
       top=list(fun=dendrogramGrob, args=list(x=as.dendrogram(h.vars), side="top", size=4))
       ),
   panel=function(...) {

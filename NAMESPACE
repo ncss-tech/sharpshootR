@@ -38,7 +38,7 @@ importFrom(igraph,
   cluster_fast_greedy,
   membership,
   layout_with_fr,
-  dendPlot,
+  plot_dendrogram,
   plot.igraph
 )
 

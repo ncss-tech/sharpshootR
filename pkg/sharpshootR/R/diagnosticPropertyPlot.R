@@ -1,10 +1,13 @@
 ## TODO: figure out a better approach for alignment of dendrogram / image axis labels
+## TODO: fix sort.vars behavior...
+
 
 # f: SPC with diagnostic boolean variables
 # v: named variables
 # k: number of groups to highlight
 # id: id to print next to dendrogram
-diagnosticPropertyPlot <- function(f, v, k, grid.label='pedon_id', dend.label='pedon_id') {
+# sort.vars: should variables be sorted according to similarity?
+diagnosticPropertyPlot <- function(f, v, k, grid.label='pedon_id', dend.label='pedon_id', sort.vars=TRUE) {
   
   # setup colors
   if(k <= 9 & k > 2) 
@@ -89,8 +92,12 @@ diagnosticPropertyPlot <- function(f, v, k, grid.label='pedon_id', dend.label='p
   # order of profiles in dendrogram
   o.profiles <- h.profiles$order
   
+  ## TODO this isn't working as expected
   # vector of variable names as plotted in dendrogram
-  o.vars <- h.vars$order
+  if(sort.vars)
+    o.vars <- h.vars$order
+  else
+    o.vars <- 1:length(v)
   
   # plot image matrix, with rows re-ordered according to dendrogram
   par(mar=c(1,6,6,1))

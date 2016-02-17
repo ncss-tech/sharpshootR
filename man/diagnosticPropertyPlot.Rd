@@ -5,8 +5,9 @@
 \title{Diagnostic Property Plot}
 \description{Generate a graphical description of the presence/absence of soil diagnostic properties.}
 \usage{
-diagnosticPropertyPlot(f, v, k, grid.label='pedon_id', dend.label='pedon_id')
-diagnosticPropertyPlot2(f, v, k, grid.label='pedon_id')
+diagnosticPropertyPlot(f, v, k, grid.label='pedon_id', 
+dend.label='pedon_id', sort.vars=TRUE)
+diagnosticPropertyPlot2(f, v, k, grid.label='pedon_id', sort.vars=TRUE)
 }
 
 \arguments{
@@ -15,6 +16,7 @@ diagnosticPropertyPlot2(f, v, k, grid.label='pedon_id')
   \item{k}{an integer, number of groups to highlight}
   \item{grid.label}{the name of a site-level attribute (usually unique) annotating the y-axis of the grid}
   \item{dend.label}{the name of a site-level attribute (usually unique) annotating dendrogram terminal leaves}
+  \item{sort.vars}{sort variables according to natural clustering (TRUE), or use supplied ordering in \code{v} (FALSE)}
 }
 
 \details{This function attempts to display several pieces of information within a single figure. First, soil profiles are sorted according to the presence/absence of diagnostic features named in \code{v}. Second, these diagnostic features are sorted according to their distribution among soil profiles. Third, a binary grid is established with row-ordering of profiles based on step 1 and column-ordering based on step 2. Blue cells represent the presence of a diagnostic feature. Soils with similar diagnostic features should 'clump' together. See examples below.}
@@ -33,6 +35,8 @@ diagnosticPropertyPlot2(f, v, k, grid.label='pedon_id')
 
 \examples{
 \dontrun{
+library(aqp)
+
 # sample data, an SPC
 data(gopheridge, package='soilDB')
 

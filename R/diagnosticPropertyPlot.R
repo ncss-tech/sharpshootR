@@ -119,7 +119,7 @@ diagnosticPropertyPlot <- function(f, v, k, grid.label='pedon_id', dend.label='p
 
 
 # similar version with lattice
-diagnosticPropertyPlot2 <- function(f, v, k, grid.label='pedon_id') {
+diagnosticPropertyPlot2 <- function(f, v, k, grid.label='pedon_id', sort.vars=TRUE) {
   
   # setup colors
   if(k <= 9 & k > 2) 
@@ -188,8 +188,12 @@ diagnosticPropertyPlot2 <- function(f, v, k, grid.label='pedon_id') {
   # order of profiles in dendrogram
   o.profiles <- h.profiles$order
   
+  ## TODO this isn't working as expected
   # vector of variable names as plotted in dendrogram
-  o.vars <- h.vars$order
+  if(sort.vars)
+    o.vars <- h.vars$order
+  else
+    o.vars <- 1:length(v)
   
   # set factor levels for ordering of level plot
   m.plot.long$id <- factor(m.plot.long$id, levels=m.plot$id[o.profiles])

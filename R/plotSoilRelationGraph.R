@@ -103,7 +103,7 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upp
 
 	# adjust size of vertex based on sqrt(degree / max(degree))
   g.degree <- degree(g)
-	v.size <- sqrt(g.degree/max(g.degree)) * 10 * vertex.scaling.factor
+	V(g)$size <- sqrt(g.degree/max(g.degree)) * 10 * vertex.scaling.factor
   
   # optionally adjust edge width based on weight
   if(!missing(edge.scaling.factor))
@@ -150,7 +150,7 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upp
 	
 	if(plot.style == 'network') {
 		set.seed(1010101) # consistant output
-		plot(g, layout=g.layout, vertex.size=v.size, vertex.label.color='black', vertex.label.font=font.vect, ...)
+		plot(g, layout=g.layout, vertex.label.color='black', vertex.label.font=font.vect, ...)
 		}
 	if(plot.style == 'dendrogram') {
 	  plot_dendrogram(g.com, mode='phylo', label.offset=0.1, font=font.vect, palette=cols, ...)

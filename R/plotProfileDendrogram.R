@@ -1,8 +1,12 @@
 
+## TODO: allow for multiple clustering methods
 ## TODO: move more hard-coded geom elements to arguments / heuristics
 ## NOTE: distance matrix must be scaled to approximately {0,1}
+# x: SPC object
+# dend: phylo object
 plotProfileDendrogram <- function(x, d, scaling.factor=0.01, width=0.1, y.offset=0.1, dend.y.scale=2, ...) {
-  # convert to phylo class
+  
+  # cluster by divisive method
   d.hclust <- as.hclust(diana(d))
   dend <- as.phylo(d.hclust)
   

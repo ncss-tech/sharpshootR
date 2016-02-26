@@ -7,7 +7,6 @@ plotProfileDendrogram <- function(x, d, scaling.factor=0.01, width=0.1, y.offset
   dend <- as.phylo(d.hclust)
   
   # setup plot and add dendrogram
-  par(mar=c(0,0,0,0))
   plot(dend, cex=0.8, direction='up', y.lim=c(dend.y.scale, 0), x.lim=c(0.5, length(x)+1), show.tip.label=FALSE)
   
   # get the last plot geometry

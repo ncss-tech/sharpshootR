@@ -4,7 +4,7 @@
 ## NOTE: distance matrix should be scaled to approximately {0,1}
 # x: SPC object
 # clust: a hierachical clustering object from cluster package agnes() or diana()
-plotProfileDendrogram <- function(x, clust, scaling.factor=0.01, width=0.1, y.offset=0.1, dend.y.scale=2, debug=FALSE, ...) {
+plotProfileDendrogram <- function(x, clust, scaling.factor=0.01, width=0.1, y.offset=0.1, dend.y.scale= max(clust, na.rm=TRUE) * 2, debug=FALSE, ...) {
   
   # sanity check: must be either agnes or diana object
   if(! inherits(clust, c('agnes','diana')))

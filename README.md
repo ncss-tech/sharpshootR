@@ -12,6 +12,3 @@ Install the development version from Github:
 
 `devtools::install_github("ncss-tech/sharpshootR")`
 
-
-
-

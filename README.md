@@ -6,7 +6,7 @@
 
 Install the stable version from CRAN:
 
-`install_packages('sharpshootR')`
+`install.packages('sharpshootR')`
 
 Install the development version from Github:
 

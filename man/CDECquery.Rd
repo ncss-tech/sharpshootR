@@ -9,7 +9,7 @@
 \arguments{
   \item{id}{station ID (e.g. 'spw'), see details}
   \item{sensor}{the sensor ID (e.g. 45), see details}
-  \item{interval}{character, 'D' for daily, 'H' for hourly, 'M' for monthly}
+  \item{interval}{character, 'D' for daily, 'H' for hourly, 'M' for monthly, 'E' for event: see Details.}
   \item{start}{starting date, in the format 'YYYY-MM-DD'}
   \item{end}{ending date, in the format 'YYYY-MM-DD'}
 }
@@ -25,6 +25,8 @@
   \item{3.}{Resevoir capacities can be found here: \url{http://cdec.water.ca.gov/misc/resinfo.html}}
   \item{4.}{A new interactive map of CDEC stations can be found here: \url{http://cdec.water.ca.gov/cdecstation/}}
 }
+
+Sensors that report data on an \code{interval} other than monthly ('M'), daily ('D'), or hourly ('H') can be queried with an `event` interval ('E'). Soil moisture and temperature sensors are an example of this type of reporting. See examples below.
 }
 
 
@@ -122,9 +124,18 @@ levelplot(value ~ year * month, data=x, col.regions=cols, xlab='',
 ylab='', scales=list(x=list(tick.number=20)), main='Monthly Total Precipitation (inches) SOR')
 
 
+### query an 'event' type sensor
+# Bryte test site (BYT)
+# air temperature and soil temperature at depth 1 (25cm)
+# measurement interval is 20 minutes
+x.air <- CDECquery('BYT', 4, 'E', '2016-01-01', '2017-01-01')
+x.soil.25 <- CDECquery('BYT', 194, 'E', '2016-01-01', '2017-01-01')
 
+# combine
+g <- make.groups(air=x.air, soil.25=x.soil.25)
 
-
+xyplot(value ~ datetime, groups=which, data=g, type=c('g', 'l'),
+auto.key=list(columns=2, points=FALSE, lines=TRUE))
 }
 }
 

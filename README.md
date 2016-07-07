@@ -11,3 +11,8 @@ Install the stable version from CRAN:
 Install the development version from Github:
 
 `devtools::install_github("ncss-tech/sharpshootR", dependencies=FALSE, upgrade_dependencies=FALSE)`
+
+
+## Related Packages
+ * [aqp](https://github.com/ncss-tech/aqp)
+ * [sharpshootR](https://github.com/ncss-tech/sharpshootR)

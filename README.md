@@ -37,4 +37,4 @@ aggregateColorPlot(a, print.n.hz = TRUE)
 
 ## Related Packages
  * [aqp](https://github.com/ncss-tech/aqp)
- * [sharpshootR](https://github.com/ncss-tech/sharpshootR)
+ * [soilDB](https://github.com/ncss-tech/soilDB)

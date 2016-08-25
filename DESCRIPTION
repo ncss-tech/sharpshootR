@@ -2,13 +2,13 @@ Package: sharpshootR
 Type: Package
 Title: A Soil Survey Toolkit
 Description: Miscellaneous soil data management, summary, visualization, and conversion utilities to support soil survey.
-Version: 0.9.7
-Date: 2016-08-16
+Version: 0.9.8
+Date: 2016-08-25
 Author: USDA-NRCS Soil Survey Staff
 Maintainer: Dylan Beaudette <dylan.beaudette@ca.usda.gov>
 License: GPL (>= 2)
 Repository: CRAN
 URL: https://github.com/ncss-tech/sharpshootR
-Suggests: MASS, rgdal, spdep, circlize
+Suggests: MASS, rgdal, spdep, circlize, rvest
 Depends: R (>= 3.0.0)
 Imports: grDevices, graphics, methods, stats, utils, aqp, ape, soilDB, igraph, cluster, lattice, latticeExtra, vegan, sp, reshape2, Hmisc, scales, circular, RColorBrewer, plyr, digest

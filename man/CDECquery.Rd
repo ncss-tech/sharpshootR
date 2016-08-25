@@ -21,7 +21,8 @@
 \details{
 \describe{
   \item{1.}{Station IDs can be found here: \url{http://cdec.water.ca.gov/staInfo.html}}
-  \item{2.}{Sensor IDs can be found using this URL: \url{http://cdec.water.ca.gov/cgi-progs/queryCSV?station_id=}, followed by the station ID.}
+  \item{2a.}{Sensor IDs can be found using this URL: \url{http://cdec.water.ca.gov/cgi-progs/queryCSV?station_id=}, followed by the station ID.}
+  \item{2b.}{Sensor details can be accessed using \code{\link{CDEC_StationInfo} with the station ID.}
   \item{3.}{Resevoir capacities can be found here: \url{http://cdec.water.ca.gov/misc/resinfo.html}}
   \item{4.}{A new interactive map of CDEC stations can be found here: \url{http://cdec.water.ca.gov/cdecstation/}}
 }
@@ -31,7 +32,7 @@ Sensors that report data on an \code{interval} other than monthly ('M'), daily (
 
 
 \seealso{
-\code{\link{CDECsnowQuery}}
+\code{\link{CDECsnowQuery}}, \code{\link{CDEC_StationInfo}}
 }
 
 \examples{

@@ -75,7 +75,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
     proj4string(e.r) <- proj4string(raster.list[[i]])
     
     # transform MU extent to CRS of current raster
-    e.mu.r <- spTransform(e.mu, rgdal::CRS(proj4string(e.r)))
+    e.mu.r <- spTransform(e.mu, CRS(proj4string(e.r)))
     
     # check for complete containment of MU by current raster
     raster.containment.test[i] <- rgeos::gContainsProperly(e.r, e.mu.r)

@@ -24,7 +24,7 @@
   \item{2a.}{Sensor IDs can be found using this URL: \url{http://cdec.water.ca.gov/cgi-progs/queryCSV?station_id=}, followed by the station ID.}
   \item{2b.}{Sensor details can be accessed using \code{\link{CDEC_StationInfo} with the station ID.}}
   \item{3.}{Resevoir capacities can be found here: \url{http://cdec.water.ca.gov/misc/resinfo.html}}
-  \item{4.}{A new interactive map of CDEC stations can be found here: \url{http://cdec.water.ca.gov/cdecstation/}}
+  \item{4.}{A new interactive map of CDEC stations can be found here: \url{http://cdec.water.ca.gov}}
 }
 
 Sensors that report data on an \code{interval} other than monthly ('M'), daily ('D'), or hourly ('H') can be queried with an `event` interval ('E'). Soil moisture and temperature sensors are an example of this type of reporting. See examples below.

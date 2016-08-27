@@ -127,7 +127,7 @@ importFrom(plyr,
 
 importFrom(raster, 
   raster,
-  readALL,
+#  readAll,
   extract,
   inMemory,
   filename

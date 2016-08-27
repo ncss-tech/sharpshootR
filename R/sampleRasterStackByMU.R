@@ -43,7 +43,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   
   for(i in 1:length(nm)) {
     # attempt reading into memory
-    r <- try(readAll(raster.list[[i]]), silent = TRUE)
+    r <- try(raster::readAll(raster.list[[i]]), silent = TRUE)
     # if successful, move into list
     if(class(r) == 'RasterLayer' )
       raster.list[[i]] <- r
@@ -77,7 +77,6 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
     raster.containment.test[i] <- gContainsProperly(e.r, e.mu.r)
   }
   if(any(! raster.containment.test))
-    warning('one or more raster layers does not completely cover map unit polygons')
   
   
   ##

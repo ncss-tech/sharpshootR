@@ -12,7 +12,7 @@ importFrom("stats", "as.dendrogram", "as.formula", "as.hclust",
              "complete.cases", "cutree", "density", "lm", "median",
              "na.omit", "predict", "quantile")
 
-importFrom("utils", "URLencode", "download.file", "read.csv")
+importFrom("utils", "URLencode", "download.file", "read.csv", "setTxtProgressBar", "txtProgressBar")
 
 # TODO: make these more specific
 import(aqp)
@@ -47,6 +47,10 @@ importFrom(cluster,
   diana
 )
 
+importFrom(rgeos,
+  gContainsProperly
+)
+
 importFrom(lattice,
   levelplot,
   panel.levelplot,
@@ -76,7 +80,8 @@ importFrom(sp,
   coordinates,
   spTransform,
   over,
-  SpatialPointsDataFrame
+  SpatialPointsDataFrame,
+  is.projected
 )
 
 importFrom(reshape2,
@@ -115,8 +120,17 @@ importFrom(RColorBrewer,
 
 importFrom(plyr, 
   dlply,
+  ldply,
   ddply,
   summarise
+)
+
+importFrom(raster, 
+  raster,
+  readALL,
+  extract,
+  inMemory,
+  filename
 )
 
 exportPattern("^[^\\.]")

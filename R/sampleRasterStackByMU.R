@@ -57,6 +57,30 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   
   
   ##
+  ## check that raster extent completely covers mu extent
+  ##
+  
+  # get MU extent, in original CRS
+  e.mu <- as(extent(mu), 'SpatialPolygons')
+  proj4string(e.mu) <- proj4string(mu)
+  
+  raster.containment.test <- vector(mode='logical', length=length(nm))
+  for(i in 1:length(nm)) {
+    # get current raster extent in original CRS
+    e.r <-as(extent(raster.list[[i]]), 'SpatialPolygons')
+    proj4string(e.r) <- proj4string(raster.list[[i]])
+    
+    # transform MU extent to CRS of current raster
+    e.mu.r <- spTransform(e.mu, CRS(proj4string(e.r)))
+    
+    # check for complete containment of MU by current raster
+    raster.containment.test[i] <- gContainsProperly(e.r, e.mu.r)
+  }
+  if(any(! raster.containment.test))
+    warning('one or more raster layers does not completely cover map unit polygons')
+  
+  
+  ##
   ## iterate over map units, sample, extract raster values
   ##
   message('Sampling polygons, and extracting raster values...')
@@ -142,7 +166,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   # get raster summary
   rs <- sapply(raster.list, filename)
   rs <- gsub('\\\\', '/', rs)
-  rs <- data.frame(Variable=names(rs), File=rs, inMemory=as.character(sapply(raster.list, inMemory)))
+  rs <- data.frame(Variable=names(rs), File=rs, inMemory=as.character(sapply(raster.list, inMemory)), ContainsMU=raster.containment.test)
   
   # combine into single object and result
   return(list('raster.samples'=d.mu, 'area.stats'=mu.area, 'unsampled.ids'=unsampled.idx, 'raster.summary'=rs))

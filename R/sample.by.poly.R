@@ -24,7 +24,12 @@ constantDensitySampling <- function(x, polygon.id='pID', ...) {
     message('some polygons were too small for the requested number of samples')
     res <- res[-null.items]
   }
-    
+  
+  # if there are no polygons large enough to sample, return NULL
+  if(length(res) < 1)
+    return(NULL)
+  
+  
   # when rbind-ing the result there is an error related to duplicate rownames
   # reset with running counter
   total <- 0

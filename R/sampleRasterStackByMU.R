@@ -12,6 +12,10 @@
 
 sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre, p=c(0, 0.05, 0.25, 0.5, 0.75, 0.95, 1), progress=TRUE) {
   
+  # sanity check: package requirements
+  if(!requireNamespace('rgdal') | !requireNamespace('rgeos') | !requireNamespace('raster'))
+    stop('please install the `spdep` package', call. = FALSE)
+    
   # enforce projected CRS
   if(!is.projected(mu))
     stop('map unit polygons must be in a projected CRS', call.=FALSE)
@@ -23,7 +27,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   
   # load pointers to raster data
   raster.list <- lapply(raster.list, function(i) {
-    i <- try(raster(i))
+    i <- try(raster::raster(i))
     if(class(i) == 'try-error')
       stop(paste0('Cannot find raster file: ', i), call. = FALSE)
     else
@@ -61,20 +65,20 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   ##
   
   # get MU extent, in original CRS
-  e.mu <- as(extent(mu), 'SpatialPolygons')
+  e.mu <- as(raster::extent(mu), 'SpatialPolygons')
   proj4string(e.mu) <- proj4string(mu)
   
   raster.containment.test <- vector(mode='logical', length=length(nm))
   for(i in 1:length(nm)) {
     # get current raster extent in original CRS
-    e.r <-as(extent(raster.list[[i]]), 'SpatialPolygons')
+    e.r <-as(raster::extent(raster.list[[i]]), 'SpatialPolygons')
     proj4string(e.r) <- proj4string(raster.list[[i]])
     
     # transform MU extent to CRS of current raster
-    e.mu.r <- spTransform(e.mu, CRS(proj4string(e.r)))
+    e.mu.r <- spTransform(e.mu, rgdal::CRS(proj4string(e.r)))
     
     # check for complete containment of MU by current raster
-    raster.containment.test[i] <- gContainsProperly(e.r, e.mu.r)
+    raster.containment.test[i] <- rgeos::gContainsProperly(e.r, e.mu.r)
   }
   if(any(! raster.containment.test))
   
@@ -120,7 +124,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
       l <- list()
       for(i in seq_along(raster.list)) {
         i.name <- names(raster.list)[i]
-        l[[i.name]] <- data.frame(value=extract(raster.list[[i]], s), pID=s$pID, sid=s$sid)
+        l[[i.name]] <- data.frame(value=raster::extract(raster.list[[i]], s), pID=s$pID, sid=s$sid)
       }
       
       # convert to DF and fix default naming of raster column
@@ -163,9 +167,9 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   mu.area <- ldply(a.mu)
   
   # get raster summary
-  rs <- sapply(raster.list, filename)
+  rs <- sapply(raster.list, raster::filename)
   rs <- gsub('\\\\', '/', rs)
-  rs <- data.frame(Variable=names(rs), File=rs, inMemory=as.character(sapply(raster.list, inMemory)), ContainsMU=raster.containment.test)
+  rs <- data.frame(Variable=names(rs), File=rs, inMemory=as.character(sapply(raster.list, raster::inMemory)), ContainsMU=raster.containment.test)
   
   # combine into single object and result
   return(list('raster.samples'=d.mu, 'area.stats'=mu.area, 'unsampled.ids'=unsampled.idx, 'raster.summary'=rs))

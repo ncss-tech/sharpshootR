@@ -47,9 +47,6 @@ importFrom(cluster,
   diana
 )
 
-importFrom(rgeos,
-  gContainsProperly
-)
 
 importFrom(lattice,
   levelplot,
@@ -78,10 +75,11 @@ importFrom(soilDB,
 importFrom(sp,
   spsample,
   coordinates,
-  spTransform,
   over,
   SpatialPointsDataFrame,
-  is.projected
+  is.projected,
+  CRS,
+  spTransform
 )
 
 importFrom(reshape2,
@@ -125,12 +123,5 @@ importFrom(plyr,
   summarise
 )
 
-importFrom(raster, 
-  raster,
-#  readAll,
-  extract,
-  inMemory,
-  filename
-)
 
 exportPattern("^[^\\.]")

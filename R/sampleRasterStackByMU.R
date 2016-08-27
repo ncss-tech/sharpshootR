@@ -6,9 +6,11 @@
 # mu: map unit polygons, in projected CRS
 # mu.set: character vector of map units to work on
 # mu.col: column used to subset map units
-# raster.list: 
+# raster.list: see formatting in mu summary reports
+# p: requested percentiles
+# progress: print progress bar?
 
-sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre, progress=TRUE) {
+sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre, p=c(0, 0.05, 0.25, 0.5, 0.75, 0.95, 1), progress=TRUE) {
   
   # enforce projected CRS
   if(!is.projected(mu))
@@ -106,7 +108,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
       a <- sapply(slot(mu.i.sp, 'polygons'), slot, 'area') * 2.47e-4
       
       # compute additional summaries
-      .quantiles <- quantile(a, probs=c(0, 0.05, 0.25, 0.5, 0.75, 0.95, 1))
+      .quantiles <- quantile(a, probs=p)
       .total.area <- sum(a)
       .samples <- nrow(s)
       .mean.sample.density <- round(.samples / .total.area, 2)

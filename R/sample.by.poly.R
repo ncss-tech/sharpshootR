@@ -1,5 +1,10 @@
 constantDensitySampling <- function(x, polygon.id='pID', ...) {
   
+  # sanity check: this must be a projected CRS
+  if(!is.projected(x)) {
+    stop('input polygons must be in a projected coordinate system with units of meters', call. = FALSE)
+  }
+  
   # retain proj4 information
   p4s <- proj4string(x)
   

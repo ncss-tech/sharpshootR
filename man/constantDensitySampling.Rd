@@ -8,7 +8,7 @@ constantDensitySampling(x, polygon.id = "pID", ...)
 }
 
 \arguments{
-  \item{x}{a \code{SpatialPolygonsDataFrame} object}
+  \item{x}{a \code{SpatialPolygonsDataFrame} object in a projected CRS with units of meters}
   \item{polygon.id}{name of attribute in \code{x} that contains a unique ID for each polygon}
   \item{\dots}{further arguments to \code{sample.by.poly}}
 }

@@ -1,4 +1,10 @@
 
+## TODO:
+## 1. multi-core sampling?
+## 2. save intermediate results to disk if # of samples could result in out of memory errors
+## 3. what is faster: repeated calls to extract() for each MU, or single call to extract?
+
+
 ## load raster stack into memory if possible
 ## perform constant density sampling across subsets of map units
 ## extract raster values from stack

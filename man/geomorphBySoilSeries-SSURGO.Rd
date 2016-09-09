@@ -2,11 +2,15 @@
 \alias{hillslope.probability}
 \alias{hillslopeProbability}
 \alias{surfaceShapeProbability}
+\alias{geomPosHillProbability}
+\alias{geomPosMountainProbability}
 \title{Geomorphic Position Probability via SDA}
 \description{Hillslope position probability estimates from the SDA query service (SSURGO)}
 \usage{
 hillslopeProbability(s, replaceNA=TRUE)
 surfaceShapeProbability(s, replaceNA=TRUE)
+geomPosHillProbability(s, replaceNA=TRUE)
+geomPosMountainProbability(s, replaceNA=TRUE)
 }
 \arguments{
   \item{s}{a character vector of soil series names, automatically normalized to upper case}

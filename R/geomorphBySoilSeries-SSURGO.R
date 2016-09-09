@@ -1,3 +1,108 @@
+# s: vector of soil series names
+# replaceNA: convert missing categories into 0 probabilities
+geomPosMountainProbability <- function(s, replaceNA=TRUE) {
+  # format IN statement, convert to upper case for comp name normalization
+  in.statement <- format_SQL_in_statement(toupper(s))
+  
+  # format query
+  q <- paste("
+             SELECT a.compname, q_param, q_param_n, total, round(q_param_n / total, 2) AS p
+             FROM
+             (
+             SELECT UPPER(compname) AS compname, geomposmntn as q_param, CAST(count(geomposmntn) AS numeric) AS q_param_n
+             FROM component 
+             LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
+             LEFT JOIN cosurfmorphgc on cogeomordesc.cogeomdkey = cosurfmorphgc.cogeomdkey
+             WHERE UPPER(compname) IN ", in.statement, "
+             AND geomposmntn IS NOT NULL
+             GROUP BY UPPER(compname), geomposmntn
+             ) AS a
+             JOIN
+             (
+             SELECT UPPER(compname) AS compname, CAST(count(compname) AS numeric) AS total
+             FROM component
+             LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
+             LEFT JOIN cosurfmorphgc on cogeomordesc.cogeomdkey = cosurfmorphgc.cogeomdkey
+             WHERE UPPER(compname) IN ", in.statement, "
+             AND geomposmntn IS NOT NULL
+             GROUP BY UPPER(compname)
+             ) AS b
+             ON a.compname = b.compname
+             ORDER BY compname, p DESC;", sep='')
+  
+  # perform query
+  x <- SDA_query(q)
+  
+  # re-level
+  x$q_param <- factor(x$q_param, levels=c('Mountaintop', 'Mountainflank', 'Upper third of mountainflank', 'Center third of mountainflank', 'Lower third of mountainflank', 'Mountainbase'))
+  
+  # convert from long-wide format
+  y <- dcast(x, compname ~ q_param, value.var='p', drop=FALSE)
+  
+  # optionally convert NA to 0
+  if(replaceNA) {
+    for(i in 1:nrow(y)) {
+      idx <- which(is.na(y[i, ]))
+      y[i, ][idx] <- 0
+    }
+  }
+  
+  return(y)
+}
+
+
+# s: vector of soil series names
+# replaceNA: convert missing categories into 0 probabilities
+geomPosHillProbability <- function(s, replaceNA=TRUE) {
+  # format IN statement, convert to upper case for comp name normalization
+  in.statement <- format_SQL_in_statement(toupper(s))
+  
+  # format query
+  q <- paste("
+             SELECT a.compname, q_param, q_param_n, total, round(q_param_n / total, 2) AS p
+             FROM
+             (
+             SELECT UPPER(compname) AS compname, geomposhill as q_param, CAST(count(geomposhill) AS numeric) AS q_param_n
+             FROM component 
+             LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
+             LEFT JOIN cosurfmorphgc on cogeomordesc.cogeomdkey = cosurfmorphgc.cogeomdkey
+             WHERE UPPER(compname) IN ", in.statement, "
+             AND geomposhill IS NOT NULL
+             GROUP BY UPPER(compname), geomposhill
+             ) AS a
+             JOIN
+             (
+             SELECT UPPER(compname) AS compname, CAST(count(compname) AS numeric) AS total
+             FROM component
+             LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
+             LEFT JOIN cosurfmorphgc on cogeomordesc.cogeomdkey = cosurfmorphgc.cogeomdkey
+             WHERE UPPER(compname) IN ", in.statement, "
+             AND geomposhill IS NOT NULL
+             GROUP BY UPPER(compname)
+             ) AS b
+             ON a.compname = b.compname
+             ORDER BY compname, p DESC;", sep='')
+  
+  # perform query
+  x <- SDA_query(q)
+  
+  # re-level
+  x$q_param <- factor(x$q_param, levels=c('Interfluve', 'Crest', 'Head Slope', 'Nose Slope', 'Side Slope', 'Base Slope'))
+  
+  # convert from long-wide format
+  y <- dcast(x, compname ~ q_param, value.var='p', drop=FALSE)
+  
+  # optionally convert NA to 0
+  if(replaceNA) {
+    for(i in 1:nrow(y)) {
+      idx <- which(is.na(y[i, ]))
+      y[i, ][idx] <- 0
+    }
+  }
+  
+  return(y)
+}
+
 
 
 # s: vector of soil series names

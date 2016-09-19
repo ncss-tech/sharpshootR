@@ -23,7 +23,8 @@ aggregateColorPlot <- function(x, print.label=TRUE, label.font=1, label.cex=0.65
       x.right <- c(x.left[-1], x.left[last.weight] + s.i$weight[last.weight])
       
       # plot rectanges from vectorized coordinates / colors
-      rect(xleft=x.left, ybottom=i-0.5, xright=x.right, ytop=i+0.5, col=s.i$soil_color, border=rect.border)
+      # first column in each chunk is the R color
+      rect(xleft=x.left, ybottom=i-0.5, xright=x.right, ytop=i+0.5, col=s.i[, 1], border=rect.border)
       
       # compute center point for color labels
       centers <- (x.right + x.left) / 2

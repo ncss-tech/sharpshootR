@@ -86,7 +86,10 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
     # check for complete containment of MU by current raster
     raster.containment.test[i] <- rgeos::gContainsProperly(e.r, e.mu.r)
   }
+  
+  ## TODO: finish this
   if(any(! raster.containment.test))
+    warning('Raster extent does not completly cover MU extent')
   
   
   ##

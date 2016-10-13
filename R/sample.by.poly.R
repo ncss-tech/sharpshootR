@@ -1,9 +1,16 @@
+
+
 constantDensitySampling <- function(x, polygon.id='pID', ...) {
   
   # sanity check: this must be a projected CRS
   if(!is.projected(x)) {
     stop('input polygons must be in a projected coordinate system with units of meters', call. = FALSE)
   }
+  
+  ## 2016-10-13: return NULL when there are no features
+  # must have > 0 features
+  if(length(x) == 0)
+    return(NULL)
   
   # retain proj4 information
   p4s <- proj4string(x)

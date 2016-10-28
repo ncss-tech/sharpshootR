@@ -1,6 +1,45 @@
 
+##
+## needs more testing!!!
+##
+
+## TODO: this isn't very fast for large N
+## TODO: should this perform tests at increasing lags?
+.globalMoran <- function(s, val, k=3) {
+  # compute spatial weights matrix from k-nearest neighbors
+  s.n <- spdep::knearneigh(s, k=k)
+  s.nb <- spdep::knn2nb(s.n)
+  s.listw <- spdep::nb2listw(s.nb)
+  # get Global Moran's I
+  I <- as.vector(spdep::moran.test(val, s.listw, rank=TRUE)$estimate[1])
+  return(I)
+}
 
 
+## TODO: should this account for rho(lag) ?
+# simple correction
+# (Fortin & Dale 2005, p. 223, Equation 5.15
+# using global Moran's I as 'rho'
+.effective_n <- function(n, rho) {
+  
+  # TODO: what about negative spatial autocorrelation?
+  # hack: clamping rho {0,1}
+  rho <- ifelse(rho < 0, 0, rho)
+  n_eff <- n * ((1-rho) / (1+rho))
+  
+  return(n_eff)
+}
+
+
+##
+## needs more testing!!!
+##
+
+
+## TODO:
+##   1. abstract into smaller functions
+##   2. optimise for parallel execution
+##   3. keep track of time spent on various sub-tasks
 
 ## load raster stack into memory if possible
 ## perform constant density sampling across subsets of map units
@@ -13,11 +52,11 @@
 # p: requested percentiles
 # progress: print progress bar?
 
-sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre, p=c(0, 0.05, 0.25, 0.5, 0.75, 0.95, 1), progress=TRUE) {
+sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre, p=c(0, 0.05, 0.25, 0.5, 0.75, 0.95, 1), progress=TRUE, estimateEffectiveSampleSize=TRUE) {
   
   # sanity check: package requirements
-  if(!requireNamespace('rgdal') | !requireNamespace('rgeos') | !requireNamespace('raster'))
-    stop('please install the `spdep` package', call. = FALSE)
+  if(!requireNamespace('rgdal') | !requireNamespace('rgeos') | !requireNamespace('raster') | !requireNamespace('spdep'))
+    stop('please install the packages: rgdal, rgeos, raster, spdep', call. = FALSE)
     
   # enforce projected CRS
   if(!is.projected(mu))
@@ -27,6 +66,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   l.mu <- list() # samples
   l.unsampled <- list() # un-sampled polygon IDs
   a.mu <- list() # area stats
+  l.spatial.stats <- list() # Moran's I and effective DF
   
   # load pointers to raster data
   raster.list <- lapply(raster.list, function(i) {
@@ -128,14 +168,33 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
       
       # iterate over raster data
       l <- list()
+      l.s <- list()
       for(i in seq_along(raster.list)) {
         i.name <- names(raster.list)[i]
+        # extract raster data, sample ID, polygon ID to DF
         l[[i.name]] <- data.frame(value=raster::extract(raster.list[[i]], s), pID=s$pID, sid=s$sid)
+        
+        ## TODO: this may be far too slow
+        if(estimateEffectiveSampleSize) {
+          # compute Moran's global I
+          rho <- .globalMoran(s, l[[i.name]]$value)
+          
+          # compute effective sample size
+          n_eff <- .effective_n(nrow(s), rho)
+          
+        } else { # otherwise return NA
+          rho <- NA
+          n_eff <- NA
+        }
+        # save stats
+        l.s[[i.name]] <- data.frame(Moran_I_g=round(rho, 3), n_eff=round(n_eff))
       }
       
       # convert to DF and fix default naming of raster column
       d <- ldply(l)
+      d.s <- ldply(l.s)
       names(d)[1] <- 'variable'
+      names(d.s)[1] <- 'variable'
       
       # extract polygon areas as acres
       a <- sapply(slot(mu.i.sp, 'polygons'), slot, 'area') * 2.47e-4
@@ -157,6 +216,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
       # save and continue
       a.mu[[mu.i]] <- a.stats
       l.mu[[mu.i]] <- d
+      l.spatial.stats[[mu.i]] <- d.s
       
       if(progress)
         setTxtProgressBar(pb, match(mu.i, mu.set))
@@ -171,6 +231,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   d.mu <- ldply(l.mu)
   unsampled.idx <- unlist(l.unsampled)
   mu.area <- ldply(a.mu)
+  d.spatial.stats <- ldply(l.spatial.stats)
   
   # get raster summary
   rs <- sapply(raster.list, raster::filename)
@@ -178,7 +239,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   rs <- data.frame(Variable=names(rs), File=rs, inMemory=as.character(sapply(raster.list, raster::inMemory)), ContainsMU=raster.containment.test)
   
   # combine into single object and result
-  return(list('raster.samples'=d.mu, 'area.stats'=mu.area, 'unsampled.ids'=unsampled.idx, 'raster.summary'=rs))
+  return(list('raster.samples'=d.mu, 'area.stats'=mu.area, 'unsampled.ids'=unsampled.idx, 'raster.summary'=rs, 'spatial.stats'=d.spatial.stats))
 }
 
 

@@ -191,6 +191,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
           # iterate over polygons
           for(this.poly in names(s.polys)) {
             
+            ## TODO: errors here (?) when used within a knit-ed report
             # starting sample size
             n <- nrow(s.polys[[this.poly]])
             

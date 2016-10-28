@@ -191,13 +191,13 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
           # iterate over polygons
           for(this.poly in names(s.polys)) {
             
-            ## TODO: errors here (?) when used within a knit-ed report
+            ## TODO: errors here (?) when used from package, but not when sourced locally
             # starting sample size
             n <- nrow(s.polys[[this.poly]])
             
-            ## TODO: errors here (?) when used within a knit-ed report
+            ## TODO: errors here (?) when used from package, but not when sourced locally
             # attempt to compute Moran's I
-            rho <- try(.Moran(s.polys[[this.poly]], v.polys[[this.poly]]), silent = FALSE)
+            rho <- try(.Moran(s.polys[[this.poly]], v.polys[[this.poly]]), silent = TRUE)
             
             # if successful
             if(class(rho) != 'try-error') {

@@ -186,7 +186,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
           ss <- list()
           # split spatial samples / extracted raster data by polygon
           s.polys <- split(s, s$pID)
-          v.polys <- split(l[[i.name]]$value, l[[i.name]]$pID)
+          s.polys <- split(l[[i.name]]$value, l[[i.name]]$pID)
           
           for(this.poly in names(s.polys)) {
             # attempt to compute Moran's I
@@ -195,8 +195,9 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
             # if successful
             if(class(rho) != 'try-error') {
               # compute effective sample size and save
-              n_eff <- .effective_n(nrow(s.polys[[this.poly]]), rho)
-              ss[[this.poly]] <- data.frame(Moran_I=round(rho, 3), n_eff=round(n_eff))
+              n <- nrow(s.polys[[this.poly]])
+              n_eff <- .effective_n(n, rho)
+              ss[[this.poly]] <- data.frame(Moran_I=round(rho, 3), n_eff=round(n_eff), n=n)
             }
             else {
               # otherwise use NA

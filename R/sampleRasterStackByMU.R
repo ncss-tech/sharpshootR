@@ -5,13 +5,14 @@
 
 ## TODO: this isn't very fast for large N
 ## TODO: should this perform tests at increasing lags?
-.globalMoran <- function(s, val, k=3) {
+.Moran <- function(s, val, k=3) {
   # compute spatial weights matrix from k-nearest neighbors
+  ## some time wasted here...
   s.n <- spdep::knearneigh(s, k=k)
   s.nb <- spdep::knn2nb(s.n)
   s.listw <- spdep::nb2listw(s.nb)
-  # get Global Moran's I
-  I <- as.vector(spdep::moran.test(val, s.listw, rank=TRUE)$estimate[1])
+  # get Moran's I from result (don't need test stats or p-value)
+  I <- as.vector(spdep::moran.test(val, s.listw, rank=TRUE, randomisation = FALSE)$estimate[1])
   return(I)
 }
 
@@ -176,18 +177,37 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
         
         ## TODO: this may be far too slow
         if(estimateEffectiveSampleSize) {
-          # compute Moran's global I
-          rho <- .globalMoran(s, l[[i.name]]$value)
+          message(paste0('   Estimating effective sample size: ', i.name))
           
-          # compute effective sample size
-          n_eff <- .effective_n(nrow(s), rho)
+          # compute within each polygon: slightly faster
+          ss <- list()
+          s.polys <- split(s, s$pID)
+          v.polys <- split(l[[i.name]]$value, l[[i.name]]$pID)
+          
+          for(this.poly in names(s.polys)) {
+            # attempt to compute Moran's I
+            rho <- try(.Moran(s.polys[[this.poly]], v.polys[[this.poly]]), silent = TRUE)
+            
+            # if successful
+            if(class(rho) != 'try-error') {
+              # compute effective sample size and save
+              n_eff <- .effective_n(nrow(s.polys[[this.poly]]), rho)
+              ss[[this.poly]] <- data.frame(Moran_I=round(rho, 3), n_eff=round(n_eff))
+            }
+            else {
+              # otherwise use NA
+              ss[[this.poly]] <- data.frame(Moran_I=NA, n_eff=NA)
+            }
+          }
           
         } else { # otherwise return NA
           rho <- NA
           n_eff <- NA
         }
-        # save stats
-        l.s[[i.name]] <- data.frame(Moran_I_g=round(rho, 3), n_eff=round(n_eff))
+        # save stats computed by polygon
+        ss <- ldply(ss)
+        names(ss)[1] <- 'pID'
+        l.s[[i.name]] <- ss
       }
       
       # convert to DF and fix default naming of raster column

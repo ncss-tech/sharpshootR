@@ -3,6 +3,8 @@
 ## needs more testing!!!
 ##
 
+## TODO: implement function with ape::Moran.I
+
 ## TODO: this isn't very fast for large N
 ## TODO: should this perform tests at increasing lags?
 .Moran <- function(s, val, k=3) {
@@ -177,7 +179,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
         
         ## TODO: this may be far too slow
         if(estimateEffectiveSampleSize) {
-          message(paste0('   Estimating effective sample size: ', i.name))
+          # message(paste0('   Estimating effective sample size: ', i.name))
           
           # compute within each polygon: slightly faster
           ss <- list()

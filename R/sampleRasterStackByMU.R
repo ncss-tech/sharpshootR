@@ -184,34 +184,34 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
           
           # compute within each polygon: slightly faster
           ss <- list()
-          # split spatial samples / extracted raster data by polygon
-          s.polys <- split(s, s$pID)
-          s.polys <- split(l[[i.name]]$value, l[[i.name]]$pID)
+          # split spatial samples / extracted raster data by polygon into lists, indexed by pID
+          s.polys <- split(s, as.character(s$pID))
+          v.polys <- split(l[[i.name]]$value, as.character(l[[i.name]]$pID))
           
+          # iterate over polygons
           for(this.poly in names(s.polys)) {
-            # attempt to compute Moran's I
             
-            ## TODO: why is this failing when run through knitter:
-            #        Error in spdep::knearneigh(s, k = k) : 
-            #          knearneigh: data not in matrix form
+            # starting sample size
+            n <- nrow(s.polys[[this.poly]])
+            
+            # attempt to compute Moran's I
             rho <- try(.Moran(s.polys[[this.poly]], v.polys[[this.poly]]), silent = FALSE)
             
             # if successful
             if(class(rho) != 'try-error') {
               # compute effective sample size and save
-              n <- nrow(s.polys[[this.poly]])
               n_eff <- .effective_n(n, rho)
               ss[[this.poly]] <- data.frame(Moran_I=round(rho, 3), n_eff=round(n_eff), n=n)
             }
             else {
               # otherwise use NA
-              ss[[this.poly]] <- data.frame(Moran_I=NA, n_eff=NA)
+              ss[[this.poly]] <- data.frame(Moran_I=NA, n_eff=NA, n=n)
             }
           }
           
         } else { # otherwise return NA
           ## TODO: finish this
-          # ss[[this.poly]] <- data.frame(Moran_I=NA, n_eff=NA)
+          # ss[[this.poly]] <- data.frame(Moran_I=NA, n_eff=NA, n=n)
         }
         # save stats computed by polygon to list indexed by raster name
         ss <- ldply(ss)

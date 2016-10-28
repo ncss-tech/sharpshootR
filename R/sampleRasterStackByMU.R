@@ -170,8 +170,9 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
       s$sid <- 1:nrow(s)
       
       # iterate over raster data
-      l <- list()
-      l.s <- list()
+      l <- list() # used to store raster samples
+      l.s <- list() # used to store spatial stats
+      
       for(i in seq_along(raster.list)) {
         i.name <- names(raster.list)[i]
         # extract raster data, sample ID, polygon ID to DF
@@ -183,12 +184,13 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
           
           # compute within each polygon: slightly faster
           ss <- list()
+          # split spatial samples / extracted raster data by polygon
           s.polys <- split(s, s$pID)
           v.polys <- split(l[[i.name]]$value, l[[i.name]]$pID)
           
           for(this.poly in names(s.polys)) {
             # attempt to compute Moran's I
-            rho <- try(.Moran(s.polys[[this.poly]], v.polys[[this.poly]]), silent = TRUE)
+            rho <- try(.Moran(s.polys[[this.poly]], v.polys[[this.poly]]), silent = FALSE)
             
             # if successful
             if(class(rho) != 'try-error') {
@@ -203,10 +205,10 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
           }
           
         } else { # otherwise return NA
-          rho <- NA
-          n_eff <- NA
+          ## TODO: finish this
+          # ss[[this.poly]] <- data.frame(Moran_I=NA, n_eff=NA)
         }
-        # save stats computed by polygon
+        # save stats computed by polygon to list indexed by raster name
         ss <- ldply(ss)
         names(ss)[1] <- 'pID'
         l.s[[i.name]] <- ss
@@ -235,7 +237,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
       # fix name
       names(a.stats) <- c('Min', 'Q5', 'Q25', 'Median', 'Q75', 'Q95', 'Max', 'Total Area', 'Samples', 'Polygons', 'Polygons Not Sampled', 'Mean Sample Dens.')
       
-      # save and continue
+      # save stats to lists indexed by map unit ID
       a.mu[[mu.i]] <- a.stats
       l.mu[[mu.i]] <- d
       l.spatial.stats[[mu.i]] <- d.s
@@ -244,7 +246,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
         setTxtProgressBar(pb, match(mu.i, mu.set))
     }
     
-  }
+  } # done iterating over map units
   
   if(progress)
     close(pb)

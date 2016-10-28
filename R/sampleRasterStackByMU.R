@@ -195,6 +195,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
             # starting sample size
             n <- nrow(s.polys[[this.poly]])
             
+            ## TODO: errors here (?) when used within a knit-ed report
             # attempt to compute Moran's I
             rho <- try(.Moran(s.polys[[this.poly]], v.polys[[this.poly]]), silent = FALSE)
             

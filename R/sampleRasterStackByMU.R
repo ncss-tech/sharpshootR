@@ -7,14 +7,14 @@
 
 ## TODO: this isn't very fast for large N
 ## TODO: should this perform tests at increasing lags?
-.Moran <- function(s, val, k=3) {
+.Moran <- function(pts, val, k=3) {
   # compute spatial weights matrix from k-nearest neighbors
   ## some time wasted here...
-  s.n <- spdep::knearneigh(s, k=k)
-  s.nb <- spdep::knn2nb(s.n)
-  s.listw <- spdep::nb2listw(s.nb)
+  pts.n <- spdep::knearneigh(pts, k=k)
+  pts.nb <- spdep::knn2nb(pts.n)
+  pts.listw <- spdep::nb2listw(pts.nb)
   # get Moran's I from result (don't need test stats or p-value)
-  I <- as.vector(spdep::moran.test(val, s.listw, rank=TRUE, randomisation = FALSE)$estimate[1])
+  I <- as.vector(spdep::moran.test(val, pts.listw, rank=TRUE, randomisation = FALSE)$estimate[1])
   return(I)
 }
 
@@ -190,6 +190,10 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
           
           for(this.poly in names(s.polys)) {
             # attempt to compute Moran's I
+            
+            ## TODO: why is this failing when run through knitter:
+            #        Error in spdep::knearneigh(s, k = k) : 
+            #          knearneigh: data not in matrix form
             rho <- try(.Moran(s.polys[[this.poly]], v.polys[[this.poly]]), silent = FALSE)
             
             # if successful

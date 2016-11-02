@@ -1,6 +1,8 @@
 
 
-
+## 2016-11-02: total re-write of ESS via Moran's I: based on pre-sampling of cropped rasters, much faster... useful?
+## 2016-10-28: added support for estimating effective sample size via Moran's I -- currently very slow for large n: 
+## 2016-08-27: abstracted sampling / extraction into single function
 
 ## TODO:
 ##   1. abstract into smaller functions

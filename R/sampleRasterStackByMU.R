@@ -1,42 +1,5 @@
 
-##
-## needs more testing!!!
-##
 
-## TODO: implement function with ape::Moran.I
-
-## TODO: this isn't very fast for large N
-## TODO: should this perform tests at increasing lags?
-.Moran <- function(pts, val, k=3) {
-  # compute spatial weights matrix from k-nearest neighbors
-  ## some time wasted here...
-  pts.n <- spdep::knearneigh(pts, k=k)
-  pts.nb <- spdep::knn2nb(pts.n)
-  pts.listw <- spdep::nb2listw(pts.nb)
-  # get Moran's I from result (don't need test stats or p-value)
-  I <- as.vector(spdep::moran.test(val, pts.listw, rank=TRUE, randomisation = FALSE)$estimate[1])
-  return(I)
-}
-
-
-## TODO: should this account for rho(lag) ?
-# simple correction
-# (Fortin & Dale 2005, p. 223, Equation 5.15
-# using global Moran's I as 'rho'
-.effective_n <- function(n, rho) {
-  
-  # TODO: what about negative spatial autocorrelation?
-  # hack: clamping rho {0,1}
-  rho <- ifelse(rho < 0, 0, rho)
-  n_eff <- n * ((1-rho) / (1+rho))
-  
-  return(n_eff)
-}
-
-
-##
-## needs more testing!!!
-##
 
 
 ## TODO:
@@ -54,13 +17,14 @@
 # raster.list: see formatting in mu summary reports
 # p: requested percentiles
 # progress: print progress bar?
+# estimateEffectiveSampleSize: estimate effective sampling size via Moran's I
 
 sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre, p=c(0, 0.05, 0.25, 0.5, 0.75, 0.95, 1), progress=TRUE, estimateEffectiveSampleSize=TRUE) {
   
   # sanity check: package requirements
   if(!requireNamespace('rgdal') | !requireNamespace('rgeos') | !requireNamespace('raster') | !requireNamespace('spdep'))
     stop('please install the packages: rgdal, rgeos, raster, spdep', call. = FALSE)
-    
+  
   # enforce projected CRS
   if(!is.projected(mu))
     stop('map unit polygons must be in a projected CRS', call.=FALSE)
@@ -69,7 +33,6 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   l.mu <- list() # samples
   l.unsampled <- list() # un-sampled polygon IDs
   a.mu <- list() # area stats
-  l.spatial.stats <- list() # Moran's I and effective DF
   
   # load pointers to raster data
   raster.list <- lapply(raster.list, function(i) {
@@ -114,6 +77,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   e.mu <- as(raster::extent(mu), 'SpatialPolygons')
   proj4string(e.mu) <- proj4string(mu)
   
+  message('Checking raster/MU extents...')
   raster.containment.test <- vector(mode='logical', length=length(nm))
   for(i in 1:length(nm)) {
     # get current raster extent in original CRS
@@ -130,6 +94,18 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   ## TODO: finish this
   if(any(! raster.containment.test))
     warning('Raster extent does not completly cover MU extent')
+  
+  
+  ## Moran's I by raster
+  # result is a data.frame based on sampling of the raster sources, after cropping to mu extent
+  if(estimateEffectiveSampleSize) {
+    message('Estimating effective sample size...')
+    MI <- ldply(raster.list, Moran_I_ByRaster, mu.extent = e.mu, .progress = ifelse(progress, 'text', NULL))
+    names(MI) <- c('raster.file', 'Moran.I')
+  } else {
+    # need to create something if not estimating EFF
+    MI <- data.frame(raster.file=nm, Moran.I=NA)
+  }
   
   
   ##
@@ -171,61 +147,15 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
       
       # iterate over raster data
       l <- list() # used to store raster samples
-      l.s <- list() # used to store spatial stats
-      
       for(i in seq_along(raster.list)) {
         i.name <- names(raster.list)[i]
         # extract raster data, sample ID, polygon ID to DF
         l[[i.name]] <- data.frame(value=raster::extract(raster.list[[i]], s), pID=s$pID, sid=s$sid)
-        
-        ## TODO: this may be far too slow
-        if(estimateEffectiveSampleSize) {
-          message(paste0('   Estimating effective sample size: ', i.name))
-          
-          # compute within each polygon: slightly faster
-          ss <- list()
-          # split spatial samples / extracted raster data by polygon into lists, indexed by pID
-          s.polys <- split(s, as.character(s$pID))
-          v.polys <- split(l[[i.name]]$value, as.character(l[[i.name]]$pID))
-          
-          # iterate over polygons
-          for(this.poly in names(s.polys)) {
-            
-            ## TODO: errors here (?) when used from package, but not when sourced locally
-            # starting sample size
-            n <- nrow(s.polys[[this.poly]])
-            
-            ## TODO: errors here (?) when used from package, but not when sourced locally
-            # attempt to compute Moran's I
-            rho <- try(.Moran(s.polys[[this.poly]], v.polys[[this.poly]]), silent = TRUE)
-            
-            # if successful
-            if(class(rho) != 'try-error') {
-              # compute effective sample size and save
-              n_eff <- .effective_n(n, rho)
-              ss[[this.poly]] <- data.frame(Moran_I=round(rho, 3), n_eff=round(n_eff), n=n)
-            }
-            else {
-              # otherwise use NA
-              ss[[this.poly]] <- data.frame(Moran_I=NA, n_eff=NA, n=n)
-            }
-          }
-          
-        } else { # otherwise return NA
-          ## TODO: finish this
-          # ss[[this.poly]] <- data.frame(Moran_I=NA, n_eff=NA, n=n)
-        }
-        # save stats computed by polygon to list indexed by raster name
-        ss <- ldply(ss)
-        names(ss)[1] <- 'pID'
-        l.s[[i.name]] <- ss
       }
       
       # convert to DF and fix default naming of raster column
       d <- ldply(l)
-      d.s <- ldply(l.s)
       names(d)[1] <- 'variable'
-      names(d.s)[1] <- 'variable'
       
       # extract polygon areas as acres
       a <- sapply(slot(mu.i.sp, 'polygons'), slot, 'area') * 2.47e-4
@@ -247,7 +177,6 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
       # save stats to lists indexed by map unit ID
       a.mu[[mu.i]] <- a.stats
       l.mu[[mu.i]] <- d
-      l.spatial.stats[[mu.i]] <- d.s
       
       if(progress)
         setTxtProgressBar(pb, match(mu.i, mu.set))
@@ -262,15 +191,66 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   d.mu <- ldply(l.mu)
   unsampled.idx <- unlist(l.unsampled)
   mu.area <- ldply(a.mu)
-  d.spatial.stats <- ldply(l.spatial.stats)
   
   # get raster summary
   rs <- sapply(raster.list, raster::filename)
   rs <- gsub('\\\\', '/', rs)
-  rs <- data.frame(Variable=names(rs), File=rs, inMemory=as.character(sapply(raster.list, raster::inMemory)), ContainsMU=raster.containment.test)
+  rs <- data.frame(Variable=names(rs), File=rs, inMemory=as.character(sapply(raster.list, raster::inMemory)), ContainsMU=raster.containment.test, Moran.I=MI$Moran.I)
   
   # combine into single object and result
-  return(list('raster.samples'=d.mu, 'area.stats'=mu.area, 'unsampled.ids'=unsampled.idx, 'raster.summary'=rs, 'spatial.stats'=d.spatial.stats))
+  return(list('raster.samples'=d.mu, 'area.stats'=mu.area, 'unsampled.ids'=unsampled.idx, 'raster.summary'=rs, 'Moran_I'=MI))
 }
+
+
+
+## Moran's I by polygon: very slow
+
+# 
+# ## TODO: this may be far too slow
+# if(estimateEffectiveSampleSize) {
+#   message(paste0('   Estimating effective sample size: ', i.name))
+#   
+#   # compute within each polygon: slightly faster
+#   ss <- list()
+#   # split spatial samples / extracted raster data by polygon into lists, indexed by pID
+#   s.polys <- split(s, as.character(s$pID))
+#   v.polys <- split(l[[i.name]]$value, as.character(l[[i.name]]$pID))
+#   
+#   # iterate over polygons
+#   for(this.poly in names(s.polys)) {
+#     
+#     ## TODO: errors here (?) when used from package, but not when sourced locally
+#     # starting sample size
+#     n <- nrow(s.polys[[this.poly]])
+#     
+#     ## TODO: errors here (?) when used from package, but not when sourced locally
+#     # attempt to compute Moran's I
+#     rho <- try(.Moran(s.polys[[this.poly]], v.polys[[this.poly]]), silent = TRUE)
+#     
+#     # if successful
+#     if(class(rho) != 'try-error') {
+#       # compute effective sample size and save
+#       n_eff <- .effective_n(n, rho)
+#       ss[[this.poly]] <- data.frame(Moran_I=round(rho, 3), n_eff=round(n_eff), n=n)
+#     }
+#     else {
+#       # otherwise use NA
+#       ss[[this.poly]] <- data.frame(Moran_I=NA, n_eff=NA, n=n)
+#     }
+#   }
+#   
+# } else { # otherwise return NA
+#   ## TODO: finish this
+#   # ss[[this.poly]] <- data.frame(Moran_I=NA, n_eff=NA, n=n)
+# }
+# 
+# 
+# 
+# # save stats computed by polygon to list indexed by raster name
+# ss <- ldply(ss)
+# names(ss)[1] <- 'pID'
+# l.s[[i.name]] <- ss
+# 
+
 
 

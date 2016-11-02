@@ -20,10 +20,10 @@
 
 
 ## TODO: should this account for rho(lag) ?
-# simple correction
+# estimation of effective sample size (ESS)
 # (Fortin & Dale 2005, p. 223, Equation 5.15
 # using global Moran's I as 'rho'
-EFF_by_Moran_I <- function(n, rho) {
+ESS_by_Moran_I <- function(n, rho) {
   
   # TODO: what about negative spatial autocorrelation?
   # hack: clamping rho {0,1}

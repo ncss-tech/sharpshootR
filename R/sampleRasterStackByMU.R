@@ -103,8 +103,8 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
     MI <- ldply(raster.list, Moran_I_ByRaster, mu.extent = e.mu, .progress = ifelse(progress, 'text', NULL))
     names(MI) <- c('raster.file', 'Moran.I')
   } else {
-    # need to create something if not estimating EFF
-    MI <- data.frame(raster.file=nm, Moran.I=NA)
+    # when Morain I, n_effective = n
+    MI <- data.frame(raster.file=nm, Moran.I=0)
   }
   
   

@@ -147,6 +147,9 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
       # make a unique sample ID, need this for conversion: long -> wide
       s$sid <- 1:nrow(s)
       
+      ## TODO: test parallel processing here
+      # http://www.guru-gis.net/extract-raster-values-in-parallel/
+      
       # iterate over raster data
       l <- list() # used to store raster samples
       for(i in seq_along(raster.list)) {

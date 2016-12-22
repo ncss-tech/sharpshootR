@@ -36,6 +36,7 @@ ESS_by_Moran_I <- function(n, rho) {
 
 
 
+## TODO: would it make more sense to do this for the extent of each polygon and then look at the distribution of Moran's I ?
 
 ## compute Moran's I using a subset of sample collectioned within the extent of MU
 # r: single raster layer
@@ -51,7 +52,7 @@ Moran_I_ByRaster <- function(r, mu.extent, n=10000, k=5, do.correlogram=FALSE, c
   r <- crop(r, mu.extent)
   
   # sample raster and remove NA
-  s <- sampleRegular(r, 10000, sp=TRUE)
+  s <- sampleRegular(r, n, sp=TRUE)
   s <- s[which(!is.na(s[[1]])), ]
   
   # neighborhood weights

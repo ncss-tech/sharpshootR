@@ -2,20 +2,7 @@
 ## needs more testing!!!
 ##
 
-## TODO: implement function with ape::Moran.I
 
-# ## TODO: this isn't very fast for large N
-# ## TODO: should this perform tests at increasing lags?
-# .Moran <- function(pts, val, k=3) {
-#   # compute spatial weights matrix from k-nearest neighbors
-#   ## some time wasted here...
-#   pts.n <- spdep::knearneigh(pts, k=k)
-#   pts.nb <- spdep::knn2nb(pts.n)
-#   pts.listw <- spdep::nb2listw(pts.nb)
-#   # get Moran's I from result (don't need test stats or p-value)
-#   I <- as.vector(spdep::moran.test(val, pts.listw, rank=TRUE, randomisation = FALSE)$estimate[1])
-#   return(I)
-# }
 
 
 
@@ -36,27 +23,43 @@ ESS_by_Moran_I <- function(n, rho) {
 
 
 
-## TODO: would it make more sense to do this for the extent of each polygon and then look at the distribution of Moran's I ?
 
 ## compute Moran's I using a subset of sample collectioned within the extent of MU
+## this is likely an under-estimate of SA because we are including pixels both inside/outside MU delineations
+##
 # r: single raster layer
-# mu.extent: exent of all MU polygons
+# mu.extent: SpatialPolygons representation of MU polygons BBOX (raster::extent)
 # n: number of regular samples
 # k: number of neighbors used for weights matrix
 # do.correlogram: compute correlogram?
 # cor.order: order of correlogram
-Moran_I_ByRaster <- function(r, mu.extent, n=10000, k=5, do.correlogram=FALSE, cor.order=5) {
+Moran_I_ByRaster <- function(r, mu.extent, n=NULL, k=NULL, do.correlogram=FALSE, cor.order=5) {
   
+
+  ## NOTE: this will include raster "information" between map unit polygons
   # crop to extent of map units
   mu.extent <- spTransform(mu.extent, CRS(proj4string(r)))
   r <- crop(r, mu.extent)
+  
+  # setup some sensible defaults
+  # sample size for Moran's I:
+  # use the number of pixels or 10k which ever is smaller
+  if(is.null(n)) {
+    n <- ifelse(length(r) < 10000, length(r), 10000)
+  }
+  
+  # number of neighbors
+  # 5 should be enough
+  if(is.null(k)) {
+    k <- 5
+  }
   
   # sample raster and remove NA
   s <- sampleRegular(r, n, sp=TRUE)
   s <- s[which(!is.na(s[[1]])), ]
   
   # neighborhood weights
-  s.n <- spdep::knearneigh(s, k=5)
+  s.n <- spdep::knearneigh(s, k=k)
   s.nb <- spdep::knn2nb(s.n)
   s.listw <- spdep::nb2listw(s.nb)
   
@@ -76,3 +79,61 @@ Moran_I_ByRaster <- function(r, mu.extent, n=10000, k=5, do.correlogram=FALSE, c
     return(res$estimate[1])
   
 }
+
+
+## this approach doesn't work all that well because map unit delineations cover only a couple PRISM raster cells
+## a reasonable estimate should come from all polygons
+
+# 
+# Moran_I_ByPolygon <- function(r, mu, n=NULL, k=NULL) {
+#   
+#   
+#   .M <- function(s, k) {
+#     
+#     # neighborhood weights
+#     s.n <- spdep::knearneigh(s, k=k)
+#     s.nb <- spdep::knn2nb(s.n)
+#     s.listw <- spdep::nb2listw(s.nb)
+#     
+#     moran.test(s[[1]], s.listw, rank=TRUE, randomisation = FALSE)
+#   }
+#   
+#   for(i in 1:nrow(mu) {
+#     # crop to extent of map units
+#     mu.i <- spTransform(mu[i, ], CRS(proj4string(r)))
+#     r.i <- crop(r, mu.i)
+#     
+#     # mask to MU polygons
+#     r.i <- mask(r.i, spTransform(mu.i, CRS(proj4string(r))))
+#     
+#     
+#     # setup some sensible defaults
+#     # sample size for Moran's I:
+#     # use the number of pixels or 10k which ever is smaller
+#     if(is.null(n)) {
+#       n <- ifelse(length(r) < 10000, length(r), 10000)
+#     }
+#     
+#     # number of neighbors
+#     # 5 should be enough
+#     if(is.null(k)) {
+#       k <- 5
+#     }
+#     
+#     # sample raster and remove NA
+#     s <- sampleRegular(r.i, n, sp=TRUE)
+#     s <- s[which(!is.na(s[[1]])), ]
+#     
+#   }
+#   
+#   
+#     
+#   
+#   
+#   # Moran's I, no need for permutation tests
+#   res <-
+#   
+#   return(res$estimate[1])
+# }
+# 
+# 

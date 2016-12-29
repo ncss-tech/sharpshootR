@@ -24,7 +24,7 @@
 # dendrogram representation relies on ape plotting functions
 # ... are passed onto plot.igraph or plot.phylo
 # 2015-12-22: swap layout algorithms when > 20 individuals
-plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upper', spanning.tree=NULL, del.edges=NULL, vertex.scaling.factor=2, edge.scaling.factor=1, edge.transparency=1, edge.col=grey(0.5), edge.highlight.col='royalblue', g.layout=layout_with_fr, ...) {
+plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upper', spanning.tree=NULL, del.edges=NULL, vertex.scaling.method='degree', vertex.scaling.factor=2, edge.scaling.factor=1, edge.transparency=1, edge.col=grey(0.5), edge.highlight.col='royalblue', g.layout=layout_with_fr, ...) {
 	
   # dumb hack to make R CMD check happy
   weight <- NULL
@@ -100,10 +100,27 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upp
   
 	# transfer names
 	V(g)$label <- V(g)$name 
-
-	# adjust size of vertex based on sqrt(degree / max(degree))
-  g.degree <- degree(g)
-	V(g)$size <- sqrt(g.degree/max(g.degree)) * 10 * vertex.scaling.factor
+  
+	## adjust size of vertex based on some measure of connectivity
+	
+	# use vertex distance
+	# interpretation is intuitive, but will only work when:
+	# 's' is a valid series name in 'm'
+	# there is no possibility of disconnected vertices (e.g deletion of edges)
+  if(vertex.scaling.method == 'distance' & s != '' & is.null(del.edges)) {
+    # use the distance from named series
+    vertexSize <- igraph::distances(g, v=V(g)[name==s], to=V(g))
+    # note that the distance from 's' -> 's' is 0, so we replace with 1
+    vertexSize <- c(1.5 * max(vertexSize, na.rm=TRUE), vertexSize[-1])
+    V(g)$size <- sqrt(vertexSize/max(vertexSize)) * 10 * vertex.scaling.factor
+  } else {
+    # scale vertex by degree (number of connections)
+    vertexSize <- degree(g)
+    V(g)$size <- sqrt(vertexSize/max(vertexSize)) * 10 * vertex.scaling.factor
+    
+  }
+	
+	
   
   # optionally adjust edge width based on weight
   if(!missing(edge.scaling.factor))

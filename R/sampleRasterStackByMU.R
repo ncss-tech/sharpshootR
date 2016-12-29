@@ -37,7 +37,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   a.mu <- list() # area stats
   
   # load pointers to raster data
-  raster.list <- lapply(raster.list, function(i) {
+  raster.list <- rapply(raster.list, how='replace', f=function(i) {
     i <- try(raster::raster(i))
     if(class(i) == 'try-error')
       stop(paste0('Cannot find raster file: ', i), call. = FALSE)
@@ -51,24 +51,24 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   ##
   message('Loading raster data...')
   
-  nm <- names(raster.list)
-  # progress bar
-  if(progress)
-    pb <- txtProgressBar(min=0, max=length(nm), style=3)
+  # these are the names assigned to each raster layer
+  nm <- unlist(lapply(raster.list, names))
   
-  for(i in 1:length(nm)) {
+  ## TODO: not sure how to get a progress bar for this...
+  # https://cran.r-project.org/web/packages/pbapply/index.html
+  
+  # recursively iterate over sets of raster data, attempting to load into memory
+  raster.list <- rapply(raster.list, how='replace', f=function(r) {
     # attempt reading into memory
-    r <- try(raster::readAll(raster.list[[i]]), silent = TRUE)
-    # if successful, move into list
-    if(class(r) == 'RasterLayer' )
-      raster.list[[i]] <- r
-    
-    if(progress)
-      setTxtProgressBar(pb, i)
-  }
-  
-  if(progress)
-    close(pb)
+    r.mem <- try(raster::readAll(r), silent = TRUE)
+    # if successful, return pointer to inMemory version
+    if(class(r.mem) == 'RasterLayer' ) {
+      return(r.mem)
+    } else {
+      # if not possible, retain the original file-based pointer
+      return(r)
+    }
+  })
   
   
   ##
@@ -80,18 +80,20 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   proj4string(e.mu) <- proj4string(mu)
   
   message('Checking raster/MU extents...')
-  raster.containment.test <- vector(mode='logical', length=length(nm))
-  for(i in 1:length(nm)) {
+  
+  # recursively iterate over sets of raster data, checking extents
+  raster.containment.test <- rapply(raster.list, f=function(r) {
     # get current raster extent in original CRS
-    e.r <-as(raster::extent(raster.list[[i]]), 'SpatialPolygons')
-    proj4string(e.r) <- proj4string(raster.list[[i]])
+    e.r <-as(raster::extent(r), 'SpatialPolygons')
+    proj4string(e.r) <- proj4string(r)
     
     # transform MU extent to CRS of current raster
     e.mu.r <- spTransform(e.mu, CRS(proj4string(e.r)))
     
     # check for complete containment of MU by current raster
-    raster.containment.test[i] <- rgeos::gContainsProperly(e.r, e.mu.r)
-  }
+    return(rgeos::gContainsProperly(e.r, e.mu.r))
+  })
+  
   
   ## TODO: finish this
   if(any(! raster.containment.test))
@@ -102,11 +104,12 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   # result is a data.frame based on sampling of the raster sources, after cropping to mu extent
   if(estimateEffectiveSampleSize) {
     message('Estimating effective sample size...')
-    MI <- ldply(raster.list, Moran_I_ByRaster, mu.extent = e.mu, .progress = ifelse(progress, 'text', NULL))
-    names(MI) <- c('raster.file', 'Moran.I')
+    # note: this only makes sense for "continuous" type raster data sources
+    MI <- ldply(raster.list$continuous, Moran_I_ByRaster, mu.extent = e.mu, .progress = ifelse(progress, 'text', NULL))
+    names(MI) <- c('Variable', 'Moran.I')
   } else {
-    # when Morain I, n_effective = n
-    MI <- data.frame(raster.file=nm, Moran.I=0)
+    # when Moran's I is 0, n_effective = n
+    MI <- data.frame(Variable=nm, Moran.I=0)
   }
   
   
@@ -150,17 +153,11 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
       ## TODO: test parallel processing here
       # http://www.guru-gis.net/extract-raster-values-in-parallel/
       
-      # iterate over raster data
-      l <- list() # used to store raster samples
-      for(i in seq_along(raster.list)) {
-        i.name <- names(raster.list)[i]
-        # extract raster data, sample ID, polygon ID to DF
-        l[[i.name]] <- data.frame(value=raster::extract(raster.list[[i]], s), pID=s$pID, sid=s$sid)
-      }
-      
-      # convert to DF and fix default naming of raster column
-      d <- ldply(l)
-      names(d)[1] <- 'variable'
+      # extract raster data, sample ID, polygon ID to DF
+      l.mu[[mu.i]] <- rapply(raster.list, how = 'replace', f=function(r) {
+        res <- data.frame(value=raster::extract(r, s), pID=s$pID, sid=s$sid)
+        return(res)
+      })
       
       # extract polygon areas as acres
       a <- sapply(slot(mu.i.sp, 'polygons'), slot, 'area') * 2.47e-4
@@ -179,9 +176,8 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
       # fix name
       names(a.stats) <- c('Min', 'Q5', 'Q25', 'Median', 'Q75', 'Q95', 'Max', 'Total Area', 'Samples', 'Polygons', 'Polygons Not Sampled', 'Mean Sample Dens.')
       
-      # save stats to lists indexed by map unit ID
+      # save stats to list indexed by map unit ID
       a.mu[[mu.i]] <- a.stats
-      l.mu[[mu.i]] <- d
       
       if(progress)
         setTxtProgressBar(pb, match(mu.i, mu.set))
@@ -192,18 +188,71 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   if(progress)
     close(pb)
   
-  # assemble into DF
-  d.mu <- ldply(l.mu)
-  unsampled.idx <- unlist(l.unsampled)
+  # assemble MU area stats
   mu.area <- ldply(a.mu)
   
+  # iterate over map unit collections of samples
+  # structure looks like this:
+  #  $ 7011:List of 3
+  # ..$ continuous :List of 9
+  # ..$ categorical:List of 3
+  # ..$ circular   :List of 1
+  # $ 5012:List of 3
+  # ..$ continuous :List of 9
+  # ..$ categorical:List of 3
+  # ..$ circular   :List of 1
+  # $ 7085:List of 3
+  # ..$ continuous :List of 9
+  # ..$ categorical:List of 3
+  # ..$ circular   :List of 1
+  
+  d.mu <- lapply(l.mu, function(i) {
+    
+    # extract each variable type
+    # fix names
+    # remove NA
+    .processVars <- function(j) {
+      # extract pieces
+      d <- ldply(j)
+      # fix names
+      names(d)[1] <- 'variable'
+      # remove NA
+      d <- na.omit(d)
+      return(d)
+    }
+    
+    # iterate over varible types, retaining list structure
+    res <- lapply(i, .processVars)
+    
+    # assemble into DF and fix names
+    res <- ldply(res)
+    names(res)[1] <- 'variable.type'
+    
+    return(res)
+  })
+  
+  # assemble into data.frame
+  d.mu <- ldply(d.mu)
+  
+  ## unspool polygon sample IDs when no samples were collected
+  unsampled.idx <- unlist(l.unsampled)
+  
   # get raster summary
-  rs <- sapply(raster.list, raster::filename)
+  rs <- rapply(raster.list, f=raster::filename, how='unlist')
   rs <- gsub('\\\\', '/', rs)
-  rs <- data.frame(Variable=names(rs), File=rs, inMemory=as.character(sapply(raster.list, raster::inMemory)), ContainsMU=raster.containment.test, Moran.I=MI$Moran.I)
+  
+  rs.df <- data.frame(Variable=nm, File=rs, inMemory=as.character(rapply(raster.list, f=raster::inMemory, how='unlist')), ContainsMU=raster.containment.test)
+  
+  # join-in Moran's I
+  rs.df <- join(rs.df, MI, by='Variable', type='left')
+  
+  # replace missing Moran's I with 0
+  # this should only affect categorical / circular variables
+  rs.df$Moran.I[is.na(rs.df$Moran.I)] <- 0
+  
   
   # combine into single object and result
-  return(list('raster.samples'=d.mu, 'area.stats'=mu.area, 'unsampled.ids'=unsampled.idx, 'raster.summary'=rs, 'Moran_I'=MI))
+  return(list('raster.samples'=d.mu, 'area.stats'=mu.area, 'unsampled.ids'=unsampled.idx, 'raster.summary'=rs.df, 'Moran_I'=MI))
 }
 
 

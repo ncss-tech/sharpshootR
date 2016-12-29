@@ -29,7 +29,7 @@ ESS_by_Moran_I <- function(n, rho) {
 ##
 # r: single raster layer
 # mu.extent: SpatialPolygons representation of MU polygons BBOX (raster::extent)
-# n: number of regular samples
+# n: number of regular samples (what is a reasonable value?)
 # k: number of neighbors used for weights matrix
 # do.correlogram: compute correlogram?
 # cor.order: order of correlogram

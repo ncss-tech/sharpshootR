@@ -71,7 +71,7 @@ Moran_I_ByRaster <- function(r, mu.extent, n=NULL, k=NULL, do.correlogram=FALSE,
   }
   
   # Moran's I, no need for permutation tests
-  res <- moran.test(s[[1]], s.listw, rank=TRUE, randomisation = FALSE)
+  res <- spdep::moran.test(s[[1]], s.listw, rank=TRUE, randomisation = FALSE)
   
   if(do.correlogram)
     return(list(I=res$estimate[1], correlogram=s.sp))

@@ -35,14 +35,14 @@ samplingStability <- function(mu, r, n.set=c(0.01, 0.1, 0.5, 1, 2), n.reps=10, p
   # sample / raster overlay
   .sample <- function(mu, r, n, p.id) {
     s <- constantDensitySampling(mu, n.pts.per.ac=n, min.samples=1, polygon.id=p.id)
-    e <- as.vector(extract(r, s))
+    e <- as.vector(raster::extract(r, s))
     return(e)
   }
   
   # polygon / raster overlay
   .population <- function(mu, r) {
     # result is a list
-    e <- extract(r, mu)
+    e <- raster::extract(r, mu)
     e <- unlist(e)
     return(e)
   }

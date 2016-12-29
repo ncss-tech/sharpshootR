@@ -117,6 +117,7 @@ importFrom(RColorBrewer,
 )
 
 importFrom(plyr, 
+  join,
   dlply,
   ldply,
   ddply,

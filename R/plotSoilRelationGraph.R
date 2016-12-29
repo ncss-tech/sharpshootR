@@ -28,6 +28,7 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upp
 	
   # dumb hack to make R CMD check happy
   weight <- NULL
+  name <- NULL
   
 	# generate graph
 	g <- graph.adjacency(m, mode=graph.mode, weighted=TRUE)

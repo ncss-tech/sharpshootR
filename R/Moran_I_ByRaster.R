@@ -39,7 +39,7 @@ Moran_I_ByRaster <- function(r, mu.extent, n=NULL, k=NULL, do.correlogram=FALSE,
   ## NOTE: this will include raster "information" between map unit polygons
   # crop to extent of map units
   mu.extent <- spTransform(mu.extent, CRS(proj4string(r)))
-  r <- crop(r, mu.extent)
+  r <- raster::crop(r, mu.extent)
   
   # setup some sensible defaults
   # sample size for Moran's I:
@@ -55,7 +55,7 @@ Moran_I_ByRaster <- function(r, mu.extent, n=NULL, k=NULL, do.correlogram=FALSE,
   }
   
   # sample raster and remove NA
-  s <- sampleRegular(r, n, sp=TRUE)
+  s <- raster::sampleRegular(r, n, sp=TRUE)
   s <- s[which(!is.na(s[[1]])), ]
   
   # neighborhood weights

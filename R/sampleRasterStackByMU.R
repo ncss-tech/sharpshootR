@@ -214,6 +214,10 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
     .processVars <- function(j) {
       # extract pieces
       d <- ldply(j)
+      
+      ## TODO / BUG:
+      ## if any of the top-level elements are missing rasters then the following code will fail
+      
       # fix names
       names(d)[1] <- 'variable'
       # remove NA

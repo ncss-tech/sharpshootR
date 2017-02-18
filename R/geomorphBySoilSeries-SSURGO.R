@@ -1,9 +1,14 @@
+##
+## Note: these queries are not very efficient because of the use of WHERE UPPER(compname) IN ", in.statement, "
+## this doesn't properly utilize existing indexes
+##
+
 # s: vector of soil series names
 # replaceNA: convert missing categories into 0 probabilities
 geomPosMountainProbability <- function(s, replaceNA=TRUE) {
   # format IN statement, convert to upper case for comp name normalization
   in.statement <- format_SQL_in_statement(toupper(s))
-  
+    
   # format query
   q <- paste("
              SELECT a.compname, q_param, q_param_n, total, round(q_param_n / total, 2) AS p

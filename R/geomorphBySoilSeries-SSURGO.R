@@ -181,7 +181,6 @@ hillslopeProbability <- function(s, replaceNA=TRUE) {
              LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
              LEFT JOIN cosurfmorphhpp on cogeomordesc.cogeomdkey = cosurfmorphhpp.cogeomdkey
              WHERE UPPER(compname) IN ", in.statement, "
-             AND geomftname = 'Landform'
              AND hillslopeprof IS NOT NULL
              GROUP BY UPPER(compname), hillslopeprof
              ) AS a

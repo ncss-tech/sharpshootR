@@ -10,7 +10,7 @@ percentileDemo <- function(x, labels.signif=3, pctile.color='RoyalBlue', mean.co
     x.sd <- sd(x, na.rm=TRUE)
     x.min <- min(x, na.rm=TRUE)
     x.max <- max(x, na.rm=TRUE)
-    q <- t(hdquantile(x, probs = pr, na.rm=TRUE))
+    q <- t(Hmisc::hdquantile(x, probs = pr, na.rm=TRUE))
     dimnames(q)[[2]] <- paste0('P', pr * 100)
     d <- data.frame(mean=x.mean, sd=x.sd, skew=x.skew, min=x.min, q, max=x.max, n)
     return(d)
@@ -108,11 +108,4 @@ percentileDemo <- function(x, labels.signif=3, pctile.color='RoyalBlue', mean.co
   invisible(s)
 }
 
-# get a subset of a given variable from an SPC, by pattern matching against hz designation
-subsetData <- function(SPC, hzname, hz_pat, var) {
-  
-  h <- horizons(SPC)
-  idx <- grep(hz_pat, h[[hzname]])
-  x <- h[[var]][idx]
-  return(x)
-}
+

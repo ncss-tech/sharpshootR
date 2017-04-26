@@ -58,6 +58,10 @@ importFrom(digest,
   digest
 )
 
+importFrom(e1071,
+  skewness
+)
+
 importFrom(latticeExtra,
   dendrogramGrob
 )

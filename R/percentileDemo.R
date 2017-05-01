@@ -103,8 +103,11 @@ percentileDemo <- function(x, labels.signif=3, pctile.color='RoyalBlue', mean.co
   axis(side=1, at = pretty(x, n = 10))
   box()
   
-  # combined legend
-  legend('top', lwd=c(2,2,2,2,1, NA), lty=c(1,1,1,1,1, NA), col=c(pctile.color, mean.color, range.color, 'black', 'black'), legend = c('10th-50th-90th', 'Mean +/- 2SD', 'Min / Max', 'Data', 'Ideal', paste('Obs:', s[, 'n'])), horiz=TRUE, bty='n', cex=0.8)
+  # line legend
+  legend('topleft', lwd=c(2,2,2,2,1), lty=c(1,1,1,1,1), col=c(pctile.color, mean.color, range.color, 'black', 'black'), legend = c('10th-50th-90th', 'Mean +/- 2SD', 'Min / Max', 'Data', 'Ideal'), horiz=TRUE, bty='n', cex=0.8)
+  
+  # text legend
+  legend('topright', lwd=c(NA, NA), lty=c(NA, NA), col=c(NA, NA), legend = c(paste('Skew:', round(s[, 'skew'], 1)), paste('Obs:', s[, 'n'])), horiz=TRUE, bty='n', cex=0.8)
   
   invisible(s)
 }

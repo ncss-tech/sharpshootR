@@ -35,11 +35,20 @@ formatPLSS <- function(p, type='SN') {
     if(type=='PB') {
     f[i] <- stri_replace_all_fixed(f[i], 'SN', 'PB')
     f[i] <- stri_replace_all_fixed(f[i], 'A', 'U')
+	# truncate UP and PB cases to section
+      	if(!is.na(p$qq[i])) {
+      	f[i] <- stri_sub(f[i], 0, stri_length(f[i])-4)
+      	}
+      	if(is.na(p$qq[i]) & !is.na(p$q[i])) {
+      	f[i] <- stri_sub(f[i], 1, stri_length(f[i])-2)
+      	}
+      	if(is.na(p$qq[i]) & is.na(p$q[i])) {
+      	f[i] <- f[i]
+      	}
     }
     if(type=='UP') {
       f[i] <- stri_replace_all_fixed(f[i], 'SN', 'UP')
       f[i] <- stri_replace_all_fixed(f[i], 'A', 'U')
-    }
       # truncate UP and PB cases to section
       if(!is.na(p$qq[i])) {
       f[i] <- stri_sub(f[i], 0, stri_length(f[i])-4)
@@ -50,6 +59,7 @@ formatPLSS <- function(p, type='SN') {
       if(is.na(p$qq[i]) & is.na(p$q[i])) {
       f[i] <- f[i]
       }
+    }
   }
   
   return(f)

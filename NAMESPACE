@@ -18,6 +18,13 @@ importFrom("utils", "URLencode", "download.file", "read.csv", "setTxtProgressBar
 import(aqp)
 import(ape)
 
+importFrom(stringi,
+  stri_match_first_regex,
+  stri_pad,
+  stri_replace_all_fixed,
+  stri_sub
+)
+
 importFrom(igraph,
   graph.edgelist,
   count.multiple,
@@ -83,7 +90,11 @@ importFrom(sp,
   SpatialPointsDataFrame,
   is.projected,
   CRS,
-  spTransform
+  spTransform,
+  SpatialPolygons,
+  proj4string,
+  Polygons,
+  Polygon
 )
 
 importFrom(reshape2,

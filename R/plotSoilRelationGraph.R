@@ -58,10 +58,12 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upp
 # 	}
 	### TODO ###
 	
+	weight <- E(g)$weight
+	
   # optionally prune weak edges less than threshold quantile
   if(!is.null(del.edges))
-	  g <- delete.edges(g, E(g) [ weight < quantile(weight, del.edges, na.rm = TRUE) ])
-  
+	  g <- delete.edges(g, E(g) [ which(weight < quantile(weight, del.edges, na.rm = TRUE)) ])
+	
 	# optionally compute min/max spanning tree
   if(! is.null(spanning.tree)) {
     # min spanning tree: not clear how this is useful
@@ -78,7 +80,7 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upp
     # max spanning tree + edges with weights > n-tile added back
     if(is.numeric(spanning.tree)){
       # select edges and store weights
-      es <- E(g) [ weight > quantile(weight, spanning.tree) ]
+      es <- E(g) [ which(weight > quantile(weight, spanning.tree, na.rm = TRUE)) ]
       es.w <- es$weight
       # trap ovious errors
       if(length(es.w) < 1)

@@ -1,98 +1,3 @@
-library(httr)
-library(jsonlite)
-library(stringi)
-
-# data for meridians - not sure how to use this
-# add support function to search for meridians?
-plssMeridians <- read.csv(textConnection("state, meridian, meridian_name
-AL,16,HUNTSVILLE_MER
-AL,25,ST_STEPHENS
-AL,29,TALLAHASEE
-AR,05,5TH_PM
-AZ,14,GILA-SALT_RIVER
-AZ,22,NAVAJO
-AZ,27,SAN_BERNARDINO
-CA,14,GILA-SALT_RIVER
-CA,15,HUMBOLDT
-CA,21,MOUNT_DIABLO
-CA,27,SAN_BERNARDINO
-CO,06,6TH_PM
-CO,23,NEW_MEX_PM
-CO,31,UTE
-CT,CT,CONNECTICUT
-DE,DE,DELAWARE
-FL,29,TALLAHASEE
-GA,GA,GEORGIA
-IA,05,5TH_PM
-ID,08,BOISE
-IL,02,2ND_PM
-IL,03,3RD_PM
-IL,04,4TH_PM_ILLINOIS
-IN,01,1ST_PM
-IN,02,2ND_PM
-KS,06,6TH_PM
-KY,KY,KENTUCKY
-LA,18,LOUISIANA
-LA,24,ST_HELENA
-MA,MA,MASSACHUSETS
-MD,MD,MARYLAND
-ME,ME,MAINE
-MI,19,MICHIGAN
-MN,05,5TH_PM
-MN,46,4TH_PM_MN-WI
-MO,05,5TH_PM
-MS,09,CHICKASAW
-MS,10,CHOCTAW
-MS,16,HUNTSVILLE
-MS,25,ST. STEPHENS
-MS,32,WASHINGTON
-MT,20,MONTANA
-NC,NC,NO_CAROLINA
-ND,05,5TH_PM
-NE,06,6TH_PM
-NH,NH,NEW_HAMPSHIRE
-NJ,NJ,NEW_JERSEY
-NM,23,NEW_MEX_PM
-NV,21,MOUNT_DIABLO
-NV,27,SAN_BERNARDINO
-NY,NY,NEW YORK
-OH,01,1ST_PM
-OH,19,MICHIGAN
-OH,35,OHIO_RIVER_SURVEY
-OH,36,BETWEEN_THE_MIAMIS
-OH,37,MUSKINGUM_RIVER_BASIN
-OH,38,OHIO_RIVER_BASIN
-OH,39,1ST_SCIOTO_RIVER_BASE
-OH,40,2ND_SCIOTO_RIVER_BASE
-OH,41,3RD_SCIOTO_RIVER_BASE
-OH,43,TWELVE_MILE_SQUARE
-OH,47,WEST_OF_GREAT_MIAMI
-OH,48,US_MILITARY_SURVEY
-OH,91,CT_WEST_RES-OHIO
-OH,92,OHIO_CO_PUR-OHIO
-OH,93,VA_MILITARY_SURVEY-OHIO
-OH,OH,OHIO
-OK,11,CIMARRON
-OK,17,INDIAN
-OR,33,WILLAMETTE
-PA,PA,PENNSYLVANIA
-RI,RI,RHODE_ISLAND
-SC,SC,SO_CAROLINA
-SD,05,5TH_PM
-SD,06,6TH_PM
-SD,07,BLACK_HILLS
-TN,TN,TENNESSEE
-TX,TX,TEXAS
-UT,26,SALT_LAKE
-UT,30,UINTAH_SPEC
-VA,VA,VIRGINIA
-VT,VT,VERMONT
-WA,33,WILLAMETTE
-WI,46,4TH_PM_MN-WI
-WV,WV,WEST_VIRGINIA
-WY,06,6TH_PM
-WY,34,WIND_RIVER"), stringsAsFactors = FALSE)
-
 
 # p: data.frame with chunks of PLSS coordinates
 formatPLSS <- function(p, type='SN') {
@@ -156,6 +61,10 @@ formatPLSS <- function(p, type='SN') {
 # not vectorized
 LL2PLSS <- function(x, y) {
   
+  # check for required packages
+  if(!requireNamespace('httr', quietly = TRUE) | !requireNamespace('jsonlite', quietly = TRUE))
+    stop('please install the `httr` and `jsonlite` packages', call.=FALSE)
+  
   # ensure that x/y have at least 8 decimal places
   x <- sprintf("%.08f", as.numeric(x))
   y <- sprintf("%.08f", as.numeric(y))
@@ -171,9 +80,9 @@ LL2PLSS <- function(x, y) {
   res <- jsonlite::fromJSON(httr::content(res, as = 'text'), flatten = TRUE)
   
   # attempt to extract PLSS geometry
-  geom <- sp::SpatialPolygons(list(sp::Polygons(list(sp::Polygon(res$features$geometry.rings[[1]][1,, ])), ID = 1)))
+  geom <- SpatialPolygons(list(Polygons(list(Polygon(res$features$geometry.rings[[1]][1,, ])), ID = 1)))
   srid <- res$features$geometry.spatialReference.wkid
-  sp::proj4string(geom) <- paste0('+init=epsg:', srid)
+  proj4string(geom) <- paste0('+init=epsg:', srid)
   
   # attempt to extract PLSS coordinates
   plss.coords <- res$features$attributes.landdescription
@@ -195,6 +104,10 @@ LL2PLSS <- function(x, y) {
 
 PLSS2LL <- function(p) {
   
+  # check for required packages
+  if(!requireNamespace('httr', quietly = TRUE) | !requireNamespace('jsonlite', quietly = TRUE))
+    stop('please install the `httr` and `jsonlite` packages', call.=FALSE)
+  
   # pre-allocate char vector for results
   res <- list()
   
@@ -210,7 +123,7 @@ PLSS2LL <- function(p) {
     httr::stop_for_status(r)
     
     # convert JSON -> list
-    r <- jsonlite::fromJSON(content(r, as = 'text'), flatten = TRUE)
+    r <- jsonlite::fromJSON(httr::content(r, as = 'text'), flatten = TRUE)
     #print(r$coordinates)
     
     # handling for if no coords returned
@@ -234,7 +147,7 @@ PLSS2LL <- function(p) {
     
   }
   
-  res <- plyr::ldply(res)
+  res <- ldply(res)
   print(res)
   return(res)
 }

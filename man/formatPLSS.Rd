@@ -16,4 +16,25 @@
 
 \seealso{\code{\link{PLSS2LL}}}
 
+\examples{
+library(sharpshootR)
+
+# create some data
+d <- data.frame( 
+id=1:3, 
+qq=c('SW', 'SW', 'SE'), 
+q=c('NE', 'NW', 'SE'),
+s=c(17, 32, 30), 
+t=c('T36N', 'T35N', 'T35N'),
+r=c('R29W', 'R28W', 'R28W'),
+type='SN',
+m='MT20', stringsAsFactors = FALSE)
+
+# add column names
+names(d) <- c('id', 'qq', 'q', 's', 't', 'r', 'type', 'm')
+
+# generate formatted PLSS codes
+formatPLSS(d, type='SN')
+}
+
 \keyword{manip}

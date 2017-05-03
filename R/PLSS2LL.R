@@ -158,6 +158,6 @@ PLSS2LL <- function(p) {
   }
   
   res <- ldply(res)
-  print(res)
+  #print(res)
   return(res)
 }

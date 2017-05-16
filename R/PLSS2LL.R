@@ -28,7 +28,7 @@ formatPLSS <- function(p, type='SN') {
     # format the first chunk
     f.1 <- paste0(c(p$m[i], p.t, p.r, p.s, 'A'), collapse = '0')
     # format the (optional) Q and QQ sections
-    f.2 <- paste0(p.q, p.qq)
+    f.2 <- paste0(p.qq, p.q)
     f[i] <- paste0(f.1, f.2)
     
     # handle if sections are protracted and unprotracted blocks

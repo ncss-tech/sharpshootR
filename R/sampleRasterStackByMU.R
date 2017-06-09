@@ -153,6 +153,9 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
       ## TODO: test parallel processing here
       # http://www.guru-gis.net/extract-raster-values-in-parallel/
       
+      ## TODO: figure out Rast I/O errors sometimes generated here:
+      # https://github.com/ncss-tech/soilReports/issues/48
+      
       # extract raster data, sample ID, polygon ID to DF
       l.mu[[mu.i]] <- rapply(raster.list, how = 'replace', f=function(r) {
         res <- data.frame(value=raster::extract(r, s), pID=s$pID, sid=s$sid)

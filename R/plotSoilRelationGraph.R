@@ -139,7 +139,11 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upp
 	# community metrics
 	g.com.length <- length(g.com)
 	g.com.membership <- membership(g.com)
-
+  
+	# save membership to original graph
+	# this is based on vertex order
+	V(g)$cluster <- g.com.membership
+	
 	# colors for communities: choose color palette based on number of communities
 	if(g.com.length <= 9 & g.com.length > 2) 
 		cols <- brewer.pal(n=g.com.length, name='Set1') 
@@ -150,7 +154,7 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upp
 	
 	# set colors based on community membership
 	cols.alpha <- alpha(cols, 0.65)
-	V(g)$color <- cols.alpha[membership(g.com)]
+	V(g)$color <- cols.alpha[g.com.membership]
   
   # get an index to edges associated with series specified in 's'
   el <- get.edgelist(g)

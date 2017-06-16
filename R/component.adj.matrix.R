@@ -67,6 +67,10 @@ component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', me
   }
   
   
+  ### Note: when using a limited number of "exmemplars" (typically map units) the resulting
+  ###       adjacency matrix may contain 0's using this method
+  ###       https://github.com/ncss-tech/sharpshootR/issues/4
+  
   # default method, based on ideas from ecological community matrix analysis
   if(method == 'community.matrix') {
     
@@ -82,9 +86,13 @@ component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', me
     d.mat <- as.matrix(d.wide[, -1])
     dimnames(d.mat)[[1]] <- d.wide[[co]]
     
-    # convert community matrix into dissimilarity matrix
     ## standardization method and distance metric MATTER
-    m <- vegdist(decostand(d.mat, method=standardization), method=metric)
+    # convert community matrix into dissimilarity matrix
+    # optional standardization
+    if(standardization != 'none')
+      d.mat <- decostand(d.mat, method=standardization)
+    # distance matrix
+    m <- vegdist(d.mat, method=metric)
     
     # convert to similarity matrix: S = max(D) - D [Kaufman & Rousseeuw]
     if(similarity == TRUE) {

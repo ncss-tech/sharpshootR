@@ -192,6 +192,7 @@ FFDplot <- function(s, sub.title=NULL) {
   q.spring <- unlist(s$summary[, c('spring.50', 'spring.80', 'spring.90')])
   q.fall <- unlist(s$summary[, c('fall.50', 'fall.80', 'fall.90')])
   prob.seq <- seq(0, 1, by=0.1)
+  date.seq <- seq.Date(from=as.Date('2011-01-15'), to=as.Date('2011-12-31'), by='1 month')
   
   par(mfcol=c(1,2))
   
@@ -199,18 +200,19 @@ FFDplot <- function(s, sub.title=NULL) {
   abline(v=q.spring, lty=3:1)
   abline(v=q.fall, lty=3:1)
   
-  # adj.params <- c(1, 1, -0.5)
-  # for(i in 1:3)
-  #   text(q.spring[i], n.yrs-i, q.spring[i], cex=0.65, adj=adj.params[i])
+  # segments(x0=q.spring[1], y0=(1:n.yrs)-0.25, x1=q.fall[1], y1=(1:n.yrs)-0.25, col='black', lty=3)
+  # segments(x0=q.spring[2], y0=1:n.yrs, x1=q.fall[2], y1=1:n.yrs, col='black', lty=2)
+  # segments(x0=q.spring[3], y0=(1:n.yrs)+0.25, x1=q.fall[3], y1=(1:n.yrs)+0.25, col='black', lty=1)
   # 
-  # for(i in 1:3)
-  #   text(q.fall[i], n.yrs-i, q.fall[i], cex=0.65, adj=rev(adj.params)[i])
+  abline(h=(1:n.yrs-1) + 0.5)
   
-  
-  axis.Date(side=1, seq.Date(from=as.Date('2011-01-01'), to=as.Date('2011-12-31'), by='2 weeks'), cex.axis=0.85)
-  axis(side=2, at=1:n.yrs, labels = row.names(s$fm), las=2, cex.axis=0.85)
+  axis(side=1, at=as.integer(format(date.seq, "%j")), labels = format(date.seq, "%b"), cex.axis=0.65)
+  axis(side=2, at=1:n.yrs, labels = row.names(s$fm), las=2, cex.axis=0.85, tick=FALSE, line=-0.5)
+  box()
   title('Frost-Free Period by Year')
   if(!is.null(sub.title)) title(sub=sub.title, line=2.5, font.sub=4, cex.sub=0.8)
+  
+  
   
   # right-hand plot: Pr(frost)
   plot(1:366, s$Pr.frost, type='l', axes=FALSE, xlab='', ylab='', lwd=2, col=grey(0.65))
@@ -225,8 +227,9 @@ FFDplot <- function(s, sub.title=NULL) {
   text(q.fall, c(0.5, 0.2, 0.1), q.fall, cex=0.75, pos=4)
   text((q.spring + q.fall) / 2, c(0.5, 0.2, 0.1), ffd.vals, font=2, cex=0.75, pos=3)
   
-  axis.Date(side=1, seq.Date(from=as.Date('2011-01-01'), to=as.Date('2011-12-31'), by='1 month'), cex.axis=0.85)
-  axis(side=2, at=prob.seq, labels = paste0(1-prob.seq), las=2, cex.axis=0.75, line=-0.5)
+  axis(side=1, at=as.integer(format(date.seq, "%j")), labels = format(date.seq, "%b"), cex.axis=0.65)
+  axis(side=2, at=prob.seq, labels = paste0(1-prob.seq), las=2, cex.axis=0.75, line=0)
+  box()
   title('Probability of "no-frost" by DOY')
   if(!is.null(sub.title)) title(sub=sub.title, line=2.5, font.sub=4, cex.sub=0.8)
   

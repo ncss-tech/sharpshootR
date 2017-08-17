@@ -185,7 +185,7 @@ FFD <- function(d, returnDailyPr=TRUE, minDays=165, ...) {
 
 
 
-FFDplot <- function(s, title='') {
+FFDplot <- function(s, sub.title=NULL) {
   
   n.yrs <- nrow(s$fm)
   ffd.vals <- unlist(s$summary[, c('ffd.50', 'ffd.80', 'ffd.90')])
@@ -209,7 +209,7 @@ FFDplot <- function(s, title='') {
   
   axis.Date(side=1, seq.Date(from=as.Date('2011-01-01'), to=as.Date('2011-12-31'), by='2 weeks'), cex.axis=0.85)
   axis(side=2, at=1:n.yrs, labels = row.names(s$fm), las=2, cex.axis=0.85)
-  title(title)
+  if(!is.null(sub.title)) title(sub=sub.title)
   
   # right-hand plot: Pr(frost)
   plot(1:366, s$Pr.frost, type='l', axes=FALSE, xlab='', ylab='', lwd=2, col=grey(0.65))
@@ -226,7 +226,7 @@ FFDplot <- function(s, title='') {
   
   axis.Date(side=1, seq.Date(from=as.Date('2011-01-01'), to=as.Date('2011-12-31'), by='1 month'), cex.axis=0.85)
   axis(side=2, at=prob.seq, labels = paste0(1-prob.seq), las=2, cex.axis=0.75, line=-0.5)
-  title(title)
+  if(!is.null(sub.title)) title(sub=sub.title)
   
 }
 

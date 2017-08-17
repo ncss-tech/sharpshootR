@@ -193,7 +193,7 @@ FFDplot <- function(s, sub.title=NULL) {
   q.fall <- unlist(s$summary[, c('fall.50', 'fall.80', 'fall.90')])
   prob.seq <- seq(0, 1, by=0.1)
   
-  par(mar=c(3,3.5,3,1), mfcol=c(1,2))
+  par(mfcol=c(1,2))
   
   image(1:366, 1:n.yrs, t(s$fm), col=c(grey(0.85), 'royalblue'), axes=FALSE, xlab='', ylab='')
   abline(v=q.spring, lty=3:1)
@@ -209,7 +209,8 @@ FFDplot <- function(s, sub.title=NULL) {
   
   axis.Date(side=1, seq.Date(from=as.Date('2011-01-01'), to=as.Date('2011-12-31'), by='2 weeks'), cex.axis=0.85)
   axis(side=2, at=1:n.yrs, labels = row.names(s$fm), las=2, cex.axis=0.85)
-  if(!is.null(sub.title)) title(sub=sub.title)
+  title('Frost-Free Period by Year')
+  if(!is.null(sub.title)) title(sub=sub.title, line=2.5, font.sub=4, cex.sub=0.8)
   
   # right-hand plot: Pr(frost)
   plot(1:366, s$Pr.frost, type='l', axes=FALSE, xlab='', ylab='', lwd=2, col=grey(0.65))
@@ -226,7 +227,8 @@ FFDplot <- function(s, sub.title=NULL) {
   
   axis.Date(side=1, seq.Date(from=as.Date('2011-01-01'), to=as.Date('2011-12-31'), by='1 month'), cex.axis=0.85)
   axis(side=2, at=prob.seq, labels = paste0(1-prob.seq), las=2, cex.axis=0.75, line=-0.5)
-  if(!is.null(sub.title)) title(sub=sub.title)
+  title('Probability of "no-frost" by DOY')
+  if(!is.null(sub.title)) title(sub=sub.title, line=2.5, font.sub=4, cex.sub=0.8)
   
 }
 

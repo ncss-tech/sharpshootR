@@ -1,9 +1,4 @@
-## Ideas:
-# http://bommaritollc.com/2012/06/17/summary-community-detection-algorithms-igraph-0-6/?utm_source=rss&utm_medium=rss&utm_campaign=summary-community-detection-algorithms-igraph-0-6
-# http://stackoverflow.com/questions/9471906/what-are-the-differences-between-community-detection-algorithms-in-igraph
-
-## TODO: community evaluation will crash with most community detection algorithms:
-#     examples: plano, miami
+# https://github.com/ncss-tech/sharpshootR/issues/7
 
 ## NOTE: dendrogram representation of community structure is only possible with some community detection algorithms
 

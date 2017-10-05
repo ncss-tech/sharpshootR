@@ -1,0 +1,31 @@
+
+# requires rvest
+# examples:
+# url = 'https://nasis.sc.egov.usda.gov/NasisReportsWebSite/limsreport.aspx?report_name=WEB-PROJECT_MUKEY_BY_GOAL_YEAR'
+# args = list(msso='2-MIN', fy='2018', asym='%', proj='0')
+parseWebReport <- function(url, args, index=1) {
+  
+  # sanity check: package requirements
+  if(!requireNamespace('rvest'))
+    stop('please install the package: rvest', call. = FALSE)
+  
+  # parse args and create final URL
+  URLargs <- paste0('&', paste(names(args), unlist(args), sep='='), collapse='')
+  url <- URLencode(paste0(url, URLargs))
+  
+  # get HTML
+  x <- xml2::read_html(url)
+  
+  # TODO: sanity checking
+  
+  if(is.null(index)) {
+    # NULL index = all tables
+    d <- rvest::html_table(x, header=TRUE)
+  } else {
+    # extract tables if index if specified
+    d <- rvest::html_table(x, header=TRUE)[[index]]
+  }
+  
+  # done
+  return(d)
+}

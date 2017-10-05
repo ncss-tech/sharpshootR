@@ -4,7 +4,7 @@ importFrom("grDevices", "colorRampPalette", "grey")
 
 importFrom("graphics", "abline", "arrows", "axis", "image", "layout",
              "legend", "lines", "mtext", "par", "points", "rect",
-             "segments", "strheight", "text", "grid", "hist", "box", "boxplot")
+             "segments", "strheight", "text", "grid", "hist", "box", "boxplot", "title")
 
 importFrom("methods", "as", "slot")
 

@@ -221,7 +221,7 @@ FFDplot <- function(s, sub.title=NULL) {
   points(q.spring, c(0.5, 0.2, 0.1), col='red', pch='|', cex=1.5)
   points(q.fall, c(0.5, 0.2, 0.1), col='red', pch='|', cex=1.5)
   
-  arrows(x0=q.spring, y0=c(0.5, 0.2, 0.1), x1=q.fall, y1=c(0.5, 0.2, 0.1), col='black', len=0.1, code = 3)
+  arrows(x0=q.spring, y0=c(0.5, 0.2, 0.1), x1=q.fall, y1=c(0.5, 0.2, 0.1), col='black', length=0.1, code = 3)
   
   text(q.spring, c(0.5, 0.2, 0.1), q.spring, cex=0.75, pos=2)
   text(q.fall, c(0.5, 0.2, 0.1), q.fall, cex=0.75, pos=4)

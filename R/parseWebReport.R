@@ -18,7 +18,11 @@ parseWebReport <- function(url, args, index=1) {
   # get HTML
   x <- xml2::read_html(url)
   
-  # TODO: sanity checking
+  # sanity check: error 400 (?) -- probably bogus arguments
+  
+  # sanity check empty list = no data
+  if(length(x) < 1)
+    return(NULL)
   
   if(is.null(index)) {
     # NULL index = all tables

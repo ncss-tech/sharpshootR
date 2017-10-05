@@ -20,16 +20,16 @@ parseWebReport <- function(url, args, index=1) {
   
   # sanity check: error 400 (?) -- probably bogus arguments
   
+  # read all of the HTML tables
+  d <- rvest::html_table(x, header=TRUE)
+  
   # sanity check empty list = no data
-  if(length(x) < 1)
+  if(length(d) < 1)
     return(NULL)
   
-  if(is.null(index)) {
-    # NULL index = all tables
-    d <- rvest::html_table(x, header=TRUE)
-  } else {
-    # extract tables if index if specified
-    d <- rvest::html_table(x, header=TRUE)[[index]]
+  # if specified, get only the indexed table
+  if(! is.null(index)) {
+    d <- d[[index]]
   }
   
   # TODO: col names aren't legal data.frame names

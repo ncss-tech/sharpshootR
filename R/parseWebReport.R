@@ -1,4 +1,13 @@
 
+## TODO: GET doesn't work when special characters (< >) are present in the URL
+## TODO: POST doesn't seem to work either ...
+
+# library(httr)
+# url <- 'https://nasis.sc.egov.usda.gov/NasisReportsWebSite/limsreport.aspx?report_name=WEB-PROPERY-COMPONENT_property'
+# r <- POST(url, body=args, encode = "multipart", verbose())
+# rvest::html_table(content(r))
+
+
 # requires rvest
 # note: get argument names from report HTML source
 #
@@ -13,12 +22,14 @@ parseWebReport <- function(url, args, index=1) {
   
   # parse args and create final URL
   URLargs <- paste0('&', paste(names(args), unlist(args), sep='='), collapse='')
-  url <- URLencode(paste0(url, URLargs))
+  url <- paste0(url, URLencode(URLargs, reserved = FALSE))
   
-  # get HTML
-  x <- xml2::read_html(url)
+  # get HTML, result is NULL when HTTP ERROR is encountered
+  x <- tryCatch(xml2::read_html(url), error = function(e){NULL})
   
-  # sanity check: error 400 (?) -- probably bogus arguments
+  # catch (likely) HTTP errors here
+  if(is.null(x))
+    return(NULL)
   
   # read all of the HTML tables
   d <- rvest::html_table(x, header=TRUE)

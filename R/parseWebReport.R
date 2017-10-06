@@ -1,5 +1,8 @@
 
-## TODO: GET doesn't work when special characters (< >) are present in the URL
+## parallel requests?
+# https://cran.r-project.org/web/packages/curl/vignettes/intro.html#async_requests
+
+
 ## TODO: POST doesn't seem to work either ...
 
 # library(httr)
@@ -25,7 +28,9 @@ parseWebReport <- function(url, args, index=1) {
   url <- paste0(url, URLencode(URLargs, reserved = FALSE))
   
   # get HTML, result is NULL when HTTP ERROR is encountered
-  x <- tryCatch(xml2::read_html(url), error = function(e){NULL})
+  # using curl package functions / low level options to account for slow servers
+  ## TODO: random SSL errors
+  x <- tryCatch(xml2::read_html(curl::curl(url,  handle = curl::new_handle(verbose=FALSE, useragent = "Mozilla/5.0", CONNECTTIMEOUT = 60))), error = function(e){print(e); return(NULL)})
   
   # catch (likely) HTTP errors here
   if(is.null(x))

@@ -15,20 +15,28 @@ geomPosMountainProbability <- function(s, replaceNA=TRUE) {
              FROM
              (
              SELECT UPPER(compname) AS compname, geomposmntn as q_param, CAST(count(geomposmntn) AS numeric) AS q_param_n
-             FROM component 
+             FROM legend
+             INNER JOIN mapunit mu ON mu.lkey = legend.lkey
+             INNER JOIN component co ON mu.mukey = co.mukey 
              LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
              LEFT JOIN cosurfmorphgc on cogeomordesc.cogeomdkey = cosurfmorphgc.cogeomdkey
-             WHERE UPPER(compname) IN ", in.statement, "
+             WHERE
+             legend.areasymbol != 'US'
+             AND UPPER(compname) IN ", in.statement, "
              AND geomposmntn IS NOT NULL
              GROUP BY UPPER(compname), geomposmntn
              ) AS a
              JOIN
              (
              SELECT UPPER(compname) AS compname, CAST(count(compname) AS numeric) AS total
-             FROM component
+             FROM legend
+             INNER JOIN mapunit mu ON mu.lkey = legend.lkey
+             INNER JOIN component co ON mu.mukey = co.mukey 
              LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
              LEFT JOIN cosurfmorphgc on cogeomordesc.cogeomdkey = cosurfmorphgc.cogeomdkey
-             WHERE UPPER(compname) IN ", in.statement, "
+             WHERE 
+             legend.areasymbol != 'US'
+             AND UPPER(compname) IN ", in.statement, "
              AND geomposmntn IS NOT NULL
              GROUP BY UPPER(compname)
              ) AS b

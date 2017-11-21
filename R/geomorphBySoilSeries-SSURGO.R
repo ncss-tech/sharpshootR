@@ -76,20 +76,28 @@ geomPosHillProbability <- function(s, replaceNA=TRUE) {
              FROM
              (
              SELECT UPPER(compname) AS compname, geomposhill as q_param, CAST(count(geomposhill) AS numeric) AS q_param_n
-             FROM component 
+             FROM legend
+             INNER JOIN mapunit mu ON mu.lkey = legend.lkey
+             INNER JOIN component co ON mu.mukey = co.mukey 
              LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
              LEFT JOIN cosurfmorphgc on cogeomordesc.cogeomdkey = cosurfmorphgc.cogeomdkey
-             WHERE UPPER(compname) IN ", in.statement, "
+             WHERE 
+             legend.areasymbol != 'US'
+             AND UPPER(compname) IN ", in.statement, "
              AND geomposhill IS NOT NULL
              GROUP BY UPPER(compname), geomposhill
              ) AS a
              JOIN
              (
              SELECT UPPER(compname) AS compname, CAST(count(compname) AS numeric) AS total
-             FROM component
+             FROM legend
+             INNER JOIN mapunit mu ON mu.lkey = legend.lkey
+             INNER JOIN component co ON mu.mukey = co.mukey
              LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
              LEFT JOIN cosurfmorphgc on cogeomordesc.cogeomdkey = cosurfmorphgc.cogeomdkey
-             WHERE UPPER(compname) IN ", in.statement, "
+             WHERE 
+             legend.areasymbol != 'US'
+             AND UPPER(compname) IN ", in.statement, "
              AND geomposhill IS NOT NULL
              GROUP BY UPPER(compname)
              ) AS b
@@ -130,10 +138,14 @@ surfaceShapeProbability <- function(s, replaceNA=TRUE) {
              FROM
              (
              SELECT UPPER(compname) AS compname, shapeacross + '/' + shapedown as q_param, CAST(count(shapeacross + '/' + shapedown) AS numeric) AS q_param_n
-             FROM component 
+             FROM legend
+             INNER JOIN mapunit mu ON mu.lkey = legend.lkey
+             INNER JOIN component co ON mu.mukey = co.mukey 
              LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
              LEFT JOIN cosurfmorphss on cogeomordesc.cogeomdkey = cosurfmorphss.cogeomdkey
-             WHERE UPPER(compname) IN ", in.statement, "
+             WHERE 
+             legend.areasymbol != 'US'
+             AND UPPER(compname) IN ", in.statement, "
              AND shapeacross IS NOT NULL
              AND shapedown IS NOT NULL
              GROUP BY UPPER(compname), shapeacross + '/' + shapedown
@@ -141,10 +153,14 @@ surfaceShapeProbability <- function(s, replaceNA=TRUE) {
              JOIN
              (
              SELECT UPPER(compname) AS compname, CAST(count(compname) AS numeric) AS total
-             FROM component
+             FROM legend
+             INNER JOIN mapunit mu ON mu.lkey = legend.lkey
+             INNER JOIN component co ON mu.mukey = co.mukey
              LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
              LEFT JOIN cosurfmorphss on cogeomordesc.cogeomdkey = cosurfmorphss.cogeomdkey
-             WHERE UPPER(compname) IN ", in.statement, "
+             WHERE 
+             legend.areasymbol != 'US'
+             AND UPPER(compname) IN ", in.statement, "
              AND shapeacross IS NOT NULL
              AND shapedown IS NOT NULL
              GROUP BY UPPER(compname)
@@ -185,20 +201,28 @@ hillslopeProbability <- function(s, replaceNA=TRUE) {
              FROM
              (
              SELECT UPPER(compname) AS compname, hillslopeprof as q_param, CAST(count(hillslopeprof) AS numeric) AS q_param_n
-             FROM component 
+             FROM legend
+             INNER JOIN mapunit mu ON mu.lkey = legend.lkey
+             INNER JOIN component co ON mu.mukey = co.mukey 
              LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
              LEFT JOIN cosurfmorphhpp on cogeomordesc.cogeomdkey = cosurfmorphhpp.cogeomdkey
-             WHERE UPPER(compname) IN ", in.statement, "
+             WHERE 
+             legend.areasymbol != 'US'
+             AND UPPER(compname) IN ", in.statement, "
              AND hillslopeprof IS NOT NULL
              GROUP BY UPPER(compname), hillslopeprof
              ) AS a
              JOIN
              (
              SELECT UPPER(compname) AS compname, CAST(count(compname) AS numeric) AS total
-             FROM component
+             FROM legend
+             INNER JOIN mapunit mu ON mu.lkey = legend.lkey
+             INNER JOIN component co ON mu.mukey = co.mukey
              LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
              LEFT JOIN cosurfmorphhpp on cogeomordesc.cogeomdkey = cosurfmorphhpp.cogeomdkey
-             WHERE UPPER(compname) IN ", in.statement, "
+             WHERE 
+             legend.areasymbol != 'US'
+             AND UPPER(compname) IN ", in.statement, "
              AND hillslopeprof IS NOT NULL
              GROUP BY UPPER(compname)
              ) AS b

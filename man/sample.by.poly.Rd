@@ -4,7 +4,7 @@
 \title{Sample a Polygon at Fixed Density}
 \description{Generate sampling points within a SpatialPolygon object, according to a specified sampling density.}
 \usage{sample.by.poly(p, n.pts.per.ac=1, min.samples=5, 
-sampling.type='hexagonal', iterations=10, p4s=NULL)}
+sampling.type='regular', iterations=10, p4s=NULL)}
 
 \arguments{
   \item{p}{a Polygon object, with coordinates in a projected CRS with units of meters}
@@ -16,9 +16,12 @@ sampling.type='hexagonal', iterations=10, p4s=NULL)}
 }
 \details{This function is typically accessed via some kind of helper function such as \code{\link{constantDensitySampling}}.}
 \value{A \code{SpatialPoints} object.}
-\author{D.E. Beaudette}
-\note{This function expects that the \code{Polygon} object has coordinates associated with a projected CRS-- e.g. units of meters.}
 
-\seealso{\code{\link{constantDensitySampling}}}
+
+\author{D.E. Beaudette}
+
+\note{This function expects that the \code{Polygon} object has coordinates associated with a projected CRS-- e.g. units of meters. Invalid geometries may cause errors or yield incorrect sample sizes.}
+
+\seealso{\code{\link{spsample}}, \code{\link{constantDensitySampling}}}
 
 \keyword{manip}

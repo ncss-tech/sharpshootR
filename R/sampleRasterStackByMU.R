@@ -31,6 +31,9 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   if(!is.projected(mu))
     stop('map unit polygons must be in a projected CRS', call.=FALSE)
   
+  # check for invalid geometry
+  validity.res <- data.frame(id=mu[[mu.col]], Plolygon.Validity=gIsValid(mu, byid=TRUE, reason=TRUE), stringsAsFactors = FALSE)
+  
   # init containers for intermediate results
   l.mu <- list() # samples
   l.unsampled <- list() # un-sampled polygon IDs
@@ -259,7 +262,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   
   
   # combine into single object and result
-  return(list('raster.samples'=d.mu, 'area.stats'=mu.area, 'unsampled.ids'=unsampled.idx, 'raster.summary'=rs.df, 'Moran_I'=MI))
+  return(list('raster.samples'=d.mu, 'area.stats'=mu.area, 'unsampled.ids'=unsampled.idx, 'raster.summary'=rs.df, 'mu.validity.check'=validity.res, 'Moran_I'=MI))
 }
 
 

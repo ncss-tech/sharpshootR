@@ -25,7 +25,11 @@ constantDensitySampling <- function(x, polygon.id='pID', ...) {
   res <- lapply(slot(x, 'polygons'), sample.by.poly, p4s=p4s, ...)
   
   # this happens when there aren't enough sample points based on min.samples
-  # check for NULL in this list-- cases where it was too difficult to place a point
+  # check for NULL in this list:
+  # * cases where it was too difficult to place a point
+  # * could be caused by invalid geometry / topological error 
+  #   --> spsample() says: "cannot derive coordinates from non-numeric matrix"
+  #
   null.items <- which(sapply(res, is.null))
   if(length(null.items) > 0) {
     message('some polygons were too small for the requested number of samples')
@@ -73,9 +77,10 @@ constantDensitySampling <- function(x, polygon.id='pID', ...) {
 # min.samples: minimum requested samples / polygon
 # iterations: number of sampling "tries"
 # p4s: proj4string assigned to SpatialPoints object
-sample.by.poly <- function(p, n.pts.per.ac=1, min.samples=5, sampling.type='hexagonal', iterations=10, p4s=NULL) {
+sample.by.poly <- function(p, n.pts.per.ac=1, min.samples=5, sampling.type='regular', iterations=10, p4s=NULL) {
   # convert _projected_ units to acres
   ac.i <- p@area * 2.47e-4
+  
   # determine number of points based on requested density
   n.samples <- round(ac.i * n.pts.per.ac)
   
@@ -84,9 +89,15 @@ sample.by.poly <- function(p, n.pts.per.ac=1, min.samples=5, sampling.type='hexa
     # trap errors caused by bad geometry
     s.i <- try(spsample(p, n=n.samples, type=sampling.type, iter=iterations), silent=TRUE)
     
-    # errors? return NULL
-    if(class(s.i) == 'try-error')
+    # errors: return NULL
+    # invalid geometry could be the cause
+    if(class(s.i) == 'try-error') {
+      # print error for debugging
+      message(paste0('sample.by.poly: ', attr(s.i, 'condition')), call. = FALSE)
+      # can't do much else, move on to the next feature
       return(NULL)
+    }
+
     
     # assign original proj4 string
     if(!is.null(p4s) & !is.null(s.i))

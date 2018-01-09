@@ -33,7 +33,7 @@ library(sharpshootR)
 x <- readOGR(dsn='L:/CA630/FG_CA630_OFFICIAL.gdb', layer='ca630_a', stringsAsFactors=FALSE)
 
 # remove NOTCOM, DA, and empty (non-NA) symbols
-x <- x[which(! x$MUSYM %in% c('NOTCOM', 'DA', ' ', '')), ]
+x <- x[which(! x$MUSYM \%in\% c('NOTCOM', 'DA', ' ', '')), ]
 
 # compute spatial adjacency summary
 res <- polygonAdjacency(x, v='MUSYM')

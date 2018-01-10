@@ -49,10 +49,35 @@ overwrite_layer=TRUE)
 
 # plot spatial adjacency information
 par(mar=c(0,0,0,0))
+
+# full adjacency graph: very messy
 plotSoilRelationGraph(res$adjMat, 
-vertex.scaling.factor = 1)
+vertex.scaling.factor = 1, vertex.label.family='sans',
+vertex.label.cex=0.75,
+g.layout = layout_with_lgl)
+
+# trim down via "max spanning tree"
 plotSoilRelationGraph(res$adjMat, spanning.tree='max', 
-edge.scaling.factor=0.1, vertex.scaling.factor=1)
+edge.scaling.factor=0.1, vertex.scaling.factor=1, 
+vertex.label.family='sans',
+vertex.label.cex=0.75,
+g.layout = layout_with_lgl)
+
+# get the resulting graph for later inspection
+g <- plotSoilRelationGraph(res$adjMat, spanning.tree='max', 
+edge.scaling.factor=0.1, vertex.scaling.factor=1, 
+vertex.label.family='sans',
+vertex.label.cex=0.75,
+g.layout = layout_with_lgl)
+
+# get vertices that are neighbors with a given vertex
+neighbors(g, '9012')
+
+# plot subgraph
+plot(subgraph(g, neighbors(g, '9012')), 
+vertex.label.family='sans',
+vertex.label.cex=0.75,
+layout=layout_with_lgl)
 }
 
 

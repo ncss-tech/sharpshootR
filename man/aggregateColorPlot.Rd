@@ -6,7 +6,9 @@
 \usage{
 aggregateColorPlot(x, print.label=TRUE, label.font = 1, 
 label.cex = 0.65, buffer.pct = 0.02, print.n.hz=FALSE, 
-rect.border='black', horizontal.borders=FALSE, ...)
+rect.border='black', horizontal.borders=FALSE, 
+horizontal.border.lwd=2, x.axis=TRUE, y.axis=TRUE,
+...)
 }
 
 \arguments{
@@ -18,9 +20,12 @@ rect.border='black', horizontal.borders=FALSE, ...)
   \item{print.n.hz}{optionally print the number of horizons}
   \item{rect.border}{color for rectangle border}
   \item{horizontal.borders}{optionally add horizontal borders between bands of color}
+  \item{horizontal.border.lwd}{line width for horizontal borders}
+  \item{x.axis}{logical: add a scale and label to x-axis?}
+  \item{y.axis}{logical: add group labels to y-axis?}
   \item{\dots}{additional arguments passed to plot}
 }
-\details{See examples.}
+\details{Tutorial at \url{http://ncss-tech.github.io/AQP/sharpshootR/aggregate-soil-color.html}.}
 
 \author{D.E. Beaudette}
 

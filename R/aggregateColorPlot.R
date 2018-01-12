@@ -1,7 +1,7 @@
-
+## TODO: accomodate horizontal labeling of colors
 
 # x: results from aggregateColor()
-aggregateColorPlot <- function(x, print.label=TRUE, label.font=1, label.cex=0.65, buffer.pct=0.02, print.n.hz=FALSE, rect.border='black', horizontal.borders=FALSE, ...) {
+aggregateColorPlot <- function(x, print.label=TRUE, label.font=1, label.cex=0.65, buffer.pct=0.02, print.n.hz=FALSE, rect.border='black', horizontal.borders=FALSE, horizontal.border.lwd=2, x.axis=TRUE, y.axis=TRUE, ...) {
  
   # extract just the scaled data from the results of aggregateColor()
   s.scaled <- x$scaled.data
@@ -56,12 +56,15 @@ aggregateColorPlot <- function(x, print.label=TRUE, label.font=1, label.cex=0.65
   # add horizontal separator lines, typically used when rectange borders are not drawn
   if(horizontal.borders){
     hz.line.y <- 1:(length(names(s.scaled))-1) + 0.5
-    segments(x0 = 0, y0 = hz.line.y, x1 = 1, y1 = hz.line.y, lwd=2)
+    segments(x0 = 0, y0 = hz.line.y, x1 = 1, y1 = hz.line.y, lwd=horizontal.border.lwd)
   }
   
-  ## TODO: make these adjustable
-  # add axes
-  axis(1, at=round(seq(0, 1, length.out = 11), 2))
-  axis(2, at = seq_along(names(s.scaled)), labels = names(s.scaled), las=2, tick=FALSE, font=2, hadj=1, line=-2.125, cex.axis=1)
+  # label x-axis with a scale
+  if(x.axis)
+    axis(1, at=round(seq(0, 1, length.out = 11), 2))
+  
+  # label x-axis with group names
+  if(y.axis)
+    axis(2, at = seq_along(names(s.scaled)), labels = names(s.scaled), las=2, tick=FALSE, font=2, hadj=1, line=-2.125, cex.axis=1)
   
 }

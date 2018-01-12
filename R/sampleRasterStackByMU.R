@@ -32,7 +32,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
     stop('map unit polygons must be in a projected CRS', call.=FALSE)
   
   # check for invalid geometry
-  validity.res <- data.frame(id=mu[[mu.col]], Plolygon.Validity=gIsValid(mu, byid=TRUE, reason=TRUE), stringsAsFactors = FALSE)
+  validity.res <- data.frame(id=mu[[mu.col]], Plolygon.Validity=rgeos::gIsValid(mu, byid=TRUE, reason=TRUE), stringsAsFactors = FALSE)
   
   # init containers for intermediate results
   l.mu <- list() # samples

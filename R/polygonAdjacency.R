@@ -47,9 +47,13 @@ polygonAdjacency <- function(x, v='MUSYM', ...) {
   # init igraph object: note that there will be many duplicate edges
   g <- graph.edgelist(edge.list, directed=FALSE)
   
-  # keep track of duplicate edges as weight, then remove
-  E(g)$weight <- log(count.multiple(g))
-  g <- simplify(g)
+  # keep track of duplicate edges as weight
+  # adding 1 to the count of multiples is critical here as some nodes may only touch 1 time
+  # ---> log(1) = 0
+  E(g)$weight <- 1 + log(count.multiple(g))
+  
+  # remove multiple edges, taking mean of the edge weights
+  g <- simplify(g, remove.multiple = TRUE, remove.loops = TRUE, edge.attr.comb='mean')
   
   # save as weighted adjacancy matrix for plotting with sharpshootR functions
   a <- get.adjacency(g, attr='weight')

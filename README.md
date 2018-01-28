@@ -12,6 +12,11 @@ Install the development version from Github:
 
 `devtools::install_github("ncss-tech/sharpshootR", dependencies=FALSE, upgrade_dependencies=FALSE)`
 
+
+## Website
+http://ncss-tech.github.io/AQP/
+
+
 ## Examples
 ```r
 library(sharpshootR)

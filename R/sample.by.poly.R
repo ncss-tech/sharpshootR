@@ -1,6 +1,6 @@
 
 
-constantDensitySampling <- function(x, polygon.id='pID', ...) {
+constantDensitySampling <- function(x, polygon.id='pID', parallel=FALSE, cores=NULL, n.pts.per.ac=1, min.samples=5, sampling.type='regular', iterations=10) {
   
   # sanity check: this must be a projected CRS
   if(!is.projected(x)) {
@@ -15,21 +15,64 @@ constantDensitySampling <- function(x, polygon.id='pID', ...) {
   # retain proj4 information
   p4s <- proj4string(x)
   
-  ## TODO: enable parallel processing
-  ## must load packages in each cluster
-  #   cl <- makeCluster(getOption("cl.cores", 2))
-  #   res <- parLapply(cl=cl, X=slot(x, 'polygons'), fun=sample.by.poly, n.pts.per.ac=n.pts.per.ac, min.samples=min.samples, p4s=p)
-  #   stopCluster(cl)
-  
+  ## NOT ready for prime time, usually slower than sequential
+  ## https://github.com/ncss-tech/sharpshootR/issues/10
+  ## requires slightly more RAM
+  ## significant overhead
+  ## not worth doing when nrow(x) < number of cores
+  if(parallel) {
+    
+    # establish possible number of CPU cores if not specified
+    if(is.null(cores)) {
+      # the smaller: available CPU cores | number of polygons
+      cores <- min(c(parallel::detectCores(), nrow(x)))
+    }
+    
+    # init nodes
+    ## TODO: optimal setting for useXDR ?
+    ## TODO: makeCluster() [platform agnostic] or makePSOCKcluster() [Windoze]
+    cl <- parallel::makePSOCKcluster(cores, useXDR=TRUE)
+    
+    ## probably not required?
+    # # setup clusters
+    # parallel::clusterEvalQ(cl, {
+    #   library(sp)
+    #   library(sharpshootR)
+    #   return(NULL)
+    # })
+    
+    # parallel sampling
+    # sample and return a list, one element / valid polygon
+    res <- parallel::parLapply(cl=cl, X=slot(x, 'polygons'), 
+                                 fun=sample.by.poly, 
+                                 n.pts.per.ac=n.pts.per.ac, 
+                                 min.samples=min.samples, 
+                                 sampling.type=sampling.type, 
+                                 iterations=iterations,
+                                 p4s=p4s)
+    
+    # stop nodes
+    parallel::stopCluster(cl)
+  }
+
+    
+  # sequential processing
   # sample and return a list, one element / valid polygon
-  res <- lapply(slot(x, 'polygons'), sample.by.poly, p4s=p4s, ...)
+  res <- lapply(slot(x, 'polygons'), 
+                FUN=sample.by.poly, 
+                n.pts.per.ac=n.pts.per.ac, 
+                min.samples=min.samples, 
+                sampling.type=sampling.type, 
+                iterations=iterations,
+                p4s=p4s)
   
-  # this happens when there aren't enough sample points based on min.samples
+  
   # check for NULL in this list:
+  # this happens when there aren't enough sample points based on min.samples
   # * cases where it was too difficult to place a point
   # * could be caused by invalid geometry / topological error 
   #   --> spsample() says: "cannot derive coordinates from non-numeric matrix"
-  #
+  
   null.items <- which(sapply(res, is.null))
   if(length(null.items) > 0) {
     message('some polygons were too small for the requested number of samples')

@@ -15,6 +15,7 @@ constantDensitySampling <- function(x, polygon.id='pID', parallel=FALSE, cores=N
   # retain proj4 information
   p4s <- proj4string(x)
   
+  ## see https://github.com/ncss-tech/sharpshootR/issues/10
   ## NOT ready for prime time, usually slower than sequential
   ## https://github.com/ncss-tech/sharpshootR/issues/10
   ## requires slightly more RAM
@@ -31,7 +32,7 @@ constantDensitySampling <- function(x, polygon.id='pID', parallel=FALSE, cores=N
     # init nodes
     ## TODO: optimal setting for useXDR ?
     ## TODO: makeCluster() [platform agnostic] or makePSOCKcluster() [Windoze]
-    cl <- parallel::makePSOCKcluster(cores, useXDR=TRUE)
+    cl <- parallel::makeCluster(cores, useXDR=TRUE)
     
     ## probably not required?
     # # setup clusters

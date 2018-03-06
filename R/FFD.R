@@ -21,7 +21,7 @@
   # get DOY from source data
   doy <- as.integer(format(as.Date(dt), "%j"))
   
-  # instert data into doy template via doy index
+  # insert data into doy template via doy index
   doy.template[doy] <- value
   
   # data aligned to DOY

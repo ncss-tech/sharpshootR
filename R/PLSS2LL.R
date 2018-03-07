@@ -34,7 +34,7 @@ formatPLSS <- function(p, type='SN') {
     # handle if sections are protracted and unprotracted blocks
     if(type=='PB') {
     f[i] <- stri_replace_all_fixed(f[i], 'SN', 'PB')
-    f[i] <- stri_replace_all_fixed(f[i], 'A', 'U')
+    f[i] <- stri_replace_all_fixed(f[i], 'A', '')
 	# truncate UP and PB cases to section
       	if(!is.na(p$qq[i])) {
       	f[i] <- stri_sub(f[i], 0, stri_length(f[i])-4)
@@ -48,7 +48,7 @@ formatPLSS <- function(p, type='SN') {
     }
     if(type=='UP') {
       f[i] <- stri_replace_all_fixed(f[i], 'SN', 'UP')
-      f[i] <- stri_replace_all_fixed(f[i], 'A', 'U')
+      f[i] <- stri_replace_all_fixed(f[i], 'A', '')
       # truncate UP and PB cases to section
       if(!is.na(p$qq[i])) {
       f[i] <- stri_sub(f[i], 0, stri_length(f[i])-4)
@@ -159,5 +159,40 @@ PLSS2LL <- function(p) {
   
   res <- ldply(res)
   #print(res)
+  return(res)
+}
+
+PLSS2LL_1 <- function(formatted.plss) {
+  
+  # pre-allocate char vector for results
+  res <- list()
+  
+  for(i in 1:length(formatted.plss)) { 
+    # composite URL for GET request, result is JSON
+    u <- paste0("https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer/exts/CadastralSpecialServices/GetLatLon?trs=", formatted.plss[i], "&f=pjson")
+    
+    # process GET request
+    r <- httr::GET(u)
+    httr::stop_for_status(r)
+    
+    # convert JSON -> list
+    r <- jsonlite::fromJSON(content(r, as = 'text'), flatten = TRUE)
+    
+    # keep only coordinates
+    # r <- r$coordinates[, c('lon', 'lat')]
+    r <- r$coordinates
+    
+    # request that are less than QQ precision will return multiple QQ centers
+    # keep the mean coordinates
+    if(nrow(r) >= 1) {
+      r <- data.frame(t(colMeans(r[ ,2:3], na.rm = TRUE)))
+    }
+       #if(nrow(r) == 0) {
+       #    r <- data.frame(plssid=r$plssid[1], lat='NA', lon='NA')
+       #}	
+    res[[i]] <- r
+  }
+  
+  res <- plyr::ldply(res)
   return(res)
 }

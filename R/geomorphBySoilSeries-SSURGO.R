@@ -3,6 +3,9 @@
 ## this doesn't properly utilize existing indexes
 ##
 
+## related issue
+# https://github.com/ncss-tech/sharpshootR/issues/12
+
 # s: vector of soil series names
 # replaceNA: convert missing categories into 0 probabilities
 geomPosMountainProbability <- function(s, replaceNA=TRUE) {
@@ -17,8 +20,8 @@ geomPosMountainProbability <- function(s, replaceNA=TRUE) {
              SELECT UPPER(compname) AS compname, geomposmntn as q_param, CAST(count(geomposmntn) AS numeric) AS q_param_n
              FROM legend
              INNER JOIN mapunit mu ON mu.lkey = legend.lkey
-             INNER JOIN component co ON mu.mukey = co.mukey 
-             LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
+             INNER JOIN component AS co ON mu.mukey = co.mukey 
+             LEFT JOIN cogeomordesc ON co.cokey = cogeomordesc.cokey
              LEFT JOIN cosurfmorphgc on cogeomordesc.cogeomdkey = cosurfmorphgc.cogeomdkey
              WHERE
              legend.areasymbol != 'US'
@@ -30,9 +33,9 @@ geomPosMountainProbability <- function(s, replaceNA=TRUE) {
              (
              SELECT UPPER(compname) AS compname, CAST(count(compname) AS numeric) AS total
              FROM legend
-             INNER JOIN mapunit mu ON mu.lkey = legend.lkey
-             INNER JOIN component co ON mu.mukey = co.mukey 
-             LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
+             INNER JOIN mapunit AS mu ON mu.lkey = legend.lkey
+             INNER JOIN component AS co ON mu.mukey = co.mukey 
+             LEFT JOIN cogeomordesc ON co.cokey = cogeomordesc.cokey
              LEFT JOIN cosurfmorphgc on cogeomordesc.cogeomdkey = cosurfmorphgc.cogeomdkey
              WHERE 
              legend.areasymbol != 'US'
@@ -78,8 +81,8 @@ geomPosHillProbability <- function(s, replaceNA=TRUE) {
              SELECT UPPER(compname) AS compname, geomposhill as q_param, CAST(count(geomposhill) AS numeric) AS q_param_n
              FROM legend
              INNER JOIN mapunit mu ON mu.lkey = legend.lkey
-             INNER JOIN component co ON mu.mukey = co.mukey 
-             LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
+             INNER JOIN component AS co ON mu.mukey = co.mukey 
+             LEFT JOIN cogeomordesc ON co.cokey = cogeomordesc.cokey
              LEFT JOIN cosurfmorphgc on cogeomordesc.cogeomdkey = cosurfmorphgc.cogeomdkey
              WHERE 
              legend.areasymbol != 'US'
@@ -92,8 +95,8 @@ geomPosHillProbability <- function(s, replaceNA=TRUE) {
              SELECT UPPER(compname) AS compname, CAST(count(compname) AS numeric) AS total
              FROM legend
              INNER JOIN mapunit mu ON mu.lkey = legend.lkey
-             INNER JOIN component co ON mu.mukey = co.mukey
-             LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
+             INNER JOIN component AS co ON mu.mukey = co.mukey
+             LEFT JOIN cogeomordesc ON co.cokey = cogeomordesc.cokey
              LEFT JOIN cosurfmorphgc on cogeomordesc.cogeomdkey = cosurfmorphgc.cogeomdkey
              WHERE 
              legend.areasymbol != 'US'
@@ -139,9 +142,9 @@ surfaceShapeProbability <- function(s, replaceNA=TRUE) {
              (
              SELECT UPPER(compname) AS compname, shapeacross + '/' + shapedown as q_param, CAST(count(shapeacross + '/' + shapedown) AS numeric) AS q_param_n
              FROM legend
-             INNER JOIN mapunit mu ON mu.lkey = legend.lkey
-             INNER JOIN component co ON mu.mukey = co.mukey 
-             LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
+             INNER JOIN mapunit AS mu ON mu.lkey = legend.lkey
+             INNER JOIN component AS co ON mu.mukey = co.mukey 
+             LEFT JOIN cogeomordesc ON co.cokey = cogeomordesc.cokey
              LEFT JOIN cosurfmorphss on cogeomordesc.cogeomdkey = cosurfmorphss.cogeomdkey
              WHERE 
              legend.areasymbol != 'US'
@@ -154,9 +157,9 @@ surfaceShapeProbability <- function(s, replaceNA=TRUE) {
              (
              SELECT UPPER(compname) AS compname, CAST(count(compname) AS numeric) AS total
              FROM legend
-             INNER JOIN mapunit mu ON mu.lkey = legend.lkey
-             INNER JOIN component co ON mu.mukey = co.mukey
-             LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
+             INNER JOIN mapunit AS mu ON mu.lkey = legend.lkey
+             INNER JOIN component AS co ON mu.mukey = co.mukey
+             LEFT JOIN cogeomordesc ON co.cokey = cogeomordesc.cokey
              LEFT JOIN cosurfmorphss on cogeomordesc.cogeomdkey = cosurfmorphss.cogeomdkey
              WHERE 
              legend.areasymbol != 'US'
@@ -202,9 +205,9 @@ hillslopeProbability <- function(s, replaceNA=TRUE) {
              (
              SELECT UPPER(compname) AS compname, hillslopeprof as q_param, CAST(count(hillslopeprof) AS numeric) AS q_param_n
              FROM legend
-             INNER JOIN mapunit mu ON mu.lkey = legend.lkey
-             INNER JOIN component co ON mu.mukey = co.mukey 
-             LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
+             INNER JOIN mapunit AS mu ON mu.lkey = legend.lkey
+             INNER JOIN component AS co ON mu.mukey = co.mukey 
+             LEFT JOIN cogeomordesc ON co.cokey = cogeomordesc.cokey
              LEFT JOIN cosurfmorphhpp on cogeomordesc.cogeomdkey = cosurfmorphhpp.cogeomdkey
              WHERE 
              legend.areasymbol != 'US'
@@ -216,9 +219,9 @@ hillslopeProbability <- function(s, replaceNA=TRUE) {
              (
              SELECT UPPER(compname) AS compname, CAST(count(compname) AS numeric) AS total
              FROM legend
-             INNER JOIN mapunit mu ON mu.lkey = legend.lkey
-             INNER JOIN component co ON mu.mukey = co.mukey
-             LEFT JOIN cogeomordesc ON component.cokey = cogeomordesc.cokey
+             INNER JOIN mapunit AS mu ON mu.lkey = legend.lkey
+             INNER JOIN component AS co ON mu.mukey = co.mukey
+             LEFT JOIN cogeomordesc ON co.cokey = cogeomordesc.cokey
              LEFT JOIN cosurfmorphhpp on cogeomordesc.cogeomdkey = cosurfmorphhpp.cogeomdkey
              WHERE 
              legend.areasymbol != 'US'

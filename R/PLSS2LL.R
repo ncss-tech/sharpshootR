@@ -48,7 +48,7 @@ formatPLSS <- function(p, type='SN') {
     }
     if(type=='UP') {
       f[i] <- stri_replace_all_fixed(f[i], 'SN', 'UP')
-      f[i] <- stri_replace_all_fixed(f[i], 'A', '')
+      f[i] <- stri_replace_all_fixed(f[i], 'A', 'U')
       # truncate UP and PB cases to section
       if(!is.na(p$qq[i])) {
       f[i] <- stri_sub(f[i], 0, stri_length(f[i])-4)

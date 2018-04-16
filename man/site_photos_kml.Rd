@@ -16,9 +16,9 @@
 \author{Jay Skovlin, D.E. Beaudette}
 \note{This function requires the following packages: \code{plyr}.}
 
-\seealso{}
 
 \examples{
+\dontrun{
 library(soilDB)
 library(sharpshootR)
 library(plyr)
@@ -38,7 +38,7 @@ d1 <- join(f1, e, by='siteiid')
 
 # write kml file
 site_photos_kml(data = d1, filename = 'C:/Temp/site_photos.kml', make.image.grid=TRUE, file.source = 'relative') 
-
+}
 }
 
 \keyword{manip}

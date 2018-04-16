@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Constant Density Sampling — constantDensitySampling • sharpshootR</title>
+<title>site_photos_kml — site_photos_kml • sharpshootR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,9 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-<meta property="og:title" content="Constant Density Sampling — constantDensitySampling" />
+<meta property="og:title" content="site_photos_kml — site_photos_kml" />
 
-<meta property="og:description" content="Perform sampling at a constant density over all polygons within a SpatialPolygonsDataFrame object." />
+<meta property="og:description" content="Generates a KML file of site locations with associated site photos and a link to a pedon description report." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -93,62 +93,90 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Constant Density Sampling</h1>
+    <h1>site_photos_kml</h1>
     
-    <div class="hidden name"><code>constantDensitySampling.Rd</code></div>
+    <div class="hidden name"><code>site_photos_kml.Rd</code></div>
     </div>
 
     
-    <p>Perform sampling at a constant density over all polygons within a SpatialPolygonsDataFrame object.</p>
+    <p>Generates a KML file of site locations with associated site photos and a link to a pedon description report.</p>
     
 
-    <pre class="usage"><span class='fu'>constantDensitySampling</span>(<span class='no'>x</span>, <span class='kw'>polygon.id</span> <span class='kw'>=</span> <span class='st'>"pID"</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage">site_photos_kml(data = data, filename = '...full path to output kml file', make.image.grid=FALSE, file.source = c('local', 'relative')</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>a <code>SpatialPolygonsDataFrame</code> object in a projected CRS with units of meters</p></td>
+      <th>data</th>
+      <td><p>a dataframe</p></td>
     </tr>
     <tr>
-      <th>polygon.id</th>
-      <td><p>name of attribute in <code>x</code> that contains a unique ID for each polygon</p></td>
+      <th>filename</th>
+      <td><p>full file path and name with .kml extension</p></td>
     </tr>
     <tr>
-      <th>&#8230;</th>
-      <td><p>further arguments to <code>sample.by.poly</code></p></td>
+      <th>make.image.grid</th>
+      <td><p>logical, include linked site images, default is FALSE</p></td>
+    </tr>
+    <tr>
+      <th>file.source</th>
+      <td><p>'local' sources the image files to a specific system path, 'relative' sources the image files to files folder that can be included and referenced within a .kmz file</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function simplifies writing a kml file of site and/or sites with linked photos.</p>
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a <code>SpatialPointsDataFrame</code> object</p>
+    <p>A KML file of of sites with embedded associated site photos.</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>This function expects that <code>x</code> has coordinates associated with a projected CRS and units of meters.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='sample.by.poly.html'>sample.by.poly</a></code></p></div>
+    <p>This function requires the following packages: <code>plyr</code>.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>library</span>(<span class='no'>soilDB</span>)
+<span class='fu'>library</span>(<span class='no'>sharpshootR</span>)
+<span class='fu'>library</span>(<span class='no'>plyr</span>)
+
+<span class='co'>### Load data #####</span>
+<span class='co'># fetch data from NASIS</span>
+<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/soilDB/topics/fetchNASIS'>fetchNASIS</a></span>()
+
+<span class='co'># trim down to the essentials:</span>
+<span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'>site</span>(<span class='no'>f</span>)[ , <span class='fu'>c</span>(<span class='st'>"site_id"</span>,<span class='st'>"pedon_id"</span>, <span class='st'>"siteiid"</span>,<span class='st'>"describer"</span>,<span class='st'>"obs_date"</span>,<span class='st'>"pedonpurpose"</span>,<span class='st'>"taxpartsize"</span>,<span class='st'>"taxsubgrp"</span>, <span class='st'>'x_std'</span>, <span class='st'>'y_std'</span>)]
+
+<span class='co'># get photo links</span>
+<span class='no'>e</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/soilDB/topics/get_extended_data_from_NASIS'>get_extended_data_from_NASIS_db</a></span>()$<span class='no'>photo</span>
+
+<span class='co'># join photos to site data</span>
+<span class='no'>d1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/plyr/topics/join'>join</a></span>(<span class='no'>f1</span>, <span class='no'>e</span>, <span class='kw'>by</span><span class='kw'>=</span><span class='st'>'siteiid'</span>)
+
+<span class='co'># write kml file</span>
+<span class='fu'>site_photos_kml</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>d1</span>, <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>'C:/Temp/site_photos.kml'</span>, <span class='kw'>make.image.grid</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>file.source</span> <span class='kw'>=</span> <span class='st'>'relative'</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#value">Value</a></li>
 
       <li><a href="#note">Note</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
     <h2>Author</h2>
-    D.E. Beaudette
+    Jay Skovlin, D.E. Beaudette
   </div>
 </div>
 

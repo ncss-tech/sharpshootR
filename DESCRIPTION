@@ -16,3 +16,4 @@ BugReports: https://github.com/ncss-tech/aqp/issues
 Suggests: MASS, rgdal, spdep, circlize, rvest, xml2, rgeos, raster, httr, jsonlite
 Depends: R (>= 3.0.0)
 Imports: grDevices, graphics, methods, stats, utils, aqp, ape, soilDB, igraph, cluster, lattice, latticeExtra, vegan, sp, reshape2, Hmisc, scales, circular, RColorBrewer, plyr, digest, e1071, stringi, parallel
+RoxygenNote: 6.1.0

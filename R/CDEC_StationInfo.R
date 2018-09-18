@@ -12,6 +12,8 @@ CDEC_StationInfo <- function(s) {
   
   # make sure there are some results to process, there should be 3 tables
   if(length(as.list(hn)) > 0) {
+    
+    ## TODO: clean this up
     # site, poorly formatted
     site.meta <- rvest::html_table(hn[[1]])
     

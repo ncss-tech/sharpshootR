@@ -7,14 +7,18 @@ CDECquery <- function(id, sensor, interval='D', start, end) {
   if(missing(id) | missing(sensor) | missing(start) | missing(end))
     stop('missing arguments', call.=FALSE)
   
+  ## 2018-09-18: new CDEC API, multiple sensors can be specified in one request 
+  ## e.g.: &SensorNums=194,197
+  ## seems slower than before
+  ##
+  ## TODO: currently broken, why?
   # construct the URL for the DWR website  
   u <- paste0(
-    'http://cdec.water.ca.gov/cgi-progs/queryCSV?station_id=', id, 
-    '&sensor_num=', sensor, 
+    'http://cdec.water.ca.gov/dynamicapp/req/CSVDataServlet?Stations=', id, 
+    '&SensorNums=', sensor, 
     '&dur_code=', interval, 
-    '&start_date=', start,
-    '&end_date=', end,
-    '&data_wish=Download CSV Data Now')
+    '&Start=', start,
+    '&End=', end)
   
   # encode as needed
   u <- URLencode(u)
@@ -24,7 +28,8 @@ CDECquery <- function(id, sensor, interval='D', start, end) {
   suppressWarnings(download.file(url=u, destfile=tf, quiet=TRUE))
   
   # try to parse CSV
-  d <- try(read.csv(file=tf, header=TRUE, skip=1, quote="'", na.strings='m', stringsAsFactors=FALSE, colClasses=c('character', 'character', 'numeric')),  silent=TRUE)
+  d <- read.csv(file=tf, header=TRUE, na.strings='', stringsAsFactors=FALSE)
+  d <- try(read.csv(file=tf, header=TRUE, na.strings='', stringsAsFactors=FALSE),  silent=TRUE)
   
   # catch errors
   if(class(d) == 'try-error') {

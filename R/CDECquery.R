@@ -27,14 +27,11 @@ CDECquery <- function(id, sensor, interval='D', start, end) {
   # encode as needed
   u <- URLencode(u)
   
+  ## important!!! the column ordering is not guarunteed to be consistent, API issue?
   # download and convert JSON to data.frame
   # missing data are encoded via ommission of a data element
-  # fromJSON() will automatically convery to NA
+  # fromJSON() will automatically convert to NA
   d <- try(jsonlite::fromJSON(u, simplifyDataFrame = TRUE))
-  
-  ## TODO: is this wise?
-  # re-name columns
-  names(d) <- c('station_id', 'dur_code', 'sensor_num', 'sensor_type', 'date', 'obsDate', 'value', 'flag', 'units')
   
   # catch errors
   if(class(d) == 'try-error') {
@@ -46,6 +43,25 @@ CDECquery <- function(id, sensor, interval='D', start, end) {
     message('query returned no data', call.=FALSE)
     return(NULL)
   }
+  
+  ## TODO: ask DWR why this happens or think of a better solution
+  # re-name columns if possible
+  # they aren't always in the same order, why?
+  # mapping between new names and likely default names
+  new.names <- c('station_id', 'dur_code', 'sensor_num', 'sensor_type', 'date', 'obsDate', 'value', 'flag', 'units')
+  original.names <- c("stationId", "durCode", "SENSOR_NUM", "sensorType", "date", "obsDate", "value", "dataFlag", "units")
+  
+  # whatever comes back from CDEC
+  nm <- names(d)
+  
+  # iterate over current names and re-map
+  for(i in seq_along(original.names)) {
+    idx <- grep(original.names[i], nm, ignore.case = TRUE)
+    names(d)[idx] <- new.names[i]
+  }
+  
+  # re-order so that all calls to CDECquery() return the same structure
+  d <- d[, new.names]
     
   # convert date/time to R-friendly format
   d$datetime <- as.POSIXct(d$date, format="%Y-%m-%d %H:%M")

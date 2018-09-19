@@ -7,12 +7,17 @@ CDECquery <- function(id, sensor, interval='D', start, end) {
   if(missing(id) | missing(sensor) | missing(start) | missing(end))
     stop('missing arguments', call.=FALSE)
   
+  # check for required packages
+  if(!requireNamespace('jsonlite', quietly=TRUE))
+    stop('please install the `jsonlite` packages', call.=FALSE)
+  
   ## 2018-09-18: new CDEC API, 
   ## multiple stations and sensors can be specified in one request
   ## e.g.: &SensorNums=194,197
+  ## JSON API returns simpler data structure
   # construct the URL for the DWR website  
   u <- paste0(
-    'http://cdec.water.ca.gov/dynamicapp/req/CSVDataServlet?',
+    'http://cdec.water.ca.gov/dynamicapp/req/JSONDataServlet?',
     '&Stations=', paste(id, collapse = ','), 
     '&SensorNums=', paste(sensor, collapse = ','), 
     '&dur_code=', interval, 
@@ -22,22 +27,14 @@ CDECquery <- function(id, sensor, interval='D', start, end) {
   # encode as needed
   u <- URLencode(u)
   
-  # init temp file and download
-  tf <- tempfile()
-  suppressWarnings(download.file(url=u, destfile=tf, quiet=TRUE))
+  # download and convert JSON to data.frame
+  # missing data are encoded via ommission of a data element
+  # fromJSON() will automatically convery to NA
+  d <- try(jsonlite::fromJSON(u, simplifyDataFrame = TRUE))
   
-  # try to parse CSV
-  # 2018-09-18: CDEC API returns bogus CSV file
-  # https://github.com/ncss-tech/sharpshootR/issues/13
-  # read without header and skip first row
-  # NA encoded as '---'
-  # manually specify column classes so that time 0000 (HHMM) is corectly encoded
-  CDEC.columns <- c('station_id', 'dur_code', 'sensor_num', 'sensor_type', 'date', 'time', 'value', 'flag', 'units')
-  CDEC.column.class <- c('character', 'character', 'integer', 'character', 'character', 'character', 'numeric', 'character', 'character')
-  d <- try(read.csv(file=tf, header=FALSE, skip=1, na.strings='---', colClasses = CDEC.column.class))
-  
-  # add column names
-  names(d) <- CDEC.columns
+  ## TODO: is this wise?
+  # re-name columns
+  names(d) <- c('station_id', 'dur_code', 'sensor_num', 'sensor_type', 'date', 'obsDate', 'value', 'flag', 'units')
   
   # catch errors
   if(class(d) == 'try-error') {
@@ -51,7 +48,11 @@ CDECquery <- function(id, sensor, interval='D', start, end) {
   }
     
   # convert date/time to R-friendly format
-  d$datetime <- as.POSIXct(paste(d$date, d$time), format="%Y%m%d %H%M")
+  d$datetime <- as.POSIXct(d$date, format="%Y-%m-%d %H:%M")
+  
+  # remove original date for tidy output
+  d$date <- NULL
+  d$obsDate <- NULL
   
   # extract the year and month for reporting ease later
   d$year <- as.numeric(format(d$datetime, "%Y"))

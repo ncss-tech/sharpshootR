@@ -11,11 +11,9 @@ CDEC_StationInfo(s)
   \item{s}{a CDEC station ID (e.g. 'HHM')}
 }
 \details{This function requires the `rvest` package}
-\value{a `data.frame` object}
+\value{a `list` object containing site metadata, sensor metadata, and possibly comments about the site}
 
 \author{D.E. Beaudette}
-\note{Use with caution, this is still experimental.}
-
 
 \seealso{\code{\link{CDECquery}}}
 \examples{
@@ -24,5 +22,5 @@ CDEC_StationInfo('HHM')
 }
 }
 
-\keyword{ manip }% use one of  RShowDoc("KEYWORDS")
+\keyword{ manip }
 

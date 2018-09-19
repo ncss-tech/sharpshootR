@@ -38,9 +38,19 @@ CDEC_StationInfo <- function(s) {
     
     # comments, may be missing
     if(length(hn) > 2) {
-      site.comments <- rvest::html_table(hn[[3]])
-      names(site.comments) <- c('date', 'comment')
+      # this will faily if the table is empty
+      site.comments <- try(suppressWarnings(rvest::html_table(hn[[3]])), silent = TRUE)
+      
+      # no comments
+      if(class(site.comments) == 'try-error') {
+        site.comments <- NULL
+        # otherwise, there are comments
+      } else {
+        names(site.comments) <- c('date', 'comment')
+      }
+      
     } else {
+      # comment table missing
       site.comments <- NULL
     }
     

@@ -65,6 +65,7 @@ vizHillslopePosition <- function(x, s=NULL) {
                    return(temp)
                  })
   
-  invisible(pp)
+  # the figure and ordering are returned
+  return(list(fig=pp, order=x.d.hydro$order))
 }
 

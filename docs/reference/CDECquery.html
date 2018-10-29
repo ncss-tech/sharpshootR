@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.7</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.9</span>
       </span>
     </div>
 
@@ -115,11 +115,11 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>id</th>
-      <td><p>station ID (e.g. 'spw'), see details</p></td>
+      <td><p>station ID (e.g. 'spw'), single value or vector of station IDs, see details</p></td>
     </tr>
     <tr>
       <th>sensor</th>
-      <td><p>the sensor ID (e.g. 45), see details</p></td>
+      <td><p>the sensor ID, single value or vector of sensor numbers, see details</p></td>
     </tr>
     <tr>
       <th>interval</th>
@@ -147,7 +147,7 @@
 
     <dl class='dl-horizontal'>
   <dt>1.</dt><dd><p>Station IDs can be found here: <a href='http://cdec.water.ca.gov/staInfo.html'>http://cdec.water.ca.gov/staInfo.html</a></p></dd>
-  <dt>2a.</dt><dd><p>Sensor IDs can be found using this URL: <a href='http://cdec.water.ca.gov/cgi-progs/queryCSV?station_id='>http://cdec.water.ca.gov/cgi-progs/queryCSV?station_id=</a>, followed by the station ID.</p></dd>
+  <dt>2a.</dt><dd><p>Sensor IDs can be found using this URL: <a href='http://cdec.water.ca.gov/dynamicapp/staMeta?station_id='>http://cdec.water.ca.gov/dynamicapp/staMeta?station_id=</a>, followed by the station ID.</p></dd>
   <dt>2b.</dt><dd><p>Sensor details can be accessed using <code><a href='CDEC_StationInfo.html'>CDEC_StationInfo</a> with the station ID.</code></p></dd>
   <dt>3.</dt><dd><p>Resevoir capacities can be found here: <a href='http://cdec.water.ca.gov/misc/resinfo.html'>http://cdec.water.ca.gov/misc/resinfo.html</a></p></dd>
   <dt>4.</dt><dd><p>A new interactive map of CDEC stations can be found here: <a href='http://cdec.water.ca.gov'>http://cdec.water.ca.gov</a></p></dd>
@@ -187,8 +187,8 @@ tps <- list(superpose.line=list(lwd=2, col=brewer.pal(n=3, name='Set1')))
 
 # plot
 xyplot(capacity ~ datetime, groups=which, data=g, type='l', 
-       xlab='', ylab='Capacity (<!-- %)', ylim=c(-5, 105), -->
-       scales=list(x=list(at=s.r, labels=format(s.r, "<!-- %b\n%Y"))),  -->
+       xlab='', ylab='Capacity (%)', ylim=c(-5, 105),
+       scales=list(x=list(at=s.r, labels=format(s.r, "%b\n%Y"))), 
        auto.key=list(columns=3, lines=TRUE, points=FALSE),
        par.settings=tps,
        panel=function(...) {
@@ -218,7 +218,7 @@ ylab='', scales=list(x=list(tick.number=20)), main='New Melones Capacity (<!-- %
 
 ##
 # get daily precip totals from Stan Powerhouse
-x <- CDECquery(id='spw', sensor=45, interval='D', start='1900-01-01', end='2015-01-01')
+x <- CDECquery(id='spw', sensor=45, interval='D', start='1900-01-01', end='2019-01-01')
 
 # compute total precip by year/month
 a <- ddply(x, c('year', 'month'), summarize, s=sum(value, na.rm=TRUE))
@@ -238,7 +238,7 @@ main='Monthly Total Precipitation (as z-score) SPW')
 
 ##
 # get pre-aggregated monthly data from Sonora RS
-x <- CDECquery(id='sor', sensor=2, interval='M', start='1900-01-01', end='2015-01-01')
+x <- CDECquery(id='sor', sensor=2, interval='M', start='1900-01-01', end='2019-01-01')
 
 # make a nice color ramp function, scaled by the skewness of the underlying distribution
 cols <- colorRampPalette(brewer.pal(9, 'Spectral'), space='Lab', 
@@ -251,15 +251,15 @@ ylab='', scales=list(x=list(tick.number=20)), main='Monthly Total Precipitation 
 
 ### query an 'event' type sensor
 # Bryte test site (BYT)
-# air temperature and soil temperature at depth 1 (25cm)
+# single request: air temperature and soil temperature at depth 1 (25cm)
 # measurement interval is 20 minutes
-x.air <- CDECquery('BYT', 4, 'E', '2016-01-01', '2017-01-01')
-x.soil.25 <- CDECquery('BYT', 194, 'E', '2016-01-01', '2017-01-01')
+x <- CDECquery('BYT', c(4, 194), 'E', '2016-01-01', '2017-01-01')
 
-# combine
-g <- make.groups(air=x.air, soil.25=x.soil.25)
+# data are in long format, check number of records for each sensor
+table(x$sensor_type)
 
-xyplot(value ~ datetime, groups=which, data=g, type=c('g', 'l'),
+# plot grouped data
+xyplot(value ~ datetime, groups=sensor_type, data=g, type=c('g', 'l'),
 auto.key=list(columns=2, points=FALSE, lines=TRUE))
 # }
 </pre>

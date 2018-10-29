@@ -10,7 +10,7 @@ Install the stable version from CRAN:
 
 Install the development version from Github:
 
-`devtools::install_github("ncss-tech/sharpshootR", dependencies=FALSE, upgrade_dependencies=FALSE)`
+`remotes::install_github("ncss-tech/soilDB", dependencies=FALSE, upgrade=FALSE, build=FALSE)`
 
 
 ## Website

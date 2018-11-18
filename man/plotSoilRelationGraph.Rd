@@ -73,27 +73,24 @@ plotSoilRelationGraph(m, spanning.tree=0.75)
 
 \dontrun{
 # get similar data from soilweb, for the Pardee series
+library(soilDB)
 s <- 'pardee'
-u <- url(URLencode(paste(
-'http://casoilresource.lawr.ucdavis.edu/soil_web/reflector_api/soils.php?',
-'what=soil_series_component_query&q_string=', s, sep='')))
-
-# fetch data
-d <- read.table(u, sep='|', header=TRUE, stringsAsFactors=FALSE)
+d <- siblings(s, component.data = TRUE)
 
 # normalize component names
-d$compname <- tolower(d$compname)
+d$sib.data$compname <- tolower(d$sib.data$compname)
 
 # keep only major components
-d <- subset(d, subset=compkind == 'Series')
+d$sib.data <- subset(d$sib.data, subset=compkind == 'Series')
 
 # build adj. matrix and plot
-m <- component.adj.matrix(d)
+m <- component.adj.matrix(d$sib.data)
 plotSoilRelationGraph(m, s=s, plot.style='dendrogram')
 
 # alter plotting style, see ?plot.phylo
 plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='fan')
 plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='unrooted', use.edge.length=FALSE)
+
 }
 }
 

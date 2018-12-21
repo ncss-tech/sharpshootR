@@ -61,10 +61,10 @@ aggregateColorPlot <- function(x, print.label=TRUE, label.font=1, label.cex=0.65
   
   # label x-axis with a scale
   if(x.axis)
-    axis(1, at=round(seq(0, 1, length.out = 11), 2))
+    axis(1, at=round(seq(0, 1, length.out = 11), 2), col=par('fg'), col.axis=par('fg'))
   
   # label x-axis with group names
   if(y.axis)
-    axis(2, at = seq_along(names(s.scaled)), labels = names(s.scaled), las=2, tick=FALSE, font=2, hadj=1, line=-2.125, cex.axis=1)
+    axis(2, at = seq_along(names(s.scaled)), labels = names(s.scaled), las=2, tick=FALSE, font=2, hadj=1, line=-2.125, cex.axis=1, col=par('fg'), col.axis=par('fg'))
   
 }

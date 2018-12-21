@@ -1,11 +1,3 @@
-## depreciated
-# # compute pair-wise weightes for soil-relation graph
-# .pair.wise.wts <- function(d, wt) {
-#   x <- d[[wt]]
-#   x <- x / sum(x)
-#   w <- outer(x, x, FUN='*')
-#   return(w)
-# }
 
 
 ## new method based on dissimilarity eval of community matrix
@@ -67,7 +59,7 @@ component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', me
   }
   
   
-  ### Note: when using a limited number of "exmemplars" (typically map units) the resulting
+  ### Note: when using a limited number of "exemplars" (typically map units) the resulting
   ###       adjacency matrix may contain 0's using this method
   ###       https://github.com/ncss-tech/sharpshootR/issues/4
   

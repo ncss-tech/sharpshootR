@@ -8,7 +8,7 @@ dist.along.grad <- function(coords, var, grad.scaled.min, grad.scaled.max) {
   # compute cumulative distance along gradient
   grad.distances <- cumsum(c(0, sqrt(diff(coords[, 1])^2 + diff(coords[, 2])^2)))
   # rescale distances to number of profiles in collection
-  scaled.distances <- scales::rescale(grad.distances, to=c(0.5, nrow(coords)+0.5))
+  scaled.distances <- scales::rescale(grad.distances, to=c(1, nrow(coords)))
   # rescale gradients to profile-scale
   # note that range is inverted because we are plotting depth as positive values
   scaled.grad <- scales::rescale(var[grad.order], to=c(grad.scaled.max, grad.scaled.min))

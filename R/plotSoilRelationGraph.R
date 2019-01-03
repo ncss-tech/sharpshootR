@@ -3,8 +3,11 @@
 ## NOTE: dendrogram representation of community structure is only possible with some community detection algorithms
 
 ## TODO: investigate some heuristics for layout algorithm selection:
-### layout_with_fr works most of the time
-### layout_with_lgl works for most large graphs, but not when there are many disconnected sub-graphs
+# layout_with_fr works most of the time
+# layout_with_lgl works for most large graphs, but not when there are many disconnected sub-graphs
+# layout_with_graphopt works but requires tinkering with parameters
+
+# normalize transparency logic and argument names: should all be "alpha"
 
 .maximum.spanning.tree <- function(x){
   # convert cost representation of weights to "strength"
@@ -18,7 +21,6 @@
 
 # dendrogram representation relies on ape plotting functions
 # ... are passed onto plot.igraph or plot.phylo
-# 2015-12-22: swap layout algorithms when > 20 individuals
 plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upper', spanning.tree=NULL, del.edges=NULL, vertex.scaling.method='degree', vertex.scaling.factor=2, edge.scaling.factor=1, vertex.alpha=0.65, edge.transparency=1, edge.col=grey(0.5), edge.highlight.col='royalblue', g.layout=layout_with_fr, vertex.label.color='black', ...) {
 	
   # dumb hack to make R CMD check happy

@@ -19,7 +19,7 @@
 # dendrogram representation relies on ape plotting functions
 # ... are passed onto plot.igraph or plot.phylo
 # 2015-12-22: swap layout algorithms when > 20 individuals
-plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upper', spanning.tree=NULL, del.edges=NULL, vertex.scaling.method='degree', vertex.scaling.factor=2, edge.scaling.factor=1, edge.transparency=1, edge.col=grey(0.5), edge.highlight.col='royalblue', g.layout=layout_with_fr, ...) {
+plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upper', spanning.tree=NULL, del.edges=NULL, vertex.scaling.method='degree', vertex.scaling.factor=2, edge.scaling.factor=1, vertex.alpha=0.65, edge.transparency=1, edge.col=grey(0.5), edge.highlight.col='royalblue', g.layout=layout_with_fr, vertex.label.color='black', ...) {
 	
   # dumb hack to make R CMD check happy
   weight <- NULL
@@ -148,7 +148,7 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upp
 		cols <- colorRampPalette(brewer.pal(n=9, name='Set1'))(g.com.length)
 	
 	# set colors based on community membership
-	cols.alpha <- alpha(cols, 0.65)
+	cols.alpha <- alpha(cols, vertex.alpha)
 	V(g)$color <- cols.alpha[g.com.membership]
   
   # get an index to edges associated with series specified in 's'
@@ -156,7 +156,7 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upp
 	idx <- unique(c(which(el[, 1] == s), which(el[, 2] == s)))
 	
 	# set default edge color
-  E(g)$color <- edge.col
+  E(g)$color <- alpha(edge.col, edge.transparency)
 	# set edge colors based on optional series name to highlight
   E(g)$color[idx] <- alpha(edge.highlight.col, edge.transparency)
   
@@ -169,7 +169,7 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upp
 	
 	if(plot.style == 'network') {
 		set.seed(1010101) # consistant output
-		plot(g, layout=g.layout, vertex.label.color='black', vertex.label.font=font.vect, ...)
+		plot(g, layout=g.layout, vertex.label.color=vertex.label.color, vertex.label.font=font.vect, ...)
 		}
 	if(plot.style == 'dendrogram') {
 	  plot_dendrogram(g.com, mode='phylo', label.offset=0.1, font=font.vect, palette=cols, ...)

@@ -4,7 +4,7 @@
 ## NOTE: distance matrix should be scaled to approximately {0,1}
 # x: SPC object
 # clust: a hierachical clustering object from cluster package agnes() or diana()
-plotProfileDendrogram <- function(x, clust, scaling.factor=0.01, width=0.1, y.offset=0.1, dend.y.scale= max(clust$height * 2, na.rm=TRUE) , debug=FALSE, ...) {
+plotProfileDendrogram <- function(x, clust, scaling.factor=0.01, width=0.1, y.offset=0.1, dend.y.scale= max(clust$height * 2, na.rm=TRUE) , dend.color='black', dend.width=1, debug=FALSE, ...) {
   
   # sanity check: must be either agnes or diana object
   if(! inherits(clust, c('agnes','diana')))
@@ -27,7 +27,7 @@ plotProfileDendrogram <- function(x, clust, scaling.factor=0.01, width=0.1, y.of
   dend <- as.phylo(d.hclust)
   
   # setup plot and add dendrogram
-  plot(dend, cex=0.8, direction='up', y.lim=c(dend.y.scale, 0), x.lim=c(0.5, length(x)+1), show.tip.label=FALSE)
+  plot(dend, cex=0.8, direction='up', y.lim=c(dend.y.scale, 0), x.lim=c(0.5, length(x)+1), show.tip.label=FALSE, edge.color=dend.color, edge.width=dend.width)
   
   # get the last plot geometry
   lastPP <- get("last_plot.phylo", envir = .PlotPhyloEnv)

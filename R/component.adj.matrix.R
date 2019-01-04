@@ -1,7 +1,7 @@
 
 
 ## new method based on dissimilarity eval of community matrix
-component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', method='community.matrix', standardization='max', metric='jaccard', rm.orphans=TRUE, similarity=TRUE) {
+component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', method='community.matrix', standardization='max', metric='jaccard', rm.orphans=TRUE, similarity=TRUE, return.comm.matrix=FALSE) {
 	
   # appease R CMD check
   .wt <- NULL
@@ -77,6 +77,12 @@ component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', me
     # convert into community matrix by moving first column -> row.names
     d.mat <- as.matrix(d.wide[, -1])
     dimnames(d.mat)[[1]] <- d.wide[[co]]
+    
+    # optionally return psuedo community matrix
+    if(return.comm.matrix) {
+      return(d.mat)
+    }
+    
     
     ## standardization method and distance metric MATTER
     # convert community matrix into dissimilarity matrix

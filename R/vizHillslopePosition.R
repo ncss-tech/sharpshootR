@@ -40,7 +40,6 @@ vizHillslopePosition <- function(x, s=NULL) {
   
   # a single series can be highlighted via argument 's'
   ## TODO: check for missing / mis-specified series names
-  
   pp <- barchart(series ~ value, groups=hillslope_position, data=x.long, horiz=TRUE, stack=TRUE, 
                  xlab='Proportion', 
                  scales=list(cex=1), 

@@ -1,7 +1,7 @@
 
 # this function only works when clustering Soil Taxonomy elements
 # ideally sourced from fetchOSD()
-SoilTaxonomyDendrogram <- function(spc, name='hzname', max.depth=150, n.depth.ticks=6, scaling.factor=0.015, cex.names=0.75, cex.id=0.75, axis.line.offset=-4, width=0.1, y.offset=0.5, cex.taxon.labels=0.66) {
+SoilTaxonomyDendrogram <- function(spc, name='hzname', max.depth=150, n.depth.ticks=6, scaling.factor=0.015, cex.names=0.75, cex.id=0.75, axis.line.offset=-4, width=0.1, y.offset=0.5, cex.taxon.labels=0.66, dend.color=par('fg'), dend.width=1) {
 	
 	# convert relevant columns into factors
 	spc$soilorder <- factor(spc$soilorder)
@@ -28,7 +28,7 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', max.depth=150, n.depth.ti
 	
 	# setup plot and add dendrogram
 	par(mar=c(0,0,0,0))
-	plot(dend, cex=0.8, direction='up', y.lim=c(4,0), x.lim=c(0.5, length(spc)+1), show.tip.label=FALSE)
+	plot(dend, cex=0.8, direction='up', y.lim=c(4,0), x.lim=c(0.5, length(spc)+1), show.tip.label=FALSE, edge.color=dend.color, edge.width=dend.width)
 	
 	# get the last plot geometry
 	lastPP <- get("last_plot.phylo", envir = .PlotPhyloEnv)

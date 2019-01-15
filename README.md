@@ -43,3 +43,7 @@ aggregateColorPlot(a, print.n.hz = TRUE)
 ## Related Packages
  * [aqp](https://github.com/ncss-tech/aqp)
  * [soilDB](https://github.com/ncss-tech/soilDB)
+ 
+## Dependency Graph
+https://cran.microsoft.com/packagedata/graphs/sharpshootR.png
+

@@ -1,7 +1,8 @@
 # needs testing!!!
 
-site_photos_kml <- function(data, filename, make.image.grid=FALSE, file.source = c("local", "relative")) {
-start_kml <- function(filename) {
+site_photos_kml <- function(data, filename='photos.kml', make.image.grid=FALSE, file.source = c("local", "relative")) {
+
+  start_kml <- function(filename) {
   kml_head <- '<?xml version="1.0" encoding="UTF-8"?>
   <kml xmlns="http://earth.google.com/kml/2.2">
   <Document>

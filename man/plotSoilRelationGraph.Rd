@@ -6,9 +6,10 @@
 \usage{
 plotSoilRelationGraph(m, s='', plot.style='network', graph.mode='upper', 
 spanning.tree=NULL, del.edges=NULL, vertex.scaling.method='degree',
-vertex.scaling.factor=2, edge.scaling.factor=1, edge.transparency=1, 
+vertex.scaling.factor=2, edge.scaling.factor=1, 
+vertex.alpha=0.65, edge.transparency=1, 
 edge.col=grey(0.5), edge.highlight.col='royalblue', g.layout=layout_with_fr,
-...)
+vertex.label.color='black', ...)
 }
 
 \arguments{
@@ -21,10 +22,12 @@ edge.col=grey(0.5), edge.highlight.col='royalblue', g.layout=layout_with_fr,
   \item{vertex.scaling.method}{'degree' (default) or 'distance', see details}
   \item{vertex.scaling.factor}{scaling factor applied to vertex size}
   \item{edge.scaling.factor}{optional scaling factor applied to edge width}
+  \item{vertex.alpha}{optional transparency setting for vertices (0-1)}
   \item{edge.transparency}{optional transparency setting for edges (0-1)}
   \item{edge.col}{edge color, applied to all edges}
   \item{edge.highlight.col}{edge color applied to all edges connecting to component named in \code{s}}
   \item{g.layout}{an igraph layout function, defaults to \code{layout_with_fr}}
+  \item{vertex.label.color}{vertex label color}
   \item{\dots}{further arguments passed to plotting function}
 }
 

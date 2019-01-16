@@ -2,6 +2,15 @@
 
 # still testing "hydrologic" order
 vizHillslopePosition <- function(x, s=NULL) {
+  
+  # check for required packages
+  if(!requireNamespace('dendextend', quietly=TRUE))
+    stop('please install the `dendextend` packages', call.=FALSE)
+  
+  # CRAN CHECK hack
+  hillslope_position <- NULL
+  
+  # save row names as they are lost in the distance matrix calc
   row.names(x) <- x$series
   
   # mask-out some columns we don't need
@@ -34,7 +43,7 @@ vizHillslopePosition <- function(x, s=NULL) {
   # re-order labels levels based on clustering
   x.long$series <- factor(x.long$series, levels=x.long$series[x.d.hydro$order])
   
-  
+  ## TODO: is this the right place to set trellis options?
   # musym are re-ordered according to clustering
   trellis.par.set(tps)
   

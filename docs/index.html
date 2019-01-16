@@ -8,8 +8,8 @@
 <title>A Soil Survey Toolkit • sharpshootR</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><meta property="og:title" content="A Soil Survey Toolkit">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="pkgdown.js"></script><meta property="og:title" content="A Soil Survey Toolkit">
 <meta property="og:description" content="Miscellaneous soil data management, summary, visualization, and conversion utilities to support soil survey.">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -68,14 +68,85 @@
 <div id="sharpshootr" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#sharpshootr" class="anchor"></a>sharpshootR</h1></div>
+<p>This package contains mish-mash of functionality and sample data related to the daily business of soil survey operations with the USDA-NRCS. Many of the functions are highly specialized and inherit default arguments from the names used by the various NCSS (National Cooperative Soil Survey) databases.</p>
 <p>Install the stable version from CRAN:</p>
 <p><code>install.packages('sharpshootR', dep=TRUE)</code></p>
 <p>Install the development version from Github:</p>
-<p><code>remotes::install_github("ncss-tech/soilDB", dependencies=FALSE, upgrade=FALSE, build=FALSE)</code></p>
+<p><code><a href="http://www.rdocumentation.org/packages/remotes/topics/install_github">remotes::install_github("ncss-tech/soilDB", dependencies=FALSE, upgrade=FALSE, build=FALSE)</a></code></p>
 <div id="website" class="section level2">
 <h2 class="hasAnchor">
 <a href="#website" class="anchor"></a>Website</h2>
 <p><a href="http://ncss-tech.github.io/AQP/" class="uri">http://ncss-tech.github.io/AQP/</a></p>
+</div>
+<div id="quick-reference" class="section level2">
+<h2 class="hasAnchor">
+<a href="#quick-reference" class="anchor"></a>Quick Reference</h2>
+<div id="vizualization" class="section level3">
+<h3 class="hasAnchor">
+<a href="#vizualization" class="anchor"></a>Vizualization</h3>
+<ul>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/aggregateColorPlot.html"><code>aggregateColorPlot</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/aspect.plot.html"><code>aspect.plot</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/diagnosticPropertyPlot.html"><code>diagnosticPropertyPlot</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/dueling.dendrograms.html"><code>dueling.dendrograms</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/plotAvailWater.html"><code>plotAvailWater</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/plotProfileDendrogram.html"><code>plotProfileDendrogram</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/plotSoilRelationGraph.html"><code>plotSoilRelationGraph</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/plotSoilRelationChordGraph.html"><code>plotSoilRelationChordGraph</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/plotTransect.html"><code>plotTransect</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/SoilTaxonomyDendrogram.html"><code>SoilTaxonomyDendrogram</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/vizHillslopePosition.html"><code>vizGeomorphicComponent</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/vizHillslopePosition.html"><code>vizHillslopePosition</code></a></li>
+</ul>
+</div>
+<div id="climate" class="section level3">
+<h3 class="hasAnchor">
+<a href="#climate" class="anchor"></a>Climate</h3>
+<ul>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/CDECquery.html"><code>CDECquery</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/CDECsnowQuery.html"><code>CDECsnowQuery</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/FFD.html"><code>FFD</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/FFD.html"><code>FFDplot</code></a></li>
+</ul>
+</div>
+<div id="spatial-data" class="section level3">
+<h3 class="hasAnchor">
+<a href="#spatial-data" class="anchor"></a>Spatial Data</h3>
+<ul>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/constantDensitySampling.html"><code>constantDensitySampling</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/generateLineHash.html"><code>generateLineHash</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/polygonAdjacency.html"><code>polygonAdjacency</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/LL2PLSS.html"><code>LL2PLSS</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/sample.by.poly.html"><code>sample.by.poly</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/samplingStability.html"><code>samplingStability</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/sampleRasterStackByMU.html"><code>sampleRasterStackByMU</code></a></li>
+</ul>
+</div>
+<div id="utility" class="section level3">
+<h3 class="hasAnchor">
+<a href="#utility" class="anchor"></a>Utility</h3>
+<ul>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/component.adj.matrix.html"><code>component.adj.matrix</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/dist.along.grad.html"><code>dist.along.grad</code></a></li>
+</ul>
+</div>
+<div id="misc-" class="section level3">
+<h3 class="hasAnchor">
+<a href="#misc-" class="anchor"></a>Misc.</h3>
+<ul>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/percentileDemo.html"><code>percentileDemo</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/multinominal2logical.html"><code>multinominal2logical</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/site_photos_kml.html"><code>site_photos_kml</code></a></li>
+</ul>
+</div>
+</div>
+<div id="related-packages" class="section level2">
+<h2 class="hasAnchor">
+<a href="#related-packages" class="anchor"></a>Related Packages</h2>
+<ul>
+<li><a href="https://github.com/ncss-tech/aqp"><code>aqp</code></a></li>
+<li><a href="https://github.com/ncss-tech/soilDB"><code>soilDB</code></a></li>
+</ul>
 </div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
@@ -87,11 +158,11 @@
 n &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">'Oi'</span>, <span class="st">'A'</span>, <span class="st">'BA'</span>,<span class="st">'Bt1'</span>,<span class="st">'Bt2'</span>,<span class="st">'Bt3'</span>,<span class="st">'Cr'</span>,<span class="st">'R'</span>)
 p &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">'O'</span>, <span class="st">'^A$|Ad|Ap|AB'</span>,<span class="st">'BA$|Bw'</span>, 
 <span class="st">'Bt1$|^B$'</span>,<span class="st">'^Bt$|^Bt2$'</span>,<span class="st">'^Bt3|^Bt4|CBt$|BCt$|2Bt|2CB$|^C$'</span>,<span class="st">'Cr'</span>,<span class="st">'R'</span>)
-loafercreek$genhz &lt;-<span class="st"> </span><span class="kw">generalize.hz</span>(loafercreek$hzname, n, p)
+loafercreek<span class="op">$</span>genhz &lt;-<span class="st"> </span><span class="kw">generalize.hz</span>(loafercreek<span class="op">$</span>hzname, n, p)
 
 <span class="co"># remove non-matching generalized horizon names</span>
-loafercreek$genhz[loafercreek$genhz ==<span class="st"> 'not-used'</span>] &lt;-<span class="st"> </span><span class="ot">NA</span>
-loafercreek$genhz &lt;-<span class="st"> </span><span class="kw">factor</span>(loafercreek$genhz)
+loafercreek<span class="op">$</span>genhz[loafercreek<span class="op">$</span>genhz <span class="op">==</span><span class="st"> 'not-used'</span>] &lt;-<span class="st"> </span><span class="ot">NA</span>
+loafercreek<span class="op">$</span>genhz &lt;-<span class="st"> </span><span class="kw">factor</span>(loafercreek<span class="op">$</span>genhz)
 
 <span class="co"># aggregate color data, this function is from the `aqp` package</span>
 a &lt;-<span class="st"> </span><span class="kw">aggregateColor</span>(loafercreek, <span class="st">'genhz'</span>)
@@ -100,13 +171,10 @@ a &lt;-<span class="st"> </span><span class="kw">aggregateColor</span>(loafercre
 <span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>))
 <span class="kw"><a href="reference/aggregateColorPlot.html">aggregateColorPlot</a></span>(a, <span class="dt">print.n.hz =</span> <span class="ot">TRUE</span>)</code></pre></div>
 </div>
-<div id="related-packages" class="section level2">
+<div id="dependency-graph" class="section level2">
 <h2 class="hasAnchor">
-<a href="#related-packages" class="anchor"></a>Related Packages</h2>
-<ul>
-<li><a href="https://github.com/ncss-tech/aqp">aqp</a></li>
-<li><a href="https://github.com/ncss-tech/soilDB">soilDB</a></li>
-</ul>
+<a href="#dependency-graph" class="anchor"></a>Dependency Graph</h2>
+<p><a href="https://cran.microsoft.com/packagedata/graphs/sharpshootR.png" class="uri">https://cran.microsoft.com/packagedata/graphs/sharpshootR.png</a></p>
 </div>
 </div>
 
@@ -133,7 +201,10 @@ a &lt;-<span class="st"> </span><span class="kw">aggregateColor</span>(loafercre
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>USDA-NRCS Soil Survey Staff <br><small class="roles"> Author, maintainer, contributor </small>  </li>
+<li>Dylan Beaudette <br><small class="roles"> Maintainer </small>  </li>
+<li>Jay Skovlin <br><small class="roles"> Author </small>  </li>
+<li>Stephen Roecker <br><small class="roles"> Author </small>  </li>
+<li><a href="authors.html">All authors...</a></li>
 </ul>
 </div>
 
@@ -150,7 +221,7 @@ a &lt;-<span class="st"> </span><span class="kw">aggregateColor</span>(loafercre
 
 
       <footer><div class="copyright">
-  <p>Developed by USDA-NRCS Soil Survey Staff.</p>
+  <p>Developed by Dylan Beaudette, Jay Skovlin, Stephen Roecker.</p>
 </div>
 
 <div class="pkgdown">

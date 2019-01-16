@@ -1,8 +1,12 @@
 \name{LL2PLSS}
 \alias{LL2PLSS}
 
+\alias{plssMeridians}
+\alias{d4}
+
 \title{PLSS2LL}
 \description{Uses lattitude and longitude coordinates to return the PLSS section geometry from the BLM PLSS web service.}
+
 \usage{LL2PLSS(x, y)}
 
 \arguments{
@@ -10,7 +14,7 @@
   \item{y}{lattitude coordinates}		
 }
 \details{This function takes xy coordinates and returns the PLSS section geometry to the quarter-quarter section.}
-\value{x dataframe of PLSS codes and coordinates.}
+\value{\code{list} of of PLSS codes and coordinates.}
 \author{D.E. Beaudette, Jay Skovlin}
 \note{This function requires the following packages: \code{httr}, \code{jsonlite}, and \code{sp}.}
 
@@ -20,11 +24,11 @@
 library(sp)
 
 # create coordinates
-x=-115.3823 
-y=48.88228
+x <- -115.3823 
+y <- 48.88228
 
 # fetch PLSS geometry for these coordinates
-p.plss <- LL2PLSS(x,y)
+p.plss <- LL2PLSS(x, y)
 
 # plot geometry
 plot(p.plss$geom)

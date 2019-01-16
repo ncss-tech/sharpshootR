@@ -1,5 +1,6 @@
 \name{PLSS2LL}
 \alias{PLSS2LL}
+\alias{PLSS2LL_1}
 
 \title{PLSS2LL}
 \description{Fetch lattitude and longitude centroid coordinates for coded PLSS information from the BLM PLSS web service.}

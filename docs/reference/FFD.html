@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Geomorphic Position Probability via SDA — geomorphBySoilSeries-SSURGO • sharpshootR</title>
+<title>Frost-Free Day Evaluation — FFD • sharpshootR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Geomorphic Position Probability via SDA — geomorphBySoilSeries-SSURGO" />
+<meta property="og:title" content="Frost-Free Day Evaluation — FFD" />
 
-<meta property="og:description" content="Hillslope position probability estimates from the SDA query service (SSURGO)" />
+<meta property="og:description" content="Evaluation frost-free days and related metrics from daily climate records." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -97,61 +97,66 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Geomorphic Position Probability via SDA</h1>
+    <h1>Frost-Free Day Evaluation</h1>
     
-    <div class="hidden name"><code>geomorphBySoilSeries-SSURGO.Rd</code></div>
+    <div class="hidden name"><code>FFD.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Hillslope position probability estimates from the SDA query service (SSURGO)</p>
+    <p>Evaluation frost-free days and related metrics from daily climate records.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>hillslopeProbability</span>(<span class='no'>s</span>, <span class='kw'>replaceNA</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'>surfaceShapeProbability</span>(<span class='no'>s</span>, <span class='kw'>replaceNA</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'>geomPosHillProbability</span>(<span class='no'>s</span>, <span class='kw'>replaceNA</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'>geomPosMountainProbability</span>(<span class='no'>s</span>, <span class='kw'>replaceNA</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>FFD</span>(<span class='no'>d</span>, <span class='kw'>returnDailyPr</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>minDays</span> <span class='kw'>=</span> <span class='fl'>165</span>, <span class='no'>...</span>)
+<span class='fu'>FFDplot</span>(<span class='no'>s</span>, <span class='kw'>sub.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>s</th>
-      <td><p>a character vector of soil series names, automatically normalized to upper case</p></td>
+      <th>d</th>
+      <td><p><code>data.frame</code> with columns 'datetime' 'year', and 'value'</p></td>
     </tr>
     <tr>
-      <th>replaceNA</th>
-      <td><p>boolean: should missing classes be converted to probabilities of 0?</p></td>
+      <th>returnDailyPr</th>
+      <td><p>optionally return <code>list</code> with daily summaries</p></td>
+    </tr>
+    <tr>
+      <th>minDays</th>
+      <td><p>min number of days / spring|fall required for a reasonable estimate of FFD</p></td>
+    </tr>
+    <tr>
+      <th>&#8230;</th>
+      <td><p>further arguments passed to <code>frostFreePeriod</code></p></td>
+    </tr>
+    <tr>
+      <th>s</th>
+      <td><p>object returned by <code>FFD</code></p></td>
+    </tr>
+    <tr>
+      <th>sub.title</th>
+      <td><p>override default subtitle</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>These functions send a query to the <a href='SDA'>http://sdmdataaccess.nrcs.usda.gov</a> webservice. Further information on the SDA webservice and query examples can be found at <a href='http://sdmdataaccess.nrcs.usda.gov/QueryHelp.aspx'>http://sdmdataaccess.nrcs.usda.gov/QueryHelp.aspx</a></p>
+    <p><a href='http://ncss-tech.github.io/AQP/sharpshootR/FFD-estimates.html'>FFD tutorial</a></p>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>data.frame</code> object with rows representing soil series, and columns representing probability estimates of that series occuring at specificed geomorphic positions or associated with a surface shape.</p>
+    <p>a <code>list</code> with the following elements:</p>
+<dt>summary</dt><dd><p>FFD summary statistics as a <code>data.frame</code></p></dd>
+<dt>fm</dt><dd><p>frost matrix</p></dd>
+<dt>Pr.frost</dt><dd><p>Pr(frost|day): daily probability of frost</p></dd>
+
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Probability values are computed from SSURGO data.</p>
+    <p>This is a work in progress.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>library</span>(<span class='no'>soilDB</span>)
-
-<span class='co'># soil series of interest</span>
-<span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>'amador'</span>, <span class='st'>'peters'</span>, <span class='st'>'pentz'</span>, <span class='st'>'inks'</span>, <span class='st'>'auburn'</span>, <span class='st'>'dunstone'</span>, <span class='st'>'argonaut'</span>)
-
-<span class='co'># generate hillslope probability table</span>
-<span class='fu'>hillslopeProbability</span>(<span class='no'>s</span>)
-
-<span class='co'># generate surface 2D shape probability table</span>
-<span class='fu'>surfaceShapeProbability</span>(<span class='no'>s</span>)
-<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -163,9 +168,7 @@
       <li><a href="#value">Value</a></li>
 
       <li><a href="#note">Note</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
     <h2>Author</h2>
     D.E. Beaudette

@@ -7,7 +7,7 @@
 SoilTaxonomyDendrogram(spc, name = "hzname", max.depth = 150, 
 n.depth.ticks = 6, scaling.factor = 0.015, cex.names = 0.75, 
 cex.id = 0.75, axis.line.offset = -4, width = 0.1, y.offset = 0.5, 
-cex.taxon.labels = 0.66)
+cex.taxon.labels = 0.66, dend.color = par("fg"), dend.width = 1)
 }
 
 \arguments{
@@ -22,6 +22,8 @@ cex.taxon.labels = 0.66)
   \item{width}{width of profiles}
   \item{y.offset}{vertical offset between dendrogram and profiles}
   \item{cex.taxon.labels}{character scaling for taxonomic information}
+  \item{dend.color}{dendrogram line color}
+  \item{dend.width}{dendrogram line width}
 }
 
 \details{This function looks for specific site-level attributes named: \code{soilorder}, \code{suborder}, \code{greatgroup}, and \code{subgroup}.

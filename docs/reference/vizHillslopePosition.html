@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Geomorphic Position Probability via SDA — geomorphBySoilSeries-SSURGO • sharpshootR</title>
+<title>Hillslope / Geomorphic Component Vizualization — vizHillslopePosition • sharpshootR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Geomorphic Position Probability via SDA — geomorphBySoilSeries-SSURGO" />
+<meta property="og:title" content="Hillslope / Geomorphic Component Vizualization — vizHillslopePosition" />
 
-<meta property="og:description" content="Hillslope position probability estimates from the SDA query service (SSURGO)" />
+<meta property="og:description" content="A unique display of hillslope or geomorhphic component probability." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -97,60 +97,66 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Geomorphic Position Probability via SDA</h1>
+    <h1>Hillslope / Geomorphic Component Vizualization</h1>
     
-    <div class="hidden name"><code>geomorphBySoilSeries-SSURGO.Rd</code></div>
+    <div class="hidden name"><code>vizHillslopePosition.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Hillslope position probability estimates from the SDA query service (SSURGO)</p>
+    <p>A unique display of hillslope or geomorhphic component probability.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>hillslopeProbability</span>(<span class='no'>s</span>, <span class='kw'>replaceNA</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'>surfaceShapeProbability</span>(<span class='no'>s</span>, <span class='kw'>replaceNA</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'>geomPosHillProbability</span>(<span class='no'>s</span>, <span class='kw'>replaceNA</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'>geomPosMountainProbability</span>(<span class='no'>s</span>, <span class='kw'>replaceNA</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>vizHillslopePosition</span>(<span class='no'>x</span>, <span class='kw'>s</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>vizGeomorphicComponent</span>(<span class='no'>x</span>, <span class='kw'>s</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>s</th>
-      <td><p>a character vector of soil series names, automatically normalized to upper case</p></td>
+      <th>x</th>
+      <td><p><code>data.frame</code> as created by <code><a href='http://www.rdocumentation.org/packages/soilDB/topics/fetchOSD'>soilDB::fetchOSD(..., extended=TRUE)</a></code>, see details</p></td>
     </tr>
     <tr>
-      <th>replaceNA</th>
-      <td><p>boolean: should missing classes be converted to probabilities of 0?</p></td>
+      <th>s</th>
+      <td><p>an optional soil series name, highlighted in the figure</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>These functions send a query to the <a href='SDA'>http://sdmdataaccess.nrcs.usda.gov</a> webservice. Further information on the SDA webservice and query examples can be found at <a href='http://sdmdataaccess.nrcs.usda.gov/QueryHelp.aspx'>http://sdmdataaccess.nrcs.usda.gov/QueryHelp.aspx</a></p>
+    <p><a href='http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html'>Example usage</a></p>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>data.frame</code> object with rows representing soil series, and columns representing probability estimates of that series occuring at specificed geomorphic positions or associated with a surface shape.</p>
+    <p>a <code>list</code> with the following elements:</p>
+<dt>fig</dt><dd><p>lattice object (the figure)</p></dd>
+<dt>order</dt><dd><p>ordering of soil series</p></dd>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Probability values are computed from SSURGO data.</p>
+    <p>This is a work in progress.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='fu'>library</span>(<span class='no'>soilDB</span>)
 
-<span class='co'># soil series of interest</span>
-<span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>'amador'</span>, <span class='st'>'peters'</span>, <span class='st'>'pentz'</span>, <span class='st'>'inks'</span>, <span class='st'>'auburn'</span>, <span class='st'>'dunstone'</span>, <span class='st'>'argonaut'</span>)
+<span class='co'># soils of interest</span>
+<span class='no'>s.list</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>'musick'</span>, <span class='st'>'cecil'</span>, <span class='st'>'drummer'</span>, <span class='st'>'amador'</span>, <span class='st'>'pentz'</span>, <span class='st'>'reiff'</span>,
+<span class='st'>'san joaquin'</span>,<span class='st'>'montpellier'</span>,<span class='st'>'grangeville'</span>,<span class='st'>'pollasky'</span>,<span class='st'>'ramona'</span>)
 
-<span class='co'># generate hillslope probability table</span>
-<span class='fu'>hillslopeProbability</span>(<span class='no'>s</span>)
+<span class='co'># fetch and convert data into an SPC</span>
+<span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/soilDB/topics/fetchOSD'>fetchOSD</a></span>(<span class='no'>s.list</span>, <span class='kw'>extended</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 
-<span class='co'># generate surface 2D shape probability table</span>
-<span class='fu'>surfaceShapeProbability</span>(<span class='no'>s</span>)
+<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>vizHillslopePosition</span>(<span class='no'>s</span>$<span class='no'>hillpos</span>)
+<span class='fu'>print</span>(<span class='no'>res</span>$<span class='no'>fig</span>)
+
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -161,6 +167,8 @@
       <li><a href="#details">Details</a></li>
 
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#references">References</a></li>
 
       <li><a href="#note">Note</a></li>
       

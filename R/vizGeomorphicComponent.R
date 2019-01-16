@@ -2,6 +2,15 @@
 
 ## this doesn't make much sense...
 vizGeomorphicComponent <- function(x, s=NULL) {
+  
+  # check for required packages
+  if(!requireNamespace('dendextend', quietly=TRUE))
+    stop('please install the `dendextend` packages', call.=FALSE)
+  
+  # CRAN CHECK hack
+  geomcomp <- NULL
+  
+  # save row names as they are lost in the distance matrix calc
   row.names(x) <- x$series
   
   # mask-out some columns we don't need
@@ -29,6 +38,7 @@ vizGeomorphicComponent <- function(x, s=NULL) {
   # re-order labels levels based on clustering
   x.long$series <- factor(x.long$series, levels=x.long$series[x.d.hydro$order])
   
+  ## TODO: is this the right place to set trellis options?
   # musym are re-ordered according to clustering
   trellis.par.set(tps)
   

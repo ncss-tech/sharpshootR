@@ -169,6 +169,10 @@ PLSS2LL <- function(p) {
 
 PLSS2LL_1 <- function(formatted.plss) {
   
+  # check for required packages
+  if(!requireNamespace('httr', quietly = TRUE) | !requireNamespace('jsonlite', quietly = TRUE))
+    stop('please install the `httr` and `jsonlite` packages', call.=FALSE)
+  
   # pre-allocate char vector for results
   res <- list()
   
@@ -181,7 +185,7 @@ PLSS2LL_1 <- function(formatted.plss) {
     httr::stop_for_status(r)
     
     # convert JSON -> list
-    r <- jsonlite::fromJSON(content(r, as = 'text'), flatten = TRUE)
+    r <- jsonlite::fromJSON(httr::content(r, as = 'text'), flatten = TRUE)
     
     # keep only coordinates
     # r <- r$coordinates[, c('lon', 'lat')]

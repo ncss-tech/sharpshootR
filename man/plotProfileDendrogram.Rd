@@ -3,9 +3,9 @@
 \title{Plot soil profiles below a dendrogram}
 \description{Plot soil profiles below a dendrogram}
 \usage{
-plotProfileDendrogram(x, clust, scaling.factor = 0.01, width = 0.1, 
-y.offset = 0.1, dend.y.scale = max(clust$height * 2, na.rm = TRUE), 
-debug = FALSE, ...)
+plotProfileDendrogram(x, clust, scaling.factor=0.01, width=0.1, y.offset=0.1, 
+dend.y.scale= max(clust$height * 2, na.rm=TRUE) , 
+dend.color=par('fg'), dend.width=1, debug=FALSE, ...)
 }
 
 \arguments{
@@ -15,6 +15,8 @@ debug = FALSE, ...)
   \item{width}{scaling of profile widths}
   \item{y.offset}{vertical offset for top of profiles}
   \item{dend.y.scale}{extent of y-axis (may have to tinker with this)}
+  \item{dend.color}{dendrogram line color}
+  \item{dend.width}{dendrogram line width}
   \item{debug}{optionally print debugging data}
   \item{\dots}{additional arguments to \code{plotSPC}}
 }

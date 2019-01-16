@@ -59,7 +59,11 @@ importFrom(cluster,
 importFrom(lattice,
   levelplot,
   panel.levelplot,
-  panel.segments
+  panel.segments,
+  trellis.par.set,
+  barchart,
+  simpleKey,
+  yscale.components.default
 )
 
 importFrom(digest,

@@ -22,12 +22,8 @@ multinominal2logical(x, v)
 # sample data, an SPC
 data(loafercreek, package='soilDB')
 
-# convert to factor
-loafercreek$hillslope_pos <- factor(loafercreek$hillslope_pos, 
-levels=c('Toeslope', 'Footslope', 'Backslope', 'Shoulder', 'Summit'))
-
 # convert to logical matrix
-hp <- multinominal2logical(loafercreek, 'hillslope_pos')
+hp <- multinominal2logical(loafercreek, 'hillslopeprof')
 
 # join-in to site data
 site(loafercreek) <- hp
@@ -39,7 +35,7 @@ v <- c('lithic.contact', 'paralithic.contact',
 
 # visualize with some other diagnostic features
 x <- diagnosticPropertyPlot(loafercreek, v, k=5, 
-grid.label='bedrock_kind', dend.label='pedon_id')
+grid.label='bedrckkind', dend.label='pedon_id')
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

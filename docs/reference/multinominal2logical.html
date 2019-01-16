@@ -137,12 +137,8 @@
 <span class='co'># sample data, an SPC</span>
 <span class='fu'>data</span>(<span class='no'>loafercreek</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>'soilDB'</span>)
 
-<span class='co'># convert to factor</span>
-<span class='no'>loafercreek</span>$<span class='no'>hillslope_pos</span> <span class='kw'>&lt;-</span> <span class='fu'>factor</span>(<span class='no'>loafercreek</span>$<span class='no'>hillslope_pos</span>,
-<span class='kw'>levels</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>'Toeslope'</span>, <span class='st'>'Footslope'</span>, <span class='st'>'Backslope'</span>, <span class='st'>'Shoulder'</span>, <span class='st'>'Summit'</span>))
-
 <span class='co'># convert to logical matrix</span>
-<span class='no'>hp</span> <span class='kw'>&lt;-</span> <span class='fu'>multinominal2logical</span>(<span class='no'>loafercreek</span>, <span class='st'>'hillslope_pos'</span>)
+<span class='no'>hp</span> <span class='kw'>&lt;-</span> <span class='fu'>multinominal2logical</span>(<span class='no'>loafercreek</span>, <span class='st'>'hillslopeprof'</span>)
 
 <span class='co'># join-in to site data</span>
 <span class='fu'>site</span>(<span class='no'>loafercreek</span>) <span class='kw'>&lt;-</span> <span class='no'>hp</span>
@@ -154,7 +150,7 @@
 
 <span class='co'># visualize with some other diagnostic features</span>
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='diagnosticPropertyPlot.html'>diagnosticPropertyPlot</a></span>(<span class='no'>loafercreek</span>, <span class='no'>v</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>5</span>,
-<span class='kw'>grid.label</span><span class='kw'>=</span><span class='st'>'bedrock_kind'</span>, <span class='kw'>dend.label</span><span class='kw'>=</span><span class='st'>'pedon_id'</span>)
+<span class='kw'>grid.label</span><span class='kw'>=</span><span class='st'>'bedrckkind'</span>, <span class='kw'>dend.label</span><span class='kw'>=</span><span class='st'>'pedon_id'</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -116,6 +116,7 @@
 <li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/constantDensitySampling.html"><code>constantDensitySampling</code></a></li>
 <li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/generateLineHash.html"><code>generateLineHash</code></a></li>
 <li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/polygonAdjacency.html"><code>polygonAdjacency</code></a></li>
+<li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/PLSS2LL.html"><code>PLSS2LL</code></a></li>
 <li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/LL2PLSS.html"><code>LL2PLSS</code></a></li>
 <li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/sample.by.poly.html"><code>sample.by.poly</code></a></li>
 <li><a href="http://ncss-tech.github.io/sharpshootR/docs/reference/samplingStability.html"><code>samplingStability</code></a></li>
@@ -157,7 +158,7 @@
 <span class="co"># generalize horizon names using REGEX rules</span>
 n &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">'Oi'</span>, <span class="st">'A'</span>, <span class="st">'BA'</span>,<span class="st">'Bt1'</span>,<span class="st">'Bt2'</span>,<span class="st">'Bt3'</span>,<span class="st">'Cr'</span>,<span class="st">'R'</span>)
 p &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">'O'</span>, <span class="st">'^A$|Ad|Ap|AB'</span>,<span class="st">'BA$|Bw'</span>, 
-<span class="st">'Bt1$|^B$'</span>,<span class="st">'^Bt$|^Bt2$'</span>,<span class="st">'^Bt3|^Bt4|CBt$|BCt$|2Bt|2CB$|^C$'</span>,<span class="st">'Cr'</span>,<span class="st">'R'</span>)
+       <span class="st">'Bt1$|^B$'</span>,<span class="st">'^Bt$|^Bt2$'</span>,<span class="st">'^Bt3|^Bt4|CBt$|BCt$|2Bt|2CB$|^C$'</span>,<span class="st">'Cr'</span>,<span class="st">'R'</span>)
 loafercreek<span class="op">$</span>genhz &lt;-<span class="st"> </span><span class="kw">generalize.hz</span>(loafercreek<span class="op">$</span>hzname, n, p)
 
 <span class="co"># remove non-matching generalized horizon names</span>
@@ -165,10 +166,10 @@ loafercreek<span class="op">$</span>genhz[loafercreek<span class="op">$</span>ge
 loafercreek<span class="op">$</span>genhz &lt;-<span class="st"> </span><span class="kw">factor</span>(loafercreek<span class="op">$</span>genhz)
 
 <span class="co"># aggregate color data, this function is from the `aqp` package</span>
-a &lt;-<span class="st"> </span><span class="kw">aggregateColor</span>(loafercreek, <span class="st">'genhz'</span>)
+a &lt;-<span class="st"> </span><span class="kw">aggregateColor</span>(loafercreek, <span class="st">'genhz'</span>, <span class="dt">k =</span> <span class="dv">8</span>)
 
 <span class="co"># plot</span>
-<span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>))
+<span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>))
 <span class="kw"><a href="reference/aggregateColorPlot.html">aggregateColorPlot</a></span>(a, <span class="dt">print.n.hz =</span> <span class="ot">TRUE</span>)</code></pre></div>
 </div>
 <div id="dependency-graph" class="section level2">

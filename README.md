@@ -77,7 +77,7 @@ data(loafercreek, package = 'soilDB')
 # generalize horizon names using REGEX rules
 n <- c('Oi', 'A', 'BA','Bt1','Bt2','Bt3','Cr','R')
 p <- c('O', '^A$|Ad|Ap|AB','BA$|Bw', 
-'Bt1$|^B$','^Bt$|^Bt2$','^Bt3|^Bt4|CBt$|BCt$|2Bt|2CB$|^C$','Cr','R')
+       'Bt1$|^B$','^Bt$|^Bt2$','^Bt3|^Bt4|CBt$|BCt$|2Bt|2CB$|^C$','Cr','R')
 loafercreek$genhz <- generalize.hz(loafercreek$hzname, n, p)
 
 # remove non-matching generalized horizon names
@@ -85,10 +85,10 @@ loafercreek$genhz[loafercreek$genhz == 'not-used'] <- NA
 loafercreek$genhz <- factor(loafercreek$genhz)
 
 # aggregate color data, this function is from the `aqp` package
-a <- aggregateColor(loafercreek, 'genhz')
+a <- aggregateColor(loafercreek, 'genhz', k = 8)
 
 # plot
-par(mar=c(1,4,4,1))
+par(mar=c(3,4,4,1))
 aggregateColorPlot(a, print.n.hz = TRUE)
 ```
 

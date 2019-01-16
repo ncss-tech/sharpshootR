@@ -94,5 +94,5 @@ aggregateColorPlot(a, print.n.hz = TRUE)
 
 
 ## Dependency Graph
-https://cran.microsoft.com/packagedata/graphs/sharpshootR.png
+![](https://cran.microsoft.com/packagedata/graphs/sharpshootR.png)
 

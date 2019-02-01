@@ -74,6 +74,12 @@ CDECquery <- function(id, sensor, interval='D', start, end) {
   d$year <- as.numeric(format(d$datetime, "%Y"))
   d$month <- factor(format(d$datetime, '%B'), levels=c('January','February','March','April','May','June','July','August','September','October','November','December'))
   
+  # NODATA are somtimes encoded as -9999
+  idx <- which(d$value == -9999)
+  if(length(idx) > 0) {
+    d <- d[-idx, ]
+  }
+  
   # 2018-09-18: more data returned by the API, so makes sense to include additional columns
   return(d)
 }

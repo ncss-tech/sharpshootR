@@ -1,4 +1,4 @@
-
+## TODO: return clustering object instead of cluster$order
 
 ## this doesn't make much sense...
 vizGeomorphicComponent <- function(x, s=NULL) {

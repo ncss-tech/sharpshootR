@@ -2,8 +2,8 @@ Package: sharpshootR
 Type: Package
 Title: A Soil Survey Toolkit
 Description: Miscellaneous soil data management, summary, visualization, and conversion utilities to support soil survey.
-Version: 1.4
-Date: 2019-01-16
+Version: 1.4.01
+Date: 2019-02-08
 Authors@R: c(
   person(given="Dylan", family="Beaudette", role = c("cre"), email = "dylan.beaudette@ca.usda.gov"), 
   person(given="Jay", family="Skovlin", role = c("aut")), 

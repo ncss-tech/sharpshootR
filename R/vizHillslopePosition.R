@@ -1,4 +1,4 @@
-
+## TODO: return clustering object instead of cluster$order
 
 # still testing "hydrologic" order
 vizHillslopePosition <- function(x, s=NULL) {

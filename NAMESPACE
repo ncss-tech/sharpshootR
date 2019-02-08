@@ -75,7 +75,8 @@ importFrom(e1071,
 )
 
 importFrom(latticeExtra,
-  dendrogramGrob
+  dendrogramGrob,
+  segplot
 )
 
 importFrom(vegan,

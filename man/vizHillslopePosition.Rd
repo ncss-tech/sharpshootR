@@ -22,7 +22,9 @@ vizGeomorphicComponent(x, s = NULL)
 \value{a \code{list} with the following elements:
 
 \item{fig}{lattice object (the figure)}
-\item{order}{ordering of soil series}}
+\item{order}{ordering of soil series}
+
+}
 
 \references{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}
 

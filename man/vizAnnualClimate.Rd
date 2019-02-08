@@ -49,14 +49,26 @@ library(latticeExtra)
 # soil series of interest
 soil <- 'ARBUCKLE'
 
-# get extended data
+# get competing series
 sdata <- fetchOSD(soil, extended = TRUE)
 
-# get competing series' data too
-sdata.competing <- fetchOSD(c(soil, sdata$competing$competing), extended = TRUE)
+# get competing series' data
+sdata.competing <- fetchOSD(c(soil, sdata$competing$competing))
+
+# only use established series
+idx <- which(sdata.competing$series_status == 'established')
+
+# subset as needed
+if(length(idx) < length(sdata.competing)) {
+  sdata.competing <- sdata.competing[idx, ]
+  
+}
+
+# now get the extended data
+sdata.competing.full <- fetchOSD(site(sdata.competing)$id, extended = TRUE)
 
 # extract SPC
-spc <- sdata.competing$SPC
+spc <- sdata.competing.full$SPC
 
 # full set of series names
 s.names <- unique(site(spc)$id)
@@ -66,13 +78,18 @@ s.names <- unique(site(spc)$id)
 trellis.par.set(plot.line=list(col='RoyalBlue'))
 
 # control center symbol and size here
-res <- vizAnnualClimate(sdata.competing$climate.annual, s=soil, IQR.cex = 1.1, cex=1.1, pch=18)
+res <- vizAnnualClimate(sdata.competing.full$climate.annual, s=soil, IQR.cex = 1.1, cex=1.1, pch=18)
 
 # plot figure
 print(res$fig)
 
 # check clustering
 str(res$clust)
+
+# do something with clustering
+par(mar=c(0,0,1,1))
+plotProfileDendrogram(spc, clust = res$clust, scaling.factor = 0.075, width = 0.2, y.offset = 0.5)
+mtext('sorted by annual climate summaries', side = 3, at = 0.5, adj = 0, line = -1.5, font=3)
 
 }
 }

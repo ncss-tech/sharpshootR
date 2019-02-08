@@ -45,17 +45,17 @@ vizAnnualClimate <- function(climate.data, IQR.cex=1, s=NULL, s.col='firebrick',
   
   # attempt to highlight named series by lowering chroma of other series
   if(! is.null(s)) {
+    
+    ### !!! whoa, the color vector has to match the original label order, NOT the new ordering -- WTF !!!
     # index to the series of interest
-    s.idx <- match(s, levels(climate.data$series))
+    s.idx <- grep(s, x=climate.data.wide.h$labels, ignore.case = TRUE)
     
     # expand color vector to the total number of series
     # this should account for multiple colors
     tps.cols <- rep_len(tps.cols, length.out = n.series)
     
-    # adjust alpha to de-emphasize other series
+    # replace with highlight color
     tps.cols[s.idx] <- s.col
-    
-    trellis.par.set(plot.line=list(col=tps.cols))
   }
 
 
@@ -65,12 +65,13 @@ vizAnnualClimate <- function(climate.data, IQR.cex=1, s=NULL, s.col='firebrick',
   IQR.width <- IQR.cex * (n.series * 0.0025)
   
   # save for later
-  pp <- segplot(series ~ q05 + q95 | factor(climate_var), 
+  pp <- segplot(series ~ q05 + q95 | factor(climate_var),
                 centers=q50, data=climate.data, 
                 main='Annual Climate Summary', 
                 draw.bands=FALSE, segments.fun=panel.arrows, ends='both', angle=90, length=1, unit='mm', 
                 scales=list(y=list(alternating=3), x=list(relation='free')), 
                 as.table=TRUE,
+                par.settings=list(plot.line=list(col=tps.cols)),
                 strip=strip.custom(bg=grey(0.85), par.strip.text=list(cex=0.7)), 
                 xlab='5th-25th-50th-75th-95th Percentiles', 
                 panel=function(x, y, z, q25=climate.data$q25, q75=climate.data$q75, subscripts, ...) {
@@ -82,6 +83,8 @@ vizAnnualClimate <- function(climate.data, IQR.cex=1, s=NULL, s.col='firebrick',
                   q25 <- q25[subscripts]
                   q75 <- q75[subscripts]
                   zz <- z[subscripts]
+                  
+                  # !!! note: colors are in the original order of series labels !!!
                   panel.rect(xleft=q25, xright=q75, 
                              ybottom=as.numeric(zz) - IQR.width, 
                              ytop=as.numeric(zz) + IQR.width, 
@@ -107,7 +110,7 @@ vizAnnualClimate <- function(climate.data, IQR.cex=1, s=NULL, s.col='firebrick',
                   }
                   
     return(temp)
-  }, ...)
+  }, ... )
   
   
   # return figure, and clustering results

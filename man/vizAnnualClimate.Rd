@@ -43,23 +43,36 @@ vizAnnualClimate(climate.data, IQR.cex=1, s=NULL, s.col='firebrick', ...)
 \examples{
 \dontrun{
 library(soilDB)
+library(sharpshootR)
+library(latticeExtra)
 
+# soil series of interest
 soil <- 'ARBUCKLE'
 
-s <- fetchOSD(soil, extended = TRUE)
-spc <- fetchOSD(c(soil, s$competing$competing))
-s.names <- unique(site(spc)$id)
-s.competing.data <- fetchOSD(s.names, extended = TRUE)
+# get extended data
+sdata <- fetchOSD(soil, extended = TRUE)
 
-res <- vizAnnualClimate(s.competing.data$climate.annual, s=soil, col='RoyalBlue')
+# get competing series' data too
+sdata.competing <- fetchOSD(c(soil, sdata$competing$competing), extended = TRUE)
+
+# extract SPC
+spc <- sdata.competing$SPC
+
+# full set of series names
+s.names <- unique(site(spc)$id)
+
+# todo: probably better ways to do this...
+# note: need to load lattice for this to work
+trellis.par.set(plot.line=list(col='RoyalBlue'))
+
+# control center symbol and size here
+res <- vizAnnualClimate(sdata.competing$climate.annual, s=soil, IQR.cex = 1.1, cex=1.1, pch=18)
+
+# plot figure
 print(res$fig)
 
-x.d <- res$clust
-
-par(mar=c(0,0,1,1))
-plotProfileDendrogram(s.competing.data$SPC, clust = x.d, scaling.factor = 0.075, width = 0.2, y.offset = 0.5)
-mtext(fm.name, side = 1, at = 0.5, adj = 0, line = -1.5, font=4)
-mtext('sorted by annual climate summaries', side = 3, at = 0.5, adj = 0, line = -1.5, font=3)
+# check clustering
+str(res$clust)
 
 }
 }

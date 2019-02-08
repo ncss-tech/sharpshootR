@@ -5,7 +5,10 @@
 # s: series name
 # IQR.width: width of IQR band
 # ...: further arguments to segplot
-vizAnnualClimate <- function(climate.data, s=NULL, IQR.cex=1, ...) {
+vizAnnualClimate <- function(climate.data, IQR.cex=1, s=NULL, s.col='firebrick', ...) {
+  
+  # get extra arguments: length of 0 if no extra arguments
+  extra.args <- list(...)
   
   # widen for clustering of medians
   climate.data.wide <- dcast(climate.data, series ~ climate_var, value.var = 'q50')
@@ -25,6 +28,37 @@ vizAnnualClimate <- function(climate.data, s=NULL, IQR.cex=1, ...) {
   # used for horizontal lines in figure
   n.series <- length(levels(climate.data$series))
   
+  # get current settings
+  tps <- trellis.par.get()
+  
+  ## TODO: figure this logic out
+  ## 
+  ## essentially: use the color specified as an argument if present, otherwise use bette defaults than standard lattice
+  ##
+  # # override some trellis defaults if not specified
+  # if(! is.null(extra.args$col)) {
+  #   tps$plot.line$col <- extra.args$col
+  # }
+  
+  # get color vector from current trellis settings
+  tps.cols <- tps$plot.line$col
+  
+  # attempt to highlight named series by lowering chroma of other series
+  if(! is.null(s)) {
+    # index to the series of interest
+    s.idx <- match(s, levels(climate.data$series))
+    
+    # expand color vector to the total number of series
+    # this should account for multiple colors
+    tps.cols <- rep_len(tps.cols, length.out = n.series)
+    
+    # adjust alpha to de-emphasize other series
+    tps.cols[s.idx] <- s.col
+    
+    trellis.par.set(plot.line=list(col=tps.cols))
+  }
+
+
   # attempt to create an idea IQR width
   # generally, fewer series will require a smaller width
   # 0.05 is about right for ~ 10 series
@@ -40,16 +74,21 @@ vizAnnualClimate <- function(climate.data, s=NULL, IQR.cex=1, ...) {
                 strip=strip.custom(bg=grey(0.85), par.strip.text=list(cex=0.7)), 
                 xlab='5th-25th-50th-75th-95th Percentiles', 
                 panel=function(x, y, z, q25=climate.data$q25, q75=climate.data$q75, subscripts, ...) {
-                  # basic plot
+                  # grid and horizontal guides
                   panel.grid(h=FALSE, v=-1, col='grey', lty=3)
                   panel.abline(h=1:n.series, col='grey', lty=3)
-                  panel.segplot(x, y, z, subscripts=subscripts, ...)
                   
-                  # add interquartile range
+                  # IQR bars
                   q25 <- q25[subscripts]
                   q75 <- q75[subscripts]
                   zz <- z[subscripts]
-                  panel.rect(xleft=q25, xright=q75, ybottom=as.numeric(zz) - IQR.width, ytop=as.numeric(zz) + IQR.width, border='RoyalBlue', col='RoyalBlue')
+                  panel.rect(xleft=q25, xright=q75, 
+                             ybottom=as.numeric(zz) - IQR.width, 
+                             ytop=as.numeric(zz) + IQR.width, 
+                             border=tps.cols, col=tps.cols)
+                  
+                  # segplot
+                  panel.segplot(x, y, z, subscripts=subscripts, ...)
                 }, 
                 yscale.components=function(..., s.to.bold=s) {
                   temp <- yscale.components.default(...) 

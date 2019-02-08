@@ -6,15 +6,17 @@
 \description{Annual climate summaries for soil series, based on \code{latticeExtra::segplot}, based on 5th, 25th, 50th, 75th, and 95th percentiles. Input data should be from \code{soilDB::fetchOSD}.}
 
 \usage{
-vizAnnualClimate(climate.data, s = NULL, IQR.cex=1, ...)
+vizAnnualClimate(climate.data, IQR.cex=1, s=NULL, s.col='firebrick', ...)
 }
 
 \arguments{
   \item{climate.data}{Annual climate summaries, as returned from \code{soilDB::fetchOSD(..., extended=TRUE)}}
   
-  \item{s}{a soil series name, e.g. "AMADOR"}
-  
   \item{IQR.cex}{scaling factor for bar representing interquartile range}
+  
+  \item{s}{a soil series name, e.g. "AMADOR", to highlight}
+  
+  \item{s.col}{color for highlighted soil series}
   
   \item{\dots}{further arguments passed to \code{latticeExtra::segplot}}
 }

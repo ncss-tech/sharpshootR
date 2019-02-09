@@ -33,6 +33,7 @@ http://ncss-tech.github.io/AQP/
    * [`SoilTaxonomyDendrogram`](http://ncss-tech.github.io/sharpshootR/docs/reference/SoilTaxonomyDendrogram.html)
    * [`vizGeomorphicComponent`](http://ncss-tech.github.io/sharpshootR/docs/reference/vizHillslopePosition.html)
    * [`vizHillslopePosition`](http://ncss-tech.github.io/sharpshootR/docs/reference/vizHillslopePosition.html)
+   * [`vizAnnualClimate`](http://ncss-tech.github.io/sharpshootR/docs/reference/vizAnnualClimate.html)
 
    
 ### Climate

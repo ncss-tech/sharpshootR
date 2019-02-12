@@ -12,6 +12,7 @@ CDECquery <- function(id, sensor, interval='D', start, end) {
     stop('please install the `jsonlite` packages', call.=FALSE)
   
   ## 2018-09-18: new CDEC API, 
+  ## more data returned, so makes sense to include additional columns
   ## multiple stations and sensors can be specified in one request
   ## e.g.: &SensorNums=194,197
   ## JSON API returns simpler data structure
@@ -74,12 +75,21 @@ CDECquery <- function(id, sensor, interval='D', start, end) {
   d$year <- as.numeric(format(d$datetime, "%Y"))
   d$month <- factor(format(d$datetime, '%B'), levels=c('January','February','March','April','May','June','July','August','September','October','November','December'))
   
-  # NODATA are somtimes encoded as -9999
+  # NODATA are sometimes encoded as -9999
   idx <- which(d$value == -9999)
   if(length(idx) > 0) {
     d <- d[-idx, ]
   }
   
-  # 2018-09-18: more data returned by the API, so makes sense to include additional columns
+  ## TODO: more testing
+  # 2019-02-11: add water year and date, using CA "water year" ending Spet 30
+  # NEW function in sharpshootR
+  # eval water year and water day, length should be the same
+  w <- waterDayYear(d$datetime)
+  
+  # row-order is preserved
+  d$water_year <- w$wy
+  d$water_day <- w$wd
+  
   return(d)
 }

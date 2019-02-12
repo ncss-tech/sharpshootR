@@ -30,19 +30,19 @@ test_that("FFD results are correct", {
   
   ## TODO: test on paper
   # assuming that calculation is correct, looks right
-  expect_equal(x.ffd$summary$ffd.50, 70)
-  expect_equal(x.ffd$summary$ffd.80, 44)
-  expect_equal(x.ffd$summary$ffd.90, 40)
+  expect_equal(x.ffd$summary$ffd.50, 80)
+  expect_equal(x.ffd$summary$ffd.80, 70)
+  expect_equal(x.ffd$summary$ffd.90, 60)
   
-  expect_equal(x.ffd$summary$spring.50, 168)
-  expect_equal(x.ffd$summary$spring.80, 175)
-  expect_equal(x.ffd$summary$spring.90, 178)
+  expect_equal(x.ffd$summary$spring.50, 165)
+  expect_equal(x.ffd$summary$spring.80, 168)
+  expect_equal(x.ffd$summary$spring.90, 169)
   
-  expect_equal(x.ffd$summary$fall.50, 238)
-  expect_equal(x.ffd$summary$fall.80, 219)
-  expect_equal(x.ffd$summary$fall.90, 218)
+  expect_equal(x.ffd$summary$fall.50, 245)
+  expect_equal(x.ffd$summary$fall.80, 238)
+  expect_equal(x.ffd$summary$fall.90, 228)
   
-  expect_equal(x.ffd$summary$n.yrs, 11)
+  expect_equal(x.ffd$summary$n.yrs, 6)
   
 })
 

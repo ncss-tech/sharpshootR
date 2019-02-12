@@ -1,4 +1,5 @@
 
+## TODO: leap years? 365 vs 366 total days
 
 # compute water year and day
 # d: anythihng the can be safely converted it POSIXlt

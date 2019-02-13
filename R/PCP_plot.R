@@ -52,8 +52,12 @@
 # this.year: current year
 # method: exemplar|daily
 # ...: further arguments to plot()
-PCP_plot <- function(x, this.year=2019, method='exemplar', ...) {
+PCP_plot <- function(x, this.year=2019, method='exemplar', q.color='RoyalBlue', c.color='firebrick', ...) {
   
+  # water year range
+  wy.range <- range(x$water_year)
+  
+  # prepare data for plotting / extract summaries
   xx <- .prepareCumulativePPT(x)
   e <- .exemplarYears(xx)
   
@@ -74,21 +78,22 @@ PCP_plot <- function(x, this.year=2019, method='exemplar', ...) {
   
   
   # all data, establish plot area
-  plot(cumulative_ppt ~ water_day, data=xx, col=grey(0.9), type='n', axes=FALSE, xlim=c(0, 370), ... )
+  xlab.text <- sprintf("Water Years %s - %s", wy.range[1], wy.range[2])
+  plot(cumulative_ppt ~ water_day, data=xx, col=grey(0.9), type='n', axes=FALSE, xlim=c(0, 370), xlab=xlab.text, ... )
   
   # grid
   grid(ny = NULL, nx=0, col='lightgray', lty=3)
   abline(v=date.axis$wd, col='lightgray', lty=3)
   
   # exemplar years based on quantiles
-  lines(cumulative_ppt ~ water_day, data=xx[xx$water_year == exemplar.yrs[1], ], lwd=1, lty=3, col='RoyalBlue', type='l')
-  lines(cumulative_ppt ~ water_day, data=xx[xx$water_year == exemplar.yrs[2], ], lwd=1, lty=2, col='RoyalBlue', type='l')
-  lines(cumulative_ppt ~ water_day, data=xx[xx$water_year == exemplar.yrs[3], ], lwd=2, lty=1, col='RoyalBlue', type='l')
-  lines(cumulative_ppt ~ water_day, data=xx[xx$water_year == exemplar.yrs[4], ], lwd=1, lty=2, col='RoyalBlue', type='l')
-  lines(cumulative_ppt ~ water_day, data=xx[xx$water_year == exemplar.yrs[5], ], lwd=1, lty=3, col='RoyalBlue', type='l')
+  lines(cumulative_ppt ~ water_day, data=xx[xx$water_year == exemplar.yrs[1], ], lwd=1, lty=3, col=q.color, type='l')
+  lines(cumulative_ppt ~ water_day, data=xx[xx$water_year == exemplar.yrs[2], ], lwd=1, lty=2, col=q.color, type='l')
+  lines(cumulative_ppt ~ water_day, data=xx[xx$water_year == exemplar.yrs[3], ], lwd=2, lty=1, col=q.color, type='l')
+  lines(cumulative_ppt ~ water_day, data=xx[xx$water_year == exemplar.yrs[4], ], lwd=1, lty=2, col=q.color, type='l')
+  lines(cumulative_ppt ~ water_day, data=xx[xx$water_year == exemplar.yrs[5], ], lwd=1, lty=3, col=q.color, type='l')
   
   # current year
-  lines(cumulative_ppt ~ water_day, data=this.year.data, lwd=2, col='firebrick', type='l')
+  lines(cumulative_ppt ~ water_day, data=this.year.data, lwd=2, col=c.color, type='l')
   
   
   # add axes
@@ -105,12 +110,12 @@ PCP_plot <- function(x, this.year=2019, method='exemplar', ...) {
   
   # TODO: add current percentile via ecdf()
   # annotate current year
-  points(x=mwd, y=mcp, pch=22, bg='firebrick')
-  text(x=0, y=mcp, labels = round(mcp), col='firebrick', font=2, cex=0.85)
+  points(x=mwd, y=mcp, pch=22, bg=c.color)
+  text(x=0, y=mcp, labels = round(mcp), col=c.color, font=2, cex=0.85)
   
   # helper arrows
   # TODO: condition on mwd: not helpful if < 10
-  arrows(x0 = 10, y0 = mcp, x1 = mwd, y1 = mcp, col = 'firebrick', length = 0.1, code=1)
+  arrows(x0 = 10, y0 = mcp, x1 = mwd, y1 = mcp, col = c.color, length = 0.05, code=1)
   
   # TODO: return information used to make figure
 }

@@ -9,10 +9,22 @@ CDEC_StationInfo <- function(s) {
   # scrape HTML tables from the results
   u <- sprintf("http://cdec.water.ca.gov/dynamicapp/staMeta?station_id=%s", s)
   h <- xml2::read_html(u)
+  
+  # get H2 elements: station name stored here
+  hn.h2 <- rvest::html_nodes(h, "h2")
+  
+  # get tables: data are stored here
   hn <- rvest::html_nodes(h, "table")
   
   # make sure there are some results to process, there should be 2 or 3 tables
   if(length(as.list(hn)) > 0) {
+    
+    # attempt to extract station name
+    if(length(as.list(hn.h2)) > 0) {
+      stn.name <- rvest::html_text(hn.h2[[1]])
+    } else {
+      stn.name <- "UNKNOWN"
+    }
     
     ## site metadata, poorly formatted in split, 2-column layout
     site.meta <- rvest::html_table(hn[[1]])
@@ -25,7 +37,10 @@ CDEC_StationInfo <- function(s) {
     names(c2) <- site.meta[, 3]
     
     # combine
-    site.meta <- cbind(c1,c2)
+    site.meta <- cbind(c1, c2)
+    
+    # add site name
+    site.meta$Name <- stn.name
     
     # strip non-numeric chars from coordinates | elevation and convert to numeric
     site.meta$Longitude <- as.numeric(gsub("[^0-9\\.]", "", site.meta$Longitude))

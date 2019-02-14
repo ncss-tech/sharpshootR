@@ -146,7 +146,7 @@ PCP_plot <- function(x, this.year=2019, method='exemplar', q.color='RoyalBlue', 
   }
   
   # basic legend
-  legend('bottomright', legend = c('Historic', 'Current'), pt.bg = c(q.color, c.color), pch = 22, bty='n', pt.cex=1.25, cex=0.75, title='Water Day/Year')
+  legend('top', legend = c('Historic', 'Current'), pt.bg = c(q.color, c.color), pch = 22, bty='n', pt.cex=1.25, cex=0.75, title='Water Day/Year', horiz = TRUE)
   
   # TODO: return information used to make figure
 }

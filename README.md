@@ -12,7 +12,7 @@ Install the stable version from CRAN:
 
 Install the development version from Github:
 
-`remotes::install_github("ncss-tech/soilDB", dependencies=FALSE, upgrade=FALSE, build=FALSE)`
+`remotes::install_github("ncss-tech/sharpshootR", dependencies=FALSE, upgrade=FALSE, build=FALSE)`
 
 ## Website
 http://ncss-tech.github.io/AQP/

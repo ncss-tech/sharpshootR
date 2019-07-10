@@ -13,14 +13,17 @@ plotProfileDendrogram <- function(x, clust, scaling.factor=0.01, width=0.1, y.of
   # sanity check: length and contents of individual names in d should match ids in x
   d.ids <- clust$order.lab # labels, in dendrogram order
   x.ids <- profile_id(x)[clust$order] # profile IDs, re-ordered according to dendrogram
-  if( (length(d.ids) != length(x.ids)) | ! all(d.ids == x.ids) )
-    stop('inconsistent SoilProfileCollection and distance matrix!')
   
   # debugging information
   if(debug) {
     par(mar=c(5,5,5,5))
     print(data.frame(d=d.ids, x=x.ids))
   }
+  
+  if( (length(d.ids) != length(x.ids)) | ! all(d.ids == x.ids) )
+    stop('inconsistent SoilProfileCollection and distance matrix!')
+  
+  
   
   # convert to hclust, then phylo object
   d.hclust <- as.hclust(clust)

@@ -5,7 +5,7 @@ dist.along.grad <- function(coords, var, grad.scaled.min, grad.scaled.max) {
   grad.order <- order(var)
   # order coordinates by variable
   coords <- coords[grad.order, ]
-  # compute cumulative distance along gradient
+  # compute cumulative distance along gradient (horizontal units of CRS)
   grad.distances <- cumsum(c(0, sqrt(diff(coords[, 1])^2 + diff(coords[, 2])^2)))
   # rescale distances to number of profiles in collection
   scaled.distances <- scales::rescale(grad.distances, to=c(1, nrow(coords)))
@@ -18,7 +18,7 @@ dist.along.grad <- function(coords, var, grad.scaled.min, grad.scaled.max) {
 }
 
 # plot a transect with profiles below
-plotTransect <- function(s, grad.var.name, transect.col='RoyalBlue', tick.number=7, y.offset=100, scaling.factor=0.5, distance.axis.title='Distance Along Transect (km)', crs=NULL, grad.axis.title=NULL, ...){
+plotTransect <- function(s, grad.var.name, transect.col='RoyalBlue', tick.number=7, y.offset=100, scaling.factor=0.5, distance.axis.title='Distance Along Transect (km)', crs=NULL, grad.axis.title=NULL, dist.scaling.factor=1000, ...){
   
   # internal offsets
   
@@ -59,7 +59,7 @@ plotTransect <- function(s, grad.var.name, transect.col='RoyalBlue', tick.number
     mtext(grad.axis.title, at=median(transect$scaled.grad), side=2, line=2.5, font=2, cex=0.75)
   
   # add distance along gradient
-  axis(side=1, at=1:length(s), labels=round(transect$distance/1000), cex.axis=0.75)
+  axis(side=1, at=1:length(s), labels=round(transect$distance/dist.scaling.factor), cex.axis=0.75)
   mtext(distance.axis.title, side=1, line=2, font=2, cex=0.75)
   
   # link gradient points to profiles

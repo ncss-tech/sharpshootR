@@ -8,7 +8,8 @@ plotTransect(s, grad.var.name, transect.col = "RoyalBlue",
 tick.number=7, y.offset = 100, 
 scaling.factor = 0.5, 
 distance.axis.title = "Distance Along Transect (km)", 
-crs = NULL, grad.axis.title = NULL, ...)
+crs = NULL, grad.axis.title = NULL, dist.scaling.factor=1000,
+...)
 }
 
 \arguments{
@@ -21,6 +22,7 @@ crs = NULL, grad.axis.title = NULL, ...)
   \item{distance.axis.title}{a tital for the along-transect distances}
   \item{crs}{an optional \code{CRS} object used to convert coordinates into a planar system}
   \item{grad.axis.title}{a title for the gradient axis}
+  \item{dist.scaling.factor}{scaling factor applied to linear distance units, default is conversion from m to km}
   \item{\dots}{further arguments passed to \code{plotSPC}}
 }
 

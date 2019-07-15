@@ -1,4 +1,12 @@
 
+## TODO:
+## * implement non-linear re-scaling of distances / variables
+## * perform all re-scaling via linear model?
+## * consider sorting by distance vs. var (requires a starting point)
+## * consider manually defined vector of indices
+## * modified relative distances to avoid overlap
+
+
 # function for computing gradient vs. distance along gradient
 dist.along.grad <- function(coords, var, grad.scaled.min, grad.scaled.max) {
   # order points along gradient
@@ -38,8 +46,6 @@ plotTransect <- function(s, grad.var.name, transect.col='RoyalBlue', tick.number
   # create transect
   transect <- dist.along.grad(coords, site(s)[[grad.var.name]], grad.scaled.min=0, grad.scaled.max=y.offset-15)
   
-  print(transect)
-  
   # use a linear model to translate original gradient -> scaled gradient 
   l <- lm(scaled.grad ~ variable, data=transect)
   
@@ -56,6 +62,7 @@ plotTransect <- function(s, grad.var.name, transect.col='RoyalBlue', tick.number
     
   } else if(spacing == 'relative') {
     # this var will be used to position sketches, arrows, segments
+    # note that it has already been sorted for the final ordering of sketches
     x.pos <- transect$scaled.distance
     # plot sketches according to relative spacing along x-axis
     plot(s, plot.order=transect$grad.order, y.offset=y.offset, scaling.factor=scaling.factor, id.style='side', relative.pos=x.pos, ...)

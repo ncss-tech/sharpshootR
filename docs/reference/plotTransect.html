@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.3</span>
       </span>
     </div>
 
@@ -114,7 +114,10 @@
 <span class='kw'>tick.number</span><span class='kw'>=</span><span class='fl'>7</span>, <span class='kw'>y.offset</span> <span class='kw'>=</span> <span class='fl'>100</span>,
 <span class='kw'>scaling.factor</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
 <span class='kw'>distance.axis.title</span> <span class='kw'>=</span> <span class='st'>"Distance Along Transect (km)"</span>,
-<span class='kw'>crs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>grad.axis.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+<span class='kw'>crs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>grad.axis.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dist.scaling.factor</span><span class='kw'>=</span><span class='fl'>1000</span>,
+<span class='kw'>spacing</span><span class='kw'>=</span><span class='st'>'regular'</span>,
+<span class='kw'>fix.relative.pos</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>thresh</span> <span class='kw'>=</span> <span class='fl'>0.6</span>, <span class='kw'>trace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>maxIter</span> <span class='kw'>=</span> <span class='fl'>5000</span>),
+<span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,6 +159,18 @@
       <td><p>a title for the gradient axis</p></td>
     </tr>
     <tr>
+      <th>dist.scaling.factor</th>
+      <td><p>scaling factor applied to linear distance units, default is conversion from m to km</p></td>
+    </tr>
+    <tr>
+      <th>spacing</th>
+      <td><p>regular (profiles aligned to an integer grid) or relative (relative distance along transect) spacing</p></td>
+    </tr>
+    <tr>
+      <th>fix.relative.pos</th>
+      <td><p>FALSE to suppress, otherwise list of arguments to <code><a href='https://www.rdocumentation.org/packages/aqp/topics/fixOverlap'>aqp::fixOverlap</a></code></p></td>
+    </tr>
+    <tr>
       <th>&#8230;</th>
       <td><p>further arguments passed to <code>plotSPC</code></p></td>
     </tr>
@@ -184,14 +199,49 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>loafercreek</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>'soilDB'</span>)
+<span class='co'># sample data</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"mineralKing"</span>)
 
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='no'>loafercreek</span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ]
-<span class='fu'>coordinates</span>(<span class='no'>x</span>) <span class='kw'>&lt;-</span> ~ <span class='no'>x_std</span> + <span class='no'>y_std</span>
-<span class='fu'>proj4string</span>(<span class='no'>x</span>) <span class='kw'>&lt;-</span> <span class='st'>'+proj=longlat +datum=NAD83'</span>
+<span class='co'># quick overview</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='kw'>mar</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>))
+<span class='fu'>groupedProfilePlot</span>(<span class='no'>mineralKing</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='st'>'taxonname'</span>, <span class='kw'>print.id</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
 
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='kw'>mar</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>4</span>,<span class='fl'>3</span>,<span class='fl'>1</span>,<span class='fl'>1</span>))
-<span class='fu'>plotTransect</span>(<span class='no'>x</span>, <span class='st'>'elev_field'</span>, <span class='kw'>crs</span><span class='kw'>=</span><span class='fu'>CRS</span>(<span class='st'>'+proj=utm +zone=10 +datum=NAD83'</span>), <span class='kw'>max.depth</span><span class='kw'>=</span><span class='fl'>185</span>)
+<span class='co'># init coords and CRS</span>
+<span class='fu'>coordinates</span>(<span class='no'>mineralKing</span>) <span class='kw'>&lt;-</span> ~ <span class='no'>x_std</span> + <span class='no'>y_std</span>
+<span class='fu'>proj4string</span>(<span class='no'>mineralKing</span>) <span class='kw'>&lt;-</span> <span class='st'>'+proj=longlat +datum=NAD83'</span>
+
+<span class='co'># projected CRS, units of meters</span>
+<span class='no'>crs.utm</span> <span class='kw'>&lt;-</span> <span class='fu'>CRS</span>(<span class='st'>'+proj=utm +zone=11 +datum=NAD83'</span>)
+
+<span class='co'># adjust margins</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='kw'>mar</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>4.5</span>,<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>1</span>))
+
+<span class='co'># standard transect plot, profile sketches arranged along integer sequence</span>
+<span class='fu'>plotTransect</span>(<span class='no'>mineralKing</span>, <span class='kw'>grad.var.name</span><span class='kw'>=</span><span class='st'>'elev_field'</span>, <span class='kw'>crs</span><span class='kw'>=</span><span class='no'>crs.utm</span>,
+<span class='kw'>grad.axis.title</span><span class='kw'>=</span><span class='st'>'Elevation (m)'</span>, <span class='kw'>label</span><span class='kw'>=</span><span class='st'>'pedon_id'</span>, <span class='kw'>name</span><span class='kw'>=</span><span class='st'>'hzname'</span>)
+
+<span class='co'># default behavior, attempt adjustments to prevent over-plot and preserve relative spacing</span>
+<span class='co'># use set.seed() to fix outcome</span>
+<span class='fu'>plotTransect</span>(<span class='no'>mineralKing</span>, <span class='kw'>grad.var.name</span><span class='kw'>=</span><span class='st'>'elev_field'</span>, <span class='kw'>crs</span><span class='kw'>=</span><span class='no'>crs.utm</span>,
+<span class='kw'>grad.axis.title</span><span class='kw'>=</span><span class='st'>'Elevation (m)'</span>, <span class='kw'>label</span><span class='kw'>=</span><span class='st'>'pedon_id'</span>, <span class='kw'>name</span><span class='kw'>=</span><span class='st'>'hzname'</span>, <span class='kw'>width</span><span class='kw'>=</span><span class='fl'>0.15</span>, <span class='kw'>spacing</span> <span class='kw'>=</span> <span class='st'>'relative'</span>)
+
+<span class='co'># attempt relative positioning based on scaled distances, no corrections for overlap</span>
+<span class='co'># profiles are clustered in space and therefore over-plot</span>
+<span class='fu'>plotTransect</span>(<span class='no'>mineralKing</span>, <span class='kw'>grad.var.name</span><span class='kw'>=</span><span class='st'>'elev_field'</span>, <span class='kw'>crs</span><span class='kw'>=</span><span class='no'>crs.utm</span>,
+<span class='kw'>grad.axis.title</span><span class='kw'>=</span><span class='st'>'Elevation (m)'</span>, <span class='kw'>label</span><span class='kw'>=</span><span class='st'>'pedon_id'</span>, <span class='kw'>name</span><span class='kw'>=</span><span class='st'>'hzname'</span>,
+<span class='kw'>width</span><span class='kw'>=</span><span class='fl'>0.15</span>, <span class='kw'>spacing</span> <span class='kw'>=</span> <span class='st'>'relative'</span>, <span class='kw'>fix.relative.pos</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='co'># customize arguments to aqp::fixOverlap()</span>
+<span class='fu'>plotTransect</span>(<span class='no'>mineralKing</span>, <span class='kw'>grad.var.name</span><span class='kw'>=</span><span class='st'>'elev_field'</span>, <span class='kw'>crs</span><span class='kw'>=</span><span class='no'>crs.utm</span>,
+<span class='kw'>grad.axis.title</span><span class='kw'>=</span><span class='st'>'Elevation (m)'</span>, <span class='kw'>label</span><span class='kw'>=</span><span class='st'>'pedon_id'</span>, <span class='kw'>name</span><span class='kw'>=</span><span class='st'>'hzname'</span>,
+<span class='kw'>width</span><span class='kw'>=</span><span class='fl'>0.15</span>, <span class='kw'>spacing</span> <span class='kw'>=</span> <span class='st'>'relative'</span>,
+<span class='kw'>fix.relative.pos</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>maxIter</span><span class='kw'>=</span><span class='fl'>6000</span>, <span class='kw'>trace</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>adj</span><span class='kw'>=</span><span class='fl'>0.2</span>, <span class='kw'>thresh</span><span class='kw'>=</span><span class='fl'>0.7</span>))
+
+<span class='fu'>plotTransect</span>(<span class='no'>mineralKing</span>, <span class='kw'>grad.var.name</span><span class='kw'>=</span><span class='st'>'elev_field'</span>, <span class='kw'>crs</span><span class='kw'>=</span><span class='no'>crs.utm</span>,
+<span class='kw'>grad.axis.title</span><span class='kw'>=</span><span class='st'>'Elevation (m)'</span>, <span class='kw'>label</span><span class='kw'>=</span><span class='st'>'pedon_id'</span>, <span class='kw'>name</span><span class='kw'>=</span><span class='st'>'hzname'</span>,
+<span class='kw'>width</span><span class='kw'>=</span><span class='fl'>0.15</span>, <span class='kw'>spacing</span> <span class='kw'>=</span> <span class='st'>'relative'</span>,
+<span class='kw'>fix.relative.pos</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>maxIter</span><span class='kw'>=</span><span class='fl'>6000</span>, <span class='kw'>trace</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>adj</span><span class='kw'>=</span><span class='fl'>0.2</span>, <span class='kw'>thresh</span><span class='kw'>=</span><span class='fl'>0.5</span>))
+
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

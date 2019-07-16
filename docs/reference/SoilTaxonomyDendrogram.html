@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.3</span>
       </span>
     </div>
 
@@ -113,6 +113,7 @@
     <pre class="usage"><span class='fu'>SoilTaxonomyDendrogram</span>(<span class='no'>spc</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"hzname"</span>, <span class='kw'>max.depth</span> <span class='kw'>=</span> <span class='fl'>150</span>,
 <span class='kw'>n.depth.ticks</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>scaling.factor</span> <span class='kw'>=</span> <span class='fl'>0.015</span>, <span class='kw'>cex.names</span> <span class='kw'>=</span> <span class='fl'>0.75</span>,
 <span class='kw'>cex.id</span> <span class='kw'>=</span> <span class='fl'>0.75</span>, <span class='kw'>axis.line.offset</span> <span class='kw'>=</span> -<span class='fl'>4</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>y.offset</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+<span class='kw'>shrink</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>font.id</span><span class='kw'>=</span><span class='fl'>2</span>,
 <span class='kw'>cex.taxon.labels</span> <span class='kw'>=</span> <span class='fl'>0.66</span>, <span class='kw'>dend.color</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='st'>"fg"</span>), <span class='kw'>dend.width</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -157,6 +158,14 @@
     <tr>
       <th>y.offset</th>
       <td><p>vertical offset between dendrogram and profiles</p></td>
+    </tr>
+    <tr>
+      <th>shrink</th>
+      <td><p>should long horizon names be shrunk by 80% ?</p></td>
+    </tr>
+    <tr>
+      <th>font.id</th>
+      <td><p>font style applied to profile id, default is 2 (bold)</p></td>
     </tr>
     <tr>
       <th>cex.taxon.labels</th>

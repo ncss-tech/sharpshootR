@@ -26,7 +26,7 @@ dist.along.grad <- function(coords, var, grad.scaled.min, grad.scaled.max) {
 }
 
 # plot a transect with profiles below
-plotTransect <- function(s, grad.var.name, transect.col='RoyalBlue', tick.number=7, y.offset=100, scaling.factor=0.5, distance.axis.title='Distance Along Transect (km)', crs=NULL, grad.axis.title=NULL, dist.scaling.factor=1000, spacing='regular', ...){
+plotTransect <- function(s, grad.var.name, transect.col='RoyalBlue', tick.number=7, y.offset=100, scaling.factor=0.5, distance.axis.title='Distance Along Transect (km)', crs=NULL, grad.axis.title=NULL, dist.scaling.factor=1000, spacing='regular', fix.relative.pos=list(thresh = 0.6, trace = TRUE, maxIter = 5000), ...){
   
   # internal offsets
   
@@ -37,7 +37,7 @@ plotTransect <- function(s, grad.var.name, transect.col='RoyalBlue', tick.number
       stop('Transformation of coordinates requires the `rgdal` package.', call.=FALSE)
     
     # perform transformation and extract coordinates from SPC
-    coords <- coordinates(spTransform(as(s, 'SpatialPointsDataFrame'), crs))
+    coords <- suppressMessages(coordinates(spTransform(as(s, 'SpatialPointsDataFrame'), crs)))
   }
   # extract coordinates from SPC without transformation, CRS must be planar
   else
@@ -64,6 +64,14 @@ plotTransect <- function(s, grad.var.name, transect.col='RoyalBlue', tick.number
     # this var will be used to position sketches, arrows, segments
     # note that it has already been sorted for the final ordering of sketches
     x.pos <- transect$scaled.distance
+    
+    # attempt to fix relative positions in the case of overlap
+    if(is.list(fix.relative.pos)) {
+      # add positions to the list of arguments, via `x` argument to fixOverlap()
+      fix.relative.pos$x=x.pos
+      x.pos <- do.call(aqp::fixOverlap, fix.relative.pos)
+    }
+    
     # plot sketches according to relative spacing along x-axis
     plot(s, plot.order=transect$grad.order, y.offset=y.offset, scaling.factor=scaling.factor, id.style='side', relative.pos=x.pos, ...)
   } else {

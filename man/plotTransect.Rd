@@ -9,6 +9,8 @@ tick.number=7, y.offset = 100,
 scaling.factor = 0.5, 
 distance.axis.title = "Distance Along Transect (km)", 
 crs = NULL, grad.axis.title = NULL, dist.scaling.factor=1000,
+spacing='regular',
+fix.relative.pos=list(thresh = 0.6, trace = TRUE, maxIter = 5000),
 ...)
 }
 
@@ -23,6 +25,8 @@ crs = NULL, grad.axis.title = NULL, dist.scaling.factor=1000,
   \item{crs}{an optional \code{CRS} object used to convert coordinates into a planar system}
   \item{grad.axis.title}{a title for the gradient axis}
   \item{dist.scaling.factor}{scaling factor applied to linear distance units, default is conversion from m to km}
+  \item{spacing}{regular (profiles aligned to an integer grid) or relative (relative distance along transect) spacing}
+  \item{fix.relative.pos}{FALSE to suppress, otherwise list of arguments to \code{aqp::fixOverlap}}
   \item{\dots}{further arguments passed to \code{plotSPC}}
 }
 
@@ -45,14 +49,49 @@ crs = NULL, grad.axis.title = NULL, dist.scaling.factor=1000,
 
 \examples{
 \dontrun{
-data(loafercreek, package='soilDB')
+# sample data
+data("mineralKing")
 
-x <- loafercreek[1:10, ]
-coordinates(x) <- ~ x_std + y_std
-proj4string(x) <- '+proj=longlat +datum=NAD83'
+# quick overview
+par(mar=c(1,1,2,1))
+groupedProfilePlot(mineralKing, groups='taxonname', print.id=FALSE)
 
-par(mar=c(4,3,1,1))
-plotTransect(x, 'elev_field', crs=CRS('+proj=utm +zone=10 +datum=NAD83'), max.depth=185)
+# init coords and CRS
+coordinates(mineralKing) <- ~ x_std + y_std
+proj4string(mineralKing) <- '+proj=longlat +datum=NAD83'
+
+# projected CRS, units of meters
+crs.utm <- CRS('+proj=utm +zone=11 +datum=NAD83')
+
+# adjust margins
+par(mar=c(4.5,4,4,1))
+
+# standard transect plot, profile sketches arranged along integer sequence
+plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
+grad.axis.title='Elevation (m)', label='pedon_id', name='hzname')
+
+# default behavior, attempt adjustments to prevent over-plot and preserve relative spacing
+# use set.seed() to fix outcome
+plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
+grad.axis.title='Elevation (m)', label='pedon_id', name='hzname', width=0.15, spacing = 'relative')
+
+# attempt relative positioning based on scaled distances, no corrections for overlap
+# profiles are clustered in space and therefore over-plot
+plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
+grad.axis.title='Elevation (m)', label='pedon_id', name='hzname', 
+width=0.15, spacing = 'relative', fix.relative.pos = FALSE)
+
+# customize arguments to aqp::fixOverlap()
+plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
+grad.axis.title='Elevation (m)', label='pedon_id', name='hzname', 
+width=0.15, spacing = 'relative', 
+fix.relative.pos = list(maxIter=6000, trace=TRUE, adj=0.2, thresh=0.7))
+
+plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
+grad.axis.title='Elevation (m)', label='pedon_id', name='hzname', 
+width=0.15, spacing = 'relative', 
+fix.relative.pos = list(maxIter=6000, trace=TRUE, adj=0.2, thresh=0.5))
+
 }
 }
 

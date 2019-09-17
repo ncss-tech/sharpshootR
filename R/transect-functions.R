@@ -40,8 +40,17 @@ plotTransect <- function(s, grad.var.name, transect.col='RoyalBlue', tick.number
     coords <- suppressMessages(coordinates(spTransform(as(s, 'SpatialPointsDataFrame'), crs)))
   }
   # extract coordinates from SPC without transformation, CRS must be planar
-  else
+  else {
+    
+    # check for projected
+    if(sp::is.projected(s@sp) == FALSE) {
+      warning('coordinates must use a projected CRS, distances will be meaningless', call. = FALSE)
+    }
+    
+    # use coordinates as-is
     coords <- coordinates(s)
+  }
+    
   
   # create transect
   transect <- dist.along.grad(coords, site(s)[[grad.var.name]], grad.scaled.min=0, grad.scaled.max=y.offset-15)

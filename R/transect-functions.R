@@ -68,7 +68,7 @@ plotTransect <- function(s, grad.var.name, transect.col='RoyalBlue', tick.number
     # attempt to fix relative positions in the case of overlap
     if(is.list(fix.relative.pos)) {
       # add positions to the list of arguments, via `x` argument to fixOverlap()
-      fix.relative.pos$x=x.pos
+      fix.relative.pos$x <- x.pos
       x.pos <- do.call(aqp::fixOverlap, fix.relative.pos)
     }
     

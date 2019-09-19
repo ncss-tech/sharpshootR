@@ -10,7 +10,7 @@ aggregateColorPlot <- function(x, print.label=TRUE, label.font=1, label.cex=0.65
   max.plot <- max(sapply(s.scaled, function(i) sum(i$weight)))
   
   # setup plot
-  plot(1,1, type='n', xlim=c(0, max.plot), ylim=c(length(names(s.scaled))+0.5, 0.5), axes=FALSE, ylab='', xlab='Cumulative Proportion', ...)
+  plot(1,1, type='n', xlim=c(0, max.plot), ylim=c(length(names(s.scaled))+0.5, 0.5), axes=FALSE, ylab='', xlab='Cumulative Proportion', col.main=par('fg'), col.lab=par('fg'), ...)
   # iterate over horizons
   for(i in seq_along(names(s.scaled))) {
     s.i <- s.scaled[[i]]

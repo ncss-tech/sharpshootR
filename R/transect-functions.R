@@ -8,25 +8,37 @@
 
 
 # function for computing gradient vs. distance along gradient
-dist.along.grad <- function(coords, var, grad.scaled.min, grad.scaled.max) {
-  # order points along gradient
-  grad.order <- order(var)
+dist.along.grad <- function(coords, var, grad.order, grad.scaled.min, grad.scaled.max) {
+  
   # order coordinates by variable
   coords <- coords[grad.order, ]
+  
   # compute cumulative distance along gradient (horizontal units of CRS)
   grad.distances <- cumsum(c(0, sqrt(diff(coords[, 1])^2 + diff(coords[, 2])^2)))
+  
   # rescale distances to number of profiles in collection
   scaled.distances <- scales::rescale(grad.distances, to=c(1, nrow(coords)))
+  
   # rescale gradients to profile-scale
   # note that range is inverted because we are plotting depth as positive values
   scaled.grad <- scales::rescale(var[grad.order], to=c(grad.scaled.max, grad.scaled.min))
+  
   # composite result
-  res <- data.frame(scaled.grad=scaled.grad, scaled.distance=scaled.distances, distance=grad.distances, variable=var[grad.order], x=coords[grad.order, 1], y=coords[grad.order, 2], grad.order=grad.order)
+  res <- data.frame(
+    scaled.grad=scaled.grad, 
+    scaled.distance=scaled.distances, 
+    distance=grad.distances, 
+    variable=var[grad.order], 
+    x=coords[grad.order, 1], 
+    y=coords[grad.order, 2], 
+    grad.order=grad.order
+  )
+  
   return(res)
 }
 
 # plot a transect with profiles below
-plotTransect <- function(s, grad.var.name, transect.col='RoyalBlue', tick.number=7, y.offset=100, scaling.factor=0.5, distance.axis.title='Distance Along Transect (km)', crs=NULL, grad.axis.title=NULL, dist.scaling.factor=1000, spacing='regular', fix.relative.pos=list(thresh = 0.6, trace = TRUE, maxIter = 5000), ...){
+plotTransect <- function(s, grad.var.name, grad.var.order=order(site(s)[[grad.var.name]]), transect.col='RoyalBlue', tick.number=7, y.offset=100, scaling.factor=0.5, distance.axis.title='Distance Along Transect (km)', crs=NULL, grad.axis.title=NULL, dist.scaling.factor=1000, spacing='regular', fix.relative.pos=list(thresh = 0.6, trace = TRUE, maxIter = 5000), ...){
   
   # internal offsets
   
@@ -53,7 +65,7 @@ plotTransect <- function(s, grad.var.name, transect.col='RoyalBlue', tick.number
     
   
   # create transect
-  transect <- dist.along.grad(coords, site(s)[[grad.var.name]], grad.scaled.min=0, grad.scaled.max=y.offset-15)
+  transect <- dist.along.grad(coords, site(s)[[grad.var.name]], grad.var.order, grad.scaled.min=0, grad.scaled.max=y.offset-15)
   
   # use a linear model to translate original gradient -> scaled gradient 
   l <- lm(scaled.grad ~ variable, data=transect)

@@ -36,5 +36,18 @@ ht$latitude <- as.numeric(ht$latitude)
 ht$longitude <- as.numeric(ht$longitude)
 ht$april.1.Avg.inches <- as.numeric(ht$april.1.Avg.inches)
 
+# save a copy
 CDEC.snow.courses <- ht
+
+
+# discontinued snow courses
+x <- read_html('http://cdec.water.ca.gov/reportapp/javareports?name=SNOWTAB5')
+
+# this will take some effort to clean-up
+ht <- html_table(x, fill=TRUE, header = TRUE)
+
+## finish this
+
+
+
 save(CDEC.snow.courses, file='../data/CDEC.snow.courses.rda')

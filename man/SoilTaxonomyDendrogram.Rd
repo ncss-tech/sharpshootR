@@ -42,9 +42,8 @@ cex.taxon.labels = 0.66, dend.color = par("fg"), dend.width = 1)
 \references{
 D.E. Beaudette, P. Roudier and A.T. O'Geen. 2012. Algorithms for Quantitative Pedology, a Toolkit
 for Soil Scientists. Computers & Geosciences: 52: 258--268. (doi: 10.1016/j.cageo.2012.10.020)
-
-\url{http://aqp.r-forge.r-project.org/}
 }
+
 \author{D.E. Beaudette}
 
 \examples{

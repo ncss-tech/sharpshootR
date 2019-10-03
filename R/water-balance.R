@@ -66,7 +66,13 @@ monthlyWB <- function(AWC, PPT, PET, S_init=AWC, starting_month=1, rep=1, keep_l
 
 
 
-
+# AWC: the awc in mm
+# WB: output from monthlyWB()
+# fig.title
+# sw.col
+# surplus.col
+# et.col
+# deficit.col
 plotWB <- function(AWC, WB, fig.title='', sw.col='#377EB8', surplus.col='#4DAF4A', et.col='#E41A1C', deficit.col='#FF7F00') {
   
   # number of time steps, usually months

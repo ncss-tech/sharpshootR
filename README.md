@@ -41,6 +41,8 @@ http://ncss-tech.github.io/AQP/
    * [`CDECsnowQuery`](http://ncss-tech.github.io/sharpshootR/docs/reference/CDECsnowQuery.html)
    * [`FFD`](http://ncss-tech.github.io/sharpshootR/docs/reference/FFD.html)
    * [`FFDplot`](http://ncss-tech.github.io/sharpshootR/docs/reference/FFD.html)
+   * [`PCP_plot`](http://ncss-tech.github.io/sharpshootR/docs/reference/PCP_plot.html)
+   * [`waterDayYear`](http://ncss-tech.github.io/sharpshootR/docs/reference/waterDayYear.html)
 
 
 ### Spatial Data

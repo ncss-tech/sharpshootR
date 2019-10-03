@@ -51,6 +51,8 @@
 # x: result from CDECquery for now, will need to generalize to other sources
 # this.year: current year
 # method: exemplar|daily
+# q.color
+# c.color
 # ...: further arguments to plot()
 PCP_plot <- function(x, this.year=2019, method='exemplar', q.color='RoyalBlue', c.color='firebrick', ...) {
   

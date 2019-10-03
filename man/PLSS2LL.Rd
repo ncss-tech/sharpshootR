@@ -17,6 +17,7 @@
 \seealso{\code{\link{LL2PLSS}}, \code{\link{formatPLSS}}}
 
 \examples{
+\dontrun{
 library(sharpshootR)
 
 # create some data
@@ -38,6 +39,7 @@ d$plssid <- formatPLSS(d)
 
 # fetch lat/long coordinates
 PLSS2LL(d)
+}
 }
 
 \keyword{manip}

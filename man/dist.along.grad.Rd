@@ -4,12 +4,13 @@
 \title{Compute Euclidean distance along a gradient.}
 \description{This function computes Euclidean distance along points aligned to a given gradient (e.g. elevation).}
 \usage{
-dist.along.grad(coords, var, grad.scaled.min, grad.scaled.max)
+dist.along.grad(coords, var, grad.order, grad.scaled.min, grad.scaled.max)
 }
 
 \arguments{
   \item{coords}{a matrix of x and y coordinates in some projected coordinate system}
   \item{var}{a vector of the same length as \code{coords}, describing the gradient of interest}
+  \item{grad.order}{vector of integers that define ordering of coordinates along gradient}
   \item{grad.scaled.min}{min value of rescaled gradient values}
   \item{grad.scaled.max}{max value of rescaled gradient values}
 }

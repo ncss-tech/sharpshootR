@@ -14,6 +14,10 @@
 # rep: number of cycles to run water balance
 monthlyWB <- function(AWC, PPT, PET, S_init=AWC, starting_month=1, rep=1, keep_last=FALSE) {
   
+  # sanity check: package requirements
+  if(!requireNamespace('hydromad'))
+    stop('please install the hydromad package', call. = FALSE)
+  
   # number of time steps in the original series
   n <- length(PPT)
   

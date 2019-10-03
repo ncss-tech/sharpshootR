@@ -4,13 +4,14 @@ importFrom("grDevices", "colorRampPalette", "grey")
 
 importFrom("graphics", "abline", "arrows", "axis", "image", "layout",
              "legend", "lines", "mtext", "par", "points", "rect",
-             "segments", "strheight", "text", "grid", "hist", "box", "boxplot", "title")
+             "segments", "strheight", "text", "grid", "hist", "box", "boxplot", "title",
+           "barplot", "bxp")
 
 importFrom("methods", "as", "slot")
 
 importFrom("stats", "as.dendrogram", "as.formula", "as.hclust",
              "complete.cases", "cutree", "density", "lm", "median",
-             "na.omit", "predict", "quantile", "dnorm", "sd")
+             "na.omit", "predict", "quantile", "dnorm", "sd", "update")
 
 importFrom("utils", "URLencode", "download.file", "read.csv", "setTxtProgressBar", "txtProgressBar")
 
@@ -60,6 +61,11 @@ importFrom(lattice,
   levelplot,
   panel.levelplot,
   panel.segments,
+  panel.rect,
+  panel.arrows,
+  panel.grid,
+  strip.custom,
+  panel.abline,
   trellis.par.set,
   trellis.par.get,
   barchart,
@@ -77,7 +83,8 @@ importFrom(e1071,
 
 importFrom(latticeExtra,
   dendrogramGrob,
-  segplot
+  segplot,
+  panel.segplot
 )
 
 importFrom(vegan,

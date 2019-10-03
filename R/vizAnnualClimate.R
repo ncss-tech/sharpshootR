@@ -7,6 +7,9 @@
 # ...: further arguments to segplot
 vizAnnualClimate <- function(climate.data, IQR.cex=1, s=NULL, s.col='firebrick', ...) {
   
+  # for R CMD check
+  q50 <- NULL
+  
   # get extra arguments: length of 0 if no extra arguments
   extra.args <- list(...)
   

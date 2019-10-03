@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.5</span>
       </span>
     </div>
 
@@ -110,7 +110,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>dist.along.grad</span>(<span class='no'>coords</span>, <span class='no'>var</span>, <span class='no'>grad.scaled.min</span>, <span class='no'>grad.scaled.max</span>)</pre>
+    <pre class="usage"><span class='fu'>dist.along.grad</span>(<span class='no'>coords</span>, <span class='no'>var</span>, <span class='no'>grad.order</span>, <span class='no'>grad.scaled.min</span>, <span class='no'>grad.scaled.max</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -122,6 +122,10 @@
     <tr>
       <th>var</th>
       <td><p>a vector of the same length as <code>coords</code>, describing the gradient of interest</p></td>
+    </tr>
+    <tr>
+      <th>grad.order</th>
+      <td><p>vector of integers that define ordering of coordinates along gradient</p></td>
     </tr>
     <tr>
       <th>grad.scaled.min</th>

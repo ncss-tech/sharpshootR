@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.5</span>
       </span>
     </div>
 
@@ -110,7 +110,9 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>plotTransect</span>(<span class='no'>s</span>, <span class='no'>grad.var.name</span>, <span class='kw'>transect.col</span> <span class='kw'>=</span> <span class='st'>"RoyalBlue"</span>,
+    <pre class="usage"><span class='fu'>plotTransect</span>(<span class='no'>s</span>, <span class='no'>grad.var.name</span>,
+<span class='kw'>grad.var.order</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/order'>order</a></span>(<span class='fu'>site</span>(<span class='no'>s</span>)<span class='kw'>[[</span><span class='no'>grad.var.name</span>]]),
+<span class='kw'>transect.col</span> <span class='kw'>=</span> <span class='st'>"RoyalBlue"</span>,
 <span class='kw'>tick.number</span><span class='kw'>=</span><span class='fl'>7</span>, <span class='kw'>y.offset</span> <span class='kw'>=</span> <span class='fl'>100</span>,
 <span class='kw'>scaling.factor</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
 <span class='kw'>distance.axis.title</span> <span class='kw'>=</span> <span class='st'>"Distance Along Transect (km)"</span>,
@@ -129,6 +131,10 @@
     <tr>
       <th>grad.var.name</th>
       <td><p>the name of a site-level attribute containing gradient values</p></td>
+    </tr>
+    <tr>
+      <th>grad.var.order</th>
+      <td><p>optional vector of indices used to override sorting along <code>grad.var.name</code></p></td>
     </tr>
     <tr>
       <th>transect.col</th>

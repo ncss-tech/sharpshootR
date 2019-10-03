@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Join Document Adjacency — joinAdjacency • sharpshootR</title>
+<title>Compute Water Day and Year — waterDayYear • sharpshootR</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Join Document Adjacency — joinAdjacency" />
+<meta property="og:title" content="Compute Water Day and Year — waterDayYear" />
 
-<meta property="og:description" content="Convert a set of line segment &quot;join decisions&quot; into a weighted adjacency matrix describing which map unit symbols touch." />
+<meta property="og:description" content="Compute &quot;water&quot; day and year, based on the end of the typical or legal dry season. This is September 30 in California." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -99,51 +99,68 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Join Document Adjacency</h1>
+    <h1>Compute Water Day and Year</h1>
     
-    <div class="hidden name"><code>joinAdjacency.Rd</code></div>
+    <div class="hidden name"><code>waterDayYear.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Convert a set of line segment "join decisions" into a weighted adjacency matrix describing which map unit symbols touch.</p>
+    <p>Compute "water" day and year, based on the end of the typical or legal dry season. This is September 30 in California.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>joinAdjacency</span>(<span class='no'>x</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"l_musym"</span>, <span class='st'>"r_musym"</span>))</pre>
+    <pre class="usage"><span class='fu'>waterDayYear</span>(<span class='no'>d</span>, <span class='kw'>end</span> <span class='kw'>=</span> <span class='st'>"09-30"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>a <code>SpatialLinesDataFrame</code> object, with 1 line segment per feature (e.g. simple features)</p></td>
+      <th>d</th>
+      <td><p>anything the can be safely converted to <code>PPOSIXlt</code></p></td>
     </tr>
     <tr>
-      <th>vars</th>
-      <td><p>a vector of two characters naming columns containing "left", and "right" map unit symbols</p></td>
+      <th>end</th>
+      <td><p>"MM-DD" notation for end of water year</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function doesn't know about leap-years. Probably worth checking.</p>
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A weighted adjacency matrix is returned, suitable for plotting directly with <code>plotSoilRelationGraph</code>.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>A <code>data.frame</code> object with the following</p>
+<dt>wy</dt><dd><p>the "water year"</p></dd>
+  <dt>wd</dt><dd><p>the "water day"</p></dd>
 
-    <div class='dont-index'><p><code><a href='plotSoilRelationGraph.html'>plotSoilRelationGraph</a></code></p></div>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Ideas borrowed from:
+<a href='https://github.com/USGS-R/dataRetrieval/issues/246'>https://github.com/USGS-R/dataRetrieval/issues/246</a> and
+<a href='https://stackoverflow.com/questions/48123049/create-day-index-based-on-water-year'>https://stackoverflow.com/questions/48123049/create-day-index-based-on-water-year</a></p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># try it</span>
+<span class='fu'>waterDayYear</span>(<span class='st'>'2019-01-01'</span>)</div><div class='output co'>#&gt;     wy wd
+#&gt; 1 2019 93</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#see-also">See also</a></li>
-          </ul>
+      <li><a href="#references">References</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
     <h2>Author</h2>
     <p>D.E. Beaudette</p>

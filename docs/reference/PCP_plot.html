@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Join Document Adjacency — joinAdjacency • sharpshootR</title>
+<title>Percentiles of Cumulative Precipitation — PCP_plot • sharpshootR</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Join Document Adjacency — joinAdjacency" />
+<meta property="og:title" content="Percentiles of Cumulative Precipitation — PCP_plot" />
 
-<meta property="og:description" content="Convert a set of line segment &quot;join decisions&quot; into a weighted adjacency matrix describing which map unit symbols touch." />
+<meta property="og:description" content="Generate a plot representing percentiles of cumulative precipitation, given a historic record, and criteria for selecting a year of data for comparison." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -99,51 +99,92 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Join Document Adjacency</h1>
+    <h1>Percentiles of Cumulative Precipitation</h1>
     
-    <div class="hidden name"><code>joinAdjacency.Rd</code></div>
+    <div class="hidden name"><code>PCP_plot.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Convert a set of line segment "join decisions" into a weighted adjacency matrix describing which map unit symbols touch.</p>
+    <p>Generate a plot representing percentiles of cumulative precipitation, given a historic record, and criteria for selecting a year of data for comparison.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>joinAdjacency</span>(<span class='no'>x</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"l_musym"</span>, <span class='st'>"r_musym"</span>))</pre>
+    <pre class="usage"><span class='fu'>PCP_plot</span>(<span class='no'>x</span>, <span class='kw'>this.year</span> <span class='kw'>=</span> <span class='fl'>2019</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"exemplar"</span>,
+<span class='kw'>q.color</span> <span class='kw'>=</span> <span class='st'>"RoyalBlue"</span>, <span class='kw'>c.color</span> <span class='kw'>=</span> <span class='st'>"firebrick"</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>a <code>SpatialLinesDataFrame</code> object, with 1 line segment per feature (e.g. simple features)</p></td>
+      <td><p>result from <code><a href='CDECquery.html'>CDECquery()</a></code> for now, will need to generalize to other sources</p></td>
     </tr>
     <tr>
-      <th>vars</th>
-      <td><p>a vector of two characters naming columns containing "left", and "right" map unit symbols</p></td>
+      <th>this.year</th>
+      <td><p>current year, e.g. 2018</p></td>
+    </tr>
+    <tr>
+      <th>method</th>
+      <td><p>'exemplar' or 'daily', currently 'exemplar' is the only method available</p></td>
+    </tr>
+    <tr>
+      <th>q.color</th>
+      <td><p>color of percentiles cumulative precipitation</p></td>
+    </tr>
+    <tr>
+      <th>c.color</th>
+      <td><p>color of selected year</p></td>
+    </tr>
+    <tr>
+      <th>&#8230;</th>
+      <td><p>addtional arguments to <code><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot()</a></code></p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This is very much a work in progress. Further examples at <a href='http://ncss-tech.github.io/AQP/sharpshootR/CDEC.html'>http://ncss-tech.github.io/AQP/sharpshootR/CDEC.html</a></p>
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A weighted adjacency matrix is returned, suitable for plotting directly with <code>plotSoilRelationGraph</code>.</p>
+    <p>Currently nothing is returned.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='plotSoilRelationGraph.html'>plotSoilRelationGraph</a></code></p></div>
+    <div class='dont-index'><p><code><a href='waterDayYear.html'>waterDayYear</a></code></p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'>## get data from CDEC</span>
+
+<span class='co'># define station of interest</span>
+<span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='st'>'SPW'</span>
+<span class='co'># get metadata</span>
+<span class='no'>s.info</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='CDEC_StationInfo.html'>CDEC_StationInfo</a></span>(<span class='no'>s</span>)
+<span class='co'># format title for cumulative PPT</span>
+<span class='no'>title.text</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sprintf'>sprintf</a></span>(<span class='st'>"%s [%s]"</span>, <span class='no'>s.info</span>$<span class='no'>site.meta</span>$<span class='no'>Name</span>, <span class='no'>s</span>)
+
+<span class='co'># get data</span>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='CDECquery.html'>CDECquery</a></span>(<span class='kw'>id</span><span class='kw'>=</span><span class='no'>s</span>, <span class='kw'>sensor</span><span class='kw'>=</span><span class='fl'>45</span>, <span class='kw'>interval</span><span class='kw'>=</span><span class='st'>'D'</span>, <span class='kw'>start</span><span class='kw'>=</span><span class='st'>'1900-01-01'</span>, <span class='kw'>end</span><span class='kw'>=</span><span class='st'>'2030-01-01'</span>)
+
+<span class='co'>## NOTE: requires sharpshootR &gt;= 1.4.02</span>
+<span class='co'># plot</span>
+<span class='fu'>PCP_plot</span>(<span class='no'>x</span>, <span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>'Cumulative PPT (inches)'</span>, <span class='kw'>main</span><span class='kw'>=</span><span class='no'>title.text</span>)</div><div class='img'><img src='PCP_plot-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#value">Value</a></li>
 
       <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
     <h2>Author</h2>
     <p>D.E. Beaudette</p>

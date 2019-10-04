@@ -33,13 +33,16 @@ ESS_by_Moran_I <- function(n, rho) {
 # k: number of neighbors used for weights matrix
 # do.correlogram: compute correlogram?
 # cor.order: order of correlogram
-Moran_I_ByRaster <- function(r, mu.extent, n=NULL, k=NULL, do.correlogram=FALSE, cor.order=5) {
+# crop: optionally disable cropping of the raster layer
+Moran_I_ByRaster <- function(r, mu.extent=NULL, n=NULL, k=NULL, do.correlogram=FALSE, cor.order=5, crop.raster=TRUE) {
   
-
-  ## NOTE: this will include raster "information" between map unit polygons
-  # crop to extent of map units
-  mu.extent <- spTransform(mu.extent, CRS(proj4string(r)))
-  r <- raster::crop(r, mu.extent)
+  if(crop.raster) {
+    ## NOTE: this will include raster "information" between map unit polygons
+    # crop to extent of map units
+    mu.extent <- spTransform(mu.extent, CRS(proj4string(r)))
+    r <- raster::crop(r, mu.extent)
+  }
+  
   
   # setup some sensible defaults
   # sample size for Moran's I:

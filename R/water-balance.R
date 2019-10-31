@@ -81,10 +81,10 @@ plotWB <- function(AWC, WB, fig.title='', sw.col='#377EB8', surplus.col='#4DAF4A
   # left-side vertical scales
   # y.axt <- pretty(c(AWC + WB$U, WB$PPT, 0 - WB$PET), n = 15)
   y.min <- min(- WB$PET)
-  y.max <- max(AWC + WB$S)
+  y.max <- max(AWC + WB$U)
   
   # max for PPT|AWC
-  ppt.awc.max <- max(AWC + WB$S)
+  ppt.awc.max <- max(AWC + WB$U)
   
   # specific axis
   # surplus.axis <- pretty(WB$U, n = 5)

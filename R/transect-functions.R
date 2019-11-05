@@ -90,7 +90,7 @@ plotTransect <- function(s, grad.var.name, grad.var.order=order(site(s)[[grad.va
     if(is.list(fix.relative.pos)) {
       # add positions to the list of arguments, via `x` argument to fixOverlap()
       fix.relative.pos$x <- x.pos
-      x.pos <- do.call(aqp::fixOverlap, fix.relative.pos)
+      x.pos <- do.call(fixOverlap, fix.relative.pos)
     }
     
     # plot sketches according to relative spacing along x-axis

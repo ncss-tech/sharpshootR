@@ -1,11 +1,10 @@
-context("FFD: requires internet connection")
+context("FFD")
 
 ## sample data
 
 # 11 years of data from highland meadows
-x <- CDECquery(id='HHM', sensor=32, interval='D', start='2000-01-01', end='2010-12-31')
-
-x.ffd <- FFD(x, returnDailyPr = TRUE, frostTemp=32)
+data('HHM', package = 'sharpshootR')
+x.ffd <- FFD(HHM, returnDailyPr = TRUE, frostTemp=32)
 
 ## tests
 
@@ -29,18 +28,19 @@ test_that("FFD works as expected", {
 test_that("FFD results are correct", {
   
   ## TODO: test on paper
+  ## note: different OS will give +/- 1 day, expand fuzz factor via tolerance
   # assuming that calculation is correct, looks right
-  expect_equal(x.ffd$summary$ffd.50, 80)
-  expect_equal(x.ffd$summary$ffd.80, 70)
-  expect_equal(x.ffd$summary$ffd.90, 60)
+  expect_equal(x.ffd$summary$ffd.50, 80, tolerance=1)
+  expect_equal(x.ffd$summary$ffd.80, 70, tolerance=1)
+  expect_equal(x.ffd$summary$ffd.90, 60, tolerance=1)
   
-  expect_equal(x.ffd$summary$spring.50, 165)
-  expect_equal(x.ffd$summary$spring.80, 168)
-  expect_equal(x.ffd$summary$spring.90, 169)
+  expect_equal(x.ffd$summary$spring.50, 165, tolerance=1)
+  expect_equal(x.ffd$summary$spring.80, 168, tolerance=1)
+  expect_equal(x.ffd$summary$spring.90, 169, tolerance=1)
   
-  expect_equal(x.ffd$summary$fall.50, 245)
-  expect_equal(x.ffd$summary$fall.80, 238)
-  expect_equal(x.ffd$summary$fall.90, 228)
+  expect_equal(x.ffd$summary$fall.50, 245, tolerance=1)
+  expect_equal(x.ffd$summary$fall.80, 238, tolerance=1)
+  expect_equal(x.ffd$summary$fall.90, 228, tolerance=1)
   
   expect_equal(x.ffd$summary$n.yrs, 6)
   

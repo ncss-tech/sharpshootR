@@ -12,6 +12,7 @@
 # S_init: intitial soil water storage (mm)
 # starting_month: starting month index
 # rep: number of cycles to run water balance
+# keep_last: keep only the last iteration of the water balance
 monthlyWB <- function(AWC, PPT, PET, S_init=AWC, starting_month=1, rep=1, keep_last=FALSE) {
   
   # sanity check: package requirements

@@ -40,8 +40,8 @@ CDECquery <- function(id, sensor, interval='D', start, end) {
   }
   
   # no data available, play nicely with block of requestes
-  if(nrow(d) < 1) {
-    message('query returned no data', call.=FALSE)
+  if(is.list(d) & length(d) == 0) {
+    message('query returned no data')
     return(NULL)
   }
   

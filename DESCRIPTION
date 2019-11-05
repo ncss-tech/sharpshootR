@@ -5,13 +5,13 @@ Description: Miscellaneous soil data management, summary, visualization, and con
 Version: 1.4.05
 Date: 2019-10-03
 Authors@R: c(
-  person(given="Dylan", family="Beaudette", role = c("cre"), email = "dylan.beaudette@ca.usda.gov"), 
+  person(given="Dylan", family="Beaudette", role = c("cre"), email = "dylan.beaudette@usda.gov"), 
   person(given="Jay", family="Skovlin", role = c("aut")), 
   person(given="Stephen", family="Roecker", role = c("aut")), 
   person(given="USDA-NRCS Soil Survey Staff", family="", role = c("ctb"))
   )
 Author: Dylan Beaudette [cre], Jay Skovlin [aut], Stephen Roecker [aut], USDA-NRCS Soil Survey Staff [ctb]
-Maintainer: Dylan Beaudette <dylan.beaudette@ca.usda.gov>
+Maintainer: Dylan Beaudette <dylan.beaudette@usda.gov>
 LazyLoad: yes
 LazyData: true
 License: GPL (>= 3)

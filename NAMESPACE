@@ -94,7 +94,8 @@ importFrom(vegan,
 
 importFrom(soilDB,
   format_SQL_in_statement,
-  SDA_query
+  SDA_query,
+  waterDayYear
 )
 
 importFrom(sp,

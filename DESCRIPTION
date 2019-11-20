@@ -37,4 +37,5 @@ Imports: grDevices, graphics, methods, stats, utils, aqp, ape,
   soilDB, igraph, cluster, lattice, latticeExtra, vegan, sp, 
   reshape2, Hmisc, scales, circular, RColorBrewer, plyr, 
   digest, e1071, stringi, parallel
+Additional_repositories: http://hydromad.catchment.org
 RoxygenNote: 6.1.1

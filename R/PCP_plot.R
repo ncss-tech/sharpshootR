@@ -47,6 +47,7 @@
 ## TODO: add percentiles-by-water-day method
 ## TODO: this.year should default to the last year in the series
 ## TODO: add a "today" option for specifying a specific date vs. current year
+## TODO: explain differences between exemplar years and boxplot at current water day -- not the same
 
 # ugh, terrible name
 # percentiles of cumulative precipitation plot

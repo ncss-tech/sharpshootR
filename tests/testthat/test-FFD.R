@@ -13,13 +13,13 @@ test_that("FFD works as expected", {
   # basic structure of a result
   expect_equal(names(x.ffd), c('summary', 'fm', 'Pr.frost'))
   
-  expect_match(class(x.ffd), 'list')
-  expect_match(class(x.ffd$summary), 'data.frame')
+  expect_true(inherits(x.ffd, 'list'))
+  expect_true(inherits(x.ffd$summary, 'data.frame'))
   
-  expect_match(class(x.ffd$fm), 'matrix')
+  expect_true(inherits(x.ffd$fm, 'matrix'))
   expect_true(length(dim(x.ffd$fm)) == 2)
   
-  expect_match(class(x.ffd$Pr.frost), 'numeric')
+  expect_true(inherits(x.ffd$Pr.frost, 'numeric'))
   expect_true(length(x.ffd$Pr.frost) == 366)
   
 })

@@ -12,7 +12,7 @@ test_that("multinominal2logical works as expected", {
   
   # basic structure of a result
   expect_equal(names(hp), c('peiid', 'summit', 'shoulder', 'backslope', 'footslope', 'toeslope'))
-  expect_match(class(hp), 'data.frame')
+  expect_true(inherits(hp, 'data.frame'))
   
   # length is preserved, ordering is not
   expect_true(nrow(hp) == length(loafercreek))

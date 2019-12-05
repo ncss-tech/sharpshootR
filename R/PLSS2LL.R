@@ -33,31 +33,31 @@ formatPLSS <- function(p, type='SN') {
     
     # handle if sections are protracted and unprotracted blocks
     if(type=='PB') {
-    f[i] <- stri_replace_all_fixed(f[i], 'SN', 'PB')
-    f[i] <- stri_replace_all_fixed(f[i], 'A', '')
-	# truncate UP and PB cases to section
-      	if(!is.na(p$qq[i])) {
-      	f[i] <- stri_sub(f[i], 0, stri_length(f[i])-4)
-      	}
-      	if(is.na(p$qq[i]) & !is.na(p$q[i])) {
-      	f[i] <- stri_sub(f[i], 1, stri_length(f[i])-2)
-      	}
-      	if(is.na(p$qq[i]) & is.na(p$q[i])) {
-      	f[i] <- f[i]
-      	}
+      f[i] <- stri_replace_all_fixed(f[i], 'SN', 'PB')
+      f[i] <- stri_replace_all_fixed(f[i], 'A', '')
+      # truncate UP and PB cases to section
+      if(!is.na(p$qq[i])) {
+        f[i] <- stri_sub(f[i], 0, stri_length(f[i])-4)
+      }
+      if(is.na(p$qq[i]) & !is.na(p$q[i])) {
+        f[i] <- stri_sub(f[i], 1, stri_length(f[i])-2)
+      }
+      if(is.na(p$qq[i]) & is.na(p$q[i])) {
+        f[i] <- f[i]
+      }
     }
     if(type=='UP') {
       f[i] <- stri_replace_all_fixed(f[i], 'SN', 'UP')
       f[i] <- stri_replace_all_fixed(f[i], 'A', 'U')
       # truncate UP and PB cases to section
       if(!is.na(p$qq[i])) {
-      f[i] <- stri_sub(f[i], 0, stri_length(f[i])-4)
+        f[i] <- stri_sub(f[i], 0, stri_length(f[i])-4)
       }
       if(is.na(p$qq[i]) & !is.na(p$q[i])) {
-      f[i] <- stri_sub(f[i], 1, stri_length(f[i])-2)
+        f[i] <- stri_sub(f[i], 1, stri_length(f[i])-2)
       }
       if(is.na(p$qq[i]) & is.na(p$q[i])) {
-      f[i] <- f[i]
+        f[i] <- f[i]
       }
     }
   }
@@ -123,7 +123,7 @@ PLSS2LL <- function(p) {
   
   # create vector of formatted plss codes
   formatted.plss <- paste(p$plssid, sep=" ")
-
+  
   # setup a progress bar for timing
   n <- length(formatted.plss)
   pb <- txtProgressBar(max=n, style=3)
@@ -131,32 +131,32 @@ PLSS2LL <- function(p) {
     for(i in 1:length(formatted.plss)) { 
       # composite URL for GET request, result is JSON
       u <- paste0("https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer/exts/CadastralSpecialServices/GetLatLon?trs=", formatted.plss[i], "&f=pjson")
-    
+      
       # process GET request
       r <- httr::GET(u)
       httr::stop_for_status(r)
-    
+      
       # convert JSON -> list
       r <- jsonlite::fromJSON(httr::content(r, as = 'text'), flatten = TRUE)
       #print(r$coordinates)
-    
+      
       # handling for if no coords returned
-        if(class(r$coordinates) == 'list' & length(r$coordinates) == 0) {
+      if(inherits(r$coordinates, 'list') & length(r$coordinates) == 0) {
         r <- data.frame(id=p$id[i], plssid=formatted.plss[i]) 
         res[[i]] <- r
-        } else {
+      } else {
         # keep only coordinates
         r <- r$coordinates
         # print(formatted.plss[i])
         # print(r$coordinates)
-      
+        
         # request that are less than QQ precision will return multiple QQ centers
         # keep the mean coordinates - get to one set of lat/lon coords
         if(nrow(r) >= 0) {
           r <- data.frame(id=p$id[i], plssid=formatted.plss[i], t(colMeans(r[ ,2:3], na.rm = TRUE))) 
         }
         res[[i]] <- r
-      
+        
       }
       setTxtProgressBar(pb, i)
     }
@@ -196,9 +196,9 @@ PLSS2LL_1 <- function(formatted.plss) {
     if(nrow(r) >= 1) {
       r <- data.frame(t(colMeans(r[ ,2:3], na.rm = TRUE)))
     }
-       #if(nrow(r) == 0) {
-       #    r <- data.frame(plssid=r$plssid[1], lat='NA', lon='NA')
-       #}	
+    #if(nrow(r) == 0) {
+    #    r <- data.frame(plssid=r$plssid[1], lat='NA', lon='NA')
+    #}	
     res[[i]] <- r
   }
   

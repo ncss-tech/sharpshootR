@@ -5,7 +5,7 @@
 ## v: site-level variable name, must be a factor
 multinominal2logical <- function(x, v) {
   
-  if(class(x) != 'SoilProfileCollection')
+  if( ! inherits(x, 'SoilProfileCollection'))
     stop('`x` must be a SoilProfileCollection', call. = FALSE)
   
   # get internal ID name
@@ -14,7 +14,7 @@ multinominal2logical <- function(x, v) {
   # site data only
   s <- site(x)
   
-  if(class(s[[v]]) != 'factor')
+  if( ! inherits(s[[v]], 'factor'))
     stop('`v` must be a factor', call. = FALSE)
   
   # construct formula for dcast

@@ -5,13 +5,13 @@
 \description{Generate a plot representing percentiles of cumulative precipitation, given a historic record, and criteria for selecting a year of data for comparison.}
 
 \usage{
-PCP_plot(x, this.year = 2019, method = "exemplar", 
+PCP_plot(x, this.year, method = "exemplar", 
 q.color = "RoyalBlue", c.color = "firebrick", ...)
 }
 
 \arguments{
   \item{x}{result from \code{CDECquery()} for now, will need to generalize to other sources}
-  \item{this.year}{current year, e.g. 2018}
+  \item{this.year}{a single water year, e.g. 2020}
   \item{method}{'exemplar' or 'daily', currently 'exemplar' is the only method available}
   \item{q.color}{color of percentiles cumulative precipitation}
   \item{c.color}{color of selected year}
@@ -30,9 +30,9 @@ q.color = "RoyalBlue", c.color = "firebrick", ...)
 }
 
 \examples{
-## get data from CDEC
+\donttest{
+library(sharpshootR)
 
-# define station of interest
 s <- 'SPW'
 # get metadata
 s.info <- CDEC_StationInfo(s)
@@ -40,11 +40,13 @@ s.info <- CDEC_StationInfo(s)
 title.text <- sprintf("\%s [\%s]", s.info$site.meta$Name, s)
 
 # get data
-x <- CDECquery(id=s, sensor=45, interval='D', start='1900-01-01', end='2030-01-01')
+x <- CDECquery(id=s, sensor=45, interval='D', start='2000-01-01', end='2030-01-01')
 
 ## NOTE: requires sharpshootR >= 1.4.02
 # plot
-PCP_plot(x, ylab='Cumulative PPT (inches)', main=title.text)
+par(mar=c(4.5, 4.5, 2.5, 1.5))
+PCP_plot(x[1:(nrow(x)-60), ], ylab='Cumulative PPT (inches)', main=title.text, this.year = 2020)
+}
 }
 
 \keyword{ hplots }

@@ -1,3 +1,5 @@
+## TODO: sometimes CDEC returns no data... why?
+
 
 CDECquery <- function(id, sensor, interval='D', start, end) {
   # important: change the default behavior of data.frame

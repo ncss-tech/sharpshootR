@@ -52,7 +52,7 @@ vizHillslopePosition <- function(x, s=NULL) {
   pp <- barchart(series ~ value, groups=hillslope_position, data=x.long, horiz=TRUE, stack=TRUE, 
                  xlab='Proportion', 
                  scales=list(cex=1), 
-                 key=simpleKey(space='top', columns=5, text=levels(x.long$hillslope_position), rectangles = TRUE, points=FALSE), 
+                 key=simpleKey(space='top', columns=5, text=levels(x.long$hillslope_position), rectangles = TRUE, points=FALSE, between.columns=2, between=0.5, cex=0.75), 
                  legend=list(right=list(fun=dendrogramGrob, args=list(x = as.dendrogram(x.d.hydro), side="right", size=10))), 
                  yscale.components=function(..., s.to.bold=s) {
                    temp <- yscale.components.default(...) 

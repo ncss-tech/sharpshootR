@@ -1,4 +1,5 @@
 ## TODO: return clustering object instead of cluster$order
+## TODO: provide examples for adjusting legend size / spacing
 
 ## this doesn't make much sense...
 vizGeomorphicComponent <- function(x, s=NULL) {

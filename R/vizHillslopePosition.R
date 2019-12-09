@@ -1,4 +1,5 @@
 ## TODO: return clustering object instead of cluster$order
+## TODO: provide examples for adjusting legend size / spacing
 
 # still testing "hydrologic" order
 vizHillslopePosition <- function(x, s=NULL) {

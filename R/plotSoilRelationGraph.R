@@ -172,11 +172,17 @@ plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upp
 	if(plot.style == 'network') {
 		set.seed(1010101) # consistant output
 		plot(g, layout=g.layout, vertex.label.color=vertex.label.color, vertex.label.font=font.vect, ...)
-		}
+		
+		# invisibly return the graph
+		invisible(g)
+	}
+	
 	if(plot.style == 'dendrogram') {
 	  plot_dendrogram(g.com, mode='phylo', label.offset=0.1, font=font.vect, palette=cols, ...)
+	  
+	  # invisibly return the community structure
+	  invisible(g.com)
 		}
   
-  # invisibly return the graph
-  invisible(g)
+  
 }

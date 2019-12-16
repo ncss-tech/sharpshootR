@@ -28,17 +28,25 @@ plotProfileDendrogram <- function(x, clust, scaling.factor=0.01, width=0.1, y.of
   
   # sanity check: ID vectors should be the same length
   if( length(d.ids) != length(x.ids) ) {
-    stop('inconsistent SoilProfileCollection and clustering object, inconsistent number of IDs')
     print(list(profileID=profile_id(x), clustID=d.ids, order=d.hclust$order))
+    stop('inconsistent SoilProfileCollection and clustering object, inconsistent number of IDs', call. = FALSE)
   }
     
   # sanity check: all IDs must be accounted for
-  if(! all(sort(d.ids) == sort(x.ids)) ) {
-    stop('inconsistent SoilProfileCollection and clustering object, non-matching IDs')
+  sd.1 <- setdiff(d.ids, x.ids)
+  sd.2 <- setdiff(x.ids, d.ids)
+  
+  if( length(sd.1) > 0 ) {
     print(list(profileID=profile_id(x), clustID=d.ids, order=d.hclust$order))
+    msg <- sprintf('IDs missing from SoilProfileCollection: [%s]', paste(sd.1, collapse = ', '))
+    stop(msg, call. = FALSE)
   }
     
-  
+  if( length(sd.2) > 0 ) {
+    print(list(profileID=profile_id(x), clustID=d.ids, order=d.hclust$order))
+    msg <- sprintf('IDs missing from cluster object: [%s]', paste(sd.1, collapse = ', '))
+    stop(msg, call. = FALSE)
+  }
   
   # setup plot and add dendrogram
   plot(dend, cex=0.8, direction='up', y.lim=c(dend.y.scale, 0), x.lim=c(0.5, length(x)+1), show.tip.label=FALSE, edge.color=dend.color, edge.width=dend.width)

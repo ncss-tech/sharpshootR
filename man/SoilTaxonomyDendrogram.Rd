@@ -4,7 +4,8 @@
 \title{Soil Taxonomy Dendrogram}
 \description{Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimmilarity matrix is computed using Gower's distance metric for nominal-scale variables, based on order, sub order, great group, and subgroup level taxa. See the Details and Examples sections below for more information.}
 \usage{
-SoilTaxonomyDendrogram(spc, name = "hzname", max.depth = 150, 
+SoilTaxonomyDendrogram(spc, name = "hzname", rotationOrder=NULL, 
+max.depth = 150, 
 n.depth.ticks = 6, scaling.factor = 0.015, cex.names = 0.75, 
 cex.id = 0.75, axis.line.offset = -4, width = 0.1, y.offset = 0.5, 
 shrink=FALSE, font.id=2,
@@ -14,6 +15,7 @@ cex.taxon.labels = 0.66, dend.color = par("fg"), dend.width = 1)
 \arguments{
   \item{spc}{a \code{SoilProfileCollection} object, see details}
   \item{name}{column name containing horizon names}
+  \item{rotationOrder}{numeric vector with desired ordering of leaves in the dendrogram from left to right, see details}
   \item{max.depth}{depth at which profiles are truncated for plotting}
   \item{n.depth.ticks}{suggested number of ticks on the depth axis}
   \item{scaling.factor}{scaling factor used to convert depth units into plotting units}
@@ -31,11 +33,13 @@ cex.taxon.labels = 0.66, dend.color = par("fg"), dend.width = 1)
 
 \details{This function looks for specific site-level attributes named: \code{soilorder}, \code{suborder}, \code{greatgroup}, and \code{subgroup}.
 
+The \code{rotationOrder} argument uses (i.e. requires) the \code{dendextend::rotate()} function to re-order leaves within the \code{hclust} representation of the ST hierarchy. Perfect sorting is not always possible.
 }
 
 \value{An invisibly-returned list containing:
 \describe{
 \item{\code{dist}}{pair-wise dissimilarity matrix}
+\item{\code{order}}{final ordering of hclust leaves}
 }
 }
 
@@ -48,6 +52,7 @@ for Soil Scientists. Computers & Geosciences: 52: 258--268. (doi: 10.1016/j.cage
 
 \examples{
 \dontrun{
+library(aqp)
 library(soilDB)
 
 # soils of interest
@@ -63,6 +68,27 @@ SoilTaxonomyDendrogram(h)
 # again, this time save the pair-wise dissimilarity matrix
 # note that there isn't a lot of discrimination between soils
 (d <- SoilTaxonomyDendrogram(h))
+
+
+# a different set
+soils <- c('cecil', 'altavista', 'lloyd', 'wickham', 'wilkes',
+'chewacla', 'congaree')
+
+# get morphology + extended summaries for sorting of dendrogram
+s <- fetchOSD(soils, extended = TRUE)
+
+# get summary and ignore the figure
+res <- vizHillslopePosition(s$hillpos)
+
+# compare default sorting to soils sorting according to catenary, e.g.
+# hillslope position
+par(mar=c(0,0,1,1), mfrow=c(2,1))
+
+SoilTaxonomyDendrogram(s$SPC, width=0.25)
+mtext('default sorting', side = 2, line=-1, font=3, cex=1.25)
+
+SoilTaxonomyDendrogram(s$SPC, rotationOrder = res$order, width=0.25)
+mtext('approx. catenary sorting', side = 2, line=-1, font=3, cex=1.25)
 }
 }
 

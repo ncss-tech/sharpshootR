@@ -2,7 +2,7 @@
 # this function only works when clustering Soil Taxonomy elements
 # ideally sourced from fetchOSD()
 # TODO: pass most arguments to plotSPC via ...
-SoilTaxonomyDendrogram <- function(spc, name='hzname', max.depth=150, n.depth.ticks=6, scaling.factor=0.015, cex.names=0.75, cex.id=0.75, axis.line.offset=-4, width=0.1, y.offset=0.5, shrink=FALSE, font.id=2, cex.taxon.labels=0.66, dend.color=par('fg'), dend.width=1) {
+SoilTaxonomyDendrogram <- function(spc, name='hzname', rotationOrder=NULL, max.depth=150, n.depth.ticks=6, scaling.factor=0.015, cex.names=0.75, cex.id=0.75, axis.line.offset=-4, width=0.1, y.offset=0.5, shrink=FALSE, font.id=2, cex.taxon.labels=0.66, dend.color=par('fg'), dend.width=1) {
 	
 	# convert relevant columns into factors
 	spc$soilorder <- factor(spc$soilorder)
@@ -18,6 +18,16 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', max.depth=150, n.depth.ti
 	# compute distance matrix from first 4 levels of Soil Taxonomy
 	s.dist <- daisy(s[, c('soilorder', 'suborder', 'greatgroup', 'subgroup')], metric='gower')
 	s.hclust <- as.hclust(diana(s.dist))
+	
+	if(!missing(rotationOrder)) {
+	  # check for required packages
+	  if(!requireNamespace('dendextend', quietly=TRUE))
+	    stop('please install the `dendextend` packages', call.=FALSE)
+	  
+	  # rotate branches as closely as possible to `rotationOrder`
+	  # sorting ideally results in left -> right orientation
+	  s.hclust <- dendextend::rotate(s.hclust, order = rev(rotationOrder))
+	}
 	
 	# convert to phylo class
 	dend <- as.phylo(s.hclust)
@@ -52,5 +62,11 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', max.depth=150, n.depth.ti
 	text(lab.x.positions, lab.y.positions, unique.lab, cex=cex.taxon.labels, adj=0.5, font=3)
 	
 	# invisibly return some information form the original objects
-	invisible(list(dist=s.dist))
+	invisible(
+	  list(
+	    dist=s.dist, 
+	    order=s.hclust$order
+	  )
+	)
 }
+

@@ -7,6 +7,11 @@
 # ...: further arguments to segplot
 vizAnnualClimate <- function(climate.data, IQR.cex=1, s=NULL, s.col='firebrick', ...) {
   
+  # check for required packages
+  if(!requireNamespace('latticeExtra', quietly=TRUE))
+    stop('please install the `latticeExtra` package', call.=FALSE)
+  
+  
   # for R CMD check
   q50 <- NULL
   
@@ -68,7 +73,7 @@ vizAnnualClimate <- function(climate.data, IQR.cex=1, s=NULL, s.col='firebrick',
   IQR.width <- IQR.cex * (n.series * 0.0025)
   
   # save for later
-  pp <- segplot(series ~ q05 + q95 | factor(climate_var),
+  pp <- latticeExtra::segplot(series ~ q05 + q95 | factor(climate_var),
                 centers=q50, data=climate.data, 
                 main='Annual Climate Summary', 
                 draw.bands=FALSE, segments.fun=panel.arrows, ends='both', angle=90, length=1, unit='mm', 
@@ -94,7 +99,7 @@ vizAnnualClimate <- function(climate.data, IQR.cex=1, s=NULL, s.col='firebrick',
                              border=tps.cols, col=tps.cols)
                   
                   # segplot
-                  panel.segplot(x, y, z, subscripts=subscripts, ...)
+                  latticeExtra::panel.segplot(x, y, z, subscripts=subscripts, ...)
                 }, 
                 yscale.components=function(..., s.to.bold=s) {
                   temp <- yscale.components.default(...) 

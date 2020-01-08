@@ -5,8 +5,8 @@
 vizHillslopePosition <- function(x, s=NULL) {
   
   # check for required packages
-  if(!requireNamespace('dendextend', quietly=TRUE))
-    stop('please install the `dendextend` packages', call.=FALSE)
+  if(!requireNamespace('dendextend', quietly=TRUE) | !requireNamespace('latticeExtra', quietly=TRUE))
+    stop('please install the `dendextend` and `latticeExtra` packages', call.=FALSE)
   
   # CRAN CHECK hack
   hillslope_position <- NULL
@@ -54,7 +54,7 @@ vizHillslopePosition <- function(x, s=NULL) {
                  xlab='Proportion', 
                  scales=list(cex=1), 
                  key=simpleKey(space='top', columns=5, text=levels(x.long$hillslope_position), rectangles = TRUE, points=FALSE, between.columns=2, between=1, cex=0.75), 
-                 legend=list(right=list(fun=dendrogramGrob, args=list(x = as.dendrogram(x.d.hydro), side="right", size=10))), 
+                 legend=list(right=list(fun=latticeExtra::dendrogramGrob, args=list(x = as.dendrogram(x.d.hydro), side="right", size=10))), 
                  yscale.components=function(..., s.to.bold=s) {
                    temp <- yscale.components.default(...) 
                    

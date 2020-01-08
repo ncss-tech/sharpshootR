@@ -5,8 +5,8 @@
 vizGeomorphicComponent <- function(x, s=NULL) {
   
   # check for required packages
-  if(!requireNamespace('dendextend', quietly=TRUE))
-    stop('please install the `dendextend` packages', call.=FALSE)
+  if(!requireNamespace('dendextend', quietly=TRUE) | !requireNamespace('latticeExtra', quietly=TRUE))
+    stop('please install the `dendextend` and `latticeExtra` packages', call.=FALSE)
   
   # CRAN CHECK hack
   geomcomp <- NULL
@@ -46,7 +46,7 @@ vizGeomorphicComponent <- function(x, s=NULL) {
   pp <- barchart(series ~ value, groups=geomcomp, data=x.long, horiz=TRUE, stack=TRUE, xlab='Proportion', 
                  scales=list(cex=1), 
                  key=simpleKey(space='top', columns=6, text=levels(x.long$geomcomp), rectangles = TRUE, points=FALSE, between.columns=1, between=1, cex=0.75), 
-                 legend=list(right=list(fun=dendrogramGrob, args=list(x = as.dendrogram(x.d.hydro), side="right", size=10))),
+                 legend=list(right=list(fun=latticeExtra::dendrogramGrob, args=list(x = as.dendrogram(x.d.hydro), side="right", size=10))),
                  yscale.components=function(..., s.to.bold=s) {
                    temp <- yscale.components.default(...) 
                    

@@ -81,12 +81,6 @@ importFrom(e1071,
   skewness
 )
 
-importFrom(latticeExtra,
-  dendrogramGrob,
-  segplot,
-  panel.segplot
-)
-
 importFrom(vegan,
   decostand,
   vegdist

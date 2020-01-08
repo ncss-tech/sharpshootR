@@ -121,6 +121,10 @@ diagnosticPropertyPlot <- function(f, v, k, grid.label='pedon_id', dend.label='p
 # similar version with lattice
 diagnosticPropertyPlot2 <- function(f, v, k, grid.label='pedon_id', sort.vars=TRUE) {
   
+  # sanity check: package requirements
+  if(!requireNamespace('latticeExtra', quietly=TRUE))
+    stop('please install the `latticeExtra` package', call. = FALSE)
+  
   # setup colors
   if(k <= 9 & k > 2) 
     cols <- brewer.pal(n=k, name='Set1') 
@@ -205,9 +209,9 @@ diagnosticPropertyPlot2 <- function(f, v, k, grid.label='pedon_id', sort.vars=TR
   colorkey = FALSE, 
   scales=list(tck=0, x=list(rot=90), y=list(at=1:length(o.profiles), labels=s.gl[o.profiles])),
   legend=list(
-      right=list(fun=dendrogramGrob, args=list(x = as.dendrogram(h.profiles), side="right", size=10, add=list(
+      right=list(fun=latticeExtra::dendrogramGrob, args=list(x = as.dendrogram(h.profiles), side="right", size=10, add=list(
         rect=list(fill=cols[h.cut])))),
-      top=list(fun=dendrogramGrob, args=list(x=as.dendrogram(h.vars), side="top", size=4))
+      top=list(fun=latticeExtra::dendrogramGrob, args=list(x=as.dendrogram(h.vars), side="top", size=4))
       ),
   panel=function(...) {
     panel.levelplot(...)

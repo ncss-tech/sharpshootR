@@ -1,5 +1,7 @@
 context("multinominal2logical")
 
+library(aqp)
+
 ## sample data
 data(loafercreek, package='soilDB')
 

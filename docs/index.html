@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A Soil Survey Toolkit • sharpshootR</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="A Soil Survey Toolkit">
 <meta property="og:description" content="Miscellaneous soil data management, summary, visualization, and conversion utilities to support soil survey.">
 <meta name="twitter:card" content="summary">
@@ -30,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6</span>
       </span>
     </div>
 
@@ -38,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -49,7 +50,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/ncss-tech/aqp">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -62,6 +63,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="contents col-md-9">
 
@@ -71,9 +73,9 @@
 <a href="#sharpshootr" class="anchor"></a>sharpshootR</h1></div>
 <p>This package contains mish-mash of functionality and sample data related to the daily business of soil survey operations with the USDA-NRCS. Many of the functions are highly specialized and inherit default arguments from the names used by the various NCSS (National Cooperative Soil Survey) databases.</p>
 <p>Install the stable version from CRAN:</p>
-<p><code><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages('sharpshootR', dep=TRUE)</a></code></p>
+<p><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages('sharpshootR', dep=TRUE)</a></code></p>
 <p>Install the development version from Github:</p>
-<p><code><a href="https://www.rdocumentation.org/packages/remotes/topics/install_github">remotes::install_github("ncss-tech/sharpshootR", dependencies=FALSE, upgrade=FALSE, build=FALSE)</a></code></p>
+<p><code><a href="https://rdrr.io/pkg/remotes/man/install_github.html">remotes::install_github("ncss-tech/sharpshootR", dependencies=FALSE, upgrade=FALSE, build=FALSE)</a></code></p>
 <div id="website" class="section level2">
 <h2 class="hasAnchor">
 <a href="#website" class="anchor"></a>Website</h2>
@@ -156,24 +158,24 @@
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
 <a href="#examples" class="anchor"></a>Examples</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sharpshootR)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(loafercreek, <span class="dt">package =</span> <span class="st">'soilDB'</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sharpshootR)
+<span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(loafercreek, <span class="dt">package =</span> <span class="st">'soilDB'</span>)
 
 <span class="co"># generalize horizon names using REGEX rules</span>
-n &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">'Oi'</span>, <span class="st">'A'</span>, <span class="st">'BA'</span>,<span class="st">'Bt1'</span>,<span class="st">'Bt2'</span>,<span class="st">'Bt3'</span>,<span class="st">'Cr'</span>,<span class="st">'R'</span>)
-p &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">'O'</span>, <span class="st">'^A$|Ad|Ap|AB'</span>,<span class="st">'BA$|Bw'</span>, 
+n &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Oi'</span>, <span class="st">'A'</span>, <span class="st">'BA'</span>,<span class="st">'Bt1'</span>,<span class="st">'Bt2'</span>,<span class="st">'Bt3'</span>,<span class="st">'Cr'</span>,<span class="st">'R'</span>)
+p &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'O'</span>, <span class="st">'^A$|Ad|Ap|AB'</span>,<span class="st">'BA$|Bw'</span>, 
        <span class="st">'Bt1$|^B$'</span>,<span class="st">'^Bt$|^Bt2$'</span>,<span class="st">'^Bt3|^Bt4|CBt$|BCt$|2Bt|2CB$|^C$'</span>,<span class="st">'Cr'</span>,<span class="st">'R'</span>)
 loafercreek<span class="op">$</span>genhz &lt;-<span class="st"> </span><span class="kw">generalize.hz</span>(loafercreek<span class="op">$</span>hzname, n, p)
 
 <span class="co"># remove non-matching generalized horizon names</span>
 loafercreek<span class="op">$</span>genhz[loafercreek<span class="op">$</span>genhz <span class="op">==</span><span class="st"> 'not-used'</span>] &lt;-<span class="st"> </span><span class="ot">NA</span>
-loafercreek<span class="op">$</span>genhz &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(loafercreek<span class="op">$</span>genhz)
+loafercreek<span class="op">$</span>genhz &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(loafercreek<span class="op">$</span>genhz)
 
 <span class="co"># aggregate color data, this function is from the `aqp` package</span>
 a &lt;-<span class="st"> </span><span class="kw">aggregateColor</span>(loafercreek, <span class="st">'genhz'</span>, <span class="dt">k =</span> <span class="dv">8</span>)
 
 <span class="co"># plot</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/par">par</a></span>(<span class="dt">mar=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>))
+<span class="kw"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="dt">mar=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>))
 <span class="kw"><a href="reference/aggregateColorPlot.html">aggregateColorPlot</a></span>(a, <span class="dt">print.n.hz =</span> <span class="ot">TRUE</span>)</code></pre></div>
 </div>
 <div id="dependency-graph" class="section level2">
@@ -224,17 +226,20 @@ a &lt;-<span class="st"> </span><span class="kw">aggregateColor</span>(loafercre
 </div>
 </div>
 
+
       <footer><div class="copyright">
   <p>Developed by Dylan Beaudette, Jay Skovlin, Stephen Roecker.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

@@ -31,9 +31,12 @@ q.color = "RoyalBlue", c.color = "firebrick", ...)
 
 \examples{
 \donttest{
-library(sharpshootR)
 
-s <- 'SPW'
+if(requireNamespace("curl") &
+   curl::has_internet()
+   ) {
+  
+  s <- 'SPW'
 # get metadata
 s.info <- CDEC_StationInfo(s)
 # format title for cumulative PPT
@@ -46,6 +49,9 @@ x <- CDECquery(id=s, sensor=45, interval='D', start='2000-01-01', end='2030-01-0
 # plot
 par(mar=c(4.5, 4.5, 2.5, 1.5))
 PCP_plot(x[1:(nrow(x)-60), ], ylab='Cumulative PPT (inches)', main=title.text, this.year = 2020)
+  
+}
+
 }
 }
 

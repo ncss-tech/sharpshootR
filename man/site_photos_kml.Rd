@@ -24,12 +24,14 @@ file.source = c('local', 'relative')
 
 
 \examples{
-\dontrun{
-library(soilDB)
-library(sharpshootR)
-library(plyr)
-
-### Load data #####
+\donttest{
+if(require(soilDB) &
+  require(plyr)
+) {
+  
+    if(soilDB:::.local_NASIS_defined()) {
+    
+    ### Load data #####
 # fetch data from NASIS
 f <- fetchNASIS()
 
@@ -47,6 +49,11 @@ d1 <- join(f1, e, by='siteiid')
 # write kml file
 site_photos_kml(data = d1, filename = 'C:/Temp/site_photos.kml', 
 make.image.grid=TRUE, file.source = 'relative') 
+    
+    }
+  
+}
+
 }
 }
 

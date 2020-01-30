@@ -17,9 +17,13 @@
 \seealso{\code{\link{LL2PLSS}}, \code{\link{formatPLSS}}}
 
 \examples{
-\dontrun{
-library(sharpshootR)
+\donttest{
 
+if(requireNamespace("curl") &
+   curl::has_internet()
+   ) {
+  
+  
 # create some data
 d <- data.frame( 
 id=1:3, 
@@ -39,6 +43,9 @@ d$plssid <- formatPLSS(d)
 
 # fetch lat/long coordinates
 PLSS2LL(d)
+  
+}
+
 }
 }
 

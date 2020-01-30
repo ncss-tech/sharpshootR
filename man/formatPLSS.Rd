@@ -17,8 +17,6 @@
 \seealso{\code{\link{PLSS2LL}}}
 
 \examples{
-library(sharpshootR)
-
 # create some data
 d <- data.frame( 
 id=1:3, 

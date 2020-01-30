@@ -5,7 +5,8 @@
 \description{Generate a simplistic diagram of the various fractions of water held within soil pore-space.}
 \usage{
 plotAvailWater(x, width = 0.25, cols = c(grey(0.5), 
-"DarkGreen", "LightBlue", "RoyalBlue"), name.cex = 0.8)
+"DarkGreen", "LightBlue", "RoyalBlue"), name.cex = 0.8,
+annotate=TRUE)
 }
 
 \arguments{
@@ -13,6 +14,7 @@ plotAvailWater(x, width = 0.25, cols = c(grey(0.5),
   \item{width}{vertical width of each bar graph}
   \item{cols}{a vector of colors used to symbolize 'solid phase', 'unavailable water', 'available water', and 'gravitational water'}
   \item{name.cex}{character scaling of horizon names, printed on left-hand side of figure}
+  \item{annotate}{logical, annotate AWC}
 }
 
 
@@ -31,10 +33,13 @@ par(mar=c(5, 6, 0.5, 0.5))
 plotAvailWater(s, name.cex=1.25)
 
 # use some real data from SSURGO
-\dontrun{
-library(soilDB)
+\donttest{
 
-q <- "SELECT hzdept_r as hztop, hzdepb_r as hzbottom, 
+if(requireNamespace("curl") &
+   curl::has_internet() &
+   require(soilDB)) {
+  
+  q <- "SELECT hzdept_r as hztop, hzdepb_r as hzbottom, 
 hzname as name, wsatiated_r/100.0 as sat, 
 wthirdbar_r/100.0 as fc, wfifteenbar_r/100.0 as pwp, awc_r as awc
 FROM chorizon 
@@ -49,6 +54,10 @@ x$solid <- with(x, 1-sat)
 
 par(mar=c(5, 5, 0.5, 0.5))
 plotAvailWater(x)
+  
+}
+
+
 }
 
 }

@@ -34,10 +34,14 @@ diagnosticPropertyPlot2(f, v, k, grid.label='pedon_id', sort.vars=TRUE)
 \seealso{\code{\link{multinominal2logical}}}
 
 \examples{
-\dontrun{
-library(aqp)
+\donttest{
 
-# sample data, an SPC
+if(require(aqp) &
+  require(soilDB) &
+  require(latticeExtra)
+  ) {
+  
+  # sample data, an SPC
 data(gopheridge, package='soilDB')
 
 # get depth class
@@ -57,6 +61,12 @@ x <- diagnosticPropertyPlot2(gopheridge, v, k=3)
 
 # check output
 str(x)
+  
+}
+
+
+
+
 }
 }
 

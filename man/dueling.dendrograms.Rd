@@ -18,11 +18,13 @@ lab.2 = "D2", cex.nodelabels=0.75, arrow.length=0.05)}
 \details{Connector arrows are used to link nodes from the left-hand dendrogram to the right-hand dendrogram.}
 
 \examples{
-library(aqp)
-library(cluster)
-library(ape)
-
-# load sample dataset from aqp package
+if(require(aqp) &
+  require(cluster) &
+  require(latticeExtra) &
+  require(ape)
+) {
+  
+  # load sample dataset from aqp package
 data(sp3)
 
 # promote to SoilProfileCollection
@@ -50,6 +52,9 @@ dueling.dendrograms(p.1, p.1, lab.1='same', lab.2='same')
 # graphically compare diana() to agnes() using d.2
 dueling.dendrograms(as.phylo(as.hclust(diana(d.2))), 
 as.phylo(as.hclust(agnes(d.2))), lab.1='diana', lab.2='agnes')
+}
+
+
 }
 
 \keyword{hplots}

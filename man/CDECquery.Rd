@@ -38,13 +38,13 @@ Sensors that report data on an \code{interval} other than monthly ('M'), daily (
 \examples{
 \donttest{
 
-if (
-  requireNamespace("latticeExtra", quietly = TRUE) & 
-  requireNamespace("plyr", quietly = TRUE) &
-  requireNamespace("e1071", quietly = TRUE) 
-) {
+if(requireNamespace("curl") &
+   curl::has_internet() &
+   require(latticeExtra) &
+   require(plyr) &
+   require(e1071)) {
   
-  # get daily resevoir storage (ac. ft) from Pinecrest, New Melones and Lyons resevoirs
+   # get daily resevoir storage (ac. ft) from Pinecrest, New Melones and Lyons resevoirs
   pinecrest <- CDECquery(id='swb', sensor=15, interval='D', start='2012-09-01', end='2015-01-01')
   new.melones <- CDECquery(id='nml', sensor=15, interval='D', start='2012-09-01', end='2015-01-01')
   lyons <- CDECquery(id='lys', sensor=15, interval='D', start='2012-09-01', end='2015-01-01')
@@ -143,6 +143,7 @@ if (
          auto.key=list(columns=2, points=FALSE, lines=TRUE))
   
 }
+
 
 
 }

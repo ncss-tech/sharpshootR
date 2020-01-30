@@ -23,7 +23,7 @@ polygonAdjacency(x, v='MUSYM', ...)
 
 % \note{}
 \examples{
-\dontrun{
+\donttest{
 library(spdep)
 library(rgdal)
 library(igraph)

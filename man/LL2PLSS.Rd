@@ -21,9 +21,12 @@
 \seealso{\code{\link{PLSS2LL}}, \code{\link{formatPLSS}}}
 
 \examples{
-library(sp)
-
-# create coordinates
+\donttest{
+if(requireNamespace("curl") &
+   curl::has_internet() &
+   require(sp)) {
+  
+  # create coordinates
 x <- -115.3823 
 y <- 48.88228
 
@@ -32,6 +35,10 @@ p.plss <- LL2PLSS(x, y)
 
 # plot geometry
 plot(p.plss$geom)
+  
+}
+
+}
 }
 
 \keyword{manip}

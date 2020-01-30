@@ -19,6 +19,11 @@ importFrom("utils", "URLencode", "download.file", "read.csv", "setTxtProgressBar
 import(aqp)
 import(ape)
 
+
+importFrom(curl,
+  has_internet
+)
+
 importFrom(stringi,
   stri_match_first_regex,
   stri_pad,

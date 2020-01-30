@@ -51,9 +51,15 @@ for Soil Scientists. Computers & Geosciences: 52: 258--268. (doi: 10.1016/j.cage
 \author{D.E. Beaudette}
 
 \examples{
-\dontrun{
-library(aqp)
-library(soilDB)
+\donttest{
+
+if(requireNamespace("curl") &
+   curl::has_internet() &
+   require(aqp) &
+   require(soilDB)
+) {
+  
+  
 
 # soils of interest
 s.list <- c('musick', 'cecil', 'drummer', 'amador', 'pentz', 'reiff', 
@@ -89,6 +95,10 @@ mtext('default sorting', side = 2, line=-1, font=3, cex=1.25)
 
 SoilTaxonomyDendrogram(s$SPC, rotationOrder = res$order, width=0.25)
 mtext('approx. catenary sorting', side = 2, line=-1, font=3, cex=1.25)
+  
+}
+
+
 }
 }
 

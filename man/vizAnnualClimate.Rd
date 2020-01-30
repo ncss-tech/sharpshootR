@@ -41,12 +41,15 @@ vizAnnualClimate(climate.data, IQR.cex=1, s=NULL, s.col='firebrick', ...)
 
 
 \examples{
-\dontrun{
-library(soilDB)
-library(sharpshootR)
-library(latticeExtra)
+\donttest{
 
-# soil series of interest
+if(requireNamespace("curl") &
+   curl::has_internet() &
+   require(soilDB) & 
+   require(latticeExtra)
+) {
+  
+  # soil series of interest
 soil <- 'ARBUCKLE'
 
 # get competing series
@@ -90,6 +93,9 @@ str(res$clust)
 par(mar=c(0,0,1,1))
 plotProfileDendrogram(spc, clust = res$clust, scaling.factor = 0.075, width = 0.2, y.offset = 0.5)
 mtext('sorted by annual climate summaries', side = 3, at = 0.5, adj = 0, line = -1.5, font=3)
+
+}
+
 
 }
 }

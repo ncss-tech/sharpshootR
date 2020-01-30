@@ -74,9 +74,13 @@ plotSoilRelationGraph(m, spanning.tree='max')
 # investigate max spanning tree + edges with weights > 75-th pctile
 plotSoilRelationGraph(m, spanning.tree=0.75)
 
-\dontrun{
-# get similar data from soilweb, for the Pardee series
-library(soilDB)
+\donttest{
+
+if(requireNamespace("curl") &
+   curl::has_internet() &
+   require(soilDB)) {
+  
+ # get similar data from soilweb, for the Pardee series
 s <- 'pardee'
 d <- siblings(s, component.data = TRUE)
 
@@ -92,7 +96,10 @@ plotSoilRelationGraph(m, s=s, plot.style='dendrogram')
 
 # alter plotting style, see ?plot.phylo
 plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='fan')
-plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='unrooted', use.edge.length=FALSE)
+plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='unrooted', use.edge.length=FALSE) 
+  
+}
+
 
 }
 }

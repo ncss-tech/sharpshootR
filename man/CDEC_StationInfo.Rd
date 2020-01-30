@@ -17,8 +17,16 @@ CDEC_StationInfo(s)
 
 \seealso{\code{\link{CDECquery}}}
 \examples{
-\dontrun{
-CDEC_StationInfo('HHM')
+\donttest{
+if(requireNamespace("curl") &
+   curl::has_internet() 
+   ) {
+  
+CDEC_StationInfo('HHM')  
+  
+}
+
+
 }
 }
 

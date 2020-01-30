@@ -33,8 +33,10 @@ vizGeomorphicComponent(x, s = NULL)
 \note{This is a work in progress.}
 
 \examples{
-\dontrun{
-library(soilDB)
+\donttest{
+if(requireNamespace("curl") &
+    curl::has_internet() &
+    require(soilDB)) {
 
 # soils of interest
 s.list <- c('musick', 'cecil', 'drummer', 'amador', 'pentz', 'reiff', 
@@ -46,5 +48,6 @@ s <- fetchOSD(s.list, extended=TRUE)
 res <- vizHillslopePosition(s$hillpos)
 print(res$fig)
 
+}
 }
 }

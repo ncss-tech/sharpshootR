@@ -18,7 +18,12 @@ multinominal2logical(x, v)
 \seealso{\code{\link{diagnosticPropertyPlot}}}
 
 \examples{
-\dontrun{
+\donttest{
+
+if(require(soilDB) & 
+  require(latticeExtra)) {
+  
+
 # sample data, an SPC
 data(loafercreek, package='soilDB')
 
@@ -35,7 +40,12 @@ v <- c('lithic.contact', 'paralithic.contact',
 
 # visualize with some other diagnostic features
 x <- diagnosticPropertyPlot(loafercreek, v, k=5, 
-grid.label='bedrckkind', dend.label='pedon_id')
+grid.label='bedrckkind', dend.label='pedon_id')  
+  
+}
+
+
+
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -26,7 +26,7 @@ add.legend = TRUE, ...)
 
 \seealso{\code{\link{plotSoilRelationGraph}}}
 \examples{
-\dontrun{
+\donttest{
 data(amador)
 m <- component.adj.matrix(amador)
 plotSoilRelationChordGraph(m, 'amador')

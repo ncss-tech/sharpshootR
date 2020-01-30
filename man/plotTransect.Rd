@@ -51,7 +51,7 @@ fix.relative.pos=list(thresh = 0.6, trace = TRUE, maxIter = 5000),
 
 
 \examples{
-\dontrun{
+\donttest{
 # sample data
 data("mineralKing")
 

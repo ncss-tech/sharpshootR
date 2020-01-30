@@ -30,8 +30,14 @@ horizontal.border.lwd=2, x.axis=TRUE, y.axis=TRUE,
 \author{D.E. Beaudette}
 
 \examples{
-\dontrun{
-data(loafercreek, package = 'soilDB')
+\donttest{
+
+if(requireNamespace("curl") &
+   curl::has_internet() &
+   require(aqp) &
+   require(soilDB)) {
+  
+  data(loafercreek, package = 'soilDB')
 
 # generalize horizon names using REGEX rules
 n <- c('Oi', 'A', 'BA','Bt1','Bt2','Bt3','Cr','R')
@@ -49,6 +55,11 @@ a <- aggregateColor(loafercreek, 'genhz')
 # plot
 par(mar=c(1,4,4,1))
 aggregateColorPlot(a, print.n.hz = TRUE)
+  
+}
+
+
+
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

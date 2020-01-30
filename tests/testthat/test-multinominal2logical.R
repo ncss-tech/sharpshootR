@@ -1,15 +1,19 @@
 context("multinominal2logical")
 
-library(aqp)
 
-## sample data
+## sample data requires soilDB >= 2.5
+if(!requireNamespace('soilDB') | packageVersion("soilDB") < '2.5') {
+  skip(message = 'test requires soilDB >= 2.5')
+}
+
+
+
 data(loafercreek, package='soilDB')
 
 # convert to logical matrix
 hp <- multinominal2logical(loafercreek, 'hillslopeprof')
 
 ## tests
-
 test_that("multinominal2logical works as expected", {
   
   # basic structure of a result

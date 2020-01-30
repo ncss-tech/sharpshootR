@@ -46,6 +46,7 @@ vizAnnualClimate(climate.data, IQR.cex=1, s=NULL, s.col='firebrick', ...)
 if(requireNamespace("curl") &
    curl::has_internet() &
    require(soilDB) & 
+   require(aqp) & 
    require(latticeExtra)
 ) {
   

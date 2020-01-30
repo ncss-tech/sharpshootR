@@ -52,8 +52,13 @@ fix.relative.pos=list(thresh = 0.6, trace = TRUE, maxIter = 5000),
 
 \examples{
 \donttest{
+if(require(aqp) & 
+require(sp) &
+require(soilDB)
+) {
+
 # sample data
-data("mineralKing")
+data("mineralKing", package = "soilDB")
 
 # quick overview
 par(mar=c(1,1,2,1))
@@ -95,6 +100,7 @@ grad.axis.title='Elevation (m)', label='pedon_id', name='hzname',
 width=0.15, spacing = 'relative', 
 fix.relative.pos = list(maxIter=6000, trace=TRUE, adj=0.2, thresh=0.5))
 
+}
 }
 }
 

@@ -20,7 +20,8 @@ multinominal2logical(x, v)
 \examples{
 \donttest{
 
-if(require(soilDB) & 
+if(require(soilDB) &
+  require(aqp) &
   require(latticeExtra)) {
   
 

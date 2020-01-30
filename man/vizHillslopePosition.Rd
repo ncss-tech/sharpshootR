@@ -36,6 +36,7 @@ vizGeomorphicComponent(x, s = NULL)
 \donttest{
 if(requireNamespace("curl") &
     curl::has_internet() &
+    require(aqp) & 
     require(soilDB)) {
 
 # soils of interest

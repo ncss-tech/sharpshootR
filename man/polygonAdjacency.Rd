@@ -11,7 +11,8 @@ polygonAdjacency(x, v='MUSYM', ...)
   \item{v}{name of the field in the attribute table to use when searching for `common lines`, see details}
   \item{\dots}{additional arguments passed to \code{spdep::poly2nb}}
 }
-\details{Pending.}
+
+\details{Examples are presented in \href{http://ncss-tech.github.io/AQP/sharpshootR/common-soil-lines.html}{this tutorial}.}
 
 \value{A \code{list} object containing:
 \describe{
@@ -19,71 +20,10 @@ polygonAdjacency(x, v='MUSYM', ...)
   \item{adjMat}{A weighted adjacency matrix}
   }
 }
+
 \author{D.E. Beaudette}
 
-% \note{}
-\examples{
-\donttest{
-library(spdep)
-library(rgdal)
-library(igraph)
-library(sharpshootR)
-
-# load some data
-x <- readOGR(dsn='L:/CA630/FG_CA630_OFFICIAL.gdb', layer='ca630_a', stringsAsFactors=FALSE)
-
-# remove NOTCOM, DA, and empty (non-NA) symbols
-x <- x[which(! x$MUSYM \%in\% c('NOTCOM', 'DA', ' ', '')), ]
-
-# compute spatial adjacency summary
-res <- polygonAdjacency(x, v='MUSYM')
-
-# graphical check: slow for large number of features
-plot(x)
-plot(x[res$commonLines, ], col='red', add=TRUE)
-
-# save to SHP
-writeOGR(x[res$commonLines, ], dsn='.', 
-layer='common-soil-lines', driver='ESRI Shapefile', 
-overwrite_layer=TRUE)
-
-# plot spatial adjacency information
-par(mar=c(0,0,0,0))
-
-# full adjacency graph: very messy
-plotSoilRelationGraph(res$adjMat, 
-vertex.scaling.factor = 1, vertex.label.family='sans',
-vertex.label.cex=0.75,
-g.layout = layout_with_lgl)
-
-# trim down via "max spanning tree"
-plotSoilRelationGraph(res$adjMat, spanning.tree='max', 
-edge.scaling.factor=0.1, vertex.scaling.factor=1, 
-vertex.label.family='sans',
-vertex.label.cex=0.75,
-g.layout = layout_with_lgl)
-
-# get the resulting graph for later inspection
-g <- plotSoilRelationGraph(res$adjMat, spanning.tree='max', 
-edge.scaling.factor=0.1, vertex.scaling.factor=1, 
-vertex.label.family='sans',
-vertex.label.cex=0.75,
-g.layout = layout_with_lgl)
-
-# get vertices that are neighbors with a given vertex
-neighbors(g, '9012')
-
-# plot subgraph
-plot(subgraph(g, neighbors(g, '9012')), 
-vertex.label.family='sans',
-vertex.label.cex=0.75,
-layout=layout_with_lgl)
-}
 
 
-}
-
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{manip}
 

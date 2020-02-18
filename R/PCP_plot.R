@@ -43,7 +43,7 @@
 }
 
 
-## TODO: generalize to other sources of data: SCAN / SNOTEL / Henry / etc.
+## TODO: generalize to other sources of data: DAYMET / SCAN / SNOTEL / Henry / etc.
 ## TODO: add percentiles-by-water-day method
 ## TODO: this.year should default to the last year in the series
 ## TODO: add a "today" option for specifying a specific date vs. current year

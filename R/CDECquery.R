@@ -84,8 +84,7 @@ CDECquery <- function(id, sensor, interval='D', start, end) {
   }
   
   ## TODO: more testing
-  # 2019-02-11: add water year and date, using CA "water year" ending Spet 30
-  # NEW function in sharpshootR
+  # 2019-02-11: add water year and date, using CA "water year" ending Spet 30 (soilDB::waterDayYear)
   # eval water year and water day, length should be the same
   w <- waterDayYear(d$datetime)
   

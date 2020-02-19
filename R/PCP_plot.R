@@ -53,11 +53,12 @@
 # percentiles of cumulative precipitation plot
 # x: result from CDECquery for now, will need to generalize to other sources
 # this.year: a single water year
+# this.day: plot as of given day since start of water year
 # method: exemplar|daily
 # q.color
 # c.color
 # ...: further arguments to plot()
-PCP_plot <- function(x, this.year, method='exemplar', q.color='RoyalBlue', c.color='firebrick', ...) {
+PCP_plot <- function(x, this.year, this.day=NULL, method='exemplar', q.color='RoyalBlue', c.color='firebrick', ...) {
   
   # hack for R CMD check
   cumulative_ppt <- NULL
@@ -71,12 +72,24 @@ PCP_plot <- function(x, this.year, method='exemplar', q.color='RoyalBlue', c.col
   
   # convenience objects for plotting 
   exemplar.yrs <- as.numeric(names(e))
-  this.year.data <- xx[which(xx$water_year == this.year), ]
   
-  # remove current / future years
-  xx <- xx[which(xx$water_year < this.year), ]
+  if(is.null(this.day)) {
+    # subset year
+    idx <- which(xx$water_year == this.year)
+    this.year.data <- xx[idx, ]  
+  } else {
+    # truncate to interval {2, 365}
+    this.day <- pmax(this.day, 2)
+    this.day <- pmin(this.day, 365)
+    # subset year and days <= selected water day
+    idx <- which(xx$water_year == this.year & xx$water_day <= this.day)
+    this.year.data <- xx[idx, ]
+  }
+  
   
   ## TODO: remove years with less than 330 (?) days of data
+  # tapply(xx$water_day, xx$water_year, length)
+  
   
   # current year positional elements
   # last real date in series
@@ -152,6 +165,7 @@ PCP_plot <- function(x, this.year, method='exemplar', q.color='RoyalBlue', c.col
   # add current year's cumulative PPT
   points(x=mwd, y=mcp, pch=22, bg=c.color)
   
+  ## TODO: this threshold and position of bxp works for units of inches but not mm
   # add boxplot of starting water-day where cumulative PPT > 0.1
   bxp.data <- list(stats=matrix(dry.wd.q, ncol=1), n=length(dry.wd.q), out=NULL, group=1, names="")
   # add to current plot

@@ -18,7 +18,6 @@ importFrom("utils", "URLencode", "download.file", "read.csv", "setTxtProgressBar
 # TODO: make these more specific
 import(aqp)
 import(ape)
-import(rgdal)
 
 
 importFrom(curl,

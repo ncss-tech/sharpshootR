@@ -7,13 +7,13 @@
 \title{PLSS2LL}
 \description{Uses lattitude and longitude coordinates to return the PLSS section geometry from the BLM PLSS web service.}
 
-\usage{LL2PLSS(x, y)}
+\usage{LL2PLSS(x, y, returnlevel)}
 
 \arguments{
   \item{x}{longitude coordinates}
   \item{y}{lattitude coordinates}		
 }
-\details{This function takes xy coordinates and returns the PLSS section geometry to the quarter-quarter section.}
+\details{This function takes xy coordinates and returns the PLSS section geometry to the quarter-quarter section. Returnlevel options are defaulted to 'I' which returns smallest intersected sectional aliquot geometry, 'S' will return the section geometry of the coordinates.}
 \value{\code{list} of of PLSS codes and coordinates.}
 \author{D.E. Beaudette, Jay Skovlin}
 \note{This function requires the following packages: \code{httr}, \code{jsonlite}, and \code{sp}.}

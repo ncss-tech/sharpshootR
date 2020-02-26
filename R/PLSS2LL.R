@@ -69,7 +69,7 @@ formatPLSS <- function(p, type='SN') {
 
 ## TODO: trap errors
 # not vectorized
-LL2PLSS <- function(x, y) {
+LL2PLSS <- function(x, y, returnlevel= 'I') {
   
   # check for required packages
   if(!requireNamespace('httr', quietly = TRUE) | !requireNamespace('jsonlite', quietly = TRUE))
@@ -80,7 +80,14 @@ LL2PLSS <- function(x, y) {
   y <- sprintf("%.08f", as.numeric(y))
   
   # composite URL for GET request, result is JSON
-  u <- paste0("https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer/exts/CadastralSpecialServices/GetTRS?lat=", y, "&lon=", x, "&units=DD&f=pjson")
+  if(returnlevel == 'S') {
+    u <- paste0("https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer/exts/CadastralSpecialServices/GetTRS?lat=", 
+                y, "&lon=", x, "&units=DD&returnlevel=S&f=pjson")
+  }
+  if (returnlevel == 'I') {
+    u <- paste0("https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer/exts/CadastralSpecialServices/GetTRS?lat=", 
+                y, "&lon=", x, "&units=DD&returnlevel=I&f=pjson") 
+  }    
   
   # process GET request
   res <- httr::GET(u)

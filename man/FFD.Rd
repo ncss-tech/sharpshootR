@@ -14,7 +14,7 @@ FFDplot(s, sub.title = NULL)
 }
 
 \arguments{
-  \item{d}{\code{data.frame} with columns 'datetime' 'year', and 'value'}
+  \item{d}{\code{data.frame} with columns 'datetime' 'year', and 'value'; 'value' being daily minimum temperature, see details}
   \item{returnDailyPr}{optionally return \code{list} with daily summaries}
   \item{minDays}{min number of days / spring|fall required for a reasonable estimate of FFD}
   \item{\dots}{further arguments passed to \code{frostFreePeriod}}
@@ -23,7 +23,10 @@ FFDplot(s, sub.title = NULL)
   \item{sub.title}{override default subtitle}
 }
 
-\details{\href{http://ncss-tech.github.io/AQP/sharpshootR/FFD-estimates.html}{FFD tutorial}}
+\details{The default \code{frostTemp=32} argument to \code{frostFreePeriod} is suitable for use with minimum daily temperatures in degrees Fahrenheit. Use \code{frostTemp=0} for temperatures in degrees Celsius.}
+
+\href{http://ncss-tech.github.io/AQP/sharpshootR/FFD-estimates.html}{FFD tutorial}
+}
 
 \value{a \code{list} with the following elements:
 
@@ -35,4 +38,3 @@ FFDplot(s, sub.title = NULL)
 
 \author{D.E. Beaudette}
 
-\note{This is a work in progress.}

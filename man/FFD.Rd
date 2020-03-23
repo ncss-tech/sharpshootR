@@ -23,7 +23,7 @@ FFDplot(s, sub.title = NULL)
   \item{sub.title}{override default subtitle}
 }
 
-\details{The default \code{frostTemp=32} argument to \code{frostFreePeriod} is suitable for use with minimum daily temperatures in degrees Fahrenheit. Use \code{frostTemp=0} for temperatures in degrees Celsius.}
+\details{The default \code{frostTemp=32} argument to \code{frostFreePeriod} is suitable for use with minimum daily temperatures in degrees Fahrenheit. Use \code{frostTemp=0} for temperatures in degrees Celsius.
 
 \href{http://ncss-tech.github.io/AQP/sharpshootR/FFD-estimates.html}{FFD tutorial}
 }

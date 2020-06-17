@@ -2,7 +2,7 @@
 \alias{plotAvailWater}
 
 \title{Visual Demontration of Available Soil Water}
-\description{Generate a simplistic diagram of the various fractions of water held within soil pore-space.}
+\description{Generate a simplistic diagram of the various fractions of water held within soil pore-space. Largely inspired by \href{https://www.nature.com/scitable/knowledge/library/soil-water-dynamics-103089121/}{Figure 2 from O'geen (2013)}.}
 \usage{
 plotAvailWater(x, width = 0.25, cols = c(grey(0.5), 
 "DarkGreen", "LightBlue", "RoyalBlue"), name.cex = 0.8,
@@ -20,6 +20,10 @@ annotate=TRUE)
 
 \author{D.E. Beaudette}
 
+\references{
+O'Geen, A. T. (2013) Soil Water Dynamics. Nature Education Knowledge 4(5):9.
+}
+
 \examples{
 # demonstration
 s <- data.frame(
@@ -32,9 +36,31 @@ s$solid <- with(s, 1-sat)
 par(mar=c(5, 6, 0.5, 0.5))
 plotAvailWater(s, name.cex=1.25)
 
-# use some real data from SSURGO
+
 \donttest{
 
+if(requireNamespace("aqp") {
+  
+  # demonstration using idealized AWC by soil texture
+  data("ROSETTA.centroids", package = "aqp")
+  
+  # subset columns
+  x <- ROSETTA.centroids[, c('texture', 'pwp', 'fc', 'sat', 'awc')]
+  
+  # adjust to expected names / additional data required by plotAvailWater
+  names(x)[1] <- 'name'
+  x$solid <- with(x, 1 - sat)
+  
+  # re-order based on approximate AWC
+  x <- x[order(x$awc), ]
+  
+  par(mar=c(5, 6.5, 0.5, 0.5))
+  plotAvailWater(x, name.cex=1)
+  
+}
+
+
+# use some real data from SSURGO
 if(requireNamespace("curl") &
    curl::has_internet() &
    require(soilDB)) {
@@ -46,17 +72,18 @@ FROM chorizon
 WHERE cokey IN (SELECT cokey from component where compname = 'dunstone') 
 AND wsatiated_r IS NOT NULL 
 ORDER BY cokey, hzdept_r ASC;"
-
-x <- SDA_query(q)
-x <- unique(x)
-x <- x[order(x$name), ]
-x$solid <- with(x, 1-sat)
-
-par(mar=c(5, 5, 0.5, 0.5))
-plotAvailWater(x)
+  
+  x <- SDA_query(q)
+  x <- unique(x)
+  x <- x[order(x$name), ]
+  x$solid <- with(x, 1-sat)
+  
+  par(mar=c(5, 5, 0.5, 0.5))
+  plotAvailWater(x)
   
 }
 
+}
 
 }
 

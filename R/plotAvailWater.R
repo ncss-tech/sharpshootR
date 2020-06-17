@@ -1,3 +1,6 @@
+## TODO: better documentation
+
+# inspired by Figure 2 in: https://www.nature.com/scitable/knowledge/library/soil-water-dynamics-103089121/
 plotAvailWater <- function(x, width=0.25, cols=c(grey(0.5), 'DarkGreen', 'LightBlue', 'RoyalBlue'), name.cex=0.8, annotate=TRUE) {
 	
   # compute fractions

@@ -39,7 +39,7 @@ plotAvailWater(s, name.cex=1.25)
 
 \donttest{
 
-if(requireNamespace("aqp") {
+if(requireNamespace("aqp")) {
   
   # demonstration using idealized AWC by soil texture
   data("ROSETTA.centroids", package = "aqp")

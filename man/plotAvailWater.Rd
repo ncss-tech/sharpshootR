@@ -87,6 +87,5 @@ ORDER BY cokey, hzdept_r ASC;"
 
 }
 
-}
 
 \keyword{hplots}

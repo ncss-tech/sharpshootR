@@ -1,5 +1,4 @@
 
-## TODO: make some test data for test suite
 
 ## TODO: move more hard-coded geom elements to arguments / heuristics
 ## NOTE: works best if distance matrix scaled to approximately {0,1}
@@ -66,13 +65,14 @@ plotProfileDendrogram <- function(x, clust, scaling.factor=0.01, width=0.1, y.of
   # with a couple fudge factors to make them fit
   plot(x, plot.order=link.idx, add=TRUE, width=width, scaling.factor=scaling.factor, y.offset=max(lastPP$yy) + y.offset, ...)
   
+  
   if(debug) {
     # grid()
     axis(1, las=1, at=1:length(x))
     axis(2, las=1)
     # abline(h=max(lastPP$yy) + y.offset, col='red')
-    # debugging information
     
+    # IDs and linking structure
     return(
       invisible(
         data.frame(

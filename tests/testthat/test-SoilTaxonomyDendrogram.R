@@ -1,6 +1,7 @@
 context("SoilTaxonomyDendrogram -- requires internet connection")
 
 ## tests
+library(soilDB)
 
 test_that("SoilTaxonomyDendrogram works as expected", {
   

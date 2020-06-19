@@ -1,9 +1,8 @@
 
 ## TODO: make some test data for test suite
 
-## TODO: sanity checking and debug mode
 ## TODO: move more hard-coded geom elements to arguments / heuristics
-## NOTE: distance matrix should be scaled to approximately {0,1}
+## NOTE: works best if distance matrix scaled to approximately {0,1}
 # x: SPC object
 # clust: a hierachical clustering object that can be converted into hclust
 plotProfileDendrogram <- function(x, clust, scaling.factor=0.01, width=0.1, y.offset=0.1, dend.y.scale= max(clust$height * 2, na.rm=TRUE) , dend.color=par('fg'), dend.width=1, debug=FALSE, ...) {
@@ -16,15 +15,9 @@ plotProfileDendrogram <- function(x, clust, scaling.factor=0.01, width=0.1, y.of
   d.hclust <- as.hclust(clust)
   dend <- as.phylo(d.hclust)
   
-  # sanity check: length and contents of individual names in d should match ids in x
-  d.ids <- d.hclust$labels # labels, in dendrogram order
-  x.ids <- profile_id(x)[d.hclust$order] # profile IDs, re-ordered according to dendrogram
-  
-  # debugging information
-  if(debug) {
-    par(mar=c(5,5,5,5))
-    print(list(profileID=profile_id(x), clustID=d.ids, order=d.hclust$order))
-  }
+  # IDs from SPC and clustering object: may not be in the same order!
+  d.ids <- d.hclust$labels
+  x.ids <- profile_id(x)
   
   # sanity check: ID vectors should be the same length
   if( length(d.ids) != length(x.ids) ) {
@@ -48,22 +41,53 @@ plotProfileDendrogram <- function(x, clust, scaling.factor=0.01, width=0.1, y.of
     stop(msg, call. = FALSE)
   }
   
+  
+  # profile IDs and clustering IDs may not be in the same order
+  if(any(x.ids != d.ids)){
+    message('profile IDs and clustering IDs are not in the same order')
+  }
+  
+  # plotting order
+  # create a link between dendrogram-tip-sorted IDS ---> profile IDs
+  link.idx <- match(d.ids[d.hclust$order], x.ids)
+  
+  # allocate extra space
+  if(debug){
+    par(mar=c(5,5,5,5))
+  }
+  
   # setup plot and add dendrogram
-  plot(dend, cex=0.8, direction='up', y.lim=c(dend.y.scale, 0), x.lim=c(0.5, length(x)+1), show.tip.label=FALSE, edge.color=dend.color, edge.width=dend.width)
+  plot(dend, cex=0.8, direction='up', y.lim=c(dend.y.scale, 0), x.lim=c(0.5, length(x)+1), show.tip.label=(debug), edge.color=dend.color, edge.width=dend.width)
   
   # get the last plot geometry
   lastPP <- get("last_plot.phylo", envir = .PlotPhyloEnv)
   
   # plot the profiles, in the ordering defined by the dendrogram
   # with a couple fudge factors to make them fit
-  plot(x, plot.order=d.hclust$order, add=TRUE, width=width, scaling.factor=scaling.factor, y.offset=max(lastPP$yy) + y.offset, ...)
+  plot(x, plot.order=link.idx, add=TRUE, width=width, scaling.factor=scaling.factor, y.offset=max(lastPP$yy) + y.offset, ...)
   
   if(debug) {
-    grid()
+    # grid()
     axis(1, las=1, at=1:length(x))
     axis(2, las=1)
     # abline(h=max(lastPP$yy) + y.offset, col='red')
+    # debugging information
+    
+    return(
+      invisible(
+        data.frame(
+          profileID=x.ids, 
+          clustID=d.ids, 
+          clustID.ordered=d.ids[d.hclust$order],
+          profile.plot.order=link.idx
+        )
+      )
+    )
+  
+    
   }
+  
+  
   
 }
 

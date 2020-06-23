@@ -2,7 +2,7 @@
 # this function only works when clustering Soil Taxonomy elements
 # ideally sourced from fetchOSD()
 # TODO: pass most arguments to plotSPC via ...
-SoilTaxonomyDendrogram <- function(spc, name='hzname', rotationOrder=NULL, max.depth=150, n.depth.ticks=6, scaling.factor=0.015, cex.names=0.75, cex.id=0.75, axis.line.offset=-4, width=0.1, y.offset=0.5, shrink=FALSE, font.id=2, cex.taxon.labels=0.66, dend.color=par('fg'), dend.width=1) {
+SoilTaxonomyDendrogram <- function(spc, name='hzname', name.style='right-center', rotationOrder=NULL, max.depth=150, n.depth.ticks=6, scaling.factor=0.015, cex.names=0.75, cex.id=0.75, axis.line.offset=-4, width=0.1, y.offset=0.5, shrink=FALSE, font.id=2, cex.taxon.labels=0.66, dend.color=par('fg'), dend.width=1) {
 	
 	# convert relevant columns into factors
 	spc$soilorder <- factor(spc$soilorder)
@@ -49,7 +49,7 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', rotationOrder=NULL, max.d
 	
 	# plot the profiles, in the ordering defined by the dendrogram
 	# with a couple fudge factors to make them fit
-	plotSPC(spc, name=name, plot.order=new_order, max.depth=max.depth, n.depth.ticks=n.depth.ticks, scaling.factor=scaling.factor, cex.names=cex.names, cex.id=cex.id, axis.line.offset=axis.line.offset, width=width, y.offset=max(lastPP$yy) + y.offset, id.style='side', shrink=shrink, font.id=font.id, add=TRUE)
+	plotSPC(spc, name=name, name.style=name.style, plot.order=new_order, max.depth=max.depth, n.depth.ticks=n.depth.ticks, scaling.factor=scaling.factor, cex.names=cex.names, cex.id=cex.id, axis.line.offset=axis.line.offset, width=width, y.offset=max(lastPP$yy) + y.offset, id.style='side', shrink=shrink, font.id=font.id, add=TRUE)
 	
 	# generate taxonomic labels and their positions under the dendrogram
 	lab <- s[new_order, 'subgroup']

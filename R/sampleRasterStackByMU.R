@@ -247,10 +247,13 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   unsampled.idx <- unlist(l.unsampled)
   
   # get raster summary
-  rs <- rapply(raster.list, f=raster::filename, how='unlist')
+  rs <- rapply(raster.list, f=raster::filename, how = 'unlist')
   rs <- gsub('\\\\', '/', rs)
   
-  rs.df <- data.frame(Variable=nm, File=rs, inMemory=as.character(rapply(raster.list, f=raster::inMemory, how='unlist')), ContainsMU=raster.containment.test)
+  rs.df <- data.frame(Variable = nm, File = rs, 
+                      Resolution = as.character(signif(as.numeric(rapply(raster.list, res, how = 'unlist')), 2)), 
+                      inMemory = as.character(rapply(raster.list, f = raster::inMemory, how = 'unlist')), 
+                      ContainsMU = raster.containment.test)
   
   # join-in Moran's I
   rs.df <- join(rs.df, MI, by='Variable', type='left')

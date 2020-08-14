@@ -251,7 +251,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
   rs <- gsub('\\\\', '/', rs)
   
   rs.df <- data.frame(Variable = nm, File = rs, 
-                      Resolution = as.character(signif(as.numeric(rapply(raster.list, res, how = 'unlist')), 2)), 
+                      Resolution = as.character(rapply(raster.list, function(x) signif(raster::res(x)[1], 2), how = 'unlist')), 
                       inMemory = as.character(rapply(raster.list, f = raster::inMemory, how = 'unlist')), 
                       ContainsMU = raster.containment.test)
   

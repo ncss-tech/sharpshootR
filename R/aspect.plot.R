@@ -33,6 +33,11 @@ aspect.plot <- function(p, q=c(0.05, 0.5, 0.95), p.bins=60, p.bw=30, stack=TRUE,
 	# add title
 	text(0, -0.25, plot.title, cex=0.85, font=2)
   
-  # invisibly return stats
+	## TODO: this is kind of noisy, consider adding to the plot or output
+	# compare relative to uniform circular distribution
+	rt <- rayleigh.test(c.p)
+	print(rt)
+	
+	# invisibly return stats
   invisible(q.p)
 }

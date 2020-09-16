@@ -1,0 +1,92 @@
+## TODO: return clustering object instead of cluster$order
+## TODO: provide examples for adjusting legend size / spacing
+
+## this doesn't make much sense...
+vizMountainPosition <- function(x, s=NULL) {
+  
+  # check for required packages
+  if(!requireNamespace('dendextend', quietly=TRUE) | !requireNamespace('latticeExtra', quietly=TRUE))
+    stop('please install the `dendextend` and `latticeExtra` packages', call.=FALSE)
+  
+  # CRAN CHECK hack
+  mtnpos <- NULL
+  
+  # save row names as they are lost in the distance matrix calc
+  row.names(x) <- x$series
+  
+  # save number of records
+  n.records <- x$n
+  
+  # mask-out some columns we don't need
+  x$n <- NULL
+  x$shannon_entropy <- NULL
+  
+  # re-name for simpler legend
+  names(x) <- gsub(pattern = ' third of mountainflank', replacement = ' 1/3 Mtn Flank', x = names(x), fixed = TRUE)
+  
+  ## convert proportions to long format for plotting
+  x.long <- melt(x, id.vars = 'series')
+  # fix names: second column contains labels
+  names(x.long)[2] <- 'mtnpos'
+  
+  # custom levels, it makes more sense to have the generic "mountainflank" near the "center third"
+  levels(x.long$mtnpos) <- c('Mountaintop', 'Upper 1/3 Mtn Flank', 'Mountainflank', 'Center 1/3 Mtn Flank', 'Lower 1/3 MtnFlank', 'Mountainbase')
+  
+  # make some colors, and set style
+  cols <- brewer.pal(6, 'Spectral')
+  tps <- list(superpose.polygon=list(col=cols, lwd=2, lend=2))
+  
+  # re-order labels based on sorting of proportions: "hydrologic" ordering
+  hyd.order <- order(rowSums(sweep(x[, -1], 2, STATS=c(4, 2, 1, 1, -2, -4), FUN = '*')), decreasing = TRUE)
+  
+  # cluster proportions: results are not in "hydrologic" order, but close
+  x.d <- as.hclust(diana(daisy(x[, -1])))
+  
+  # rotate clustering according to hydrologic ordering
+  x.d.hydro <- dendextend::rotate(x.d, order = x$series[hyd.order]) # dendextend approach
+  
+  # re-order labels levels based on clustering
+  x.long$series <- factor(x.long$series, levels=x.long$series[x.d.hydro$order])
+  
+  ## TODO: is this the right place to set trellis options?
+  trellis.par.set(tps)
+  
+  sk <- simpleKey(space='top', columns=3, text=levels(x.long$mtnpos), rectangles = TRUE, points=FALSE, between.columns=1, between=1, cex=0.75)
+  
+  leg <- list(right=list(fun=latticeExtra::dendrogramGrob, args=list(x = as.dendrogram(x.d.hydro), side="right", size=10)))
+  
+  pp <- barchart(series ~ value, groups=mtnpos, data=x.long, horiz=TRUE, stack=TRUE, xlab='Proportion',
+                 scales = list(cex=1), 
+                 key = sk, 
+                 legend = leg,
+                 panel = function(...) {
+                   panel.barchart(...)
+                   grid.text(
+                     as.character(n.records[x.d.hydro$order]), 
+                     x = unit(0.03, 'npc'), 
+                     y = unit(1:nrow(x), 'native'),
+                     gp = gpar(cex = 0.75))
+                 }, 
+                 yscale.components=function(..., s.to.bold=s) {
+                   temp <- yscale.components.default(...) 
+                   
+                   if(!is.null(s.to.bold)) {
+                     temp$left$labels$labels <-   
+                       sapply( temp$left$labels$labels, 
+                               function(x) {
+                                 if(grepl(s.to.bold, x, ignore.case = TRUE)) { 
+                                   as.expression(bquote( bold(.(x)))) 
+                                 } else { 
+                                   as.expression(bquote(.(x)))
+                                 }
+                               }
+                       )  
+                   }
+                   
+                   return(temp)
+                 })
+  
+  # the figure and ordering are returned
+  return(list(fig=pp, order=x.d.hydro$order))
+}
+

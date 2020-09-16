@@ -14,6 +14,9 @@ vizGeomorphicComponent <- function(x, s=NULL) {
   # save row names as they are lost in the distance matrix calc
   row.names(x) <- x$series
   
+  # save number of records
+  n.records <- x$n
+  
   # mask-out some columns we don't need
   x$n <- NULL
   x$shannon_entropy <- NULL
@@ -43,10 +46,22 @@ vizGeomorphicComponent <- function(x, s=NULL) {
   # musym are re-ordered according to clustering
   trellis.par.set(tps)
   
-  pp <- barchart(series ~ value, groups=geomcomp, data=x.long, horiz=TRUE, stack=TRUE, xlab='Proportion', 
-                 scales=list(cex=1), 
-                 key=simpleKey(space='top', columns=6, text=levels(x.long$geomcomp), rectangles = TRUE, points=FALSE, between.columns=1, between=1, cex=0.75), 
-                 legend=list(right=list(fun=latticeExtra::dendrogramGrob, args=list(x = as.dendrogram(x.d.hydro), side="right", size=10))),
+  sk <- simpleKey(space='top', columns=6, text=levels(x.long$geomcomp), rectangles = TRUE, points=FALSE, between.columns=1, between=1, cex=0.75)
+  
+  leg <- list(right=list(fun=latticeExtra::dendrogramGrob, args=list(x = as.dendrogram(x.d.hydro), side="right", size=10)))
+  
+  pp <- barchart(series ~ value, groups=geomcomp, data=x.long, horiz=TRUE, stack=TRUE, xlab='Proportion',
+                 scales = list(cex=1), 
+                 key = sk, 
+                 legend = leg,
+                 panel = function(...) {
+                   panel.barchart(...)
+                   grid.text(
+                     as.character(n.records[x.d.hydro$order]), 
+                     x = unit(0.03, 'npc'), 
+                     y = unit(1:nrow(x), 'native'),
+                     gp = gpar(cex = 0.75))
+                 }, 
                  yscale.components=function(..., s.to.bold=s) {
                    temp <- yscale.components.default(...) 
                    

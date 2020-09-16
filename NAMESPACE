@@ -61,9 +61,15 @@ importFrom(cluster,
   diana
 )
 
+importFrom(grid,
+  grid.text,
+  unit,
+  gpar
+)
 
 importFrom(lattice,
   levelplot,
+  panel.barchart,
   panel.levelplot,
   panel.segments,
   panel.rect,
@@ -138,7 +144,8 @@ importFrom(circular,
   plot.circular,
   density.circular,
   axis.circular,
-  arrows.circular
+  arrows.circular,
+  rayleigh.test
 )
 
 importFrom(RColorBrewer, 

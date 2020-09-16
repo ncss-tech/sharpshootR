@@ -2,14 +2,14 @@
 ## TODO: provide examples for adjusting legend size / spacing
 
 # still testing "hydrologic" order
-vizHillslopePosition <- function(x, s=NULL) {
+vizTerracePosition <- function(x, s=NULL) {
   
   # check for required packages
   if(!requireNamespace('dendextend', quietly=TRUE) | !requireNamespace('latticeExtra', quietly=TRUE))
     stop('please install the `dendextend` and `latticeExtra` packages', call.=FALSE)
   
   # CRAN CHECK hack
-  hillslope_position <- NULL
+  terrace_position <- NULL
   
   # save row names as they are lost in the distance matrix calc
   row.names(x) <- x$series
@@ -24,18 +24,16 @@ vizHillslopePosition <- function(x, s=NULL) {
   ## convert proportions to long format for plotting
   x.long <- melt(x, id.vars = 'series')
   # fix names: second column contains labels
-  names(x.long)[2] <- 'hillslope_position'
+  names(x.long)[2] <- 'terrace_position'
   
   # make some colors, and set style
   cols <- rev(brewer.pal(5, 'Spectral'))
   
-  ## alternate colors: http://www.fabiocrameri.ch/colourmaps.php
-  # cols <- rev(scico(5, palette='roma'))
-  
+  # plot style
   tps <- list(superpose.polygon=list(col=cols, lwd=2, lend=2))
   
   # re-order labels based on sorting of proportions: "hydrologic" ordering
-  hyd.order <- order(rowSums(sweep(x[, -1], 2, STATS=c(-4, -2, 0.1, 2, 4), FUN = '*')), decreasing = TRUE)
+  hyd.order <- order(rowSums(sweep(x[, -1], 2, STATS=c(-1, 1), FUN = '*')), decreasing = TRUE)
   
   # cluster proportions: results are not in "hydrologic" order, but close
   x.d <- as.hclust(diana(daisy(x[, -1])))
@@ -51,17 +49,17 @@ vizHillslopePosition <- function(x, s=NULL) {
   # musym are re-ordered according to clustering
   trellis.par.set(tps)
   
-  sk <- simpleKey(space='top', columns=5, text=levels(x.long$hillslope_position), rectangles = TRUE, points=FALSE, between.columns=2, between=1, cex=0.75)
+  sk <- simpleKey(space='top', columns=2, text=levels(x.long$terrace_position), rectangles = TRUE, points=FALSE, between.columns=2, between=1, cex=0.75)
   
   leg <- list(right=list(fun=latticeExtra::dendrogramGrob, args=list(x = as.dendrogram(x.d.hydro), side="right", size=10)))
   
   # a single series can be highlighted via argument 's'
   ## TODO: check for missing / mis-specified series names
-  pp <- barchart(series ~ value, groups=hillslope_position, data=x.long, horiz=TRUE, stack=TRUE, 
-                 xlab = 'Proportion', 
-                 scales = list(cex=1), 
+  pp <- barchart(series ~ value, groups=terrace_position, data=x.long, horiz=TRUE, stack=TRUE, 
+                 xlab='Proportion', 
+                 scales=list(cex=1), 
                  key = sk, 
-                 legend = leg, 
+                 legend = leg,
                  panel = function(...) {
                    panel.barchart(...)
                    grid.text(

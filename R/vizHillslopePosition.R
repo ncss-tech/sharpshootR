@@ -48,7 +48,6 @@ vizHillslopePosition <- function(x, s=NULL) {
   x.long$series <- factor(x.long$series, levels=x.long$series[x.d.hydro$order])
   
   ## TODO: is this the right place to set trellis options?
-  # musym are re-ordered according to clustering
   trellis.par.set(tps)
   
   sk <- simpleKey(space='top', columns=5, text=levels(x.long$hillslope_position), rectangles = TRUE, points=FALSE, between.columns=2, between=1, cex=0.75)

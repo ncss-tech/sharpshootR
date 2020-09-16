@@ -43,7 +43,6 @@ vizGeomorphicComponent <- function(x, s=NULL) {
   x.long$series <- factor(x.long$series, levels=x.long$series[x.d.hydro$order])
   
   ## TODO: is this the right place to set trellis options?
-  # musym are re-ordered according to clustering
   trellis.par.set(tps)
   
   sk <- simpleKey(space='top', columns=6, text=levels(x.long$geomcomp), rectangles = TRUE, points=FALSE, between.columns=1, between=1, cex=0.75)

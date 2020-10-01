@@ -1,8 +1,49 @@
 ## TODO: return clustering object instead of cluster$order
 ## TODO: provide examples for adjusting legend size / spacing
 
-# still testing "hydrologic" order
-vizHillslopePosition <- function(x, s=NULL) {
+#' @title Visual Summary of Hillslope Position
+#' 
+#' @description A unique display of hillslope position probability.
+#' 
+#' @param x \code{data.frame} as created by \code{soilDB::fetchOSD(..., extended=TRUE)}, see details
+#' 
+#' @param s an optional soil series name, highlighted in the figure
+#' 
+#' @param annotations logical, add number of record and normalized Shannon entropy values
+#' 
+#' @param annotation.cex annotation label scaling factor
+#' 
+#' @return a \code{list} with the following elements:
+#' 
+#' \item{fig}{lattice object (the figure)}
+#' \item{order}{ordering of soil series}
+#' 
+#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+#' 
+#' @author D.E. Beaudette
+#' 
+#' @examples 
+#' 
+#' \donttest{
+#' if(requireNamespace("curl") &
+#'    curl::has_internet() &
+#'    require(aqp) & 
+#'    require(soilDB)) {
+#'   
+#'   # soils of interest
+#'   s.list <- c('musick', 'cecil', 'drummer', 'amador', 'pentz', 'reiff', 
+#'               'san joaquin','montpellier','grangeville','pollasky','ramona')
+#'   
+#'   # fetch and convert data into an SPC
+#'   s <- fetchOSD(s.list, extended=TRUE)
+#'   
+#'   res <- vizHillslopePosition(s$hillpos)
+#'   print(res$fig)
+#'   
+#' }
+#' }
+#' 
+vizHillslopePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75) {
   
   # check for required packages
   if(!requireNamespace('dendextend', quietly=TRUE) | !requireNamespace('latticeExtra', quietly=TRUE))
@@ -16,6 +57,9 @@ vizHillslopePosition <- function(x, s=NULL) {
   
   # save number of records
   n.records <- x$n
+  
+  # save normalized Shannon entropy
+  H <- x$shannon_entropy
   
   # mask-out some columns we don't need
   x$n <- NULL
@@ -53,7 +97,16 @@ vizHillslopePosition <- function(x, s=NULL) {
   # must manually create a key, for some reason auto.key doesn't work with fancy dendrogram
   sk <- simpleKey(space='top', columns=5, text=levels(x.long$hillslope_position), rectangles = TRUE, points=FALSE, between.columns=2, between=1, cex=0.75)
   
-  leg <- list(right=list(fun=latticeExtra::dendrogramGrob, args=list(x = as.dendrogram(x.d.hydro), side="right", size=10)))
+  # dendrogram synched to bars
+  leg <- list(
+    right = list(
+      fun = latticeExtra::dendrogramGrob,
+      args = list(
+        x = as.dendrogram(x.d.hydro), 
+        side="right", 
+        size=10)
+      )
+    )
   
   # a single series can be highlighted via argument 's'
   ## TODO: check for missing / mis-specified series names
@@ -64,11 +117,39 @@ vizHillslopePosition <- function(x, s=NULL) {
                  legend = leg, 
                  panel = function(...) {
                    panel.barchart(...)
-                   grid.text(
-                     as.character(n.records[x.d.hydro$order]), 
-                     x = unit(0.03, 'npc'), 
-                     y = unit(1:nrow(x), 'native'),
-                     gp = gpar(cex = 0.75))
+                   
+                   if(annotations) {
+                     # annotation coords
+                     x.pos.N <- unit(0.03, 'npc')
+                     x.pos.H <- unit(0.97, 'npc')
+                     y.pos <- unit((1:nrow(x)) - 0.25, 'native')
+                     y.pos.annotation <- unit(nrow(x) + 0.25, 'native')
+                     
+                     # annotate with number of records
+                     grid.text(
+                       as.character(n.records[x.d.hydro$order]), 
+                       x = x.pos.N, 
+                       y = y.pos,
+                       gp = gpar(cex = annotation.cex, font = 1)
+                     )
+                     
+                     # annotate with H
+                     grid.text(
+                       as.character(round(H[x.d.hydro$order], 2)), 
+                       x = x.pos.H, 
+                       y = y.pos,
+                       gp = gpar(cex = annotation.cex, font = 3)
+                     )
+                     
+                     # annotation labels
+                     grid.text(
+                       c('N', 'H'), 
+                       x = c(x.pos.N, x.pos.H), 
+                       y = y.pos.annotation,
+                       gp = gpar(cex = annotation.cex, font = c(2, 4))
+                     )  
+                   }
+                   
                  },
                  yscale.components=function(..., s.to.bold=s) {
                    temp <- yscale.components.default(...) 

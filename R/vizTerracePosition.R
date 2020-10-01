@@ -45,9 +45,10 @@ vizTerracePosition <- function(x, s=NULL) {
   # re-order labels levels based on clustering
   x.long$series <- factor(x.long$series, levels=x.long$series[x.d.hydro$order])
   
-  ## TODO: is this the right place to set trellis options?
-  trellis.par.set(tps)
+  # hack to ensure that simpleKey works as expected
+  suppressWarnings(trellis.par.set(tps))
   
+  # must manually create a key, for some reason auto.key doesn't work with fancy dendrogram
   sk <- simpleKey(space='top', columns=2, text=levels(x.long$terrace_position), rectangles = TRUE, points=FALSE, between.columns=2, between=1, cex=0.75)
   
   leg <- list(right=list(fun=latticeExtra::dendrogramGrob, args=list(x = as.dendrogram(x.d.hydro), side="right", size=10)))
@@ -85,6 +86,9 @@ vizTerracePosition <- function(x, s=NULL) {
                    
                    return(temp)
                  })
+  
+  # embed styling
+  pp <- update(pp, par.settings = tps)
   
   # the figure and ordering are returned
   return(list(fig=pp, order=x.d.hydro$order))

@@ -9,7 +9,7 @@ SoilTaxonomyDendrogram(spc, name = "hzname", name.style = "right-center",
                    6, scaling.factor = 0.015, cex.names = 0.75, cex.id =
                    0.75, axis.line.offset = -4, width = 0.1, y.offset =
                    0.5, shrink = FALSE, font.id = 2, cex.taxon.labels =
-                   0.66, dend.color = par("fg"), dend.width = 1)
+                   0.66, dend.color = par("fg"), dend.width = 1, ...)
 }
 
 \arguments{
@@ -30,6 +30,7 @@ SoilTaxonomyDendrogram(spc, name = "hzname", name.style = "right-center",
   \item{cex.taxon.labels}{character scaling for taxonomic information}
   \item{dend.color}{dendrogram line color}
   \item{dend.width}{dendrogram line width}
+  \item{...}{additional arguments to plotSPC}
 }
 
 \details{This function looks for specific site-level attributes named: \code{soilorder}, \code{suborder}, \code{greatgroup}, and \code{subgroup}.

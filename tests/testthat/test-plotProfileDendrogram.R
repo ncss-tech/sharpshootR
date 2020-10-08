@@ -7,7 +7,7 @@ library(cluster)
 
 # example data that will have IDs re-shuffled by profile_compare (https://github.com/ncss-tech/aqp/issues/7)
 set.seed(10101)
-s <<- union(lapply(c('Z', LETTERS[1:5]), random_profile, SPC=TRUE))
+s <<- combine(lapply(c('Z', LETTERS[1:5]), random_profile, SPC=TRUE))
 
 ## tests
 

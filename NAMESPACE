@@ -15,10 +15,21 @@ importFrom("stats", "as.dendrogram", "as.formula", "as.hclust",
 
 importFrom("utils", "URLencode", "download.file", "read.csv", "setTxtProgressBar", "txtProgressBar")
 
-# TODO: make these more specific
-import(aqp)
-import(ape)
 
+importFrom(ape,
+       .PlotPhyloEnv,
+       as.phylo,
+       is.ultrametric,
+       tiplabels)
+
+importFrom(aqp,
+           plot,
+           fixOverlap,
+           idname,
+           plotSPC,
+           profile_id,
+           'proj4string<-',
+           site)
 
 importFrom(curl,
   has_internet

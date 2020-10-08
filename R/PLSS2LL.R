@@ -66,7 +66,7 @@ formatPLSS <- function(p, type='SN') {
 }
 
 
-
+  
 ## TODO: trap errors
 # not vectorized
 LL2PLSS <- function(x, y, returnlevel= 'I') {

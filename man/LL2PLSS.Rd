@@ -12,8 +12,9 @@
 \arguments{
   \item{x}{longitude coordinates}
   \item{y}{lattitude coordinates}		
-}
-\details{This function takes xy coordinates and returns the PLSS section geometry to the quarter-quarter section. Returnlevel options are defaulted to 'I' which returns smallest intersected sectional aliquot geometry, 'S' will return the section geometry of the coordinates.}
+  \item{returnlevel}{'S' for "Section" or 'I' for "Intersection" (subsections)}
+} 
+\details{This function takes xy coordinates and returns the PLSS section geometry to the quarter-quarter section. \code{returnlevel} options are defaulted to 'I' which returns smallest intersected sectional aliquot geometry, 'S' will return the section geometry of the coordinates. See https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer for details.}
 \value{\code{list} of of PLSS codes and coordinates.}
 \author{D.E. Beaudette, Jay Skovlin}
 \note{This function requires the following packages: \code{httr}, \code{jsonlite}, and \code{sp}.}

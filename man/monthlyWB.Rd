@@ -10,8 +10,9 @@
 \usage{
 monthlyWB(AWC, PPT, PET, S_init=AWC, starting_month=1, rep=1, keep_last=FALSE)
 
-plotWB(AWC, WB, fig.title='', sw.col='#377EB8', 
-surplus.col='#4DAF4A', et.col='#E41A1C', deficit.col='#FF7F00')
+plotWB(AWC, WB, fig.title = "", sw.col = "#377EB8",
+                   surplus.col = "#4DAF4A", et.col = "#E41A1C",
+                   deficit.col = "#FF7F00", pch = 22, pt.cex = 1, lwd = 1)
 }
 
 \arguments{
@@ -29,6 +30,9 @@ surplus.col='#4DAF4A', et.col='#E41A1C', deficit.col='#FF7F00')
   \item{surplus.col}{color for surplus water}
   \item{et.col}{color for ET}
   \item{deficit.col}{color for deficit}
+  \item{pch}{Plotting character for points (default: 22)}
+  \item{pt.cex}{Chaaracter expansion factor for points (default: 1)}
+  \item{lwd}{Line width (default: 1)}
 }
 
 \details{This function depends on the \href{http://hydromad.catchment.org/}{hydromad package}.}

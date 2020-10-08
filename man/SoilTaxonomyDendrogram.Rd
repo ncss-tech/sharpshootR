@@ -4,17 +4,18 @@
 \title{Soil Taxonomy Dendrogram}
 \description{Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimmilarity matrix is computed using Gower's distance metric for nominal-scale variables, based on order, sub order, great group, and subgroup level taxa. See the Details and Examples sections below for more information.}
 \usage{
-SoilTaxonomyDendrogram(spc, name = "hzname", rotationOrder=NULL, 
-max.depth = 150, 
-n.depth.ticks = 6, scaling.factor = 0.015, cex.names = 0.75, 
-cex.id = 0.75, axis.line.offset = -4, width = 0.1, y.offset = 0.5, 
-shrink=FALSE, font.id=2,
-cex.taxon.labels = 0.66, dend.color = par("fg"), dend.width = 1)
+SoilTaxonomyDendrogram(spc, name = "hzname", name.style = "right-center",
+                   rotationOrder = NULL, max.depth = 150, n.depth.ticks =
+                   6, scaling.factor = 0.015, cex.names = 0.75, cex.id =
+                   0.75, axis.line.offset = -4, width = 0.1, y.offset =
+                   0.5, shrink = FALSE, font.id = 2, cex.taxon.labels =
+                   0.66, dend.color = par("fg"), dend.width = 1)
 }
 
 \arguments{
   \item{spc}{a \code{SoilProfileCollection} object, see details}
   \item{name}{column name containing horizon names}
+  \item{name.style}{name.style for \code{plotSPC} (default: "right-center")}
   \item{rotationOrder}{numeric vector with desired ordering of leaves in the dendrogram from left to right, see details}
   \item{max.depth}{depth at which profiles are truncated for plotting}
   \item{n.depth.ticks}{suggested number of ticks on the depth axis}

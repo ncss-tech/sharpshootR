@@ -44,7 +44,9 @@ if(requireNamespace("curl") &
    require(plyr) &
    require(e1071)) {
   
-   # get daily resevoir storage (ac. ft) from Pinecrest, New Melones and Lyons resevoirs
+  library(RColorBrewer)
+
+  # get daily resevoir storage (ac. ft) from Pinecrest, New Melones and Lyons resevoirs
   pinecrest <- CDECquery(id='swb', sensor=15, interval='D', start='2012-09-01', end='2015-01-01')
   new.melones <- CDECquery(id='nml', sensor=15, interval='D', start='2012-09-01', end='2015-01-01')
   lyons <- CDECquery(id='lys', sensor=15, interval='D', start='2012-09-01', end='2015-01-01')

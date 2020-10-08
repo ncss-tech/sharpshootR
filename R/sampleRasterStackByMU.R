@@ -20,18 +20,26 @@
 # progress: print progress bar?
 # estimateEffectiveSampleSize: estimate effective sampling size via Moran's I
 
-sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre, p=c(0, 0.05, 0.25, 0.5, 0.75, 0.95, 1), progress=TRUE, estimateEffectiveSampleSize=TRUE) {
+sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre, p=c(0, 0.05, 0.25, 0.5, 0.75, 0.95, 1), progress=TRUE, estimateEffectiveSampleSize=TRUE, polygon.id = "pID") {
   
   # sanity check: package requirements
   if(!requireNamespace('rgdal') | !requireNamespace('rgeos') | !requireNamespace('raster') | !requireNamespace('spdep'))
     stop('please install the packages: rgdal, rgeos, raster, spdep', call. = FALSE)
   
   # enforce projected CRS
-  if(!is.projected(mu))
+  if (!is.projected(mu))
     stop('map unit polygons must be in a projected CRS', call.=FALSE)
   
+  # check polygon ID column, create if missing
+  stopifnot(length(polygon.id) == 1)
+  stopifnot(is.character(polygon.id))
+  if (!polygon.id %in% colnames(mu)) {
+    mu$pID <- 1:nrow(mu)
+    message("created unique polygon ID `pID`")
+  }
+  
   # check for invalid geometry
-  validity.res <- data.frame(id=mu[[mu.col]], Plolygon.Validity=rgeos::gIsValid(mu, byid=TRUE, reason=TRUE), stringsAsFactors = FALSE)
+  validity.res <- data.frame(id=mu[[mu.col]], Polygon.Validity=rgeos::gIsValid(mu, byid=TRUE, reason=TRUE), stringsAsFactors = FALSE)
   
   # init containers for intermediate results
   l.mu <- list() # samples
@@ -130,7 +138,7 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
     
     ## messages are issued when it isn't possibe to place the requested num. samples in a polygon
     # sample each polygon at a constant density
-    suppressMessages(s <- constantDensitySampling(mu.i.sp, n.pts.per.ac=pts.per.acre, min.samples=1, polygon.id='pID', iterations=20))
+    suppressMessages(s <- constantDensitySampling(mu.i.sp, n.pts.per.ac=pts.per.acre, min.samples=1, polygon.id, iterations=20))
     
     # keep track of un-sampled polygons
     l.unsampled[[mu.i]] <- setdiff(mu.i.sp$pID, unique(s$pID))
@@ -178,8 +186,14 @@ sampleRasterStackByMU <- function(mu, mu.set, mu.col, raster.list, pts.per.acre,
       # compile into single row
       a.stats <- c(round(c(.quantiles, .total.area, .samples, .polygons, .unsampled.polygons)), .mean.sample.density)
       
+      # column names
+      c.names <- paste0("Q", round(p*100))
+      c.names[c.names == "Q0"] <- "Min"
+      c.names[c.names == "Q50"] <- "Median"
+      c.names[c.names == "Q100"] <- "Max"
+      
       # fix name
-      names(a.stats) <- c('Min', 'Q5', 'Q25', 'Median', 'Q75', 'Q95', 'Max', 'Total Area', 'Samples', 'Polygons', 'Polygons Not Sampled', 'Mean Sample Dens.')
+      names(a.stats) <- c(c.names, 'Total Area', 'Samples', 'Polygons', 'Polygons Not Sampled', 'Mean Sample Dens.')
       
       # save stats to list indexed by map unit ID
       a.mu[[mu.i]] <- a.stats

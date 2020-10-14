@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -37,7 +41,6 @@
 
 <meta property="og:title" content="Soil Taxonomy Dendrogram — SoilTaxonomyDendrogram" />
 <meta property="og:description" content="Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimmilarity matrix is computed using Gower's distance metric for nominal-scale variables, based on order, sub order, great group, and subgroup level taxa. See the Details and Examples sections below for more information." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -55,7 +58,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -69,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.5</span>
       </span>
     </div>
 
@@ -87,7 +90,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/ncss-tech/aqp">
+  <a href="https://github.com/ncss-tech/aqp/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -114,12 +117,12 @@
     <p>Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimmilarity matrix is computed using Gower's distance metric for nominal-scale variables, based on order, sub order, great group, and subgroup level taxa. See the Details and Examples sections below for more information.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>SoilTaxonomyDendrogram</span>(<span class='no'>spc</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"hzname"</span>, <span class='kw'>rotationOrder</span><span class='kw'>=</span><span class='kw'>NULL</span>,
-<span class='kw'>max.depth</span> <span class='kw'>=</span> <span class='fl'>150</span>,
-<span class='kw'>n.depth.ticks</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>scaling.factor</span> <span class='kw'>=</span> <span class='fl'>0.015</span>, <span class='kw'>cex.names</span> <span class='kw'>=</span> <span class='fl'>0.75</span>,
-<span class='kw'>cex.id</span> <span class='kw'>=</span> <span class='fl'>0.75</span>, <span class='kw'>axis.line.offset</span> <span class='kw'>=</span> -<span class='fl'>4</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>y.offset</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-<span class='kw'>shrink</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>font.id</span><span class='kw'>=</span><span class='fl'>2</span>,
-<span class='kw'>cex.taxon.labels</span> <span class='kw'>=</span> <span class='fl'>0.66</span>, <span class='kw'>dend.color</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='st'>"fg"</span>), <span class='kw'>dend.width</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>SoilTaxonomyDendrogram</span>(<span class='kw'>spc</span>, name = <span class='st'>"hzname"</span>, name.style = <span class='st'>"right-center"</span>,
+                   rotationOrder = <span class='kw'>NULL</span>, max.depth = <span class='fl'>150</span>, n.depth.ticks =
+                   <span class='fl'>6</span>, scaling.factor = <span class='fl'>0.015</span>, cex.names = <span class='fl'>0.75</span>, cex.id =
+                   <span class='fl'>0.75</span>, axis.line.offset = <span class='op'>-</span><span class='fl'>4</span>, width = <span class='fl'>0.1</span>, y.offset =
+                   <span class='fl'>0.5</span>, shrink = <span class='fl'>FALSE</span>, font.id = <span class='fl'>2</span>, cex.taxon.labels =
+                   <span class='fl'>0.66</span>, dend.color = <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='st'>"fg"</span>), dend.width = <span class='fl'>1</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -131,6 +134,10 @@
     <tr>
       <th>name</th>
       <td><p>column name containing horizon names</p></td>
+    </tr>
+    <tr>
+      <th>name.style</th>
+      <td><p>name.style for <code>plotSPC</code> (default: "right-center")</p></td>
     </tr>
     <tr>
       <th>rotationOrder</th>
@@ -188,6 +195,10 @@
       <th>dend.width</th>
       <td><p>dendrogram line width</p></td>
     </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional arguments to plotSPC</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -196,7 +207,7 @@
 <p>The <code>rotationOrder</code> argument uses (i.e. requires) the <code><a href='https://rdrr.io/pkg/dendextend/man/rotate.html'>dendextend::rotate()</a></code> function to re-order leaves within the <code>hclust</code> representation of the ST hierarchy. Perfect sorting is not always possible.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An invisibly-returned list containing:</p><dl class='dl-horizontal'>
+    <p>An invisibly-returned list containing:</p><dl>
 <dt><code>dist</code></dt><dd><p>pair-wise dissimilarity matrix</p></dd>
 <dt><code>order</code></dt><dd><p>final ordering of hclust leaves</p></dd>
 
@@ -206,70 +217,68 @@
 
     <p>D.E. Beaudette, P. Roudier and A.T. O'Geen. 2012. Algorithms for Quantitative Pedology, a Toolkit
 for Soil Scientists. Computers &amp; Geosciences: 52: 258--268. (doi: 10.1016/j.cageo.2012.10.020)</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>D.E. Beaudette</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 
-<span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"curl"</span>) <span class='kw'>&amp;</span>
-   <span class='kw pkg'>curl</span><span class='kw ns'>::</span><span class='fu'><a href='https://jeroen.cran.dev/curl/reference/nslookup.html'>has_internet</a></span>() <span class='kw'>&amp;</span>
-   <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>aqp</span>) <span class='kw'>&amp;</span>
-   <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>soilDB</span>)
+<span class='co'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"curl"</span>) <span class='op'>&amp;</span>
+   <span class='kw'>curl</span>::<span class='fu'><a href='https://jeroen.cran.dev/curl/reference/nslookup.html'>has_internet</a></span>() <span class='op'>&amp;</span>
+   <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'><a href='https://github.com/ncss-tech/aqp'>aqp</a></span>) <span class='op'>&amp;</span>
+   <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'><a href='http://ncss-tech.github.io/AQP'>soilDB</a></span>)
 ) {
-
-
+  
+  
 
 <span class='co'># soils of interest</span>
-<span class='no'>s.list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'musick'</span>, <span class='st'>'cecil'</span>, <span class='st'>'drummer'</span>, <span class='st'>'amador'</span>, <span class='st'>'pentz'</span>, <span class='st'>'reiff'</span>,
+<span class='kw'>s.list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'musick'</span>, <span class='st'>'cecil'</span>, <span class='st'>'drummer'</span>, <span class='st'>'amador'</span>, <span class='st'>'pentz'</span>, <span class='st'>'reiff'</span>, 
 <span class='st'>'san joaquin'</span>,<span class='st'>'montpellier'</span>,<span class='st'>'grangeville'</span>,<span class='st'>'pollasky'</span>,<span class='st'>'ramona'</span>)
 
 <span class='co'># fetch and convert data into an SPC</span>
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/soilDB/man/fetchOSD.html'>fetchOSD</a></span>(<span class='no'>s.list</span>)
+<span class='kw'>h</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/soilDB/man/fetchOSD.html'>fetchOSD</a></span>(<span class='kw'>s.list</span>)
 
 <span class='co'># plot dendrogram + profiles</span>
-<span class='fu'>SoilTaxonomyDendrogram</span>(<span class='no'>h</span>)
+<span class='fu'>SoilTaxonomyDendrogram</span>(<span class='kw'>h</span>)
 
 <span class='co'># again, this time save the pair-wise dissimilarity matrix</span>
 <span class='co'># note that there isn't a lot of discrimination between soils</span>
-(<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>SoilTaxonomyDendrogram</span>(<span class='no'>h</span>))
+(<span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'>SoilTaxonomyDendrogram</span>(<span class='kw'>h</span>))
 
 
 <span class='co'># a different set</span>
-<span class='no'>soils</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'cecil'</span>, <span class='st'>'altavista'</span>, <span class='st'>'lloyd'</span>, <span class='st'>'wickham'</span>, <span class='st'>'wilkes'</span>,
+<span class='kw'>soils</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'cecil'</span>, <span class='st'>'altavista'</span>, <span class='st'>'lloyd'</span>, <span class='st'>'wickham'</span>, <span class='st'>'wilkes'</span>,
 <span class='st'>'chewacla'</span>, <span class='st'>'congaree'</span>)
 
 <span class='co'># get morphology + extended summaries for sorting of dendrogram</span>
-<span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/soilDB/man/fetchOSD.html'>fetchOSD</a></span>(<span class='no'>soils</span>, <span class='kw'>extended</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='kw'>s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/soilDB/man/fetchOSD.html'>fetchOSD</a></span>(<span class='kw'>soils</span>, extended = <span class='fl'>TRUE</span>)
 
 <span class='co'># get summary and ignore the figure</span>
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vizHillslopePosition.html'>vizHillslopePosition</a></span>(<span class='no'>s</span>$<span class='no'>hillpos</span>)
+<span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='vizHillslopePosition.html'>vizHillslopePosition</a></span>(<span class='kw'>s</span><span class='op'>$</span><span class='kw'>hillpos</span>)
 
 <span class='co'># compare default sorting to soils sorting according to catenary, e.g.</span>
 <span class='co'># hillslope position</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='kw'>mar</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>), <span class='kw'>mfrow</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>1</span>))
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(mar=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>), mfrow=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>1</span>))
 
-<span class='fu'>SoilTaxonomyDendrogram</span>(<span class='no'>s</span>$<span class='no'>SPC</span>, <span class='kw'>width</span><span class='kw'>=</span><span class='fl'>0.25</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span>(<span class='st'>'default sorting'</span>, <span class='kw'>side</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>line</span><span class='kw'>=</span>-<span class='fl'>1</span>, <span class='kw'>font</span><span class='kw'>=</span><span class='fl'>3</span>, <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>1.25</span>)
+<span class='fu'>SoilTaxonomyDendrogram</span>(<span class='kw'>s</span><span class='op'>$</span><span class='kw'>SPC</span>, width=<span class='fl'>0.25</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span>(<span class='st'>'default sorting'</span>, side = <span class='fl'>2</span>, line=<span class='op'>-</span><span class='fl'>1</span>, font=<span class='fl'>3</span>, cex=<span class='fl'>1.25</span>)
 
-<span class='fu'>SoilTaxonomyDendrogram</span>(<span class='no'>s</span>$<span class='no'>SPC</span>, <span class='kw'>rotationOrder</span> <span class='kw'>=</span> <span class='no'>res</span>$<span class='no'>order</span>, <span class='kw'>width</span><span class='kw'>=</span><span class='fl'>0.25</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span>(<span class='st'>'approx. catenary sorting'</span>, <span class='kw'>side</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>line</span><span class='kw'>=</span>-<span class='fl'>1</span>, <span class='kw'>font</span><span class='kw'>=</span><span class='fl'>3</span>, <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>1.25</span>)
+<span class='fu'>SoilTaxonomyDendrogram</span>(<span class='kw'>s</span><span class='op'>$</span><span class='kw'>SPC</span>, rotationOrder = <span class='kw'>res</span><span class='op'>$</span><span class='kw'>order</span>, width=<span class='fl'>0.25</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span>(<span class='st'>'approx. catenary sorting'</span>, side = <span class='fl'>2</span>, line=<span class='op'>-</span><span class='fl'>1</span>, font=<span class='fl'>3</span>, cex=<span class='fl'>1.25</span>)
+  
+}
+</div><div class='img'><img src='SoilTaxonomyDendrogram-1.png' alt='' width='768' height='475' /></div><div class='output co'>#&gt; <span class='message'>Registered S3 method overwritten by 'dendextend':</span>
+#&gt; <span class='message'>  method     from </span>
+#&gt; <span class='message'>  rev.hclust vegan</span></div><div class='img'><img src='SoilTaxonomyDendrogram-2.png' alt='' width='768' height='475' /></div><div class='img'><img src='SoilTaxonomyDendrogram-3.png' alt='' width='768' height='475' /></div><div class='input'>
 
-}</div><div class='img'><img src='SoilTaxonomyDendrogram-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='SoilTaxonomyDendrogram-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='SoilTaxonomyDendrogram-3.png' alt='' width='700' height='433' /></div><div class='input'>
-
-# }
+<span class='co'># }</span>
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>D.E. Beaudette</p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -280,7 +289,7 @@ for Soil Scientists. Computers &amp; Geosciences: 52: 258--268. (doi: 10.1016/j.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

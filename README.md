@@ -33,10 +33,15 @@ http://ncss-tech.github.io/AQP/
    * [`SoilTaxonomyDendrogram`](http://ncss-tech.github.io/sharpshootR/docs/reference/SoilTaxonomyDendrogram.html)
    * [`vizGeomorphicComponent`](http://ncss-tech.github.io/sharpshootR/docs/reference/vizHillslopePosition.html)
    * [`vizHillslopePosition`](http://ncss-tech.github.io/sharpshootR/docs/reference/vizHillslopePosition.html)
+   * [`vizFlatsPosition`](http://ncss-tech.github.io/sharpshootR/docs/reference/vizFlatsPosition.html)
+   * [`vizTerracePosition`](http://ncss-tech.github.io/sharpshootR/docs/reference/vizTerracePosition.html)
+   * [`vizMountainPosition`](http://ncss-tech.github.io/sharpshootR/docs/reference/vizMountainPosition.html)
    * [`vizAnnualClimate`](http://ncss-tech.github.io/sharpshootR/docs/reference/vizAnnualClimate.html)
+   * [`plotWB`](http://ncss-tech.github.io/sharpshootR/docs/reference/plotWB.html)
 
    
 ### Climate
+   * [`monthlyWB`](http://ncss-tech.github.io/sharpshootR/docs/reference/monthlyWB.html)
    * [`CDECquery`](http://ncss-tech.github.io/sharpshootR/docs/reference/CDECquery.html)
    * [`CDECsnowQuery`](http://ncss-tech.github.io/sharpshootR/docs/reference/CDECsnowQuery.html)
    * [`FFD`](http://ncss-tech.github.io/sharpshootR/docs/reference/FFD.html)

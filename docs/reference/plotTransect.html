@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -37,7 +41,6 @@
 
 <meta property="og:title" content="Plot a collection of Soil Profiles linked to their position along some gradient (e.g. transect). — plotTransect" />
 <meta property="og:description" content="Plot a collection of Soil Profiles linked to their position along some gradient (e.g. transect)." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -55,7 +58,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -69,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.5</span>
       </span>
     </div>
 
@@ -87,7 +90,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/ncss-tech/aqp">
+  <a href="https://github.com/ncss-tech/aqp/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -114,16 +117,16 @@
     <p>Plot a collection of Soil Profiles linked to their position along some gradient (e.g. transect).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotTransect</span>(<span class='no'>s</span>, <span class='no'>grad.var.name</span>,
-<span class='kw'>grad.var.order</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span>(<span class='fu'>site</span>(<span class='no'>s</span>)<span class='kw'>[[</span><span class='no'>grad.var.name</span>]]),
-<span class='kw'>transect.col</span> <span class='kw'>=</span> <span class='st'>"RoyalBlue"</span>,
-<span class='kw'>tick.number</span><span class='kw'>=</span><span class='fl'>7</span>, <span class='kw'>y.offset</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-<span class='kw'>scaling.factor</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-<span class='kw'>distance.axis.title</span> <span class='kw'>=</span> <span class='st'>"Distance Along Transect (km)"</span>,
-<span class='kw'>crs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>grad.axis.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dist.scaling.factor</span><span class='kw'>=</span><span class='fl'>1000</span>,
-<span class='kw'>spacing</span><span class='kw'>=</span><span class='st'>'regular'</span>,
-<span class='kw'>fix.relative.pos</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>thresh</span> <span class='kw'>=</span> <span class='fl'>0.6</span>, <span class='kw'>trace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>maxIter</span> <span class='kw'>=</span> <span class='fl'>5000</span>),
-<span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>plotTransect</span>(<span class='kw'>s</span>, <span class='kw'>grad.var.name</span>, 
+grad.var.order = <span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/aqp/man/site.html'>site</a></span>(<span class='kw'>s</span>)[[<span class='kw'>grad.var.name</span>]]),
+transect.col = <span class='st'>"RoyalBlue"</span>, 
+tick.number=<span class='fl'>7</span>, y.offset = <span class='fl'>100</span>, 
+scaling.factor = <span class='fl'>0.5</span>, 
+distance.axis.title = <span class='st'>"Distance Along Transect (km)"</span>, 
+crs = <span class='kw'>NULL</span>, grad.axis.title = <span class='kw'>NULL</span>, dist.scaling.factor=<span class='fl'>1000</span>,
+spacing=<span class='st'>'regular'</span>,
+fix.relative.pos=<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(thresh = <span class='fl'>0.6</span>, trace = <span class='fl'>TRUE</span>, maxIter = <span class='fl'>5000</span>),
+<span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -194,7 +197,7 @@
     <p>This function is very much a work in progress, ideas welcome!</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An invisibly-returned <code>data.frame</code> object:</p><dl class='dl-horizontal'>
+    <p>An invisibly-returned <code>data.frame</code> object:</p><dl>
   <dt>scaled.grad</dt><dd><p>scaled gradient values</p></dd>
   <dt>scaled.distance</dt><dd><p>cumulative distance, scaled to the interval of <code>0.5, nrow(coords) + 0.5</code></p></dd>
   <dt>distance</dt><dd><p>cumulative distance computed along gradient, e.g. transect distance</p></dd>
@@ -204,72 +207,68 @@
   <dt>grad.order</dt><dd><p>a vector index describing the sort order defined by gradient values</p></dd>
   
 </dl>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>D.E. Beaudette</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>aqp</span>) <span class='kw'>&amp;</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>sp</span>) <span class='kw'>&amp;</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>soilDB</span>)
+<span class='co'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'><a href='https://github.com/ncss-tech/aqp'>aqp</a></span>) <span class='op'>&amp;</span> 
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'><a href='https://github.com/edzer/sp'>sp</a></span>) <span class='op'>&amp;</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'><a href='http://ncss-tech.github.io/AQP'>soilDB</a></span>)
 ) {
 
 <span class='co'># sample data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"mineralKing"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"soilDB"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"mineralKing"</span>, package = <span class='st'>"soilDB"</span>)
 
 <span class='co'># quick overview</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='kw'>mar</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>))
-<span class='fu'><a href='https://rdrr.io/pkg/aqp/man/groupedProfilePlot.html'>groupedProfilePlot</a></span>(<span class='no'>mineralKing</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='st'>'taxonname'</span>, <span class='kw'>print.id</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(mar=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>))
+<span class='fu'><a href='https://rdrr.io/pkg/aqp/man/groupedProfilePlot.html'>groupedProfilePlot</a></span>(<span class='kw'>mineralKing</span>, groups=<span class='st'>'taxonname'</span>, print.id=<span class='fl'>FALSE</span>)
 
 <span class='co'># init coords and CRS</span>
-<span class='fu'><a href='https://rdrr.io/pkg/sp/man/coordinates.html'>coordinates</a></span>(<span class='no'>mineralKing</span>) <span class='kw'>&lt;-</span> ~ <span class='no'>x_std</span> + <span class='no'>y_std</span>
-<span class='fu'><a href='https://rdrr.io/pkg/sp/man/is.projected.html'>proj4string</a></span>(<span class='no'>mineralKing</span>) <span class='kw'>&lt;-</span> <span class='st'>'+proj=longlat +datum=NAD83'</span>
+<span class='fu'><a href='https://rdrr.io/pkg/aqp/man/coordinates.html'>coordinates</a></span>(<span class='kw'>mineralKing</span>) <span class='op'>&lt;-</span> <span class='op'>~</span> <span class='kw'>x_std</span> <span class='op'>+</span> <span class='kw'>y_std</span>
+<span class='fu'><a href='https://rdrr.io/pkg/sp/man/is.projected.html'>proj4string</a></span>(<span class='kw'>mineralKing</span>) <span class='op'>&lt;-</span> <span class='st'>'+proj=longlat +datum=NAD83'</span>
 
 <span class='co'># projected CRS, units of meters</span>
-<span class='no'>crs.utm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sp/man/CRS-class.html'>CRS</a></span>(<span class='st'>'+proj=utm +zone=11 +datum=NAD83'</span>)
+<span class='kw'>crs.utm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sp/man/CRS-class.html'>CRS</a></span>(<span class='st'>'+proj=utm +zone=11 +datum=NAD83'</span>)
 
 <span class='co'># adjust margins</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='kw'>mar</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4.5</span>,<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>1</span>))
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(mar=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4.5</span>,<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>1</span>))
 
 <span class='co'># standard transect plot, profile sketches arranged along integer sequence</span>
-<span class='fu'>plotTransect</span>(<span class='no'>mineralKing</span>, <span class='kw'>grad.var.name</span><span class='kw'>=</span><span class='st'>'elev_field'</span>, <span class='kw'>crs</span><span class='kw'>=</span><span class='no'>crs.utm</span>,
-<span class='kw'>grad.axis.title</span><span class='kw'>=</span><span class='st'>'Elevation (m)'</span>, <span class='kw'>label</span><span class='kw'>=</span><span class='st'>'pedon_id'</span>, <span class='kw'>name</span><span class='kw'>=</span><span class='st'>'hzname'</span>)
+<span class='fu'>plotTransect</span>(<span class='kw'>mineralKing</span>, grad.var.name=<span class='st'>'elev_field'</span>, crs=<span class='kw'>crs.utm</span>, 
+grad.axis.title=<span class='st'>'Elevation (m)'</span>, label=<span class='st'>'pedon_id'</span>, name=<span class='st'>'hzname'</span>)
 
 <span class='co'># default behavior, attempt adjustments to prevent over-plot and preserve relative spacing</span>
 <span class='co'># use set.seed() to fix outcome</span>
-<span class='fu'>plotTransect</span>(<span class='no'>mineralKing</span>, <span class='kw'>grad.var.name</span><span class='kw'>=</span><span class='st'>'elev_field'</span>, <span class='kw'>crs</span><span class='kw'>=</span><span class='no'>crs.utm</span>,
-<span class='kw'>grad.axis.title</span><span class='kw'>=</span><span class='st'>'Elevation (m)'</span>, <span class='kw'>label</span><span class='kw'>=</span><span class='st'>'pedon_id'</span>, <span class='kw'>name</span><span class='kw'>=</span><span class='st'>'hzname'</span>, <span class='kw'>width</span><span class='kw'>=</span><span class='fl'>0.15</span>, <span class='kw'>spacing</span> <span class='kw'>=</span> <span class='st'>'relative'</span>)
+<span class='fu'>plotTransect</span>(<span class='kw'>mineralKing</span>, grad.var.name=<span class='st'>'elev_field'</span>, crs=<span class='kw'>crs.utm</span>, 
+grad.axis.title=<span class='st'>'Elevation (m)'</span>, label=<span class='st'>'pedon_id'</span>, name=<span class='st'>'hzname'</span>, width=<span class='fl'>0.15</span>, spacing = <span class='st'>'relative'</span>)
 
 <span class='co'># attempt relative positioning based on scaled distances, no corrections for overlap</span>
 <span class='co'># profiles are clustered in space and therefore over-plot</span>
-<span class='fu'>plotTransect</span>(<span class='no'>mineralKing</span>, <span class='kw'>grad.var.name</span><span class='kw'>=</span><span class='st'>'elev_field'</span>, <span class='kw'>crs</span><span class='kw'>=</span><span class='no'>crs.utm</span>,
-<span class='kw'>grad.axis.title</span><span class='kw'>=</span><span class='st'>'Elevation (m)'</span>, <span class='kw'>label</span><span class='kw'>=</span><span class='st'>'pedon_id'</span>, <span class='kw'>name</span><span class='kw'>=</span><span class='st'>'hzname'</span>,
-<span class='kw'>width</span><span class='kw'>=</span><span class='fl'>0.15</span>, <span class='kw'>spacing</span> <span class='kw'>=</span> <span class='st'>'relative'</span>, <span class='kw'>fix.relative.pos</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>plotTransect</span>(<span class='kw'>mineralKing</span>, grad.var.name=<span class='st'>'elev_field'</span>, crs=<span class='kw'>crs.utm</span>, 
+grad.axis.title=<span class='st'>'Elevation (m)'</span>, label=<span class='st'>'pedon_id'</span>, name=<span class='st'>'hzname'</span>, 
+width=<span class='fl'>0.15</span>, spacing = <span class='st'>'relative'</span>, fix.relative.pos = <span class='fl'>FALSE</span>)
 
 <span class='co'># customize arguments to aqp::fixOverlap()</span>
-<span class='fu'>plotTransect</span>(<span class='no'>mineralKing</span>, <span class='kw'>grad.var.name</span><span class='kw'>=</span><span class='st'>'elev_field'</span>, <span class='kw'>crs</span><span class='kw'>=</span><span class='no'>crs.utm</span>,
-<span class='kw'>grad.axis.title</span><span class='kw'>=</span><span class='st'>'Elevation (m)'</span>, <span class='kw'>label</span><span class='kw'>=</span><span class='st'>'pedon_id'</span>, <span class='kw'>name</span><span class='kw'>=</span><span class='st'>'hzname'</span>,
-<span class='kw'>width</span><span class='kw'>=</span><span class='fl'>0.15</span>, <span class='kw'>spacing</span> <span class='kw'>=</span> <span class='st'>'relative'</span>,
-<span class='kw'>fix.relative.pos</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>maxIter</span><span class='kw'>=</span><span class='fl'>6000</span>, <span class='kw'>trace</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>adj</span><span class='kw'>=</span><span class='fl'>0.2</span>, <span class='kw'>thresh</span><span class='kw'>=</span><span class='fl'>0.7</span>))
+<span class='fu'>plotTransect</span>(<span class='kw'>mineralKing</span>, grad.var.name=<span class='st'>'elev_field'</span>, crs=<span class='kw'>crs.utm</span>, 
+grad.axis.title=<span class='st'>'Elevation (m)'</span>, label=<span class='st'>'pedon_id'</span>, name=<span class='st'>'hzname'</span>, 
+width=<span class='fl'>0.15</span>, spacing = <span class='st'>'relative'</span>, 
+fix.relative.pos = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(maxIter=<span class='fl'>6000</span>, trace=<span class='fl'>TRUE</span>, adj=<span class='fl'>0.2</span>, thresh=<span class='fl'>0.7</span>))
 
-<span class='fu'>plotTransect</span>(<span class='no'>mineralKing</span>, <span class='kw'>grad.var.name</span><span class='kw'>=</span><span class='st'>'elev_field'</span>, <span class='kw'>crs</span><span class='kw'>=</span><span class='no'>crs.utm</span>,
-<span class='kw'>grad.axis.title</span><span class='kw'>=</span><span class='st'>'Elevation (m)'</span>, <span class='kw'>label</span><span class='kw'>=</span><span class='st'>'pedon_id'</span>, <span class='kw'>name</span><span class='kw'>=</span><span class='st'>'hzname'</span>,
-<span class='kw'>width</span><span class='kw'>=</span><span class='fl'>0.15</span>, <span class='kw'>spacing</span> <span class='kw'>=</span> <span class='st'>'relative'</span>,
-<span class='kw'>fix.relative.pos</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>maxIter</span><span class='kw'>=</span><span class='fl'>6000</span>, <span class='kw'>trace</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>adj</span><span class='kw'>=</span><span class='fl'>0.2</span>, <span class='kw'>thresh</span><span class='kw'>=</span><span class='fl'>0.5</span>))
+<span class='fu'>plotTransect</span>(<span class='kw'>mineralKing</span>, grad.var.name=<span class='st'>'elev_field'</span>, crs=<span class='kw'>crs.utm</span>, 
+grad.axis.title=<span class='st'>'Elevation (m)'</span>, label=<span class='st'>'pedon_id'</span>, name=<span class='st'>'hzname'</span>, 
+width=<span class='fl'>0.15</span>, spacing = <span class='st'>'relative'</span>, 
+fix.relative.pos = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(maxIter=<span class='fl'>6000</span>, trace=<span class='fl'>TRUE</span>, adj=<span class='fl'>0.2</span>, thresh=<span class='fl'>0.5</span>))
 
-}</div><div class='output co'>#&gt; <span class='message'>guessing horizon designations are stored in `hzname`</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='img'><img src='plotTransect-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; <span class='message'>545 iterations</span></div><div class='img'><img src='plotTransect-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='plotTransect-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; <span class='message'>1160 iterations</span></div><div class='img'><img src='plotTransect-4.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; <span class='message'>578 iterations</span></div><div class='img'><img src='plotTransect-5.png' alt='' width='700' height='433' /></div><div class='img'><img src='plotTransect-6.png' alt='' width='700' height='433' /></div><div class='input'># }
+}
+</div><div class='img'><img src='plotTransect-1.png' alt='' width='768' height='475' /></div><div class='output co'>#&gt; <span class='message'>545 iterations</span></div><div class='img'><img src='plotTransect-2.png' alt='' width='768' height='475' /></div><div class='img'><img src='plotTransect-3.png' alt='' width='768' height='475' /></div><div class='output co'>#&gt; <span class='message'>1160 iterations</span></div><div class='img'><img src='plotTransect-4.png' alt='' width='768' height='475' /></div><div class='output co'>#&gt; <span class='message'>578 iterations</span></div><div class='img'><img src='plotTransect-5.png' alt='' width='768' height='475' /></div><div class='img'><img src='plotTransect-6.png' alt='' width='768' height='475' /></div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#note">Note</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>D.E. Beaudette</p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -280,7 +279,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

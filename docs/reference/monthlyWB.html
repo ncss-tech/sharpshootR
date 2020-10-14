@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -36,8 +40,7 @@
 
 
 <meta property="og:title" content="Monthly Water Balances — monthlyWB" />
-<meta property="og:description" content="Monthly water balances and visualization by &quot;leaky bucket&quot; model, provided by the hydromad package." />
-<meta name="twitter:card" content="summary" />
+<meta property="og:description" content="Perform a monthly water balance by &quot;leaky bucket&quot; model, provided by the `hydromad` package." />
 
 
 
@@ -55,7 +58,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -69,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.5</span>
       </span>
     </div>
 
@@ -87,7 +90,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/ncss-tech/aqp">
+  <a href="https://github.com/ncss-tech/aqp/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -106,18 +109,23 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Monthly Water Balances</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/ncss-tech/aqp/blob/master/R/water-balance.R'><code>R/water-balance.R</code></a></small>
     <div class="hidden name"><code>monthlyWB.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Monthly water balances and visualization by "leaky bucket" model, provided by the hydromad package.</p>
+    <p>Perform a monthly water balance by "leaky bucket" model, provided by the `hydromad` package.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>monthlyWB</span>(<span class='no'>AWC</span>, <span class='no'>PPT</span>, <span class='no'>PET</span>, <span class='kw'>S_init</span><span class='kw'>=</span><span class='no'>AWC</span>, <span class='kw'>starting_month</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>rep</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>keep_last</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-
-<span class='fu'>plotWB</span>(<span class='no'>AWC</span>, <span class='no'>WB</span>, <span class='kw'>fig.title</span><span class='kw'>=</span><span class='st'>''</span>, <span class='kw'>sw.col</span><span class='kw'>=</span><span class='st'>'#377EB8'</span>,
-<span class='kw'>surplus.col</span><span class='kw'>=</span><span class='st'>'#4DAF4A'</span>, <span class='kw'>et.col</span><span class='kw'>=</span><span class='st'>'#E41A1C'</span>, <span class='kw'>deficit.col</span><span class='kw'>=</span><span class='st'>'#FF7F00'</span>)</pre>
+    <pre class="usage"><span class='fu'>monthlyWB</span>(
+  <span class='kw'>AWC</span>,
+  <span class='kw'>PPT</span>,
+  <span class='kw'>PET</span>,
+  S_init = <span class='kw'>AWC</span>,
+  starting_month = <span class='fl'>1</span>,
+  rep = <span class='fl'>1</span>,
+  keep_last = <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -136,7 +144,7 @@
     </tr>
     <tr>
       <th>S_init</th>
-      <td><p>intitial soil water storage (mm)</p></td>
+      <td><p>initial fraction of <code>AWC</code> filled with water</p></td>
     </tr>
     <tr>
       <th>starting_month</th>
@@ -150,63 +158,68 @@
       <th>keep_last</th>
       <td><p>keep only the last iteration of the water balance</p></td>
     </tr>
-    <tr>
-      <th>WB</th>
-      <td><p>output from <code>monthlyWB</code></p></td>
-    </tr>
-    <tr>
-      <th>fig.title</th>
-      <td><p>a title</p></td>
-    </tr>
-    <tr>
-      <th>sw.col</th>
-      <td><p>color for soil water</p></td>
-    </tr>
-    <tr>
-      <th>surplus.col</th>
-      <td><p>color for surplus water</p></td>
-    </tr>
-    <tr>
-      <th>et.col</th>
-      <td><p>color for ET</p></td>
-    </tr>
-    <tr>
-      <th>deficit.col</th>
-      <td><p>color for deficit</p></td>
-    </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>This function depends on the <a href='http://hydromad.catchment.org/'>hydromad package</a>.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a <code>data.frame</code> with the following elements:</p>
-<dt>PPT</dt><dd><p>monthly PPT values</p></dd>
-<dt>PPT</dt><dd><p>monthly PET values</p></dd>
-<dt>U</dt><dd><p>monthly U values</p></dd>
-<dt>S</dt><dd><p>monthly S values</p></dd>
-<dt>ET</dt><dd><p>monthly ET values</p></dd>
-<dt>D</dt><dd><p>monthly D values</p></dd>
-<dt>month</dt><dd><p>month number</p></dd>
-<dt>mo</dt><dd><p>month label</p></dd>
+<ul>
+<li><p>PPT: monthly PPT values</p></li>
+<li><p>PET: monthly PET values</p></li>
+<li><p>U: monthly U values</p></li>
+<li><p>S: monthly S values</p></li>
+<li><p>ET: monthly ET values</p></li>
+<li><p>D: monthly D values</p></li>
+<li><p>month: month number</p></li>
+<li><p>mo: month label</p></li>
+</ul>
 
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>This is a work in progress.</p>
+    <p>This function depends on the <a href='http://hydromad.catchment.org/'>hydromad package</a>.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#note">Note</a></li>
-    </ul>
-
-    <h2>Author</h2>
     <p>D.E. Beaudette</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='co'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>'hydromad'</span>)) {
+
+<span class='co'># AWC in mm</span>
+<span class='kw'>AWC</span> <span class='op'>&lt;-</span> <span class='fl'>200</span>
+
+<span class='co'># monthly PET and PPT in mm</span>
+<span class='kw'>PET</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>5</span>,<span class='fl'>80</span>,<span class='fl'>90</span>,<span class='fl'>120</span>,<span class='fl'>130</span>,<span class='fl'>140</span>,<span class='fl'>110</span>,<span class='fl'>90</span>,<span class='fl'>20</span>,<span class='fl'>5</span>)
+<span class='kw'>PPT</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>150</span>, <span class='fl'>200</span>, <span class='fl'>120</span>, <span class='fl'>20</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>30</span>, <span class='fl'>60</span>)
+
+<span class='co'># run water balance</span>
+<span class='co'># start with soil AWC "empty"</span>
+(<span class='kw'>x.wb</span> <span class='op'>&lt;-</span> <span class='fu'>monthlyWB</span>(<span class='kw'>AWC</span>, <span class='kw'>PPT</span>, <span class='kw'>PET</span>, S_init = <span class='fl'>0</span>))
+
+<span class='co'># plot the results</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(mar=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>2</span>,<span class='fl'>1</span>), bg = <span class='st'>'white'</span>)
+<span class='fu'><a href='plotWB.html'>plotWB</a></span>(WB = <span class='kw'>x.wb</span>, AWC = <span class='kw'>AWC</span>)
+
+<span class='co'># compute fraction of AWC filled after the last month of simulation</span>
+(<span class='kw'>last.S</span> <span class='op'>&lt;-</span> <span class='kw'>x.wb</span><span class='op'>$</span><span class='kw'>S</span>[<span class='fl'>12</span>] <span class='op'>/</span> <span class='kw'>AWC</span>)
+
+<span class='co'># re-run the water balance with this value</span>
+(<span class='kw'>x.wb</span> <span class='op'>&lt;-</span> <span class='fu'>monthlyWB</span>(<span class='kw'>AWC</span>, <span class='kw'>PPT</span>, <span class='kw'>PET</span>, S_init = <span class='kw'>last.S</span>))
+
+<span class='co'># not much difference</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(mar=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>2</span>,<span class='fl'>1</span>), bg = <span class='st'>'white'</span>)
+<span class='fu'><a href='plotWB.html'>plotWB</a></span>(WB = <span class='kw'>x.wb</span>, AWC = <span class='kw'>AWC</span>)
+
+}
+</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: hydromad</span></div><div class='img'><img src='monthlyWB-1.png' alt='' width='768' height='475' /></div><div class='img'><img src='monthlyWB-2.png' alt='' width='768' height='475' /></div><div class='input'>
+
+
+</div></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -217,7 +230,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

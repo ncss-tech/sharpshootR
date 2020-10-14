@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -37,7 +41,6 @@
 
 <meta property="og:title" content="Get water-related data (California only) from the CDEC website. — CDECquery" />
 <meta property="og:description" content="Get water-related data (California only) from the CDEC website." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -55,7 +58,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -69,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.5</span>
       </span>
     </div>
 
@@ -87,7 +90,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/ncss-tech/aqp">
+  <a href="https://github.com/ncss-tech/aqp/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -114,7 +117,7 @@
     <p>Get water-related data (California only) from the CDEC website.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>CDECquery</span>(<span class='no'>id</span>, <span class='no'>sensor</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='st'>"D"</span>, <span class='no'>start</span>, <span class='no'>end</span>)</pre>
+    <pre class="usage"><span class='fu'>CDECquery</span>(<span class='kw'>id</span>, <span class='kw'>sensor</span>, interval = <span class='st'>"D"</span>, <span class='kw'>start</span>, <span class='kw'>end</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -147,10 +150,13 @@
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='http://cdec.water.ca.gov/queryCSV.html'>http://cdec.water.ca.gov/queryCSV.html</a></p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>D.E. Beaudette</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-<dl class='dl-horizontal'>
+<dl>
   <dt>1.</dt><dd><p>Station IDs can be found here: <a href='http://cdec.water.ca.gov/staInfo.html'>http://cdec.water.ca.gov/staInfo.html</a></p></dd>
   <dt>2a.</dt><dd><p>Sensor IDs can be found using this URL: <a href='http://cdec.water.ca.gov/dynamicapp/staMeta?station_id='>http://cdec.water.ca.gov/dynamicapp/staMeta?station_id=</a>, followed by the station ID.</p></dd>
   <dt>2b.</dt><dd><p>Sensor details can be accessed using <code><a href='CDEC_StationInfo.html'>CDEC_StationInfo</a> with the station ID.</code></p></dd>
@@ -167,129 +173,126 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 
-<span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"curl"</span>) <span class='kw'>&amp;</span>
-   <span class='kw pkg'>curl</span><span class='kw ns'>::</span><span class='fu'><a href='https://jeroen.cran.dev/curl/reference/nslookup.html'>has_internet</a></span>() <span class='kw'>&amp;</span>
-   <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>latticeExtra</span>) <span class='kw'>&amp;</span>
-   <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>plyr</span>) <span class='kw'>&amp;</span>
-   <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>e1071</span>)) {
+<span class='co'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"curl"</span>) <span class='op'>&amp;</span>
+   <span class='kw'>curl</span>::<span class='fu'><a href='https://jeroen.cran.dev/curl/reference/nslookup.html'>has_internet</a></span>() <span class='op'>&amp;</span>
+   <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'><a href='http://latticeextra.r-forge.r-project.org'>latticeExtra</a></span>) <span class='op'>&amp;</span>
+   <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'><a href='http://had.co.nz/plyr'>plyr</a></span>) <span class='op'>&amp;</span>
+   <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'>e1071</span>)) {
+  
+  <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>RColorBrewer</span>)
 
-   <span class='co'># get daily resevoir storage (ac. ft) from Pinecrest, New Melones and Lyons resevoirs</span>
-  <span class='no'>pinecrest</span> <span class='kw'>&lt;-</span> <span class='fu'>CDECquery</span>(<span class='kw'>id</span><span class='kw'>=</span><span class='st'>'swb'</span>, <span class='kw'>sensor</span><span class='kw'>=</span><span class='fl'>15</span>, <span class='kw'>interval</span><span class='kw'>=</span><span class='st'>'D'</span>, <span class='kw'>start</span><span class='kw'>=</span><span class='st'>'2012-09-01'</span>, <span class='kw'>end</span><span class='kw'>=</span><span class='st'>'2015-01-01'</span>)
-  <span class='no'>new.melones</span> <span class='kw'>&lt;-</span> <span class='fu'>CDECquery</span>(<span class='kw'>id</span><span class='kw'>=</span><span class='st'>'nml'</span>, <span class='kw'>sensor</span><span class='kw'>=</span><span class='fl'>15</span>, <span class='kw'>interval</span><span class='kw'>=</span><span class='st'>'D'</span>, <span class='kw'>start</span><span class='kw'>=</span><span class='st'>'2012-09-01'</span>, <span class='kw'>end</span><span class='kw'>=</span><span class='st'>'2015-01-01'</span>)
-  <span class='no'>lyons</span> <span class='kw'>&lt;-</span> <span class='fu'>CDECquery</span>(<span class='kw'>id</span><span class='kw'>=</span><span class='st'>'lys'</span>, <span class='kw'>sensor</span><span class='kw'>=</span><span class='fl'>15</span>, <span class='kw'>interval</span><span class='kw'>=</span><span class='st'>'D'</span>, <span class='kw'>start</span><span class='kw'>=</span><span class='st'>'2012-09-01'</span>, <span class='kw'>end</span><span class='kw'>=</span><span class='st'>'2015-01-01'</span>)
-
+  <span class='co'># get daily resevoir storage (ac. ft) from Pinecrest, New Melones and Lyons resevoirs</span>
+  <span class='kw'>pinecrest</span> <span class='op'>&lt;-</span> <span class='fu'>CDECquery</span>(id=<span class='st'>'swb'</span>, sensor=<span class='fl'>15</span>, interval=<span class='st'>'D'</span>, start=<span class='st'>'2012-09-01'</span>, end=<span class='st'>'2015-01-01'</span>)
+  <span class='kw'>new.melones</span> <span class='op'>&lt;-</span> <span class='fu'>CDECquery</span>(id=<span class='st'>'nml'</span>, sensor=<span class='fl'>15</span>, interval=<span class='st'>'D'</span>, start=<span class='st'>'2012-09-01'</span>, end=<span class='st'>'2015-01-01'</span>)
+  <span class='kw'>lyons</span> <span class='op'>&lt;-</span> <span class='fu'>CDECquery</span>(id=<span class='st'>'lys'</span>, sensor=<span class='fl'>15</span>, interval=<span class='st'>'D'</span>, start=<span class='st'>'2012-09-01'</span>, end=<span class='st'>'2015-01-01'</span>)
+  
   <span class='co'># compute storage capacity</span>
-  <span class='no'>pinecrest</span>$<span class='no'>capacity</span> <span class='kw'>&lt;-</span> <span class='no'>pinecrest</span>$<span class='no'>value</span> / <span class='fl'>18312</span> * <span class='fl'>100</span>
-  <span class='no'>new.melones</span>$<span class='no'>capacity</span> <span class='kw'>&lt;-</span> <span class='no'>new.melones</span>$<span class='no'>value</span> / <span class='fl'>2400000</span> * <span class='fl'>100</span>
-  <span class='no'>lyons</span>$<span class='no'>capacity</span> <span class='kw'>&lt;-</span> <span class='no'>lyons</span>$<span class='no'>value</span> / <span class='fl'>6228</span> * <span class='fl'>100</span>
-
+  <span class='kw'>pinecrest</span><span class='op'>$</span><span class='kw'>capacity</span> <span class='op'>&lt;-</span> <span class='kw'>pinecrest</span><span class='op'>$</span><span class='kw'>value</span> <span class='op'>/</span> <span class='fl'>18312</span> <span class='op'>*</span> <span class='fl'>100</span>
+  <span class='kw'>new.melones</span><span class='op'>$</span><span class='kw'>capacity</span> <span class='op'>&lt;-</span> <span class='kw'>new.melones</span><span class='op'>$</span><span class='kw'>value</span> <span class='op'>/</span> <span class='fl'>2400000</span> <span class='op'>*</span> <span class='fl'>100</span>
+  <span class='kw'>lyons</span><span class='op'>$</span><span class='kw'>capacity</span> <span class='op'>&lt;-</span> <span class='kw'>lyons</span><span class='op'>$</span><span class='kw'>value</span> <span class='op'>/</span> <span class='fl'>6228</span> <span class='op'>*</span> <span class='fl'>100</span>
+  
   <span class='co'># combine</span>
-  <span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='fu'>make.groups</span>(<span class='no'>new.melones</span>, <span class='no'>lyons</span>, <span class='no'>pinecrest</span>)
-
+  <span class='kw'>g</span> <span class='op'>&lt;-</span> <span class='fu'>make.groups</span>(<span class='kw'>new.melones</span>, <span class='kw'>lyons</span>, <span class='kw'>pinecrest</span>)
+  
   <span class='co'># resonable date scale</span>
-  <span class='no'>r</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='no'>g</span>$<span class='no'>datetime</span>)
-  <span class='no'>s.r</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='kw'>from</span><span class='kw'>=</span><span class='no'>r</span>[<span class='fl'>1</span>], <span class='kw'>to</span><span class='kw'>=</span><span class='no'>r</span>[<span class='fl'>2</span>], <span class='kw'>by</span><span class='kw'>=</span><span class='st'>'1 month'</span>)
-
+  <span class='kw'>r</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='kw'>g</span><span class='op'>$</span><span class='kw'>datetime</span>)
+  <span class='kw'>s.r</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(from=<span class='kw'>r</span>[<span class='fl'>1</span>], to=<span class='kw'>r</span>[<span class='fl'>2</span>], by=<span class='st'>'1 month'</span>)
+  
   <span class='co'># better colors</span>
-  <span class='no'>tps</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>superpose.line</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>lwd</span><span class='kw'>=</span><span class='fl'>2</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='fu'>brewer.pal</span>(<span class='kw'>n</span><span class='kw'>=</span><span class='fl'>3</span>, <span class='kw'>name</span><span class='kw'>=</span><span class='st'>'Set1'</span>)))
-
+  <span class='kw'>tps</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(superpose.line=<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(lwd=<span class='fl'>2</span>, col=<span class='fu'><a href='https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html'>brewer.pal</a></span>(n=<span class='fl'>3</span>, name=<span class='st'>'Set1'</span>)))
+  
   <span class='co'># plot</span>
-  <span class='fu'>xyplot</span>(<span class='no'>capacity</span> ~ <span class='no'>datetime</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='no'>which</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>g</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>'l'</span>,
-         <span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>''</span>, <span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>'Capacity (%)'</span>, <span class='kw'>ylim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>5</span>, <span class='fl'>105</span>),
-         <span class='kw'>scales</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>at</span><span class='kw'>=</span><span class='no'>s.r</span>, <span class='kw'>labels</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(<span class='no'>s.r</span>, <span class='st'>"%b\n%Y"</span>))),
-         <span class='kw'>auto.key</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>columns</span><span class='kw'>=</span><span class='fl'>3</span>, <span class='kw'>lines</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>points</span><span class='kw'>=</span><span class='fl'>FALSE</span>),
-         <span class='kw'>par.settings</span><span class='kw'>=</span><span class='no'>tps</span>,
-         <span class='kw'>panel</span><span class='kw'>=</span><span class='kw'>function</span>(<span class='no'>...</span>) {
-           <span class='fu'>panel.abline</span>(<span class='kw'>h</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>100</span>, <span class='kw'>by</span><span class='kw'>=</span><span class='fl'>10</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>'grey'</span>)
-           <span class='fu'>panel.abline</span>(<span class='kw'>v</span><span class='kw'>=</span><span class='no'>s.r</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>'grey'</span>)
-           <span class='fu'>panel.xyplot</span>(<span class='no'>...</span>)
+  <span class='fu'>xyplot</span>(<span class='kw'>capacity</span> <span class='op'>~</span> <span class='kw'>datetime</span>, groups=<span class='kw'>which</span>, data=<span class='kw'>g</span>, type=<span class='st'>'l'</span>, 
+         xlab=<span class='st'>''</span>, ylab=<span class='st'>'Capacity (%)'</span>, ylim=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='op'>-</span><span class='fl'>5</span>, <span class='fl'>105</span>),
+         scales=<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(x=<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(at=<span class='kw'>s.r</span>, labels=<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(<span class='kw'>s.r</span>, <span class='st'>"%b\n%Y"</span>))), 
+         auto.key=<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(columns=<span class='fl'>3</span>, lines=<span class='fl'>TRUE</span>, points=<span class='fl'>FALSE</span>),
+         par.settings=<span class='kw'>tps</span>,
+         panel=<span class='fu'>function</span>(<span class='kw'>...</span>) {
+           <span class='fu'>panel.abline</span>(h=<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>100</span>, by=<span class='fl'>10</span>), col=<span class='st'>'grey'</span>)
+           <span class='fu'>panel.abline</span>(v=<span class='kw'>s.r</span>, col=<span class='st'>'grey'</span>)
+           <span class='fu'>panel.xyplot</span>(<span class='kw'>...</span>)
          })
-
-
+  
+  
   <span class='co'>##</span>
   <span class='co'># New Melones monthly data, retrieve as far back in time as possible </span>
-  <span class='no'>new.melones.monthly</span> <span class='kw'>&lt;-</span> <span class='fu'>CDECquery</span>(<span class='kw'>id</span><span class='kw'>=</span><span class='st'>'nml'</span>, <span class='kw'>sensor</span><span class='kw'>=</span><span class='fl'>15</span>, <span class='kw'>interval</span><span class='kw'>=</span><span class='st'>'M'</span>,
-                                   <span class='kw'>start</span><span class='kw'>=</span><span class='st'>'1900-01-01'</span>, <span class='kw'>end</span><span class='kw'>=</span><span class='st'>'2015-01-01'</span>)
-
+  <span class='kw'>new.melones.monthly</span> <span class='op'>&lt;-</span> <span class='fu'>CDECquery</span>(id=<span class='st'>'nml'</span>, sensor=<span class='fl'>15</span>, interval=<span class='st'>'M'</span>, 
+                                   start=<span class='st'>'1900-01-01'</span>, end=<span class='st'>'2015-01-01'</span>)
+  
   <span class='co'># convert to pct. capacity</span>
-  <span class='no'>new.melones.monthly</span>$<span class='no'>capacity</span> <span class='kw'>&lt;-</span> <span class='no'>new.melones.monthly</span>$<span class='no'>value</span> / <span class='fl'>2400000</span> * <span class='fl'>100</span>
-
-
+  <span class='kw'>new.melones.monthly</span><span class='op'>$</span><span class='kw'>capacity</span> <span class='op'>&lt;-</span> <span class='kw'>new.melones.monthly</span><span class='op'>$</span><span class='kw'>value</span> <span class='op'>/</span> <span class='fl'>2400000</span> <span class='op'>*</span> <span class='fl'>100</span>
+  
+  
   <span class='co'># make a nice color ramp function</span>
-  <span class='no'>cols</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRampPalette</a></span>(<span class='fu'>brewer.pal</span>(<span class='fl'>9</span>, <span class='st'>'Spectral'</span>),
-                           <span class='kw'>space</span><span class='kw'>=</span><span class='st'>'Lab'</span>, <span class='kw'>interpolate</span><span class='kw'>=</span><span class='st'>'spline'</span>)
-
+  <span class='kw'>cols</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRampPalette</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html'>brewer.pal</a></span>(<span class='fl'>9</span>, <span class='st'>'Spectral'</span>), 
+                           space=<span class='st'>'Lab'</span>, interpolate=<span class='st'>'spline'</span>)
+  
   <span class='co'># plot, each pixel is colored by the total precip by year/month</span>
-  <span class='fu'>levelplot</span>(<span class='no'>capacity</span> ~ <span class='no'>year</span> * <span class='no'>month</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>new.melones.monthly</span>, <span class='kw'>col.regions</span><span class='kw'>=</span><span class='no'>cols</span>, <span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>''</span>,
-            <span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>''</span>, <span class='kw'>scales</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>tick.number</span><span class='kw'>=</span><span class='fl'>20</span>)), <span class='kw'>main</span><span class='kw'>=</span><span class='st'>'New Melones Capacity (%)'</span>)
-
-
+  <span class='fu'>levelplot</span>(<span class='kw'>capacity</span> <span class='op'>~</span> <span class='kw'>year</span> <span class='op'>*</span> <span class='kw'>month</span>, data=<span class='kw'>new.melones.monthly</span>, col.regions=<span class='kw'>cols</span>, xlab=<span class='st'>''</span>, 
+            ylab=<span class='st'>''</span>, scales=<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(x=<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(tick.number=<span class='fl'>20</span>)), main=<span class='st'>'New Melones Capacity (%)'</span>)
+  
+  
   <span class='co'>##</span>
   <span class='co'># get daily precip totals from Stan Powerhouse</span>
-  <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>CDECquery</span>(<span class='kw'>id</span><span class='kw'>=</span><span class='st'>'spw'</span>, <span class='kw'>sensor</span><span class='kw'>=</span><span class='fl'>45</span>, <span class='kw'>interval</span><span class='kw'>=</span><span class='st'>'D'</span>, <span class='kw'>start</span><span class='kw'>=</span><span class='st'>'1900-01-01'</span>, <span class='kw'>end</span><span class='kw'>=</span><span class='st'>'2019-01-01'</span>)
-
+  <span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'>CDECquery</span>(id=<span class='st'>'spw'</span>, sensor=<span class='fl'>45</span>, interval=<span class='st'>'D'</span>, start=<span class='st'>'1900-01-01'</span>, end=<span class='st'>'2019-01-01'</span>)
+  
   <span class='co'># compute total precip by year/month</span>
-  <span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/plyr/man/ddply.html'>ddply</a></span>(<span class='no'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'year'</span>, <span class='st'>'month'</span>), <span class='no'>summarize</span>, <span class='kw'>s</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>value</span>, <span class='kw'>na.rm</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
-
+  <span class='kw'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/plyr/man/ddply.html'>ddply</a></span>(<span class='kw'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'year'</span>, <span class='st'>'month'</span>), <span class='kw'>summarize</span>, s=<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='kw'>value</span>, na.rm=<span class='fl'>TRUE</span>))
+  
   <span class='co'># convert monthly precipitation values into Z-scores by month</span>
-  <span class='no'>a.scaled</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/plyr/man/ddply.html'>ddply</a></span>(<span class='no'>a</span>, <span class='st'>'month'</span>, <span class='no'>summarize</span>, <span class='kw'>year</span><span class='kw'>=</span><span class='no'>year</span>, <span class='kw'>scaled.ppt</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/scale.html'>scale</a></span>(<span class='no'>s</span>))
-
+  <span class='kw'>a.scaled</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/plyr/man/ddply.html'>ddply</a></span>(<span class='kw'>a</span>, <span class='st'>'month'</span>, <span class='kw'>summarize</span>, year=<span class='kw'>year</span>, scaled.ppt=<span class='fu'><a href='https://rdrr.io/r/base/scale.html'>scale</a></span>(<span class='kw'>s</span>))
+  
   <span class='co'># make a nice color ramp function, scaled by the skewness of the underlying distribution</span>
-  <span class='no'>cols</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRampPalette</a></span>(<span class='fu'>brewer.pal</span>(<span class='fl'>9</span>, <span class='st'>'Spectral'</span>),
-  <span class='kw'>space</span><span class='kw'>=</span><span class='st'>'Lab'</span>, <span class='kw'>interpolate</span><span class='kw'>=</span><span class='st'>'spline'</span>, <span class='kw'>bias</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/pkg/e1071/man/skewness.html'>skewness</a></span>(<span class='no'>a.scaled</span>$<span class='no'>scaled.ppt</span>, <span class='kw'>na.rm</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
-
+  <span class='kw'>cols</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRampPalette</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html'>brewer.pal</a></span>(<span class='fl'>9</span>, <span class='st'>'Spectral'</span>),
+  space=<span class='st'>'Lab'</span>, interpolate=<span class='st'>'spline'</span>, bias=<span class='fu'><a href='https://rdrr.io/pkg/e1071/man/skewness.html'>skewness</a></span>(<span class='kw'>a.scaled</span><span class='op'>$</span><span class='kw'>scaled.ppt</span>, na.rm=<span class='fl'>TRUE</span>))
+  
   <span class='co'># plot, each pixel is colored by the total precip by year/month</span>
-  <span class='fu'>levelplot</span>(<span class='no'>scaled.ppt</span> ~ <span class='no'>year</span> * <span class='no'>month</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>a.scaled</span>, <span class='kw'>col.regions</span><span class='kw'>=</span><span class='no'>cols</span>, <span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>''</span>,
-            <span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>''</span>, <span class='kw'>scales</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>tick.number</span><span class='kw'>=</span><span class='fl'>10</span>)),
-            <span class='kw'>main</span><span class='kw'>=</span><span class='st'>'Monthly Total Precipitation (as z-score) SPW'</span>)
-
-
+  <span class='fu'>levelplot</span>(<span class='kw'>scaled.ppt</span> <span class='op'>~</span> <span class='kw'>year</span> <span class='op'>*</span> <span class='kw'>month</span>, data=<span class='kw'>a.scaled</span>, col.regions=<span class='kw'>cols</span>, xlab=<span class='st'>''</span>, 
+            ylab=<span class='st'>''</span>, scales=<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(x=<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(tick.number=<span class='fl'>10</span>)), 
+            main=<span class='st'>'Monthly Total Precipitation (as z-score) SPW'</span>)
+  
+  
   <span class='co'>##</span>
   <span class='co'># get pre-aggregated monthly data from Sonora RS</span>
-  <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>CDECquery</span>(<span class='kw'>id</span><span class='kw'>=</span><span class='st'>'sor'</span>, <span class='kw'>sensor</span><span class='kw'>=</span><span class='fl'>2</span>, <span class='kw'>interval</span><span class='kw'>=</span><span class='st'>'M'</span>, <span class='kw'>start</span><span class='kw'>=</span><span class='st'>'1900-01-01'</span>, <span class='kw'>end</span><span class='kw'>=</span><span class='st'>'2019-01-01'</span>)
-
+  <span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'>CDECquery</span>(id=<span class='st'>'sor'</span>, sensor=<span class='fl'>2</span>, interval=<span class='st'>'M'</span>, start=<span class='st'>'1900-01-01'</span>, end=<span class='st'>'2019-01-01'</span>)
+  
   <span class='co'># make a nice color ramp function, scaled by the skewness of the underlying distribution</span>
-  <span class='no'>cols</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRampPalette</a></span>(<span class='fu'>brewer.pal</span>(<span class='fl'>9</span>, <span class='st'>'Spectral'</span>), <span class='kw'>space</span><span class='kw'>=</span><span class='st'>'Lab'</span>,
-  <span class='kw'>interpolate</span><span class='kw'>=</span><span class='st'>'spline'</span>, <span class='kw'>bias</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/pkg/e1071/man/skewness.html'>skewness</a></span>(<span class='no'>x</span>$<span class='no'>value</span>, <span class='kw'>na.rm</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
-
+  <span class='kw'>cols</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRampPalette</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html'>brewer.pal</a></span>(<span class='fl'>9</span>, <span class='st'>'Spectral'</span>), space=<span class='st'>'Lab'</span>, 
+  interpolate=<span class='st'>'spline'</span>, bias=<span class='fu'><a href='https://rdrr.io/pkg/e1071/man/skewness.html'>skewness</a></span>(<span class='kw'>x</span><span class='op'>$</span><span class='kw'>value</span>, na.rm=<span class='fl'>TRUE</span>))
+  
   <span class='co'># plot</span>
-  <span class='fu'>levelplot</span>(<span class='no'>value</span> ~ <span class='no'>year</span> * <span class='no'>month</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>x</span>, <span class='kw'>col.regions</span><span class='kw'>=</span><span class='no'>cols</span>, <span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>''</span>,
-  <span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>''</span>, <span class='kw'>scales</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>tick.number</span><span class='kw'>=</span><span class='fl'>20</span>)),
-  <span class='kw'>main</span><span class='kw'>=</span><span class='st'>'Monthly Total Precipitation (inches) SOR'</span>)
-
-
+  <span class='fu'>levelplot</span>(<span class='kw'>value</span> <span class='op'>~</span> <span class='kw'>year</span> <span class='op'>*</span> <span class='kw'>month</span>, data=<span class='kw'>x</span>, col.regions=<span class='kw'>cols</span>, xlab=<span class='st'>''</span>, 
+  ylab=<span class='st'>''</span>, scales=<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(x=<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(tick.number=<span class='fl'>20</span>)), 
+  main=<span class='st'>'Monthly Total Precipitation (inches) SOR'</span>)
+  
+  
   <span class='co'>### query an 'event' type sensor</span>
   <span class='co'># Bryte test site (BYT)</span>
   <span class='co'># single request: air temperature and soil temperature at depth 1 (25cm)</span>
   <span class='co'># measurement interval is 20 minutes</span>
-  <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>CDECquery</span>(<span class='st'>'BYT'</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>194</span>), <span class='st'>'E'</span>, <span class='st'>'2016-01-01'</span>, <span class='st'>'2017-01-01'</span>)
-
+  <span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'>CDECquery</span>(<span class='st'>'BYT'</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>194</span>), <span class='st'>'E'</span>, <span class='st'>'2016-01-01'</span>, <span class='st'>'2017-01-01'</span>)
+  
   <span class='co'># data are in long format, check number of records for each sensor</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>x</span>$<span class='no'>sensor_type</span>)
-
+  <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='kw'>x</span><span class='op'>$</span><span class='kw'>sensor_type</span>)
+  
   <span class='co'># plot grouped data</span>
-  <span class='fu'>xyplot</span>(<span class='no'>value</span> ~ <span class='no'>datetime</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='no'>sensor_type</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>g</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'g'</span>, <span class='st'>'l'</span>),
-         <span class='kw'>auto.key</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>columns</span><span class='kw'>=</span><span class='fl'>2</span>, <span class='kw'>points</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>lines</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
+  <span class='fu'>xyplot</span>(<span class='kw'>value</span> <span class='op'>~</span> <span class='kw'>datetime</span>, groups=<span class='kw'>sensor_type</span>, data=<span class='kw'>g</span>, type=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'g'</span>, <span class='st'>'l'</span>),
+         auto.key=<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(columns=<span class='fl'>2</span>, points=<span class='fl'>FALSE</span>, lines=<span class='fl'>TRUE</span>))
+  
+}
+</div><div class='output co'>#&gt; <span class='message'>Loading required package: latticeExtra</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: lattice</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: plyr</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: 'plyr'</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:aqp':</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    mutate, summarize</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: e1071</span></div><div class='output co'>#&gt; <span class='warning'>Warning: not enough rows for columns</span></div><div class='img'><img src='CDECquery-1.png' alt='' width='768' height='475' /></div><div class='input'>
 
-}</div><div class='output co'>#&gt; <span class='message'>Loading required package: latticeExtra</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: lattice</span></div><div class='output co'>#&gt; <span class='warning'>Warning: package 'lattice' was built under R version 3.5.3</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: RColorBrewer</span></div><div class='output co'>#&gt; <span class='warning'>Warning: package 'RColorBrewer' was built under R version 3.5.2</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: plyr</span></div><div class='output co'>#&gt; <span class='warning'>Warning: package 'plyr' was built under R version 3.5.3</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: e1071</span></div><div class='output co'>#&gt; <span class='warning'>Warning: package 'e1071' was built under R version 3.5.3</span></div><div class='output co'>#&gt; <span class='warning'>Warning: not enough rows for columns</span></div><div class='img'><img src='CDECquery-1.png' alt='' width='700' height='433' /></div><div class='input'>
 
-
-# }
+<span class='co'># }</span>
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>D.E. Beaudette</p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -300,7 +303,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

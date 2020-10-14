@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -37,7 +41,6 @@
 
 <meta property="og:title" content="CDEC Sensor Details (by Station) — CDEC_StationInfo" />
 <meta property="og:description" content="Query CDEC Website for Sensor Details" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -55,7 +58,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -69,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.5</span>
       </span>
     </div>
 
@@ -87,7 +90,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/ncss-tech/aqp">
+  <a href="https://github.com/ncss-tech/aqp/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -114,7 +117,7 @@
     <p>Query CDEC Website for Sensor Details</p>
     </div>
 
-    <pre class="usage"><span class='fu'>CDEC_StationInfo</span>(<span class='no'>s</span>)</pre>
+    <pre class="usage"><span class='fu'>CDEC_StationInfo</span>(<span class='kw'>s</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -131,73 +134,77 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a `list` object containing site metadata, sensor metadata, and possibly comments about the site</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>D.E. Beaudette</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='CDECquery.html'>CDECquery</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"curl"</span>) <span class='kw'>&amp;</span>
-   <span class='kw pkg'>curl</span><span class='kw ns'>::</span><span class='fu'><a href='https://jeroen.cran.dev/curl/reference/nslookup.html'>has_internet</a></span>()
+<span class='co'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"curl"</span>) <span class='op'>&amp;</span>
+   <span class='kw'>curl</span>::<span class='fu'><a href='https://jeroen.cran.dev/curl/reference/nslookup.html'>has_internet</a></span>() 
    ) {
-
-<span class='fu'>CDEC_StationInfo</span>(<span class='st'>'HHM'</span>)
-
-}</div><div class='output co'>#&gt; $site.meta
+  
+<span class='fu'>CDEC_StationInfo</span>(<span class='st'>'HHM'</span>)  
+  
+}
+</div><div class='output co'>#&gt; $site.meta
 #&gt;   Station ID River Basin   Hydrologic Area Latitude
-#&gt; 1        HHM MOKELUMNE R SAN JOAQUIN RIVER 38.48731
-#&gt;                                  Operator Elevation County Nearby City
-#&gt; 1 CA Dept of Water Resources/Snow Surveys      8700 ALPINE BEAR VALLEY
+#&gt; 1        HHM MOKELUMNE R SAN JOAQUIN RIVER 38.49066
+#&gt;                                   Operator Elevation County Nearby City
+#&gt; 1 CA Dept of Water Resources/DFM-Hydro-SMN      8700 ALPINE BEAR VALLEY
 #&gt;   Longitude Data Collection            Name
-#&gt; 1  119.8057                 HIGHLAND MEADOW
+#&gt; 1  119.8056                 HIGHLAND MEADOW
 #&gt; 
 #&gt; $sensor.meta
 #&gt;                          sensor_details sensor  interval sensor_name
-#&gt; 1    PRECIPITATION, ACCUMULATED, INCHES      2   (daily)      (RAIN)
-#&gt; 2    PRECIPITATION, INCREMENTAL, INCHES     45   (daily)   (PPT INC)
-#&gt; 3           SNOW, WATER CONTENT, INCHES      3   (daily)   (SNOW WC)
-#&gt; 4  SNOW, WATER CONTENT(REVISED), INCHES     82   (daily)   (SNO ADJ)
-#&gt; 5       TEMPERATURE, AIR AVERAGE, DEG F     30   (daily)   (TEMP AV)
-#&gt; 6       TEMPERATURE, AIR MAXIMUM, DEG F     31   (daily)   (TEMP MX)
-#&gt; 7       TEMPERATURE, AIR MINIMUM, DEG F     32   (daily)   (TEMP MN)
-#&gt; 8          ATMOSPHERIC PRESSURE, INCHES     17   (event)   (BAR PRE)
-#&gt; 9                BATTERY VOLTAGE, VOLTS     14   (event)   (BAT VOL)
-#&gt; 10   PRECIPITATION, ACCUMULATED, INCHES      2   (event)      (RAIN)
-#&gt; 11      REFLECTED IRRADIANCE AVG, W/M^2    119   (event)   (RIRR AV)
-#&gt; 12               RELATIVE HUMIDITY,   %     12   (event)   (REL HUM)
-#&gt; 13                   SNOW DEPTH, INCHES     18   (event)   (SNOW DP)
-#&gt; 14          SNOW, WATER CONTENT, INCHES      3   (event)   (SNOW WC)
-#&gt; 15              SOIL MOISTR, DEPTH 1, %    197   (event)   (SOILMD1)
-#&gt; 16              SOIL MOISTR, DEPTH 2, %    198   (event)   (SOILMD2)
-#&gt; 17              SOIL MOISTR, DEPTH 3, %    199   (event)   (SOILMD3)
-#&gt; 18            SOIL TEMP, DEPTH 1, DEG F    194   (event)   (SOILTD1)
-#&gt; 19            SOIL TEMP, DEPTH 2, DEG F    195   (event)   (SOILTD2)
-#&gt; 20            SOIL TEMP, DEPTH 3, DEG F    196   (event)   (SOILTD3)
-#&gt; 21               SOLAR RADIATION, W/M^2     26   (event)   (SOLAR R)
-#&gt; 22              TEMPERATURE, AIR, DEG F      4   (event)      (TEMP)
-#&gt; 23                 WIND, DIRECTION, DEG     10   (event)   (WIND DR)
-#&gt; 24                     WIND, SPEED, MPH      9   (event)   (WIND SP)
-#&gt; 25               BATTERY VOLTAGE, VOLTS     14  (hourly)   (BAT VOL)
-#&gt; 26   PRECIPITATION, ACCUMULATED, INCHES      2  (hourly)      (RAIN)
-#&gt; 27          SNOW, WATER CONTENT, INCHES      3  (hourly)   (SNOW WC)
-#&gt; 28              TEMPERATURE, AIR, DEG F      4  (hourly)      (TEMP)
-#&gt; 29                   SNOW DEPTH, INCHES     18 (monthly)   (SNOW DP)
-#&gt; 30          SNOW, WATER CONTENT, INCHES      3 (monthly)   (SNOW WC)
-#&gt; 31 SNOW, WATER CONTENT(REVISED), INCHES     82 (monthly)   (SNO ADJ)
+#&gt; 1                    SNOW DEPTH, INCHES     18 (monthly)   (SNOW DP)
+#&gt; 2           SNOW, WATER CONTENT, INCHES      3 (monthly)   (SNOW WC)
+#&gt; 3  SNOW, WATER CONTENT(REVISED), INCHES     82 (monthly)   (SNO ADJ)
+#&gt; 4    PRECIPITATION, ACCUMULATED, INCHES      2   (daily)      (RAIN)
+#&gt; 5    PRECIPITATION, INCREMENTAL, INCHES     45   (daily)   (PPT INC)
+#&gt; 6           SNOW, WATER CONTENT, INCHES      3   (daily)   (SNOW WC)
+#&gt; 7  SNOW, WATER CONTENT(REVISED), INCHES     82   (daily)   (SNO ADJ)
+#&gt; 8       TEMPERATURE, AIR AVERAGE, DEG F     30   (daily)   (TEMP AV)
+#&gt; 9       TEMPERATURE, AIR MAXIMUM, DEG F     31   (daily)   (TEMP MX)
+#&gt; 10      TEMPERATURE, AIR MINIMUM, DEG F     32   (daily)   (TEMP MN)
+#&gt; 11         ATMOSPHERIC PRESSURE, INCHES     17   (event)   (BAR PRE)
+#&gt; 12               BATTERY VOLTAGE, VOLTS     14   (event)   (BAT VOL)
+#&gt; 13   PRECIPITATION, ACCUMULATED, INCHES      2   (event)      (RAIN)
+#&gt; 14      REFLECTED IRRADIANCE AVG, W/M^2    119   (event)   (RIRR AV)
+#&gt; 15               RELATIVE HUMIDITY,   %     12   (event)   (REL HUM)
+#&gt; 16                   SNOW DEPTH, INCHES     18   (event)   (SNOW DP)
+#&gt; 17          SNOW, WATER CONTENT, INCHES      3   (event)   (SNOW WC)
+#&gt; 18              SOIL MOISTR, DEPTH 1, %    197   (event)   (SOILMD1)
+#&gt; 19              SOIL MOISTR, DEPTH 2, %    198   (event)   (SOILMD2)
+#&gt; 20              SOIL MOISTR, DEPTH 3, %    199   (event)   (SOILMD3)
+#&gt; 21            SOIL TEMP, DEPTH 1, DEG F    194   (event)   (SOILTD1)
+#&gt; 22            SOIL TEMP, DEPTH 2, DEG F    195   (event)   (SOILTD2)
+#&gt; 23            SOIL TEMP, DEPTH 3, DEG F    196   (event)   (SOILTD3)
+#&gt; 24               SOLAR RADIATION, W/M^2     26   (event)   (SOLAR R)
+#&gt; 25              TEMPERATURE, AIR, DEG F      4   (event)      (TEMP)
+#&gt; 26                 WIND, DIRECTION, DEG     10   (event)   (WIND DR)
+#&gt; 27                     WIND, SPEED, MPH      9   (event)   (WIND SP)
+#&gt; 28               BATTERY VOLTAGE, VOLTS     14  (hourly)   (BAT VOL)
+#&gt; 29   PRECIPITATION, ACCUMULATED, INCHES      2  (hourly)      (RAIN)
+#&gt; 30          SNOW, WATER CONTENT, INCHES      3  (hourly)   (SNOW WC)
+#&gt; 31              TEMPERATURE, AIR, DEG F      4  (hourly)      (TEMP)
 #&gt; 32           SOLAR RADIATION AVG, W/M^2    103  (hourly)   (SLRR AV)
 #&gt; 33           SOLAR RADIATION MAX, W/M^2    105  (hourly)   (SLRR MX)
 #&gt; 34           SOLAR RADIATION MIN, W/M^2    104  (hourly)   (SLRR MN)
 #&gt;    collection_method         period_of_record
-#&gt; 1           COMPUTED    10/01/2002 to present
-#&gt; 2           COMPUTED    12/01/1996 to present
-#&gt; 3           COMPUTED    11/29/1989 to present
-#&gt; 4           COMPUTED    10/21/1989 to present
-#&gt; 5           COMPUTED    09/02/1999 to present
-#&gt; 6           COMPUTED    09/02/1999 to present
-#&gt; 7           COMPUTED    09/02/1999 to present
-#&gt; 8          SATELLITE    09/14/2016 to present
-#&gt; 9          SATELLITE    09/14/2016 to present
-#&gt; 10         SATELLITE    09/14/2016 to present
+#&gt; 1       MANUAL ENTRY    05/01/1952 to present
+#&gt; 2       MANUAL ENTRY    05/01/1952 to present
+#&gt; 3       MANUAL ENTRY    05/01/1952 to present
+#&gt; 4           COMPUTED    10/01/2002 to present
+#&gt; 5           COMPUTED    12/01/1996 to present
+#&gt; 6           COMPUTED    11/29/1989 to present
+#&gt; 7           COMPUTED    10/21/1989 to present
+#&gt; 8           COMPUTED    09/02/1999 to present
+#&gt; 9           COMPUTED    09/02/1999 to present
+#&gt; 10          COMPUTED    09/02/1999 to present
 #&gt; 11         SATELLITE    09/14/2016 to present
 #&gt; 12         SATELLITE    09/14/2016 to present
 #&gt; 13         SATELLITE    09/14/2016 to present
@@ -212,39 +219,35 @@
 #&gt; 22         SATELLITE    09/14/2016 to present
 #&gt; 23         SATELLITE    09/14/2016 to present
 #&gt; 24         SATELLITE    09/14/2016 to present
-#&gt; 25         SATELLITE    01/01/1995 to present
-#&gt; 26         SATELLITE    10/14/1989 to present
-#&gt; 27         SATELLITE    10/14/1989 to present
-#&gt; 28         SATELLITE    10/13/1989 to present
-#&gt; 29      MANUAL ENTRY    05/01/1952 to present
-#&gt; 30      MANUAL ENTRY    05/01/1952 to present
-#&gt; 31      MANUAL ENTRY    05/01/1952 to present
+#&gt; 25         SATELLITE    09/14/2016 to present
+#&gt; 26         SATELLITE    09/14/2016 to present
+#&gt; 27         SATELLITE    09/14/2016 to present
+#&gt; 28         SATELLITE    01/01/1995 to present
+#&gt; 29         SATELLITE    10/14/1989 to present
+#&gt; 30         SATELLITE    10/14/1989 to present
+#&gt; 31         SATELLITE    10/13/1989 to present
 #&gt; 32         SATELLITE 10/10/2012 to 09/14/2016
 #&gt; 33         SATELLITE 10/10/2012 to 09/14/2016
 #&gt; 34         SATELLITE 10/10/2012 to 09/14/2016
 #&gt; 
 #&gt; $comments
 #&gt;         date
-#&gt; 1 07/23/2014
-#&gt;                                                                                        comment
-#&gt; 1 Latitude and longitude updated based on information from Hydrology Branch field technicians.
+#&gt; 1 04/27/2020
+#&gt; 2 04/27/2020
+#&gt; 3 07/23/2014
+#&gt;                                                                                                               comment
+#&gt; 1 Latitude and longitude updated from information provided by DFM-Statewide Monitoring Network Section.  Datum WGS-84
+#&gt; 2 Latitude and longitude updated from information provided by DFM-Statewide Monitoring Network Section.  Datum WGS-84
+#&gt; 3                        Latitude and longitude updated based on information from Hydrology Branch field technicians.
 #&gt; </div><div class='input'>
 
-# }
+<span class='co'># }</span>
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>D.E. Beaudette</p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -255,7 +258,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

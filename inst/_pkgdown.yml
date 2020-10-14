@@ -1,0 +1,9 @@
+figures:
+  dev: grDevices::png
+  dpi: 96
+  dev.args:
+    type: cairo
+  fig.ext: png
+  fig.width: 8
+  fig.height: ~
+  fig.retina: 2

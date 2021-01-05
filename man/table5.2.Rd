@@ -5,7 +5,7 @@
 \alias{table5.2}
 \title{Table 5.2 from Hole and Campbell, 1985.}
 \format{
-An object of class \code{matrix} with 18 rows and 18 columns.
+An object of class \code{matrix} (inherits from \code{array}) with 18 rows and 18 columns.
 }
 \usage{
 data(table5.2)

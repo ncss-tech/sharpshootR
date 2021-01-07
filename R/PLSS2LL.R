@@ -119,58 +119,71 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
 # http://nationalcad.org/download/PublicationHandbookOct2016.pdf
 # http://nationalcad.blogspot.com/2015/03/plss-cadnsdi-plss-first-division.html
 
-PLSS2LL <- function(p) {
+# This function retrieves one coordinate. To be used by LSS2LL wrapper function.
+# consider not exporting
+PLSS2LL_oneline <- function(p) {
+  # p in a vectorized function is passed as named vector
+  if (is.na(p['plssid'])) {
+    return(NA)
+  }
+  formatted.plss <- p['plssid']
   
+
+   # composite URL for GET request, result is JSON
+  u <-
+    paste0(
+      'https://gis.blm.gov/arcgis/rest/services/Cadastral/',
+      'BLM_Natl_PLSS_CadNSDI/MapServer/exts/CadastralSpecialServices/',
+      'GetLatLon?trs=',
+      formatted.plss,
+      '&f=pjson'
+    )
+  
+  # process GET request
+  r <- httr::GET(u)
+  httr::stop_for_status(r)
+  
+  # convert JSON -> list
+  r <- jsonlite::fromJSON(httr::content(r, as = 'text'), flatten = TRUE)
+  
+  # handling for if no coords returned
+  if (inherits(r$coordinates, 'list') &
+      length(r$coordinates) == 0) {
+    r <- data.frame(id = p['id'], plssid = formatted.plss)
+    res <- as.namedr
+  } else {
+    # keep only coordinates
+    r <- r$coordinates
+    
+    # request that are less than QQ precision will return multiple QQ centers
+    # keep the mean coordinates - get to one set of lat/lon coords
+    if (nrow(r) >= 0) {
+      r <-
+        data.frame(id = p['id'], plssid = formatted.plss, t(colMeans(r[, 2:3], na.rm = TRUE)))
+    }
+    res <- r
+  }
+  row.names(res) <- NULL
+  #return(as.vector(res))
+  return(res)
+}
+
+# this is the vectorized wrapper. 
+PLSS2LL <- function(p) {
   # check for required packages
   if(!requireNamespace('httr', quietly = TRUE) | !requireNamespace('jsonlite', quietly = TRUE))
     stop('please install the `httr` and `jsonlite` packages', call.=FALSE)
-  
-  # pre-allocate char vector for results
-  res <- list()
-  
-  # create vector of formatted plss codes
-  formatted.plss <- paste(p$plssid, sep=" ")
-  
-  # setup a progress bar for timing
-  n <- length(formatted.plss)
-  pb <- txtProgressBar(max=n, style=3)
-  for(i in 1:n) {
-    for(i in 1:length(formatted.plss)) { 
-      # composite URL for GET request, result is JSON
-      u <- paste0("https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer/exts/CadastralSpecialServices/GetLatLon?trs=", formatted.plss[i], "&f=pjson")
-      
-      # process GET request
-      r <- httr::GET(u)
-      httr::stop_for_status(r)
-      
-      # convert JSON -> list
-      r <- jsonlite::fromJSON(httr::content(r, as = 'text'), flatten = TRUE)
-      #print(r$coordinates)
-      
-      # handling for if no coords returned
-      if(inherits(r$coordinates, 'list') & length(r$coordinates) == 0) {
-        r <- data.frame(id=p$id[i], plssid=formatted.plss[i]) 
-        res[[i]] <- r
-      } else {
-        # keep only coordinates
-        r <- r$coordinates
-        # print(formatted.plss[i])
-        # print(r$coordinates)
-        
-        # request that are less than QQ precision will return multiple QQ centers
-        # keep the mean coordinates - get to one set of lat/lon coords
-        if(nrow(r) >= 0) {
-          r <- data.frame(id=p$id[i], plssid=formatted.plss[i], t(colMeans(r[ ,2:3], na.rm = TRUE))) 
-        }
-        res[[i]] <- r
-        
-      }
-      setTxtProgressBar(pb, i)
-    }
   }
-  close(pb)
-  res <- ldply(res)
-  #print(res)
+  # check that p is a data frame
+  if (!is.data.frame(p)) {
+    stop('p must be a data frame'
+    }
+  # check that p has a plssid column
+  if (!('plssid' %in% colnames(p))) {
+    stop("Data frame p must have a 'plssid' column. Consider using formatPLSS function to generate p.')
+    }
+  # apply over data frame
+  res <-  do.call("rbind", apply(p, 1, PLSS2LL_oneline))
   return(res)
 }
 

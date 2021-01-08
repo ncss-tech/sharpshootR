@@ -149,7 +149,7 @@ PLSS2LL_oneline <- function(p) {
   # handling for if no coords returned
   if (inherits(r$coordinates, 'list') &
       length(r$coordinates) == 0) {
-    r <- data.frame(id = p['id'], plssid = formatted.plss)
+    r <- data.frame(id = p['id'], plssid = formatted.plss, lat = NA, lon = NA)
     res <- as.namedr
   } else {
     # keep only coordinates

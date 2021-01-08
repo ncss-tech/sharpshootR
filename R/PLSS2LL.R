@@ -176,11 +176,11 @@ PLSS2LL <- function(p) {
   }
   # check that p is a data frame
   if (!is.data.frame(p)) {
-    stop('p must be a data frame'
+    stop('p must be a data frame')
     }
   # check that p has a plssid column
   if (!('plssid' %in% colnames(p))) {
-    stop("Data frame p must have a 'plssid' column. Consider using formatPLSS function to generate p.')
+    stop("Data frame p must have a 'plssid' column. Consider using the formatPLSS function to generate p.')
     }
   # apply over data frame
   res <-  do.call("rbind", apply(p, 1, PLSS2LL_oneline))

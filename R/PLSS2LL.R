@@ -194,14 +194,6 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
 # This function retrieves one coordinate. To be used by LSS2LL wrapper function.
 # consider not exporting
 
-#' Title
-#'
-#' @param p 
-#'
-#' @return
-#' @export
-#'
-#' @examples
 PLSS2LL_oneline <- function(p) {
   # p in a vectorized function is passed as named vector
   if (is.na(p['plssid'])) {
@@ -299,7 +291,7 @@ PLSS2LL <- function(p) {
     }
   # check that p has a plssid column
   if (!('plssid' %in% colnames(p))) {
-    stop("Data frame p must have a 'plssid' column. Consider using the formatPLSS function to generate p.')
+    stop("Data frame p must have a 'plssid' column. Consider using the formatPLSS function to generate p.")
     }
   # apply over data frame
   res <-  do.call("rbind", apply(p, 1, PLSS2LL_oneline))

@@ -223,7 +223,7 @@ PLSS2LL_oneline <- function(p) {
   if (inherits(r$coordinates, 'list') &
       length(r$coordinates) == 0) {
     r <- data.frame(id = p['id'], plssid = formatted.plss, lat = NA, lon = NA)
-    res <- as.namedr
+    res <- r
   } else {
     # keep only coordinates
     r <- r$coordinates

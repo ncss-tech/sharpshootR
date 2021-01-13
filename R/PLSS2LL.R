@@ -244,9 +244,10 @@ PLSS2LL_oneline <- function(p) {
  
 #' @title PLSS2LL
 #' @aliases PLSS2LL_1 PLSS2LL_oneline
-#' @description Fetch lattitude and longitude centroid coordinates for coded PLSS information from the BLM PLSS web service.
+#' @description Fetch latitude and longitude centroid coordinates for coded PLSS information from the BLM PLSS web service.
 #' @usage PLSS2LL(p)
-#' @param p dataframe with chunks of PLSS coordinates
+#' @param p data.frame with chunks of PLSS coordinates
+#' @param plssid Column name containing PLSS ID (default: \code{"plssid"})
 #'
 #' @return A \code{data.frame} of PLSS codes and coordinates.
 #' @author D.E. Beaudette, Jay Skovlin
@@ -257,6 +258,7 @@ PLSS2LL_oneline <- function(p) {
 #' @examples
 #' if(requireNamespace("curl") &
 #'    curl::has_internet()) {
+#'    
 #'   # create some data
 #'   d <- data.frame(
 #'     id = 1:3,
@@ -270,28 +272,34 @@ PLSS2LL_oneline <- function(p) {
 #'     stringsAsFactors = FALSE
 #'   )
 #'   
-#'   # add column names
-#'   names(d) <- c('id', 'qq', 'q', 's', 't', 'r', 'type', 'm')
-#'   
 #'   # generate formatted PLSS codes
 #'   d$plssid <- formatPLSS(d)
 #'   
 #'   # fetch lat/long coordinates
 #'   PLSS2LL(d)
 #' }
-PLSS2LL <- function(p) {
+PLSS2LL <- function(p, plssid = "plssid") {
   # check for required packages
   if(!requireNamespace('httr', quietly = TRUE) | !requireNamespace('jsonlite', quietly = TRUE))
     stop('please install the `httr` and `jsonlite` packages', call.=FALSE)
 
   # check that p is a data frame
-  if (!is.data.frame(p)) {
+  if (!inherits(p, 'data.frame')) {
     stop('p must be a data frame')
-    }
+  } else {
+    # add data.table or other support (by casting all data.frame subclasses to data.frame)
+    p <- as.data.frame(p)
+  }
+  
+  if(!nrow(p) > 0) {
+    stop('p must have more than 0 rows')
+  }
+  
   # check that p has a plssid column
-  if (!('plssid' %in% colnames(p))) {
-    stop("Data frame p must have a 'plssid' column. Consider using the formatPLSS function to generate p.")
-    }
+  if (!(plssid %in% colnames(p))) {
+    stop(sprintf("Column %s not found in `p`. Consider using the `formatPLSS` function to generate `p`.", plssid))
+  }
+  
   # apply over data frame
   res <-  do.call("rbind", apply(p, 1, PLSS2LL_oneline))
   return(res)

@@ -1,5 +1,7 @@
 test_that("formatPLSS, PLSS2LL, LL2PLSS works", {
   
+  # test takes ~30seconds to run, and probably need to bump up timeout for stability against BLM server
+    
     skip_on_cran()
   
     options(timeout = 60000)
@@ -22,17 +24,17 @@ test_that("formatPLSS, PLSS2LL, LL2PLSS works", {
     # fetch lat/long coordinates
     expect_silent({res <- PLSS2LL(d)})
     
+    # check type and length
     expect_true(inherits(res, 'data.frame'), TRUE)
     expect_equal(nrow(res), 3)
     
-    # expect error: LL2PLSS not vectorized
-    expect_error(LL2PLSS(res$lat, res$lon))
-    
-    # expect error: lat/lng reversed
+    # expect error: lng/lat reversed
     expect_error(LL2PLSS(res$lat[1], res$lon[1]))
     
-    # make sure value for back-transforming first result: MT20 T36N R29W Sec. 17 SW NE
-    expect_silent({res <- LL2PLSS(res$lon[1], res$lat[1])})
-    expect_equal(length(res), 2)
-    expect_equal(res$plss, "MT200360N0290W0SN170ASWNE")
+    # expect silent: LL2PLSS now vectorized
+    expect_silent({res2 <- LL2PLSS(res$lon, res$lat)})
+    
+    # check value for back-transforming first result MT20 T36N R29W Sec. 17 SW NE
+    expect_equal(length(res2), 2)
+    expect_equal(res$plss[1], "MT200360N0290W0SN170ASWNE")
 })

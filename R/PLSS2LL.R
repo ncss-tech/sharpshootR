@@ -143,6 +143,18 @@ formatPLSS <- function(p, type='SN') {
 #' }
 LL2PLSS <- function(x, y, returnlevel= 'I') {
   
+  if (length(x) > 1 && length(y) > 1 && length(x) == length(y)) {
+    # vectorization
+    itrres <- lapply(seq_along(x), function(i) .LL2PLSS(x[i], y[i], returnlevel = returnlevel, .polyID = i))
+    out <- list()
+    out$geom <- do.call('rbind', lapply(itrres, function(x) x$geom))
+    out$plss <- do.call('c', lapply(itrres, function(x) x$plss))
+    return(out)
+  }
+  .LL2PLSS(x, y, returnlevel)
+}  
+
+.LL2PLSS <- function(x, y, returnlevel = "I", .polyID = 1) {
   # check for required packages
   if(!requireNamespace('httr', quietly = TRUE) | !requireNamespace('jsonlite', quietly = TRUE))
     stop('please install the `httr` and `jsonlite` packages', call.=FALSE)
@@ -168,8 +180,12 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
   # convert JSON -> list
   res <- jsonlite::fromJSON(httr::content(res, as = 'text'), flatten = TRUE)
   
+  # check for invalid result (e.g. reversed coordinates)
+  if(is.null(res$features$geometry.rings))
+    stop("invalid geometry specification, check coordinate XY order (longitude: X, latitude: Y)")
+  
   # attempt to extract PLSS geometry
-  geom <- SpatialPolygons(list(Polygons(list(Polygon(res$features$geometry.rings[[1]][1,, ])), ID = 1)))
+  geom <- SpatialPolygons(list(Polygons(list(Polygon(res$features$geometry.rings[[1]][1,, ])), ID = .polyID)))
   srid <- res$features$geometry.spatialReference.wkid
   proj4string(geom) <- paste0('+init=epsg:', srid)
   

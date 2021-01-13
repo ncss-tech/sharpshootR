@@ -127,20 +127,20 @@ formatPLSS <- function(p, type='SN') {
 #' @examples
 #' 
 #' if(requireNamespace("curl") &
-#' curl::has_internet() &
-#' require(sp)) {
-    
-#'  # create coordinates
-#'  x <- -115.3823 
-#'  y <- 48.88228
-    
-#'  # fetch PLSS geometry for these coordinates
-#'  p.plss <- LL2PLSS(x, y)
-    
-#'  # plot geometry
-#'    plot(p.plss$geom)
- 
-
+#'    
+#'    curl::has_internet() &
+#'     require(sp)) {
+#'     
+#'     # create coordinates
+#'     x <- -115.3823 
+#'     y <- 48.88228
+#'     
+#'     # fetch PLSS geometry for these coordinates
+#'     p.plss <- LL2PLSS(x, y)
+#'     
+#'     # plot geometry
+#'     plot(p.plss$geom)
+#' }
 LL2PLSS <- function(x, y, returnlevel= 'I') {
   
   # check for required packages
@@ -243,7 +243,7 @@ PLSS2LL_oneline <- function(p) {
 
  
 #' @title PLSS2LL
-#' @aliases PLSS2LL_1,PLSS2LL_oneline
+#' @aliases PLSS2LL_1 PLSS2LL_oneline
 #' @description Fetch lattitude and longitude centroid coordinates for coded PLSS information from the BLM PLSS web service.
 #' @usage PLSS2LL(p)
 #' @param p dataframe with chunks of PLSS coordinates
@@ -256,30 +256,29 @@ PLSS2LL_oneline <- function(p) {
 #'
 #' @examples
 #' if(requireNamespace("curl") &
-#' curl::has_internet()
-#' ) {
-#' 
-#'  # create some data
-#'  d <- data.frame( 
-#'  id=1:3, 
-#'  qq=c('SW', 'SW', 'SE'), 
-#'  q=c('NE', 'NW', 'SE'),
-#'  s=c(17, 32, 30), 
-#'  t=c('T36N', 'T35N', 'T35N'),
-#'  r=c('R29W', 'R28W', 'R28W'),
-#'  type='SN',
-#'  m='MT20', stringsAsFactors = FALSE)
-  
-#' # add column names
-#' names(d) <- c('id', 'qq', 'q', 's', 't', 'r', 'type', 'm')
-  
-#' # generate formatted PLSS codes
-#' d$plssid <- formatPLSS(d)
-  
-#' # fetch lat/long coordinates
-#' PLSS2LL(d)
-
-# this is the vectorized wrapper.
+#'    curl::has_internet()) {
+#'   # create some data
+#'   d <- data.frame(
+#'     id = 1:3,
+#'     qq = c('SW', 'SW', 'SE'),
+#'     q = c('NE', 'NW', 'SE'),
+#'     s = c(17, 32, 30),
+#'     t = c('T36N', 'T35N', 'T35N'),
+#'     r = c('R29W', 'R28W', 'R28W'),
+#'     type = 'SN',
+#'     m = 'MT20',
+#'     stringsAsFactors = FALSE
+#'   )
+#'   
+#'   # add column names
+#'   names(d) <- c('id', 'qq', 'q', 's', 't', 'r', 'type', 'm')
+#'   
+#'   # generate formatted PLSS codes
+#'   d$plssid <- formatPLSS(d)
+#'   
+#'   # fetch lat/long coordinates
+#'   PLSS2LL(d)
+#' }
 PLSS2LL <- function(p) {
   # check for required packages
   if(!requireNamespace('httr', quietly = TRUE) | !requireNamespace('jsonlite', quietly = TRUE))

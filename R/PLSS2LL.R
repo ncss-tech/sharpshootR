@@ -210,7 +210,7 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
 # This function retrieves one coordinate. To be used by LSS2LL wrapper function.
 # consider not exporting
 
-PLSS2LL_oneline <- function(p) {
+.PLSS2LL <- function(p) {
   # p in a vectorized function is passed as named vector
   if (is.na(p['plssid'])) {
     return(NA)
@@ -259,7 +259,6 @@ PLSS2LL_oneline <- function(p) {
 
  
 #' @title PLSS2LL
-#' @aliases PLSS2LL_1 PLSS2LL_oneline
 #' @description Fetch latitude and longitude centroid coordinates for coded PLSS information from the BLM PLSS web service.
 #' @usage PLSS2LL(p)
 #' @param p data.frame with chunks of PLSS coordinates
@@ -317,11 +316,11 @@ PLSS2LL <- function(p, plssid = "plssid") {
   }
   
   # apply over data frame
-  res <-  do.call("rbind", apply(p, 1, PLSS2LL_oneline))
+  res <-  do.call("rbind", apply(p, 1, .PLSS2LL))
   return(res)
 }
 
-PLSS2LL_1 <- function(formatted.plss) {
+.PLSS2LL_1 <- function(formatted.plss) {
   
   # check for required packages
   if(!requireNamespace('httr', quietly = TRUE) | !requireNamespace('jsonlite', quietly = TRUE))

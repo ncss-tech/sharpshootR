@@ -2,8 +2,6 @@
 % Please edit documentation in R/PLSS2LL.R
 \name{PLSS2LL}
 \alias{PLSS2LL}
-\alias{PLSS2LL_1}
-\alias{PLSS2LL_oneline}
 \title{PLSS2LL}
 \usage{
 PLSS2LL(p)
@@ -25,6 +23,7 @@ This function expects that the dataframe will have a 'plssid' column generated b
 \examples{
 if(requireNamespace("curl") &
    curl::has_internet()) {
+   
   # create some data
   d <- data.frame(
     id = 1:3,

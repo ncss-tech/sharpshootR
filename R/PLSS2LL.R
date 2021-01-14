@@ -127,22 +127,34 @@ formatPLSS <- function(p, type='SN') {
 #' @examples
 #' 
 #' if(requireNamespace("curl") &
-#' curl::has_internet() &
-#' require(sp)) {
-    
-#'  # create coordinates
-#'  x <- -115.3823 
-#'  y <- 48.88228
-    
-#'  # fetch PLSS geometry for these coordinates
-#'  p.plss <- LL2PLSS(x, y)
-    
-#'  # plot geometry
-#'    plot(p.plss$geom)
- 
-
+#'    
+#'    curl::has_internet() &
+#'     require(sp)) {
+#'     
+#'     # create coordinates
+#'     x <- -115.3823 
+#'     y <- 48.88228
+#'     
+#'     # fetch PLSS geometry for these coordinates
+#'     p.plss <- LL2PLSS(x, y)
+#'     
+#'     # plot geometry
+#'     plot(p.plss$geom)
+#' }
 LL2PLSS <- function(x, y, returnlevel= 'I') {
   
+  if (length(x) > 1 && length(y) > 1 && length(x) == length(y)) {
+    # vectorization
+    itrres <- lapply(seq_along(x), function(i) .LL2PLSS(x[i], y[i], returnlevel = returnlevel, .polyID = i))
+    out <- list()
+    out$geom <- do.call('rbind', lapply(itrres, function(x) x$geom))
+    out$plss <- do.call('c', lapply(itrres, function(x) x$plss))
+    return(out)
+  }
+  .LL2PLSS(x, y, returnlevel)
+}  
+
+.LL2PLSS <- function(x, y, returnlevel = "I", .polyID = 1) {
   # check for required packages
   if(!requireNamespace('httr', quietly = TRUE) | !requireNamespace('jsonlite', quietly = TRUE))
     stop('please install the `httr` and `jsonlite` packages', call.=FALSE)
@@ -168,8 +180,12 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
   # convert JSON -> list
   res <- jsonlite::fromJSON(httr::content(res, as = 'text'), flatten = TRUE)
   
+  # check for invalid result (e.g. reversed coordinates)
+  if(is.null(res$features$geometry.rings))
+    stop("invalid geometry specification, check coordinate XY order (longitude: X, latitude: Y)")
+  
   # attempt to extract PLSS geometry
-  geom <- SpatialPolygons(list(Polygons(list(Polygon(res$features$geometry.rings[[1]][1,, ])), ID = 1)))
+  geom <- SpatialPolygons(list(Polygons(list(Polygon(res$features$geometry.rings[[1]][1,, ])), ID = .polyID)))
   srid <- res$features$geometry.spatialReference.wkid
   proj4string(geom) <- paste0('+init=epsg:', srid)
   
@@ -194,7 +210,7 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
 # This function retrieves one coordinate. To be used by LSS2LL wrapper function.
 # consider not exporting
 
-PLSS2LL_oneline <- function(p) {
+.PLSS2LL <- function(p) {
   # p in a vectorized function is passed as named vector
   if (is.na(p['plssid'])) {
     return(NA)
@@ -223,7 +239,7 @@ PLSS2LL_oneline <- function(p) {
   if (inherits(r$coordinates, 'list') &
       length(r$coordinates) == 0) {
     r <- data.frame(id = p['id'], plssid = formatted.plss, lat = NA, lon = NA)
-    res <- as.namedr
+    res <- r
   } else {
     # keep only coordinates
     r <- r$coordinates
@@ -243,10 +259,10 @@ PLSS2LL_oneline <- function(p) {
 
  
 #' @title PLSS2LL
-#' @aliases PLSS2LL_1,PLSS2LL_oneline
-#' @description Fetch lattitude and longitude centroid coordinates for coded PLSS information from the BLM PLSS web service.
+#' @description Fetch latitude and longitude centroid coordinates for coded PLSS information from the BLM PLSS web service.
 #' @usage PLSS2LL(p)
-#' @param p dataframe with chunks of PLSS coordinates
+#' @param p data.frame with chunks of PLSS coordinates
+#' @param plssid Column name containing PLSS ID (default: \code{"plssid"})
 #'
 #' @return A \code{data.frame} of PLSS codes and coordinates.
 #' @author D.E. Beaudette, Jay Skovlin
@@ -256,49 +272,55 @@ PLSS2LL_oneline <- function(p) {
 #'
 #' @examples
 #' if(requireNamespace("curl") &
-#' curl::has_internet()
-#' ) {
-#' 
-#'  # create some data
-#'  d <- data.frame( 
-#'  id=1:3, 
-#'  qq=c('SW', 'SW', 'SE'), 
-#'  q=c('NE', 'NW', 'SE'),
-#'  s=c(17, 32, 30), 
-#'  t=c('T36N', 'T35N', 'T35N'),
-#'  r=c('R29W', 'R28W', 'R28W'),
-#'  type='SN',
-#'  m='MT20', stringsAsFactors = FALSE)
-  
-#' # add column names
-#' names(d) <- c('id', 'qq', 'q', 's', 't', 'r', 'type', 'm')
-  
-#' # generate formatted PLSS codes
-#' d$plssid <- formatPLSS(d)
-  
-#' # fetch lat/long coordinates
-#' PLSS2LL(d)
-
-# this is the vectorized wrapper.
-PLSS2LL <- function(p) {
+#'    curl::has_internet()) {
+#'    
+#'   # create some data
+#'   d <- data.frame(
+#'     id = 1:3,
+#'     qq = c('SW', 'SW', 'SE'),
+#'     q = c('NE', 'NW', 'SE'),
+#'     s = c(17, 32, 30),
+#'     t = c('T36N', 'T35N', 'T35N'),
+#'     r = c('R29W', 'R28W', 'R28W'),
+#'     type = 'SN',
+#'     m = 'MT20',
+#'     stringsAsFactors = FALSE
+#'   )
+#'   
+#'   # generate formatted PLSS codes
+#'   d$plssid <- formatPLSS(d)
+#'   
+#'   # fetch lat/long coordinates
+#'   PLSS2LL(d)
+#' }
+PLSS2LL <- function(p, plssid = "plssid") {
   # check for required packages
   if(!requireNamespace('httr', quietly = TRUE) | !requireNamespace('jsonlite', quietly = TRUE))
     stop('please install the `httr` and `jsonlite` packages', call.=FALSE)
 
   # check that p is a data frame
-  if (!is.data.frame(p)) {
+  if (!inherits(p, 'data.frame')) {
     stop('p must be a data frame')
-    }
+  } else {
+    # add data.table or other support (by casting all data.frame subclasses to data.frame)
+    p <- as.data.frame(p)
+  }
+  
+  if(!nrow(p) > 0) {
+    stop('p must have more than 0 rows')
+  }
+  
   # check that p has a plssid column
-  if (!('plssid' %in% colnames(p))) {
-    stop("Data frame p must have a 'plssid' column. Consider using the formatPLSS function to generate p.")
-    }
+  if (!(plssid %in% colnames(p))) {
+    stop(sprintf("Column %s not found in `p`. Consider using the `formatPLSS` function to generate `p`.", plssid))
+  }
+  
   # apply over data frame
-  res <-  do.call("rbind", apply(p, 1, PLSS2LL_oneline))
+  res <-  do.call("rbind", apply(p, 1, .PLSS2LL))
   return(res)
 }
 
-PLSS2LL_1 <- function(formatted.plss) {
+.PLSS2LL_1 <- function(formatted.plss) {
   
   # check for required packages
   if(!requireNamespace('httr', quietly = TRUE) | !requireNamespace('jsonlite', quietly = TRUE))

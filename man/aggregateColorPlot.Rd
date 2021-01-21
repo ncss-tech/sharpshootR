@@ -53,7 +53,7 @@ loafercreek$genhz <- factor(loafercreek$genhz)
 a <- aggregateColor(loafercreek, 'genhz')
 
 # plot
-par(mar=c(1,4,4,1))
+par(mar=c(4,4,1,1))
 aggregateColorPlot(a, print.n.hz = TRUE)
   
 }

@@ -1,4 +1,4 @@
-[![Travis-CI Build Status](https://travis-ci.org/ncss-tech/sharpshootR.svg?branch=master)](https://travis-ci.org/ncss-tech/sharpshootR)
+[![R build status](https://github.com/ncss-tech/sharpshootR/workflows/R-CMD-check/badge.svg)](https://github.com/ncss-tech/sharpshootR/actions)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/sharpshootR)](https://cran.r-project.org/package=sharpshootR)
 [![Total_Downloads](http://cranlogs.r-pkg.org/badges/grand-total/sharpshootR)](https://cran.r-project.org/package=sharpshootR)
 

@@ -41,7 +41,7 @@ formatPLSS <- function(p, type='SN') {
   required_chr <- c("id", "qq", "q", "t", "r", "type", "m")
   required_int <- c("s")
 
-  if (!inherits(p, 'data.frame') && !all(c(required_chr, required_int) %in% colnames(p)))
+  if (!inherits(p, 'data.frame') || !all(c(required_chr, required_int) %in% colnames(p)))
     stop('p must be a data.frame containing columns: id, qq, q, s, t, r, type, m')
 
   # handle subclasses of data.frame (e.g. tibble, data.table)

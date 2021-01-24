@@ -56,7 +56,7 @@ formatPLSS <- function(p, type='SN') {
     p.r <- paste0(p.r, collapse = '0')
     
     # add 'SN to section number and pad single digit section numbers
-    p.s <- ifelse(as.numeric(p$s[i] > 9), paste0('SN', p$s[i]), paste0('SN', 0, p$s[i]))
+    p.s <- ifelse(as.numeric(p$s[i] > 9), paste0('SN', p$s[i]), paste0('SN', 0, as.numeric(p$s[i])))
     #p.s <- paste0('SN', p$s[i])
     
     # replace NA -> '' IN Q and QQ sections

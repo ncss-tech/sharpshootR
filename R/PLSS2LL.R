@@ -37,63 +37,87 @@ formatPLSS <- function(p, type='SN') {
   if(!requireNamespace('stringi', quietly = TRUE))
     stop('please install the `stringi` package', call.=FALSE)
 
+  # specify columns
+  required_chr <- c("id", "qq", "q", "t", "r", "type", "m")
+  required_int <- c("s")
+
+  if (!inherits(p, 'data.frame') && !all(c(required_chr, required_int) %in% colnames(p)))
+    stop('p must be a data.frame containing columns: id, qq, q, s, t, r, type, m')
+
+  # handle subclasses of data.frame (e.g. tibble, data.table)
+  p <- as.data.frame(p)
+
+  # force conversions
+  p[required_chr] <- lapply(p[,required_chr, drop = FALSE], as.character)
+  p[required_int] <- lapply(p[,required_int, drop = FALSE], as.integer)
+
   # pre-allocate char vector for results
-  f <- vector(mode='character', length = nrow(p))
+  f <- vector(mode = 'character', length = nrow(p))
+
+  # identify those that can produce valid PLSS string
+  p.good <- which(complete.cases(p))
+
   for(i in 1:nrow(p)) {
-    # split Township / Range into elements, case sensitive
-    p.t <- stri_match_first_regex(p$t[i], pattern='([0-9]+)([N|S])')[2:3]
-    p.r <- stri_match_first_regex(p$r[i], pattern='([0-9]+)([E|W])')[2:3]
 
-    # pad T/R codes with 0
-    p.t[1] <- stri_pad(p.t[1], width=2, pad = '0')
-    p.r[1] <- stri_pad(p.r[1], width=2, pad = '0')
+    # skip incomplete (NA-containing) rows
+    if(i %in% p.good) {
 
-    # add extra '0' between T/R code and direction
-    p.t <- paste0(p.t, collapse = '0')
-    p.r <- paste0(p.r, collapse = '0')
+      # split Township / Range into elements, case sensitive
+      p.t <- stri_match_first_regex(p$t[i], pattern='([0-9]+)([N|S])')[2:3]
+      p.r <- stri_match_first_regex(p$r[i], pattern='([0-9]+)([E|W])')[2:3]
 
-    # add 'SN to section number and pad single digit section numbers
-    p.s <- ifelse(as.numeric(p$s[i] > 9), paste0('SN', p$s[i]), paste0('SN', 0, as.numeric(p$s[i])))
-    #p.s <- paste0('SN', p$s[i])
+      # pad T/R codes with 0
+      p.t[1] <- stri_pad(p.t[1], width=2, pad = '0')
+      p.r[1] <- stri_pad(p.r[1], width=2, pad = '0')
 
-    # replace NA -> '' IN Q and QQ sections
-    p.q <- ifelse(is.na(p$q[i]), '', p$q[i])
-    p.qq <- ifelse(is.na(p$qq[i]), '', p$qq[i])
+      # add extra '0' between T/R code and direction
+      p.t <- paste0(p.t, collapse = '0')
+      p.r <- paste0(p.r, collapse = '0')
 
-    # format the first chunk
-    f.1 <- paste0(c(p$m[i], p.t, p.r, p.s, 'A'), collapse = '0')
-    # format the (optional) Q and QQ sections
-    f.2 <- paste0(p.qq, p.q)
-    f[i] <- paste0(f.1, f.2)
+      # add 'SN to section number and pad single digit section numbers
+      p.s <- ifelse(p$s[i] > 9, paste0('SN', p$s[i]), paste0('SN', 0, p$s[i]))
 
-    # handle if sections are protracted and unprotracted blocks
-    if(type=='PB') {
-      f[i] <- stri_replace_all_fixed(f[i], 'SN', 'PB')
-      f[i] <- stri_replace_all_fixed(f[i], 'A', '')
-      # truncate UP and PB cases to section
-      if(!is.na(p$qq[i])) {
-        f[i] <- stri_sub(f[i], 0, stri_length(f[i])-4)
+      # replace NA -> '' IN Q and QQ sections
+      p.q <- ifelse(is.na(p$q[i]), '', p$q[i])
+      p.qq <- ifelse(is.na(p$qq[i]), '', p$qq[i])
+
+      # format the first chunk
+      f.1 <- paste0(c(p$m[i], p.t, p.r, p.s, 'A'), collapse = '0')
+      # format the (optional) Q and QQ sections
+      f.2 <- paste0(p.qq, p.q)
+      f[i] <- paste0(f.1, f.2)
+
+      # handle if sections are protracted and unprotracted blocks
+      if(type=='PB') {
+        f[i] <- stri_replace_all_fixed(f[i], 'SN', 'PB')
+        f[i] <- stri_replace_all_fixed(f[i], 'A', '')
+        # truncate UP and PB cases to section
+        if(!is.na(p$qq[i])) {
+          f[i] <- stri_sub(f[i], 0, stri_length(f[i])-4)
+        }
+        if(is.na(p$qq[i]) & !is.na(p$q[i])) {
+          f[i] <- stri_sub(f[i], 1, stri_length(f[i])-2)
+        }
+        if(is.na(p$qq[i]) & is.na(p$q[i])) {
+          f[i] <- f[i]
+        }
       }
-      if(is.na(p$qq[i]) & !is.na(p$q[i])) {
-        f[i] <- stri_sub(f[i], 1, stri_length(f[i])-2)
+      if(type=='UP') {
+        f[i] <- stri_replace_all_fixed(f[i], 'SN', 'UP')
+        f[i] <- stri_replace_all_fixed(f[i], 'A', 'U')
+        # truncate UP and PB cases to section
+        if(!is.na(p$qq[i])) {
+          f[i] <- stri_sub(f[i], 0, stri_length(f[i])-4)
+        }
+        if(is.na(p$qq[i]) & !is.na(p$q[i])) {
+          f[i] <- stri_sub(f[i], 1, stri_length(f[i])-2)
+        }
+        if(is.na(p$qq[i]) & is.na(p$q[i])) {
+          f[i] <- f[i]
+        }
       }
-      if(is.na(p$qq[i]) & is.na(p$q[i])) {
-        f[i] <- f[i]
-      }
-    }
-    if(type=='UP') {
-      f[i] <- stri_replace_all_fixed(f[i], 'SN', 'UP')
-      f[i] <- stri_replace_all_fixed(f[i], 'A', 'U')
-      # truncate UP and PB cases to section
-      if(!is.na(p$qq[i])) {
-        f[i] <- stri_sub(f[i], 0, stri_length(f[i])-4)
-      }
-      if(is.na(p$qq[i]) & !is.na(p$q[i])) {
-        f[i] <- stri_sub(f[i], 1, stri_length(f[i])-2)
-      }
-      if(is.na(p$qq[i]) & is.na(p$q[i])) {
-        f[i] <- f[i]
-      }
+    } else {
+      f[i] <- NA
     }
   }
 

@@ -160,50 +160,67 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
     # vectorization
     itrres <- lapply(seq_along(x), function(i) .LL2PLSS(x[i], y[i], returnlevel = returnlevel, .polyID = i))
     out <- list()
-    out$geom <- do.call('rbind', lapply(itrres, function(x) x$geom))
-    out$plss <- do.call('c', lapply(itrres, function(x) x$plss))
+    out$plss <- rep(NA, length(x))
+    geo <- lapply(itrres, function(x) x$geom)
+    geoNA <- !sapply(geo, inherits, what = 'Spatial')
+    if (sum(geoNA) > 0)
+      warning("Dropping NA coordinates from SpatialPolygons result!")
+    out$geom <- do.call('rbind', geo[which(!geoNA)])
+    out$plss[!geoNA] <- do.call('c', lapply(itrres[!geoNA], function(x) x$plss))
     return(out)
   }
+
   .LL2PLSS(x, y, returnlevel)
 }
 
 .LL2PLSS <- function(x, y, returnlevel = "I", .polyID = 1) {
+  # use LL2PLSS() for vectorization
+  stopifnot(length(x) == 1)
+  stopifnot(length(x) == length(y))
+
   # check for required packages
   if(!requireNamespace('httr', quietly = TRUE) | !requireNamespace('jsonlite', quietly = TRUE))
     stop('please install the `httr` and `jsonlite` packages', call.=FALSE)
 
-  # ensure that x/y have at least 8 decimal places
-  x <- sprintf("%.08f", as.numeric(x))
-  y <- sprintf("%.08f", as.numeric(y))
+  if(!is.na(x) && !is.na(y)) {
 
-  # composite URL for GET request, result is JSON
-  if(returnlevel == 'S') {
-    u <- paste0("https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer/exts/CadastralSpecialServices/GetTRS?lat=",
-                y, "&lon=", x, "&units=DD&returnlevel=S&f=pjson")
+    # ensure that x/y have at least 8 decimal places
+    x <- sprintf("%.08f", as.numeric(x))
+    y <- sprintf("%.08f", as.numeric(y))
+
+    # composite URL for GET request, result is JSON
+    if(returnlevel == 'S') {
+      u <- paste0("https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer/exts/CadastralSpecialServices/GetTRS?lat=",
+                  y, "&lon=", x, "&units=DD&returnlevel=S&f=pjson")
+    }
+    if (returnlevel == 'I') {
+      u <- paste0("https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer/exts/CadastralSpecialServices/GetTRS?lat=",
+                  y, "&lon=", x, "&units=DD&returnlevel=I&f=pjson")
+    }
+
+    # process GET request
+    res <- httr::GET(u)
+    httr::stop_for_status(res)
+
+    # convert JSON -> list
+    res <- jsonlite::fromJSON(httr::content(res, as = 'text'), flatten = TRUE)
+
+    # check for invalid result (e.g. reversed coordinates)
+    if(is.null(res$features$geometry.rings))
+      stop("invalid geometry specification, check coordinate XY order (longitude: X, latitude: Y)")
+
+    # attempt to extract PLSS geometry
+    geom <- SpatialPolygons(list(Polygons(list(Polygon(res$features$geometry.rings[[1]][1,, ])), ID = .polyID)))
+    srid <- res$features$geometry.spatialReference.wkid
+    proj4string(geom) <- paste0('+init=epsg:', srid)
+
+    # attempt to extract PLSS coordinates
+    plss.coords <- res$features$attributes.landdescription
+  } else {
+    # return NA for NA X/Y input
+    geom <- NA
+    plss.coords <- NA
   }
-  if (returnlevel == 'I') {
-    u <- paste0("https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer/exts/CadastralSpecialServices/GetTRS?lat=",
-                y, "&lon=", x, "&units=DD&returnlevel=I&f=pjson")
-  }
-
-  # process GET request
-  res <- httr::GET(u)
-  httr::stop_for_status(res)
-
-  # convert JSON -> list
-  res <- jsonlite::fromJSON(httr::content(res, as = 'text'), flatten = TRUE)
-
-  # check for invalid result (e.g. reversed coordinates)
-  if(is.null(res$features$geometry.rings))
-    stop("invalid geometry specification, check coordinate XY order (longitude: X, latitude: Y)")
-
-  # attempt to extract PLSS geometry
-  geom <- SpatialPolygons(list(Polygons(list(Polygon(res$features$geometry.rings[[1]][1,, ])), ID = .polyID)))
-  srid <- res$features$geometry.spatialReference.wkid
-  proj4string(geom) <- paste0('+init=epsg:', srid)
-
-  # attempt to extract PLSS coordinates
-  plss.coords <- res$features$attributes.landdescription
 
   # consider returning both geom + PLSS code
   return(list(geom=geom, plss=plss.coords))

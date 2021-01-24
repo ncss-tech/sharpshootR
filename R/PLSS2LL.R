@@ -166,7 +166,9 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
     if (sum(geoNA) > 0)
       warning("Dropping NA coordinates from SpatialPolygons result!")
     out$geom <- do.call('rbind', geo[which(!geoNA)])
-    out$plss[!geoNA] <- do.call('c', lapply(itrres[!geoNA], function(x) x$plss))
+    out$plss <- na.omit(sapply(itrres, function(x) x$plss))
+              # na.omit() gives parity with Spatial result
+              #   attr(foo$plss,"na.action") to get NA's
     return(out)
   }
 

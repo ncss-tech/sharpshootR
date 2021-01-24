@@ -52,6 +52,9 @@ test_that("formatPLSS, PLSS2LL, LL2PLSS works", {
 
     # check value for back-transforming first result MT20 T36N R29W Sec. 17 SW NE
     expect_equal(length(res2), 2)
-    expect_equal(res$plss[1], "MT200360N0290W0SN170ASWNE")
-    expect_true(is.na(res$plss[3]))
+    expect_equal(res2$plss[1], "MT200360N0290W0SN170ASWNE")
+
+    # na.omit
+    plssna <- attr(res2$plss, "na.action")
+    expect_true(attr(plssna,"class") == 'omit' && as.integer(plssna) == 3)
 })

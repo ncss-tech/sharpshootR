@@ -5,7 +5,7 @@
 \alias{plssMeridians}
 \title{LL2PLSS}
 \usage{
-LL2PLSS(x, y, returnlevel)
+LL2PLSS(x, y, returnlevel = "I")
 }
 \arguments{
 \item{x}{longitude coordinates}
@@ -29,17 +29,17 @@ This function requires the following packages: \code{httr}, \code{jsonlite}, and
 \examples{
 
 if(requireNamespace("curl") &
-   
+
    curl::has_internet() &
     require(sp)) {
-    
+
     # create coordinates
-    x <- -115.3823 
+    x <- -115.3823
     y <- 48.88228
-    
+
     # fetch PLSS geometry for these coordinates
     p.plss <- LL2PLSS(x, y)
-    
+
     # plot geometry
     plot(p.plss$geom)
 }

@@ -4,7 +4,7 @@
 \alias{PLSS2LL}
 \title{PLSS2LL}
 \usage{
-PLSS2LL(p)
+PLSS2LL(p, plssid = "plssid")
 }
 \arguments{
 \item{p}{data.frame with chunks of PLSS coordinates}
@@ -23,7 +23,7 @@ This function expects that the dataframe will have a 'plssid' column generated b
 \examples{
 if(requireNamespace("curl") &
    curl::has_internet()) {
-   
+
   # create some data
   d <- data.frame(
     id = 1:3,
@@ -36,16 +36,16 @@ if(requireNamespace("curl") &
     m = 'MT20',
     stringsAsFactors = FALSE
   )
-  
+
   # generate formatted PLSS codes
   d$plssid <- formatPLSS(d)
-  
+
   # fetch lat/long coordinates
   PLSS2LL(d)
 }
 }
 \seealso{
-\code{\link{PLSS2LL_oneline}},\code{\link{LL2PLSS}}, \code{\link{formatPLSS}}
+\code{\link{LL2PLSS}}, \code{\link{formatPLSS}}
 }
 \author{
 D.E. Beaudette, Jay Skovlin

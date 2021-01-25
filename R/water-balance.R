@@ -138,6 +138,8 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
 #' 
 #' @param AWC available water-holding capacity (mm)
 #' 
+#' @param showAWC styling to show box for AWC below (default) or above zero point of axis
+#' 
 #' @param fig.title a title
 #'
 #' @param sw.col color for soil water
@@ -156,10 +158,12 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
 #' 
 #' @keywords hplots
 #' 
-plotWB <- function(WB, AWC, fig.title='', sw.col='#377EB8', surplus.col='#4DAF4A', et.col='#E41A1C', deficit.col='#FF7F00', pch = 22, pt.cex = 1, lwd = 1) {
+plotWB <- function(WB, AWC, fig.title='', showAWC='below', sw.col='#377EB8', surplus.col='#4DAF4A', et.col='#E41A1C', deficit.col='#FF7F00', pch = 22, pt.cex = 1, lwd = 1) {
   
   # number of time steps, usually months
   n <- nrow(WB)
+  
+  if (showAWC == 'above') {
   
   # left-side vertical scales
   # y.axt <- pretty(c(AWC + WB$U, WB$PPT, 0 - WB$PET), n = 15)
@@ -208,6 +212,57 @@ plotWB <- function(WB, AWC, fig.title='', sw.col='#377EB8', surplus.col='#4DAF4A
   # annotate AWC
   rect(xleft = 0.2, ybottom = 0, xright = n + (n * 0.2), ytop = AWC)
   
+  } 
+  
+if(showAWC == 'below') {
+  
+    # left-side vertical scales
+    y.min <- min(- WB$PET - AWC/2)
+    y.max <- max(AWC/2 + WB$U)
+    
+    # specific axis
+    ppt.axis <- pretty(c(0, y.max), n = 5)
+    pet.axis <- pretty(c(0, (0 - y.min)), n = 5)
+    
+    # remove '0' from surplus and pet axes
+    pet.axis <- pet.axis[pet.axis != 0]
+    # surplus.axis <- surplus.axis[surplus.axis != 0]
+    
+    # init barplot x-axis
+    bp <- barplot(AWC + WB$S, plot=FALSE)
+    bp <- as.vector(bp)
+    
+    # init canvas
+    plot(1, 1, type='n', ylim=c(y.min, y.max), xlim=c(0, max(bp)),  axes=FALSE, ylab='', xlab='')
+    
+    # segments(x0=0, y0=y.axt, x1=max(bp), y1=y.axt, lty=2, col=grey(0.45))
+    
+    # overlay AWC with white to erase surplus within AWC
+    barplot(rep((0 - AWC), times=n), axes=FALSE, col=par('bg'), border=NA, add=TRUE)
+    
+    # add deficit
+    barplot((0 - WB$E) + WB$D, axes=FALSE, col=deficit.col, border=NA, add=TRUE)
+    
+    # overlay soil water
+    barplot((0 - WB$S), axes=FALSE, col=sw.col, border=NA, add=TRUE)
+    
+    # utilization of soil water
+    # barplot(WB$u_i, axes=FALSE, col='orange', border=NA, add=TRUE)
+    
+    # overlay actual PET
+    barplot(WB$PET, axes=FALSE, col=et.col, border=NA, add=TRUE)
+    
+    # overlay actual ET
+    #barplot(WB$E, axes=FALSE, col=aet.col, border=NA, add=TRUE)
+    
+    # plot surplus
+    barplot(WB$U, axes=FALSE, ylab='', xlab='', col=surplus.col, border=NA, add=TRUE)
+    
+    # annotate AWC
+    rect(xleft = 0.2, ybottom = (0 - AWC), xright = n + (n * 0.2), ytop = 0)
+    
+  } 
+  
   # left-hand axes
   combined.at <- c(-pet.axis, ppt.axis)
   combined.lab <- c(pet.axis, ppt.axis)
@@ -221,7 +276,7 @@ plotWB <- function(WB, AWC, fig.title='', sw.col='#377EB8', surplus.col='#4DAF4A
   # mtext(text = 'PPT | Soil Water', side = 2, line = 2.25, at=10, adj=0, cex=0.85, font=2)
   # mtext(text = 'Surplus', side = 4, line = 2.25, at=y.max, adj=1, cex=0.85, font=2)
   # negative side
-  mtext(text = 'PET | ET | Deficit | Soil Water | Surplus     (mm)', side = 2, line = 2.25, cex=0.85, font=2)
+  mtext(text = 'Soil Water | Deficit | Surplus | PET | ET    (mm)', side = 2, line = 2.25, cex=0.85, font=2)
   
   # annotate AWC
   text(x=0, y=AWC/2, labels = sprintf("AWC: %smm", AWC), srt=90, cex=0.85, font=1)
@@ -231,9 +286,9 @@ plotWB <- function(WB, AWC, fig.title='', sw.col='#377EB8', surplus.col='#4DAF4A
   
   # add PPT and PET series
   lines(bp, WB$PPT, type='l', col=par('fg'), lwd = lwd)
-  points(bp, WB$PPT, col=par('bg'), bg=par('fg'), pch = pch, cex = pt.cex)
+  points(bp, WB$PPT, col=par('fg'), bg=par('fg'), pch = 80, cex = pt.cex)
   lines(bp, 0 - WB$PET, type='l', col=par('fg'), lwd = lwd)
-  points(bp, 0 - WB$PET, col=par('bg'), bg=par('fg'), pch = pch, cex = pt.cex)
+  points(bp, 0 - WB$PET, col=par('fg'), bg=par('fg'), pch = 69, cex = pt.cex)
   
   # legend
   legend(x=max(bp), y=y.max, horiz = TRUE, legend=c('Soil Water', 'Surplus', 'ET', 'Deficit'), col=c(sw.col, surplus.col, et.col, deficit.col), pch = 15, bty='n', pt.cex = 1.5, xpd=NA, cex=1.125, xjust = 1, yjust=0)

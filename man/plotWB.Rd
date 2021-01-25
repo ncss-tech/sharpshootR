@@ -8,6 +8,7 @@ plotWB(
   WB,
   AWC,
   fig.title = "",
+  showAWC = "below",
   sw.col = "#377EB8",
   surplus.col = "#4DAF4A",
   et.col = "#E41A1C",
@@ -23,6 +24,8 @@ plotWB(
 \item{AWC}{available water-holding capacity (mm)}
 
 \item{fig.title}{a title}
+
+\item{showAWC}{styling to show box for AWC below (default) or above zero point of axis}
 
 \item{sw.col}{color for soil water}
 

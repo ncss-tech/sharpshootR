@@ -40,7 +40,12 @@ par(mar=c(4,4,2,1), bg = 'white')
 # water-year
 x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 9, rep=3)
 x.wb[x.wb$mo == 'Sep', ]
-plotWB(WB = x.wb, AWC = AWC)
+
+# plot
+plotWB(WB = x.wb, AWC = AWC, showAWC = 'above')
+
+plotWB(WB = x.wb, AWC = AWC, showAWC = 'below')
+
 
 # water year
 # last iteration
@@ -59,6 +64,6 @@ plotWB(WB = x.wb, AWC = AWC)
 # calendar year
 # last iteration
 x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 1, rep = 3, keep_last = TRUE)
-plotWB(WB = x.wb, AWC = AWC, fig.title = s)
+plotWB(WB = x.wb, AWC = AWC)
 
 

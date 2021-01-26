@@ -98,42 +98,45 @@ formatPLSS <- function(p, type = 'SN') {
       p.r <- paste0(p.r, collapse = '0')
 
       # add 'SN to section number and pad single digit section numbers
-      p.s <- ifelse(p$s[i] > 9, paste0('SN', p$s[i]), paste0('SN', 0, p$s[i]))
+      p.s <- ifelse(is.na(p$s[i]), '', ifelse(p$s[i] > 9, paste0('SN', p$s[i]), paste0('SN', 0, p$s[i])))
 
-      # replace NA -> '' IN Q and QQ sections
+      # replace NA -> '' IN S, Q and QQ sections
       p.q <- ifelse(is.na(p$q[i]), '', p$q[i])
       p.qq <- ifelse(is.na(p$qq[i]), '', p$qq[i])
 
       # format the first chunk
-      f.1 <- paste0(c(p$m[i], p.t, p.r, p.s, 'A'), collapse = '0')
+      f.1 <- ifelse(nchar(p.s) == 0, 
+                    paste0(paste0(c(p$m[i], p.t, p.r), collapse="0"), "0"), # no section
+                    paste0(c(p$m[i], p.t, p.r, p.s, 'A'), collapse = '0'))       # with section
+      
       # format the (optional) Q and QQ sections
       f.2 <- paste0(p.qq, p.q)
       f[i] <- paste0(f.1, f.2)
 
       # handle if sections are protracted and unprotracted blocks
       if (type == 'PB') {
-        f[i] <- stri_replace_all_fixed(f[i], 'SN', 'PB')
-        f[i] <- stri_replace_all_fixed(f[i], 'A', '')
+        f[i] <- stringi::stri_replace_all_fixed(f[i], 'SN', 'PB')
+        f[i] <- stringi::stri_replace_all_fixed(f[i], 'A', '')
         # truncate UP and PB cases to section
         if (!is.na(p$qq[i])) {
-          f[i] <- stri_sub(f[i], 0, stri_length(f[i]) - 4)
+          f[i] <- stringi::stri_sub(f[i], 0, stringi::stri_length(f[i]) - 4)
         }
         if (is.na(p$qq[i]) & !is.na(p$q[i])) {
-          f[i] <- stri_sub(f[i], 1, stri_length(f[i]) - 2)
+          f[i] <- stringi::stri_sub(f[i], 1, stringi::stri_length(f[i]) - 2)
         }
         if (is.na(p$qq[i]) & is.na(p$q[i])) {
           f[i] <- f[i]
         }
       }
       if (type == 'UP') {
-        f[i] <- stri_replace_all_fixed(f[i], 'SN', 'UP')
-        f[i] <- stri_replace_all_fixed(f[i], 'A', 'U')
+        f[i] <- stringi::stri_replace_all_fixed(f[i], 'SN', 'UP')
+        f[i] <- stringi::stri_replace_all_fixed(f[i], 'A', 'U')
         # truncate UP and PB cases to section
         if (!is.na(p$qq[i])) {
-          f[i] <- stri_sub(f[i], 0, stri_length(f[i]) - 4)
+          f[i] <- stringi::stri_sub(f[i], 0, stringi::stri_length(f[i]) - 4)
         }
         if (is.na(p$qq[i]) & !is.na(p$q[i])) {
-          f[i] <- stri_sub(f[i], 1, stri_length(f[i]) - 2)
+          f[i] <- stringi::stri_sub(f[i], 1, stringi::stri_length(f[i]) - 2)
         }
         if (is.na(p$qq[i]) & is.na(p$q[i])) {
           f[i] <- f[i]
@@ -155,14 +158,18 @@ formatPLSS <- function(p, type = 'SN') {
 .expectedPLSSnchar <- function(p, type = 'SN', optional_names = c("s","qq","q")) {
   # calculate expected number of characters
   .hasZeroLen <- function(x) return(is.na(x) | x == "")
-  p.expected.nchar <- 25 - ((rowSums(do.call('cbind', lapply(p[, optional_names, drop = FALSE], .hasZeroLen)[optional_names])) == 2)*4)
-  # note that while it is possible to specify only one of q/qq -- it does not appear that the API accepts, so we warn accordingly in formatPLSS
+  p.expected.nchar <- 25 - ((rowSums(do.call('cbind', lapply(p[, optional_names, drop = FALSE], .hasZeroLen)[optional_names])))*2)
+  # note that while it is possible to specify only one of q/qq -- 
+  # it does not appear that the API accepts, so we warn accordingly in formatPLSS expected length wont be right
 
-  naopt <- apply(is.na(p[,optional_names]) | p$type == "PB", 1, function(b) any(b))
-  if (type == 'PB')
+  naopt <- which(apply(is.na(p[,optional_names]) | p$type == "PB", 1, function(b) any(b)))
+  if (type == 'PB') { # type=PB -5
     p.expected.nchar <- p.expected.nchar - 5
-  else
-    p.expected.nchar[naopt] <- p.expected.nchar[naopt] - 5
+  } else {
+    if(any(is.na(p[,'s']))) { # section missing -4
+      p.expected.nchar[is.na(p[,'s'])] <- p.expected.nchar[is.na(p[,'s'])] - 4
+    }
+  }
   return(p.expected.nchar)
 }
 

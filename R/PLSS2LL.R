@@ -158,7 +158,7 @@ formatPLSS <- function(p, type = 'SN') {
   p.expected.nchar <- 25 - ((rowSums(do.call('cbind', lapply(p[, optional_names, drop = FALSE], .hasZeroLen)[optional_names])) == 2)*4)
   # note that while it is possible to specify only one of q/qq -- it does not appear that the API accepts, so we warn accordingly in formatPLSS
 
-  naopt <- is.na(p[,optional_names]) | p$type == "PB"
+  naopt <- apply(is.na(p[,optional_names]) | p$type == "PB", 1, function(b) any(b))
   if (type == 'PB')
     p.expected.nchar <- p.expected.nchar - 5
   else

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -91,7 +91,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ncss-tech/aqp/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -117,18 +117,21 @@
     <p>This function offers one possible visualization for the results of <code>monthlyWB</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotWB</span>(
-  <span class='kw'>WB</span>,
-  <span class='kw'>AWC</span>,
-  fig.title = <span class='st'>""</span>,
-  sw.col = <span class='st'>"#377EB8"</span>,
-  surplus.col = <span class='st'>"#4DAF4A"</span>,
-  et.col = <span class='st'>"#E41A1C"</span>,
-  deficit.col = <span class='st'>"#FF7F00"</span>,
-  pch = <span class='fl'>22</span>,
-  pt.cex = <span class='fl'>1</span>,
-  lwd = <span class='fl'>1</span>
-)</pre>
+    <pre class="usage"><span class='fu'>plotWB</span><span class='op'>(</span>
+  <span class='va'>WB</span>,
+  <span class='va'>AWC</span>,
+  showAWC <span class='op'>=</span> <span class='st'>"below"</span>,
+  sw.col <span class='op'>=</span> <span class='st'>"#377EB8"</span>,
+  surplus.col <span class='op'>=</span> <span class='st'>"#4DAF4A"</span>,
+  et.col <span class='op'>=</span> <span class='st'>"#E41A1C"</span>,
+  deficit.col <span class='op'>=</span> <span class='st'>"#FF7F00"</span>,
+  pch <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"P"</span>, <span class='st'>"E"</span><span class='op'>)</span>,
+  pt.cex <span class='op'>=</span> <span class='fl'>0.85</span>,
+  lwd <span class='op'>=</span> <span class='fl'>2</span>,
+  n.ticks <span class='op'>=</span> <span class='fl'>8</span>,
+  grid.col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>grey</a></span><span class='op'>(</span><span class='fl'>0.65</span><span class='op'>)</span>,
+  month.cex <span class='op'>=</span> <span class='fl'>1</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,8 +145,8 @@
       <td><p>available water-holding capacity (mm)</p></td>
     </tr>
     <tr>
-      <th>fig.title</th>
-      <td><p>a title</p></td>
+      <th>showAWC</th>
+      <td><p>styling to show box for AWC below (default) or above zero point of axis</p></td>
     </tr>
     <tr>
       <th>sw.col</th>
@@ -163,22 +166,71 @@
     </tr>
     <tr>
       <th>pch</th>
-      <td><p>plotting character for points (default: 22)</p></td>
+      <td><p>plotting character for PPT and PET points (<code><a href='https://rdrr.io/r/base/c.html'>c('P', 'E')</a></code>)</p></td>
     </tr>
     <tr>
       <th>pt.cex</th>
-      <td><p>character expansion factor for points (default: 1)</p></td>
+      <td><p>character expansion factor for PPT and PET points</p></td>
     </tr>
     <tr>
       <th>lwd</th>
-      <td><p>line width (default: 1)</p></td>
+      <td><p>line width for PPT and PET curves</p></td>
+    </tr>
+    <tr>
+      <th>n.ticks</th>
+      <td><p>approximate number of tick marks on positive and negative y-axis</p></td>
+    </tr>
+    <tr>
+      <th>grid.col</th>
+      <td><p>horizontal grid line color</p></td>
+    </tr>
+    <tr>
+      <th>month.cex</th>
+      <td><p>character expansion factor for month labels (x-axis)</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>You may have to adjust figure margins and size to get all of the elements to "look right".</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
-    <p>D.E. Beaudette</p>
+    <p>D.E. Beaudette and J.M. Skovlin</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>'hydromad'</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+
+<span class='co'>## 100mm (4") AWC</span>
+<span class='co'># monthly PPT and PET extracted from monthly estimates at Sonora, CA</span>
+<span class='va'>AWC</span> <span class='op'>&lt;-</span> <span class='fl'>100</span>
+<span class='va'>PPT</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>171</span>, <span class='fl'>151</span>, <span class='fl'>138</span>, <span class='fl'>71</span>, <span class='fl'>36</span>, <span class='fl'>7</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>11</span>, <span class='fl'>48</span>, <span class='fl'>102</span>, <span class='fl'>145</span><span class='op'>)</span>
+<span class='va'>PET</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>15.17</span>, <span class='fl'>18.26</span>, <span class='fl'>30.57</span>, <span class='fl'>42.95</span>, <span class='fl'>75.37</span>, <span class='fl'>108.05</span>, <span class='fl'>139.74</span>, <span class='fl'>128.9</span>, <span class='fl'>93.99</span>, <span class='fl'>59.84</span>, <span class='fl'>26.95</span>, <span class='fl'>14.2</span><span class='op'>)</span>
+
+<span class='co'># water-year</span>
+<span class='co'># three years</span>
+<span class='va'>x.wb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='monthlyWB.html'>monthlyWB</a></span><span class='op'>(</span><span class='va'>AWC</span>, <span class='va'>PPT</span>, <span class='va'>PET</span>, S_init <span class='op'>=</span> <span class='fl'>0</span>, starting_month <span class='op'>=</span> <span class='fl'>9</span>, rep <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+<span class='va'>x.wb</span><span class='op'>[</span><span class='va'>x.wb</span><span class='op'>$</span><span class='va'>mo</span> <span class='op'>==</span> <span class='st'>'Sep'</span>, <span class='op'>]</span>
+
+<span class='co'># new-style representation, with AWC "above 0"</span>
+<span class='fu'>plotWB</span><span class='op'>(</span><span class='va'>x.wb</span>, <span class='va'>AWC</span>, showAWC <span class='op'>=</span> <span class='st'>'below'</span><span class='op'>)</span>
+
+<span class='co'># old-style representation, with AWC "above 0"</span>
+<span class='fu'>plotWB</span><span class='op'>(</span><span class='va'>x.wb</span>, <span class='va'>AWC</span>, showAWC <span class='op'>=</span> <span class='st'>'above'</span><span class='op'>)</span>
+
+
+<span class='co'># water year</span>
+<span class='co'># last iteration</span>
+<span class='va'>x.wb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='monthlyWB.html'>monthlyWB</a></span><span class='op'>(</span><span class='va'>AWC</span>, <span class='va'>PPT</span>, <span class='va'>PET</span>, S_init <span class='op'>=</span> <span class='fl'>0</span>, 
+                  starting_month <span class='op'>=</span> <span class='fl'>9</span>, rep <span class='op'>=</span> <span class='fl'>3</span>, 
+                  keep_last <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
+
+<span class='fu'>plotWB</span><span class='op'>(</span><span class='va'>x.wb</span>, <span class='va'>AWC</span><span class='op'>)</span>
+
+<span class='op'>}</span>
+</div><div class='img'><img src='plotWB-1.png' alt='' width='768' height='475' /></div><div class='img'><img src='plotWB-2.png' alt='' width='768' height='475' /></div><div class='img'><img src='plotWB-3.png' alt='' width='768' height='475' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -91,7 +91,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ncss-tech/aqp/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -117,7 +117,7 @@
     <p>Annual climate summaries for soil series, based on <code><a href='https://rdrr.io/pkg/latticeExtra/man/segplot.html'>latticeExtra::segplot</a></code>, based on 5th, 25th, 50th, 75th, and 95th percentiles. Input data should be from <code><a href='https://rdrr.io/pkg/soilDB/man/fetchOSD.html'>soilDB::fetchOSD</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>vizAnnualClimate</span>(<span class='kw'>climate.data</span>, IQR.cex=<span class='fl'>1</span>, s=<span class='kw'>NULL</span>, s.col=<span class='st'>'firebrick'</span>, <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>vizAnnualClimate</span><span class='op'>(</span><span class='va'>climate.data</span>, IQR.cex<span class='op'>=</span><span class='fl'>1</span>, s<span class='op'>=</span><span class='cn'>NULL</span>, s.col<span class='op'>=</span><span class='st'>'firebrick'</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,59 +164,59 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 
-<span class='co'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"curl"</span>) <span class='op'>&amp;</span>
-   <span class='kw'>curl</span>::<span class='fu'><a href='https://jeroen.cran.dev/curl/reference/nslookup.html'>has_internet</a></span>() <span class='op'>&amp;</span>
-   <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'><a href='http://ncss-tech.github.io/AQP'>soilDB</a></span>) <span class='op'>&amp;</span> 
-   <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'><a href='https://github.com/ncss-tech/aqp'>aqp</a></span>) <span class='op'>&amp;</span> 
-   <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'><a href='http://latticeextra.r-forge.r-project.org'>latticeExtra</a></span>)
-) {
+<span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"curl"</span><span class='op'>)</span> <span class='op'>&amp;</span>
+   <span class='fu'>curl</span><span class='fu'>::</span><span class='fu'><a href='https://jeroen.cran.dev/curl/reference/nslookup.html'>has_internet</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>&amp;</span>
+   <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='http://ncss-tech.github.io/AQP/'>soilDB</a></span><span class='op'>)</span> <span class='op'>&amp;</span> 
+   <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/ncss-tech/aqp'>aqp</a></span><span class='op'>)</span> <span class='op'>&amp;</span> 
+   <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='http://latticeextra.r-forge.r-project.org/'>latticeExtra</a></span><span class='op'>)</span>
+<span class='op'>)</span> <span class='op'>{</span>
   
   <span class='co'># soil series of interest</span>
-<span class='kw'>soil</span> <span class='op'>&lt;-</span> <span class='st'>'ARBUCKLE'</span>
+<span class='va'>soil</span> <span class='op'>&lt;-</span> <span class='st'>'ARBUCKLE'</span>
 
 <span class='co'># get competing series</span>
-<span class='kw'>sdata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/soilDB/man/fetchOSD.html'>fetchOSD</a></span>(<span class='kw'>soil</span>, extended = <span class='fl'>TRUE</span>)
+<span class='va'>sdata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/soilDB/man/fetchOSD.html'>fetchOSD</a></span><span class='op'>(</span><span class='va'>soil</span>, extended <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># get competing series' data</span>
-<span class='kw'>sdata.competing</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/soilDB/man/fetchOSD.html'>fetchOSD</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>soil</span>, <span class='kw'>sdata</span><span class='op'>$</span><span class='kw'>competing</span><span class='op'>$</span><span class='kw'>competing</span>))
+<span class='va'>sdata.competing</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/soilDB/man/fetchOSD.html'>fetchOSD</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>soil</span>, <span class='va'>sdata</span><span class='op'>$</span><span class='va'>competing</span><span class='op'>$</span><span class='va'>competing</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># only use established series</span>
-<span class='kw'>idx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='kw'>sdata.competing</span><span class='op'>$</span><span class='kw'>series_status</span> <span class='op'>==</span> <span class='st'>'established'</span>)
+<span class='va'>idx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='va'>sdata.competing</span><span class='op'>$</span><span class='va'>series_status</span> <span class='op'>==</span> <span class='st'>'established'</span><span class='op'>)</span>
 
 <span class='co'># subset as needed</span>
-<span class='co'>if</span>(<span class='fu'><a href='https://rdrr.io/pkg/aqp/man/length.html'>length</a></span>(<span class='kw'>idx</span>) <span class='op'>&lt;</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/length.html'>length</a></span>(<span class='kw'>sdata.competing</span>)) {
-  <span class='kw'>sdata.competing</span> <span class='op'>&lt;-</span> <span class='kw'>sdata.competing</span>[<span class='kw'>idx</span>, ]
+<span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/aqp/man/length.html'>length</a></span><span class='op'>(</span><span class='va'>idx</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/length.html'>length</a></span><span class='op'>(</span><span class='va'>sdata.competing</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>sdata.competing</span> <span class='op'>&lt;-</span> <span class='va'>sdata.competing</span><span class='op'>[</span><span class='va'>idx</span>, <span class='op'>]</span>
   
-}
+<span class='op'>}</span>
 
 <span class='co'># now get the extended data</span>
-<span class='kw'>sdata.competing.full</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/soilDB/man/fetchOSD.html'>fetchOSD</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/aqp/man/site.html'>site</a></span>(<span class='kw'>sdata.competing</span>)<span class='op'>$</span><span class='kw'>id</span>, extended = <span class='fl'>TRUE</span>)
+<span class='va'>sdata.competing.full</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/soilDB/man/fetchOSD.html'>fetchOSD</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/aqp/man/site.html'>site</a></span><span class='op'>(</span><span class='va'>sdata.competing</span><span class='op'>)</span><span class='op'>$</span><span class='va'>id</span>, extended <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># extract SPC</span>
-<span class='kw'>spc</span> <span class='op'>&lt;-</span> <span class='kw'>sdata.competing.full</span><span class='op'>$</span><span class='kw'>SPC</span>
+<span class='va'>spc</span> <span class='op'>&lt;-</span> <span class='va'>sdata.competing.full</span><span class='op'>$</span><span class='va'>SPC</span>
 
 <span class='co'># full set of series names</span>
-<span class='kw'>s.names</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/unique.html'>unique</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/aqp/man/site.html'>site</a></span>(<span class='kw'>spc</span>)<span class='op'>$</span><span class='kw'>id</span>)
+<span class='va'>s.names</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/unique.html'>unique</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/aqp/man/site.html'>site</a></span><span class='op'>(</span><span class='va'>spc</span><span class='op'>)</span><span class='op'>$</span><span class='va'>id</span><span class='op'>)</span>
 
 <span class='co'># todo: probably better ways to do this...</span>
 <span class='co'># note: need to load lattice for this to work</span>
-<span class='fu'>trellis.par.set</span>(plot.line=<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(col=<span class='st'>'RoyalBlue'</span>))
+<span class='fu'>trellis.par.set</span><span class='op'>(</span>plot.line<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>col<span class='op'>=</span><span class='st'>'RoyalBlue'</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># control center symbol and size here</span>
-<span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'>vizAnnualClimate</span>(<span class='kw'>sdata.competing.full</span><span class='op'>$</span><span class='kw'>climate.annual</span>, s=<span class='kw'>soil</span>, IQR.cex = <span class='fl'>1.1</span>, cex=<span class='fl'>1.1</span>, pch=<span class='fl'>18</span>)
+<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>vizAnnualClimate</span><span class='op'>(</span><span class='va'>sdata.competing.full</span><span class='op'>$</span><span class='va'>climate.annual</span>, s<span class='op'>=</span><span class='va'>soil</span>, IQR.cex <span class='op'>=</span> <span class='fl'>1.1</span>, cex<span class='op'>=</span><span class='fl'>1.1</span>, pch<span class='op'>=</span><span class='fl'>18</span><span class='op'>)</span>
 
 <span class='co'># plot figure</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>res</span><span class='op'>$</span><span class='kw'>fig</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>$</span><span class='va'>fig</span><span class='op'>)</span>
 
 <span class='co'># check clustering</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='kw'>res</span><span class='op'>$</span><span class='kw'>clust</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>$</span><span class='va'>clust</span><span class='op'>)</span>
 
 <span class='co'># do something with clustering</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(mar=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>))
-<span class='fu'><a href='plotProfileDendrogram.html'>plotProfileDendrogram</a></span>(<span class='kw'>spc</span>, clust = <span class='kw'>res</span><span class='op'>$</span><span class='kw'>clust</span>, scaling.factor = <span class='fl'>0.075</span>, width = <span class='fl'>0.2</span>, y.offset = <span class='fl'>0.5</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span>(<span class='st'>'sorted by annual climate summaries'</span>, side = <span class='fl'>3</span>, at = <span class='fl'>0.5</span>, adj = <span class='fl'>0</span>, line = <span class='op'>-</span><span class='fl'>1.5</span>, font=<span class='fl'>3</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mar<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='plotProfileDendrogram.html'>plotProfileDendrogram</a></span><span class='op'>(</span><span class='va'>spc</span>, clust <span class='op'>=</span> <span class='va'>res</span><span class='op'>$</span><span class='va'>clust</span>, scaling.factor <span class='op'>=</span> <span class='fl'>0.075</span>, width <span class='op'>=</span> <span class='fl'>0.2</span>, y.offset <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span><span class='op'>(</span><span class='st'>'sorted by annual climate summaries'</span>, side <span class='op'>=</span> <span class='fl'>3</span>, at <span class='op'>=</span> <span class='fl'>0.5</span>, adj <span class='op'>=</span> <span class='fl'>0</span>, line <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1.5</span>, font<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
 
-}
+<span class='op'>}</span>
 </div><div class='img'><img src='vizAnnualClimate-1.png' alt='' width='768' height='475' /></div><div class='output co'>#&gt; List of 7
 #&gt;  $ order    : int [1:16] 1 3 7 5 4 2 6 12 8 14 ...
 #&gt;  $ height   : num [1:15] 1.977 0 0.944 1.977 3.311 ...

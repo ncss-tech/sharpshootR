@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -91,7 +91,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ncss-tech/aqp/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -117,7 +117,7 @@
     <p>Get snow survey data (California only) from the CDEC website.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>CDECsnowQuery</span>(<span class='kw'>course</span>, <span class='kw'>start_yr</span>, <span class='kw'>end_yr</span>)</pre>
+    <pre class="usage"><span class='fu'>CDECsnowQuery</span><span class='op'>(</span><span class='va'>course</span>, <span class='va'>start_yr</span>, <span class='va'>end_yr</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,14 +155,14 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 
-<span class='co'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"curl"</span>) <span class='op'>&amp;</span>
-   <span class='kw'>curl</span>::<span class='fu'><a href='https://jeroen.cran.dev/curl/reference/nslookup.html'>has_internet</a></span>() 
-   ) {
+<span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"curl"</span><span class='op'>)</span> <span class='op'>&amp;</span>
+   <span class='fu'>curl</span><span class='fu'>::</span><span class='fu'><a href='https://jeroen.cran.dev/curl/reference/nslookup.html'>has_internet</a></span><span class='op'>(</span><span class='op'>)</span> 
+   <span class='op'>)</span> <span class='op'>{</span>
   
   <span class='co'># get data for course numbe 129</span>
-  <span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'>CDECsnowQuery</span>(course=<span class='fl'>129</span>, start_yr=<span class='fl'>2010</span>, end_yr=<span class='fl'>2011</span>)
+  <span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'>CDECsnowQuery</span><span class='op'>(</span>course<span class='op'>=</span><span class='fl'>129</span>, start_yr<span class='op'>=</span><span class='fl'>2010</span>, end_yr<span class='op'>=</span><span class='fl'>2011</span><span class='op'>)</span>
   
-}
+<span class='op'>}</span>
 
 
 <span class='co'># }</span>

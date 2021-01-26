@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -91,7 +91,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ncss-tech/aqp/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -117,12 +117,12 @@
     <p>Plot a component relation graph based on an adjacency or similarity matrix.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotSoilRelationGraph</span>(<span class='kw'>m</span>, s=<span class='st'>''</span>, plot.style=<span class='st'>'network'</span>, graph.mode=<span class='st'>'upper'</span>, 
-spanning.tree=<span class='kw'>NULL</span>, del.edges=<span class='kw'>NULL</span>, vertex.scaling.method=<span class='st'>'degree'</span>,
-vertex.scaling.factor=<span class='fl'>2</span>, edge.scaling.factor=<span class='fl'>1</span>, 
-vertex.alpha=<span class='fl'>0.65</span>, edge.transparency=<span class='fl'>1</span>, 
-edge.col=<span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>grey</a></span>(<span class='fl'>0.5</span>), edge.highlight.col=<span class='st'>'royalblue'</span>, g.layout=<span class='kw'>layout_with_fr</span>,
-vertex.label.color=<span class='st'>'black'</span>, <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m</span>, s<span class='op'>=</span><span class='st'>''</span>, plot.style<span class='op'>=</span><span class='st'>'network'</span>, graph.mode<span class='op'>=</span><span class='st'>'upper'</span>, 
+spanning.tree<span class='op'>=</span><span class='cn'>NULL</span>, del.edges<span class='op'>=</span><span class='cn'>NULL</span>, vertex.scaling.method<span class='op'>=</span><span class='st'>'degree'</span>,
+vertex.scaling.factor<span class='op'>=</span><span class='fl'>2</span>, edge.scaling.factor<span class='op'>=</span><span class='fl'>1</span>, 
+vertex.alpha<span class='op'>=</span><span class='fl'>0.65</span>, edge.transparency<span class='op'>=</span><span class='fl'>1</span>, 
+edge.col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>grey</a></span><span class='op'>(</span><span class='fl'>0.5</span><span class='op'>)</span>, edge.highlight.col<span class='op'>=</span><span class='st'>'royalblue'</span>, g.layout<span class='op'>=</span><span class='va'>layout_with_fr</span>,
+vertex.label.color<span class='op'>=</span><span class='st'>'black'</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -211,57 +211,57 @@ vertex.label.color=<span class='st'>'black'</span>, <span class='kw'>...</span>)
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># load sample data set</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>amador</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>amador</span><span class='op'>)</span>
 
 <span class='co'># create weighted adjacency matrix (see ?component.adj.matrix for details)</span>
-<span class='kw'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='component.adj.matrix.html'>component.adj.matrix</a></span>(<span class='kw'>amador</span>)
+<span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='component.adj.matrix.html'>component.adj.matrix</a></span><span class='op'>(</span><span class='va'>amador</span><span class='op'>)</span>
 
 <span class='co'># plot network diagram, with Amador soil highlighted</span>
-<span class='fu'>plotSoilRelationGraph</span>(<span class='kw'>m</span>, s=<span class='st'>'amador'</span>)
+<span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m</span>, s<span class='op'>=</span><span class='st'>'amador'</span><span class='op'>)</span>
 </div><div class='img'><img src='plotSoilRelationGraph-1.png' alt='' width='768' height='475' /></div><div class='input'>
 <span class='co'># dendrogram representation</span>
-<span class='fu'>plotSoilRelationGraph</span>(<span class='kw'>m</span>, s=<span class='st'>'amador'</span>, plot.style=<span class='st'>'dendrogram'</span>)
+<span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m</span>, s<span class='op'>=</span><span class='st'>'amador'</span>, plot.style<span class='op'>=</span><span class='st'>'dendrogram'</span><span class='op'>)</span>
 </div><div class='img'><img src='plotSoilRelationGraph-2.png' alt='' width='768' height='475' /></div><div class='input'>
 <span class='co'># compare methods</span>
-<span class='kw'>m.o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='component.adj.matrix.html'>component.adj.matrix</a></span>(<span class='kw'>amador</span>, method=<span class='st'>'occurrence'</span>)
+<span class='va'>m.o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='component.adj.matrix.html'>component.adj.matrix</a></span><span class='op'>(</span><span class='va'>amador</span>, method<span class='op'>=</span><span class='st'>'occurrence'</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(mfcol=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>))
-<span class='fu'>plotSoilRelationGraph</span>(<span class='kw'>m</span>, s=<span class='st'>'amador'</span>, plot.style=<span class='st'>'dendrogram'</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/title.html'>title</a></span>(<span class='st'>'community matrix'</span>)
-<span class='fu'>plotSoilRelationGraph</span>(<span class='kw'>m.o</span>, s=<span class='st'>'amador'</span>, plot.style=<span class='st'>'dendrogram'</span>)
-</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/title.html'>title</a></span>(<span class='st'>'occurence'</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mfcol<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m</span>, s<span class='op'>=</span><span class='st'>'amador'</span>, plot.style<span class='op'>=</span><span class='st'>'dendrogram'</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/title.html'>title</a></span><span class='op'>(</span><span class='st'>'community matrix'</span><span class='op'>)</span>
+<span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m.o</span>, s<span class='op'>=</span><span class='st'>'amador'</span>, plot.style<span class='op'>=</span><span class='st'>'dendrogram'</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/title.html'>title</a></span><span class='op'>(</span><span class='st'>'occurence'</span><span class='op'>)</span>
 </div><div class='img'><img src='plotSoilRelationGraph-3.png' alt='' width='768' height='475' /></div><div class='input'>
 <span class='co'># investigate max spanning tree</span>
-<span class='fu'>plotSoilRelationGraph</span>(<span class='kw'>m</span>, spanning.tree=<span class='st'>'max'</span>)
+<span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m</span>, spanning.tree<span class='op'>=</span><span class='st'>'max'</span><span class='op'>)</span>
 
 <span class='co'># investigate max spanning tree + edges with weights &gt; 75-th pctile</span>
-<span class='fu'>plotSoilRelationGraph</span>(<span class='kw'>m</span>, spanning.tree=<span class='fl'>0.75</span>)
+<span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m</span>, spanning.tree<span class='op'>=</span><span class='fl'>0.75</span><span class='op'>)</span>
 </div><div class='img'><img src='plotSoilRelationGraph-4.png' alt='' width='768' height='475' /></div><div class='input'>
 <span class='co'># \donttest{</span>
 
-<span class='co'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"curl"</span>) <span class='op'>&amp;</span>
-   <span class='kw'>curl</span>::<span class='fu'><a href='https://jeroen.cran.dev/curl/reference/nslookup.html'>has_internet</a></span>() <span class='op'>&amp;</span>
-   <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'><a href='http://ncss-tech.github.io/AQP'>soilDB</a></span>)) {
+<span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"curl"</span><span class='op'>)</span> <span class='op'>&amp;</span>
+   <span class='fu'>curl</span><span class='fu'>::</span><span class='fu'><a href='https://jeroen.cran.dev/curl/reference/nslookup.html'>has_internet</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>&amp;</span>
+   <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='http://ncss-tech.github.io/AQP/'>soilDB</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
   
  <span class='co'># get similar data from soilweb, for the Pardee series</span>
-<span class='kw'>s</span> <span class='op'>&lt;-</span> <span class='st'>'pardee'</span>
-<span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/soilDB/man/siblings.html'>siblings</a></span>(<span class='kw'>s</span>, component.data = <span class='fl'>TRUE</span>)
+<span class='va'>s</span> <span class='op'>&lt;-</span> <span class='st'>'pardee'</span>
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/soilDB/man/siblings.html'>siblings</a></span><span class='op'>(</span><span class='va'>s</span>, component.data <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># normalize component names</span>
-<span class='kw'>d</span><span class='op'>$</span><span class='kw'>sib.data</span><span class='op'>$</span><span class='kw'>compname</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/chartr.html'>tolower</a></span>(<span class='kw'>d</span><span class='op'>$</span><span class='kw'>sib.data</span><span class='op'>$</span><span class='kw'>compname</span>)
+<span class='va'>d</span><span class='op'>$</span><span class='va'>sib.data</span><span class='op'>$</span><span class='va'>compname</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/chartr.html'>tolower</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>$</span><span class='va'>sib.data</span><span class='op'>$</span><span class='va'>compname</span><span class='op'>)</span>
 
 <span class='co'># keep only major components</span>
-<span class='kw'>d</span><span class='op'>$</span><span class='kw'>sib.data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/subset-SoilProfileCollection-method.html'>subset</a></span>(<span class='kw'>d</span><span class='op'>$</span><span class='kw'>sib.data</span>, subset=<span class='kw'>compkind</span> <span class='op'>==</span> <span class='st'>'Series'</span>)
+<span class='va'>d</span><span class='op'>$</span><span class='va'>sib.data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/subset-SoilProfileCollection-method.html'>subset</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>$</span><span class='va'>sib.data</span>, subset<span class='op'>=</span><span class='va'>compkind</span> <span class='op'>==</span> <span class='st'>'Series'</span><span class='op'>)</span>
 
 <span class='co'># build adj. matrix and plot</span>
-<span class='kw'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='component.adj.matrix.html'>component.adj.matrix</a></span>(<span class='kw'>d</span><span class='op'>$</span><span class='kw'>sib.data</span>)
-<span class='fu'>plotSoilRelationGraph</span>(<span class='kw'>m</span>, s=<span class='kw'>s</span>, plot.style=<span class='st'>'dendrogram'</span>)
+<span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='component.adj.matrix.html'>component.adj.matrix</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>$</span><span class='va'>sib.data</span><span class='op'>)</span>
+<span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m</span>, s<span class='op'>=</span><span class='va'>s</span>, plot.style<span class='op'>=</span><span class='st'>'dendrogram'</span><span class='op'>)</span>
 
 <span class='co'># alter plotting style, see ?plot.phylo</span>
-<span class='fu'>plotSoilRelationGraph</span>(<span class='kw'>m</span>, s=<span class='kw'>s</span>, plot.style=<span class='st'>'dendrogram'</span>, type=<span class='st'>'fan'</span>)
-<span class='fu'>plotSoilRelationGraph</span>(<span class='kw'>m</span>, s=<span class='kw'>s</span>, plot.style=<span class='st'>'dendrogram'</span>, type=<span class='st'>'unrooted'</span>, use.edge.length=<span class='fl'>FALSE</span>) 
+<span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m</span>, s<span class='op'>=</span><span class='va'>s</span>, plot.style<span class='op'>=</span><span class='st'>'dendrogram'</span>, type<span class='op'>=</span><span class='st'>'fan'</span><span class='op'>)</span>
+<span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m</span>, s<span class='op'>=</span><span class='va'>s</span>, plot.style<span class='op'>=</span><span class='st'>'dendrogram'</span>, type<span class='op'>=</span><span class='st'>'unrooted'</span>, use.edge.length<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span> 
   
-}
+<span class='op'>}</span>
 </div><div class='img'><img src='plotSoilRelationGraph-5.png' alt='' width='768' height='475' /></div><div class='input'>
 
 <span class='co'># }</span>

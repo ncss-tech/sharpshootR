@@ -166,6 +166,8 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
 #' 
 #' @examples 
 #' 
+#' if(requireNamespace('hydromad')) {
+#' 
 #' ## 100mm (4") AWC
 #' # monthly PPT and PET extracted from monthly estimates at Sonora, CA
 #' AWC <- 100
@@ -192,6 +194,8 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
 #' )
 #' 
 #' plotWB(x.wb, AWC)
+#' 
+#' }
 #' 
 plotWB <- function(WB, AWC, showAWC = 'below', sw.col = '#377EB8', surplus.col = '#4DAF4A', et.col = '#E41A1C', deficit.col = '#FF7F00', pch = c('P', 'E'), pt.cex = 0.85, lwd = 2, n.ticks = 8, grid.col = grey(0.65), month.cex = 1) {
   

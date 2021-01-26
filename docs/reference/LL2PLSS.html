@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PLSS2LL — LL2PLSS • sharpshootR</title>
+<title>LL2PLSS — LL2PLSS • sharpshootR</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="PLSS2LL — LL2PLSS" />
+<meta property="og:title" content="LL2PLSS — LL2PLSS" />
 <meta property="og:description" content="Uses lattitude and longitude coordinates to return the PLSS section geometry from the BLM PLSS web service." />
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -91,7 +91,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ncss-tech/aqp/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -108,8 +108,8 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>PLSS2LL</h1>
-    
+    <h1>LL2PLSS</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ncss-tech/aqp/blob/master/R/PLSS2LL.R'><code>R/PLSS2LL.R</code></a></small>
     <div class="hidden name"><code>LL2PLSS.Rd</code></div>
     </div>
 
@@ -117,7 +117,7 @@
     <p>Uses lattitude and longitude coordinates to return the PLSS section geometry from the BLM PLSS web service.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>LL2PLSS</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, <span class='kw'>returnlevel</span>)</pre>
+    <pre class="usage"><span class='fu'>LL2PLSS</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, returnlevel <span class='op'>=</span> <span class='st'>"I"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -136,42 +136,40 @@
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>This function takes xy coordinates and returns the PLSS section geometry to the quarter-quarter section. <code>returnlevel</code> options are defaulted to 'I' which returns smallest intersected sectional aliquot geometry, 'S' will return the section geometry of the coordinates. See https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer for details.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>list</code> of of PLSS codes and coordinates.</p>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>D.E. Beaudette, Jay Skovlin</p>
+    <p>This function takes xy coordinates and returns the PLSS section geometry to the quarter-quarter section. <code>returnlevel</code> options are defaulted to 'I' which returns smallest intersected sectional aliquot geometry, 'S' will return the section geometry of the coordinates. See https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer for details.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>This function requires the following packages: <code>httr</code>, <code>jsonlite</code>, and <code>sp</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='PLSS2LL.html'>PLSS2LL</a></code>, <code><a href='formatPLSS.html'>formatPLSS</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>D.E. Beaudette, Jay Skovlin</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"curl"</span>) <span class='op'>&amp;</span>
-   <span class='kw'>curl</span>::<span class='fu'><a href='https://jeroen.cran.dev/curl/reference/nslookup.html'>has_internet</a></span>() <span class='op'>&amp;</span>
-   <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'><a href='https://github.com/edzer/sp'>sp</a></span>)) {
-  
-  <span class='co'># create coordinates</span>
-<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='op'>-</span><span class='fl'>115.3823</span> 
-<span class='kw'>y</span> <span class='op'>&lt;-</span> <span class='fl'>48.88228</span>
+    <pre class="examples"><div class='input'>
+<span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"curl"</span><span class='op'>)</span> <span class='op'>&amp;</span>
 
-<span class='co'># fetch PLSS geometry for these coordinates</span>
-<span class='kw'>p.plss</span> <span class='op'>&lt;-</span> <span class='fu'>LL2PLSS</span>(<span class='kw'>x</span>, <span class='kw'>y</span>)
+   <span class='fu'>curl</span><span class='fu'>::</span><span class='fu'><a href='https://jeroen.cran.dev/curl/reference/nslookup.html'>has_internet</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>&amp;</span>
+    <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/edzer/sp/'>sp</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
 
-<span class='co'># plot geometry</span>
-<span class='fu'><a href='https://rdrr.io/pkg/aqp/man/SoilProfileCollection-plotting-methods.html'>plot</a></span>(<span class='kw'>p.plss</span><span class='op'>$</span><span class='kw'>geom</span>)
-  
-}
-</div><div class='output co'>#&gt; <span class='message'>Loading required package: sp</span></div><div class='img'><img src='LL2PLSS-1.png' alt='' width='768' height='475' /></div><div class='input'>
-<span class='co'># }</span>
-</div></pre>
+    <span class='co'># create coordinates</span>
+    <span class='va'>x</span> <span class='op'>&lt;-</span> <span class='op'>-</span><span class='fl'>115.3823</span>
+    <span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fl'>48.88228</span>
+
+    <span class='co'># fetch PLSS geometry for these coordinates</span>
+    <span class='va'>p.plss</span> <span class='op'>&lt;-</span> <span class='fu'>LL2PLSS</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span>
+
+    <span class='co'># plot geometry</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/SoilProfileCollection-plotting-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>p.plss</span><span class='op'>$</span><span class='va'>geom</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='message'>Loading required package: sp</span></div><div class='output co'>#&gt; <span class='warning'>Warning: package 'sp' was built under R version 4.0.3</span></div><div class='img'><img src='LL2PLSS-1.png' alt='' width='768' height='475' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

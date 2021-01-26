@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -91,7 +91,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ncss-tech/aqp/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -109,7 +109,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>formatPLSS</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/ncss-tech/aqp/blob/master/R/PLSS2LL.R'><code>R/PLSS2LL.R</code></a></small>
     <div class="hidden name"><code>formatPLSS.Rd</code></div>
     </div>
 
@@ -117,7 +117,7 @@
     <p>Format PLSS information into a coded format that can be digested by PLSS web service.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>formatPLSS</span>(<span class='kw'>p</span>, type=<span class='st'>'SN'</span>)</pre>
+    <pre class="usage"><span class='fu'>formatPLSS</span><span class='op'>(</span><span class='va'>p</span>, type <span class='op'>=</span> <span class='st'>"SN"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -132,39 +132,41 @@
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>This function is typically accessed as a helper function to prepare data for use within <code><a href='PLSS2LL.html'>PLSS2LL</a></code> function.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A vector of PLSS codes.</p>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>D.E. Beaudette, Jay Skovlin</p>
+    <p>This function is typically accessed as a helper function to prepare data for use within <code><a href='PLSS2LL.html'>PLSS2LL</a></code> function.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>This function expects that the <code>Polygon</code> object has coordinates associated with a projected CRS-- e.g. units of meters.</p>
+<p>This function requires the following packages: <code>stringi</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='PLSS2LL.html'>PLSS2LL</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>D.E. Beaudette, Jay Skovlin</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># create some data</span>
-<span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>( 
-id=<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, 
-qq=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'SW'</span>, <span class='st'>'SW'</span>, <span class='st'>'SE'</span>), 
-q=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'NE'</span>, <span class='st'>'NW'</span>, <span class='st'>'SE'</span>),
-s=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>17</span>, <span class='fl'>32</span>, <span class='fl'>30</span>), 
-t=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'T36N'</span>, <span class='st'>'T35N'</span>, <span class='st'>'T35N'</span>),
-r=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'R29W'</span>, <span class='st'>'R28W'</span>, <span class='st'>'R28W'</span>),
-type=<span class='st'>'SN'</span>,
-m=<span class='st'>'MT20'</span>, stringsAsFactors = <span class='fl'>FALSE</span>)
-
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
+  id <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>,
+  qq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'SW'</span>, <span class='st'>'SW'</span>, <span class='st'>'SE'</span><span class='op'>)</span>,
+  q <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'NE'</span>, <span class='st'>'NW'</span>, <span class='st'>'SE'</span><span class='op'>)</span>,
+  s <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>17</span>, <span class='fl'>32</span>, <span class='fl'>30</span><span class='op'>)</span>,
+  t <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'T36N'</span>, <span class='st'>'T35N'</span>, <span class='st'>'T35N'</span><span class='op'>)</span>,
+  r <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'R29W'</span>, <span class='st'>'R28W'</span>, <span class='st'>'R28W'</span><span class='op'>)</span>,
+  type <span class='op'>=</span> <span class='st'>'SN'</span>,
+  m <span class='op'>=</span> <span class='st'>'MT20'</span>,
+  stringsAsFactors <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 <span class='co'># add column names</span>
-<span class='fu'><a href='https://rdrr.io/pkg/aqp/man/names.html'>names</a></span>(<span class='kw'>d</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'id'</span>, <span class='st'>'qq'</span>, <span class='st'>'q'</span>, <span class='st'>'s'</span>, <span class='st'>'t'</span>, <span class='st'>'r'</span>, <span class='st'>'type'</span>, <span class='st'>'m'</span>)
 
+<span class='fu'><a href='https://rdrr.io/pkg/aqp/man/names.html'>names</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'id'</span>, <span class='st'>'qq'</span>, <span class='st'>'q'</span>, <span class='st'>'s'</span>, <span class='st'>'t'</span>, <span class='st'>'r'</span>, <span class='st'>'type'</span>, <span class='st'>'m'</span><span class='op'>)</span>
 <span class='co'># generate formatted PLSS codes</span>
-<span class='fu'>formatPLSS</span>(<span class='kw'>d</span>, type=<span class='st'>'SN'</span>)
+<span class='fu'>formatPLSS</span><span class='op'>(</span><span class='va'>d</span>, type<span class='op'>=</span><span class='st'>'SN'</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "MT200360N0290W0SN170ASWNE" "MT200350N0280W0SN320ASWNW"
 #&gt; [3] "MT200350N0280W0SN300ASESE"</div></pre>
   </div>

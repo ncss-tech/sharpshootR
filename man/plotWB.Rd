@@ -55,6 +55,8 @@ You may have to adjust figure margins and size to get all of the elements to "lo
 }
 \examples{
 
+if(requireNamespace('hydromad')) {
+
 ## 100mm (4") AWC
 # monthly PPT and PET extracted from monthly estimates at Sonora, CA
 AWC <- 100
@@ -81,6 +83,8 @@ x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0,
 )
 
 plotWB(x.wb, AWC)
+
+}
 
 }
 \author{

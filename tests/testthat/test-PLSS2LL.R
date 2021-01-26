@@ -1,3 +1,7 @@
+context("PLSS Conversion")
+
+
+
 test_that("formatPLSS, PLSS2LL, LL2PLSS works", {
 
   # test takes ~30seconds to run, and probably need to bump up timeout for stability against BLM server
@@ -61,3 +65,81 @@ test_that("formatPLSS, PLSS2LL, LL2PLSS works", {
     expect_true(attr(plssna,"class") == 'omit')
     expect_equal(as.numeric(plssna), 3)
 })
+
+
+test_that("LL2PLSS details", {
+  
+  # constraints
+  skip_on_cran()
+  options(timeout = 60000)
+  
+  x <- -119.711302
+  y <- 36.928449
+  
+  # do they work?
+  x.I <- LL2PLSS(x = x, y = y, returnlevel = 'I')
+  x.S <- LL2PLSS(x = x, y = y, returnlevel = 'S')
+  
+  # structure
+  expect_true(length(x.I) == 2)
+  expect_true(length(x.S) == 2)
+  
+  expect_true(inherits(x.I, 'list'))
+  expect_true(inherits(x.S, 'list'))
+  
+  expect_true(inherits(x.I$geom, 'SpatialPolygons'))
+  expect_true(inherits(x.S$geom, 'SpatialPolygons'))
+  
+  ## graphical check: verified
+  plot(x.S$geom)
+  plot(x.I$geom, add = TRUE)
+  points(x = x, y = y)
+  
+  
+  # try a location without section fabric
+  x <- -120.73314
+  y <- 37.847644
+  
+  x.I <- LL2PLSS(x = x, y = y, returnlevel = 'I')
+  x.S <- LL2PLSS(x = x, y = y, returnlevel = 'S')
+  
+  expect_true(length(x.I) == 2)
+  expect_true(length(x.S) == 2)
+  
+  expect_true(inherits(x.I, 'list'))
+  expect_true(inherits(x.S, 'list'))
+  
+  expect_true(inherits(x.I$geom, 'SpatialPolygons'))
+  expect_true(inherits(x.S$geom, 'SpatialPolygons'))
+  
+  # no section
+  expect_equal(x.S$plss, 'CA210010S0110E0SN000')
+  expect_equal(x.I$plss, 'CA210010S0110E0SN000L37')
+  
+  # attempt inverse
+  d <- data.frame(
+    id = 1,
+    plssid = x.I$plss
+  )
+  
+  # resulting coordinates will not match query coords
+  ll <- PLSS2LL(d)
+  
+  expect_true(inherits(ll, 'data.frame'))
+  
+  # PLSS -> LL conversion (centroid) will not match query coords
+  expect_false(x == ll$lon)
+  expect_false(y == ll$lat)
+  
+  
+  ## graphical check: verified
+  plot(x.S$geom)
+  plot(x.I$geom, add = TRUE)
+  # query point
+  points(x = x, y = y)
+  # PLSS -> LL conversion (centroid)
+  points(ll$lon, ll$lat, col = 'red')
+  
+})
+
+

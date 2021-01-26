@@ -7,7 +7,7 @@
 HenryTimeLine(sensor_data, ...)
 }
 \arguments{
-\item{sensor_data}{`soiltemp`, `soilVWC`, or related data returned by \code{soilDB::fetchHenry()}}
+\item{sensor_data}{\code{soiltemp}, \code{soilVWC}, or related data returned by \code{soilDB::fetchHenry()}}
 
 \item{...}{additional arguments to \code{latticeExtra::segplot}}
 }

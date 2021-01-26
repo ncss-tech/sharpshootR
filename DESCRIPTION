@@ -2,8 +2,8 @@ Package: sharpshootR
 Type: Package
 Title: A Soil Survey Toolkit
 Description: Miscellaneous soil data management, summary, visualization, and conversion utilities to support soil survey.
-Version: 1.6.6
-Date: 2021-01-06
+Version: 1.7
+Date: 2021-01-26
 Authors@R: c(
   person(given="Dylan", family="Beaudette", role = c("cre"), email = "dylan.beaudette@usda.gov"), 
   person(given="Jay", family="Skovlin", role = c("aut")), 
@@ -41,3 +41,5 @@ Imports: grDevices, graphics, methods, stats, utils, aqp, ape,
   digest, e1071, stringi, parallel, curl, grid
 Additional_repositories: http://hydromad.catchment.org
 RoxygenNote: 7.1.1
+Roxygen: list(markdown = TRUE)
+

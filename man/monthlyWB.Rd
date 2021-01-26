@@ -40,11 +40,11 @@ a \code{data.frame} with the following elements:
 \item{ET: }{monthly ET values}
 \item{D: }{monthly D values}
 \item{month: }{month number}
-\item{mo: }{month label}   
+\item{mo: }{month label}
 }
 }
 \description{
-Perform a monthly water balance by "leaky bucket" model, provided by the `hydromad` package.
+Perform a monthly water balance by "leaky bucket" model, provided by the \code{hydromad} package.
 }
 \note{
 This function depends on the \href{http://hydromad.catchment.org/}{hydromad package}.

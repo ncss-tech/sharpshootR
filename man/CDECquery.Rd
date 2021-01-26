@@ -18,13 +18,13 @@ CDECquery(id, sensor, interval = "D", start, end)
 \item{end}{ending date, in the format 'YYYY-MM-DD'}
 }
 \value{
-A \code{data.frame} object with the following fields: `datetime`, `year`, `month`, `value`.
+A \code{data.frame} object with the following fields: \code{datetime}, \code{year}, \code{month}, \code{value}.
 }
 \description{
 A (relatively) simple interface to the CDEC website.
 }
 \details{
-Sensors that report data on an \code{interval} other than monthly ('M'), daily ('D'), or hourly ('H') can be queried with an `event` interval ('E'). Soil moisture and temperature sensors are an example of this type of reporting. See examples below.
+Sensors that report data on an \code{interval} other than monthly ('M'), daily ('D'), or hourly ('H') can be queried with an \code{event} interval ('E'). Soil moisture and temperature sensors are an example of this type of reporting. See examples below.
 
 \describe{
 \item{1.}{Station IDs can be found here: \url{http://cdec.water.ca.gov/staInfo.html}}

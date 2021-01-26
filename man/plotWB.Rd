@@ -35,7 +35,7 @@ plotWB(
 
 \item{deficit.col}{color for deficit}
 
-\item{pch}{plotting character for PPT and PET points (`c('P', 'E')`)}
+\item{pch}{plotting character for PPT and PET points (\code{c('P', 'E')})}
 
 \item{pt.cex}{character expansion factor for PPT and PET points}
 
@@ -48,7 +48,7 @@ plotWB(
 \item{month.cex}{character expansion factor for month labels (x-axis)}
 }
 \description{
-This function offers one possible visualization for the results of `monthlyWB`.
+This function offers one possible visualization for the results of \code{monthlyWB}.
 }
 \note{
 You may have to adjust figure margins and size to get all of the elements to "look right".

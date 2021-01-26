@@ -7,15 +7,15 @@
 multinominal2logical(x, v)
 }
 \arguments{
-\item{x}{a `SoilProfileCollection` object}
+\item{x}{a \code{SoilProfileCollection} object}
 
 \item{v}{the name of a site-level attribute that is a factor, or can be coerced to a factor, with more than 2 levels}
 }
 \value{
-A `data.frame` with IDs in the first column, and as many columns of logical vectors as there were levels in `v`. See examples.
+A \code{data.frame} with IDs in the first column, and as many columns of logical vectors as there were levels in \code{v}. See examples.
 }
 \description{
-Convert a single multinominal, site-level attribute from a `SoilProfileCollection` into a matrix of corresponding logical values. The result contains IDs from the `SoilProfileCollection` and can easily be joined to the original site-level data.
+Convert a single multinominal, site-level attribute from a \code{SoilProfileCollection} into a matrix of corresponding logical values. The result contains IDs from the \code{SoilProfileCollection} and can easily be joined to the original site-level data.
 }
 \examples{
 

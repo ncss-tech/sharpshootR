@@ -22,7 +22,7 @@ huePositionPlot(
 
 \item{label.cex}{scaling for color chip}
 
-\item{contour.dE00}{logical, add dE00 contours from CIELAB coordinates [L,0,0], L is a constant value determined by \code{value} and  \code{chroma}}
+\item{contour.dE00}{logical, add dE00 contours from CIELAB coordinates (L,0,0), L is a constant value determined by \code{value} and \code{chroma}}
 
 \item{grid.res}{grid resolution for contours, units are CIELAB A/B coordinates. Caution, small values result in many pair-wise distances which could take a very long time.}
 }

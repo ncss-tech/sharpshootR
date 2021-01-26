@@ -8,7 +8,7 @@
 #' @param chroma a single Munsell chroma
 #' @param chip.cex scaling for color chip rectangle
 #' @param label.cex scaling for color chip 
-#' @param contour.dE00 logical, add dE00 contours from CIELAB coordinates [L,0,0], L is a constant value determined by \code{value} and  \code{chroma}
+#' @param contour.dE00 logical, add dE00 contours from CIELAB coordinates (L,0,0), L is a constant value determined by `value` and `chroma`
 #' @param grid.res grid resolution for contours, units are CIELAB A/B coordinates. Caution, small values result in many pair-wise distances which could take a very long time.
 #'
 #' @export

@@ -8,9 +8,9 @@ test_that("formatPLSS, PLSS2LL, LL2PLSS works", {
 
     d <- data.frame(
       id = c(1:2, NA, 3),
-      qq = c('SW', 'SW', NA, 'SE'),
-      q = c('NE', 'NW', NA, 'SE'),
-      s = c(17, 32, NA, 30),
+      qq = c('SW', NA, NA, NA), # note: deliberately drop section in 2, quarter quarter and quarter in 4
+      q = c('NE', NA, NA, NA),  # because qq comes before q, the case where q is defined and q is not is not valid.
+      s = c(17, NA, NA, 30),
       t = c('T36N', 'T35N', NA, 'T35N'),
       r = c('R29W', 'R28W', NA, 'R28W'),
       type = 'SN',
@@ -19,7 +19,9 @@ test_that("formatPLSS, PLSS2LL, LL2PLSS works", {
     )
 
     # generate formatted PLSS codes
-    d$plssid <- formatPLSS(d)
+    expect_warning(d$plssid <- formatPLSS(d))
+    # one or more results is NA; check with `attr(,'na.action')`
+    # it is index #3
 
     d2 <- data.frame(
       id = 1,
@@ -56,5 +58,6 @@ test_that("formatPLSS, PLSS2LL, LL2PLSS works", {
 
     # na.omit
     plssna <- attr(res2$plss, "na.action")
-    expect_true(attr(plssna,"class") == 'omit' && as.integer(plssna) == 3)
+    expect_true(attr(plssna,"class") == 'omit')
+    expect_equal(as.numeric(plssna), 3)
 })

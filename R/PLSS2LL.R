@@ -31,44 +31,67 @@
 #' # generate formatted PLSS codes
 #' formatPLSS(d, type='SN')
 # p: data.frame with chunks of PLSS coordinates
-formatPLSS <- function(p, type='SN') {
-
+formatPLSS <- function(p, type = 'SN') {
   # check for required packages
   if(!requireNamespace('stringi', quietly = TRUE))
     stop('please install the `stringi` package', call.=FALSE)
 
   # specify columns
-  required_chr <- c("id", "qq", "q", "t", "r", "type", "m")
-  required_int <- c("s")
+  required_chr <- c("id", "t", "r", "type", "m")
+  optional_chr <- c("qq", "q")
+  optional_int <- c("s")
 
-  if (!inherits(p, 'data.frame') || !all(c(required_chr, required_int) %in% colnames(p)))
-    stop('p must be a data.frame containing columns: id, qq, q, s, t, r, type, m')
+  if (!inherits(p, 'data.frame') || !all(required_chr %in% colnames(p)))
+    stop('p must be a data.frame containing columns: id, t, r, type, m; and optionally: s, qq, q')
+
+  if (any(optional_chr %in% colnames(p))) {
+    if (!"q" %in% optional_chr)
+      stop('p must contain q (quarter section) if it contains qq (quarter-quarter section)')
+  }
 
   # handle subclasses of data.frame (e.g. tibble, data.table)
   p <- as.data.frame(p)
 
-  # force conversions
-  p[required_chr] <- lapply(p[,required_chr, drop = FALSE], as.character)
-  p[required_int] <- lapply(p[,required_int, drop = FALSE], as.integer)
+  # force conversions to appropriate data type
+  p[,required_chr] <- lapply(p[,required_chr, drop = FALSE], as.character)
+
+  if (sum(optional_chr %in% colnames(p)) > 0) {
+    p[,optional_chr] <- lapply(p[,optional_chr, drop = FALSE], as.character)
+  }
+
+  if (optional_int %in% colnames(p)) {
+    p[,optional_int] <- lapply(p[,optional_int, drop = FALSE], as.integer)
+  }
 
   # pre-allocate char vector for results
   f <- vector(mode = 'character', length = nrow(p))
 
-  # identify those that can produce valid PLSS string
-  p.good <- which(complete.cases(p))
+  # required names and optional section, quarter and quarter-quarter section
+  required_names <- required_chr
+  optional <- c(optional_int, optional_chr)
+  optional_names <- optional[optional %in% colnames(p)]
 
-  for(i in 1:nrow(p)) {
+  # identify those that can produce valid PLSS string (assuming need everything down to section number)
+  p.good <- complete.cases(p[,required_names])
+  p.bad.idx <- which(!p.good)
 
+  # calculate expected number of characters
+  p.expected.nchar <- .expectedPLSSnchar(p, type = type, optional_names = optional_names)
+
+  # expected length is internal, not really necessary to create below warning
+  # if (length(p.bad.idx) > 0)
+  #   p.expected.nchar[p.bad.idx] <- NA
+
+  for (i in 1:nrow(p)) {
     # skip incomplete (NA-containing) rows
-    if(i %in% p.good) {
-
+    if (!i %in% p.bad.idx) {
       # split Township / Range into elements, case sensitive
-      p.t <- stri_match_first_regex(p$t[i], pattern='([0-9]+)([N|S])')[2:3]
-      p.r <- stri_match_first_regex(p$r[i], pattern='([0-9]+)([E|W])')[2:3]
+      p.t <- stri_match_first_regex(p$t[i], pattern = '([0-9]+)([N|S])')[2:3]
+      p.r <- stri_match_first_regex(p$r[i], pattern = '([0-9]+)([E|W])')[2:3]
 
       # pad T/R codes with 0
-      p.t[1] <- stri_pad(p.t[1], width=2, pad = '0')
-      p.r[1] <- stri_pad(p.r[1], width=2, pad = '0')
+      p.t[1] <- stri_pad(p.t[1], width = 2, pad = '0')
+      p.r[1] <- stri_pad(p.r[1], width = 2, pad = '0')
 
       # add extra '0' between T/R code and direction
       p.t <- paste0(p.t, collapse = '0')
@@ -88,31 +111,31 @@ formatPLSS <- function(p, type='SN') {
       f[i] <- paste0(f.1, f.2)
 
       # handle if sections are protracted and unprotracted blocks
-      if(type=='PB') {
+      if (type == 'PB') {
         f[i] <- stri_replace_all_fixed(f[i], 'SN', 'PB')
         f[i] <- stri_replace_all_fixed(f[i], 'A', '')
         # truncate UP and PB cases to section
-        if(!is.na(p$qq[i])) {
-          f[i] <- stri_sub(f[i], 0, stri_length(f[i])-4)
+        if (!is.na(p$qq[i])) {
+          f[i] <- stri_sub(f[i], 0, stri_length(f[i]) - 4)
         }
-        if(is.na(p$qq[i]) & !is.na(p$q[i])) {
-          f[i] <- stri_sub(f[i], 1, stri_length(f[i])-2)
+        if (is.na(p$qq[i]) & !is.na(p$q[i])) {
+          f[i] <- stri_sub(f[i], 1, stri_length(f[i]) - 2)
         }
-        if(is.na(p$qq[i]) & is.na(p$q[i])) {
+        if (is.na(p$qq[i]) & is.na(p$q[i])) {
           f[i] <- f[i]
         }
       }
-      if(type=='UP') {
+      if (type == 'UP') {
         f[i] <- stri_replace_all_fixed(f[i], 'SN', 'UP')
         f[i] <- stri_replace_all_fixed(f[i], 'A', 'U')
         # truncate UP and PB cases to section
-        if(!is.na(p$qq[i])) {
-          f[i] <- stri_sub(f[i], 0, stri_length(f[i])-4)
+        if (!is.na(p$qq[i])) {
+          f[i] <- stri_sub(f[i], 0, stri_length(f[i]) - 4)
         }
-        if(is.na(p$qq[i]) & !is.na(p$q[i])) {
-          f[i] <- stri_sub(f[i], 1, stri_length(f[i])-2)
+        if (is.na(p$qq[i]) & !is.na(p$q[i])) {
+          f[i] <- stri_sub(f[i], 1, stri_length(f[i]) - 2)
         }
-        if(is.na(p$qq[i]) & is.na(p$q[i])) {
+        if (is.na(p$qq[i]) & is.na(p$q[i])) {
           f[i] <- f[i]
         }
       }
@@ -120,8 +143,27 @@ formatPLSS <- function(p, type='SN') {
       f[i] <- NA
     }
   }
-
+  if (any(sapply(f[p.good], nchar) != p.expected.nchar[p.good]))
+    warning("one or more formatted PLSS strings does not match expected length")
+  if (any(is.na(p.expected.nchar)))
+    warning("one or more expected lengths is NA") # generally shouldnt happen?
+  if (any(is.na(f)))
+    warning("one or more results is NA; check with `attr(,'na.action')`") # this most common user-level errors
   return(f)
+}
+
+.expectedPLSSnchar <- function(p, type = 'SN', optional_names = c("s","qq","q")) {
+  # calculate expected number of characters
+  .hasZeroLen <- function(x) return(is.na(x) | x == "")
+  p.expected.nchar <- 25 - ((rowSums(do.call('cbind', lapply(p[, optional_names, drop = FALSE], .hasZeroLen)[optional_names])) == 2)*4)
+  # note that while it is possible to specify only one of q/qq -- it does not appear that the API accepts, so we warn accordingly in formatPLSS
+
+  naopt <- is.na(p[,optional_names]) | p$type == "PB"
+  if (type == 'PB')
+    p.expected.nchar <- p.expected.nchar - 5
+  else
+    p.expected.nchar[naopt] <- p.expected.nchar[naopt] - 5
+  return(p.expected.nchar)
 }
 
 #' @title LL2PLSS

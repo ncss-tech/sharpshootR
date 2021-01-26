@@ -8,13 +8,16 @@ if(!requireNamespace('soilDB') | packageVersion("soilDB") < '2.5') {
 
 
 
-data(loafercreek, package='soilDB')
-
-# convert to logical matrix
-hp <- multinominal2logical(loafercreek, 'hillslopeprof')
-
 ## tests
 test_that("multinominal2logical works as expected", {
+  
+  data(loafercreek, package='soilDB')
+  
+  loafercreek$hillslopeprof <- factor(loafercreek$hillslopeprof, 
+                                      levels = c('summit', 'shoulder', 
+                                                 'backslope', 'footslope', 'toeslope'))
+  # convert to logical matrix
+  hp <- multinominal2logical(loafercreek, 'hillslopeprof')
   
   # basic structure of a result
   expect_equal(names(hp), c('peiid', 'summit', 'shoulder', 'backslope', 'footslope', 'toeslope'))

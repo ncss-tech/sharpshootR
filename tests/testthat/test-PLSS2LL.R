@@ -73,6 +73,7 @@ test_that("LL2PLSS details", {
   skip_on_cran()
   options(timeout = 60000)
   
+  # north of Clovis, CA
   x <- -119.711302
   y <- 36.928449
   
@@ -97,6 +98,7 @@ test_that("LL2PLSS details", {
   
   
   # try a location without section fabric
+  # near Knight's Landing, CA
   x <- -120.73314
   y <- 37.847644
   

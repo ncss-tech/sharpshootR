@@ -40,6 +40,7 @@ Imports: grDevices, graphics, methods, stats, utils, aqp, ape,
   reshape2, Hmisc, scales, circular, RColorBrewer, plyr, 
   digest, e1071, stringi, parallel, curl, grid
 Additional_repositories: http://hydromad.catchment.org
+Encoding: UTF-8
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 

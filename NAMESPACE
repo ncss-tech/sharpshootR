@@ -29,11 +29,34 @@ importFrom(aqp,
            idname,
            plotSPC,
            profile_id,
+           hzID,
            'proj4string<-',
            site,
+           horizons,
+           'site<-',
+           siteNames,
+           'horizons<-',
+           horizonDepths,
+           horizonNames,
            huePosition,
            invertLabelColor,
-           parseMunsell
+           parseMunsell,
+           'depths<-',
+           hzDepthTests,
+           glom,
+           hzdesgnname,
+           'hzdesgnname<-',
+           hztexclname,
+           'hztexclname<-',
+           guessHzDesgnName,
+           guessHzTexClName,
+           guessHzAttrName,
+           depthOf,
+           minDepthOf,
+           maxDepthOf,
+           getPlowLayerDepth,
+           getMineralSoilSurfaceDepth,
+           estimateSoilDepth
 )
 
 importFrom(curl,
@@ -138,22 +161,22 @@ importFrom(reshape2,
   melt
 )
 
-importFrom(Hmisc, 
+importFrom(Hmisc,
   hdquantile,
-	wtd.mean, 
-  wtd.var, 
-  wtd.quantile, 
-  wtd.rank, 
+	wtd.mean,
+  wtd.var,
+  wtd.quantile,
+  wtd.rank,
   wtd.table,
-  binconf				 
+  binconf
 )
-	
-importFrom(scales, 
+
+importFrom(scales,
   alpha,
   rescale
 )
 
-importFrom(circular, 
+importFrom(circular,
   circular,
   mean.circular,
   rho.circular,
@@ -164,11 +187,11 @@ importFrom(circular,
   rayleigh.test
 )
 
-importFrom(RColorBrewer, 
+importFrom(RColorBrewer,
   brewer.pal
 )
 
-importFrom(plyr, 
+importFrom(plyr,
   join,
   dlply,
   ldply,

@@ -12,7 +12,7 @@ scaling.factor = 0.5,
 distance.axis.title = "Distance Along Transect (km)", 
 crs = NULL, grad.axis.title = NULL, dist.scaling.factor=1000,
 spacing='regular',
-fix.relative.pos=list(thresh = 0.6, trace = TRUE, maxIter = 5000),
+fix.relative.pos=list(thresh = 0.6, maxIter = 5000),
 ...)
 }
 
@@ -76,29 +76,31 @@ par(mar=c(4.5,4,4,1))
 
 # standard transect plot, profile sketches arranged along integer sequence
 plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
-grad.axis.title='Elevation (m)', label='pedon_id', name='hzname')
+             grad.axis.title='Elevation (m)', label='pedon_id', name='hzname')
 
 # default behavior, attempt adjustments to prevent over-plot and preserve relative spacing
 # use set.seed() to fix outcome
 plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
-grad.axis.title='Elevation (m)', label='pedon_id', name='hzname', width=0.15, spacing = 'relative')
+             grad.axis.title='Elevation (m)', label='pedon_id', 
+             name='hzname', width=0.15, spacing = 'relative')
 
 # attempt relative positioning based on scaled distances, no corrections for overlap
 # profiles are clustered in space and therefore over-plot
 plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
-grad.axis.title='Elevation (m)', label='pedon_id', name='hzname', 
-width=0.15, spacing = 'relative', fix.relative.pos = FALSE)
+             grad.axis.title='Elevation (m)', label='pedon_id', name='hzname', 
+             width=0.15, spacing = 'relative', fix.relative.pos = FALSE)
 
 # customize arguments to aqp::fixOverlap()
 plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
-grad.axis.title='Elevation (m)', label='pedon_id', name='hzname', 
-width=0.15, spacing = 'relative', 
-fix.relative.pos = list(maxIter=6000, trace=TRUE, adj=0.2, thresh=0.7))
+             grad.axis.title='Elevation (m)', label='pedon_id', name='hzname', 
+             width=0.15, spacing = 'relative', 
+             fix.relative.pos = list(maxIter=6000, adj=0.2, thresh=0.7))
 
 plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
-grad.axis.title='Elevation (m)', label='pedon_id', name='hzname', 
-width=0.15, spacing = 'relative', 
-fix.relative.pos = list(maxIter=6000, trace=TRUE, adj=0.2, thresh=0.5))
+             grad.axis.title='Elevation (m)', label='pedon_id', name='hzname', 
+             width=0.15, spacing = 'relative', 
+             fix.relative.pos = list(maxIter=6000, adj=0.2, thresh=0.5))
+
 
 }
 }

@@ -48,5 +48,5 @@ formatPLSS(d, type='SN')
 \code{\link{PLSS2LL}}
 }
 \author{
-D.E. Beaudette, Jay Skovlin
+D.E. Beaudette, Jay Skovlin, A.G. Brown
 }

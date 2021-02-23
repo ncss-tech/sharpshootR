@@ -14,7 +14,7 @@ isMineralSoilMaterial(soc, clay, saturation = TRUE)
 \item{saturation}{logical, cumulative saturation 30+ days}
 }
 \value{
-`data.frame` of criteria test results
+\code{data.frame} of criteria test results
 }
 \description{
 Evaluate mineral soil material criteria based on soil organic carbon, clay content, and length of saturation.

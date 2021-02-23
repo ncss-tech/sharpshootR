@@ -48,5 +48,5 @@ if(requireNamespace("curl") &
 \code{\link{LL2PLSS}}, \code{\link{formatPLSS}}
 }
 \author{
-D.E. Beaudette, Jay Skovlin
+D.E. Beaudette, Jay Skovlin, A.G. Brown
 }

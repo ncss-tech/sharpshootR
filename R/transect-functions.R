@@ -4,8 +4,6 @@
 ## * perform all re-scaling via linear model?
 ## * consider sorting by distance vs. var (requires a starting point)
 ## * consider manually defined vector of indices
-## * modified relative distances to avoid overlap
-
 
 # function for computing gradient vs. distance along gradient
 dist.along.grad <- function(coords, var, grad.order, grad.scaled.min, grad.scaled.max) {
@@ -39,7 +37,119 @@ dist.along.grad <- function(coords, var, grad.order, grad.scaled.min, grad.scale
 
 
 
-plotTransect <- function(s, grad.var.name, grad.var.order=order(site(s)[[grad.var.name]]), transect.col='RoyalBlue', tick.number=7, y.offset=100, scaling.factor=0.5, distance.axis.title='Distance Along Transect (km)', crs=NULL, grad.axis.title=NULL, dist.scaling.factor=1000, spacing='regular', fix.relative.pos = list(thresh = 0.6, maxIter = 5000), ...){
+#' @title Arrange Profiles along a Transect 
+#'
+#' @description Plot a collection of Soil Profiles linked to their position along some gradient (e.g. transect).
+#'
+#' @param s `SoilProfileCollection` object
+#' 
+#' @param grad.var.name the name of a site-level attribute containing gradient values
+#' 
+#' @param grad.var.order optional indexing vector used to override sorting along `grad.var.name`
+#' 
+#' @param transect.col color used to plot gradient (transect) values
+#' 
+#' @param tick.number number of desired ticks and labels on the gradient axis
+#' 
+#' @param y.offset vertical offset used to position profile sketches
+#' 
+#' @param scaling.factor scaling factor applied to profile sketches
+#' 
+#' @param distance.axis.title a title for the along-transect distances
+#' 
+#' @param crs an optional `CRS` object (sp package) used to convert coordinates into a projected coordinate reference system
+#' 
+#' @param grad.axis.title a title for the gradient axis 
+#' 
+#' @param dist.scaling.factor scaling factor (divisor) applied to linear distance units, default is conversion from m to km (1000)
+#' @param spacing profile sketch spacing style: "regular" (profiles aligned to an integer grid) or "re
+#' lative" (relative distance along transect)
+#' 
+#' @param fix.relative.pos adjust relative positions in the presence of overlap, `FALSE` to suppress, otherwise list of arguments to `aqp::fixOverlap`
+#' 
+#' @param ... further arguments passed to `aqp::plotSPC`.
+#'
+#' @details Depending on the nature of your `SoilProfileCollection` and associated gradient values, it may be necessary to tinker with figure margins, `y.offset` and `scaling.factor`.
+#' 
+#' @note This function is very much a work in progress, ideas welcome!
+#'
+#' @return An invisibly-returned `data.frame` object:
+#'
+#'   * scaled.grad: scaled gradient values
+#'   * scaled.distance: cumulative distance, scaled to the interval of `0.5, nrow(coords) + 0.5`
+#'   * distance: cumulative distance computed along gradient, e.g. transect distance
+#'   * variable: sorted gradient values
+#'   * x: x coordinates, ordered by gradient values
+#'   * y: y coordinate, ordered by gradient values
+#'   * grad.order: a vector index describing the sort order defined by gradient values
+#'  
+#' @author D.E. Beaudette   
+#' 
+#' @export
+#'
+#' @examples
+#' 
+#' \donttest{
+#' 
+#' if(require(aqp) & 
+#' require(sp) &
+#'   require(soilDB)
+#' ) {
+#'   
+#'   # sample data
+#'   data("mineralKing", package = "soilDB")
+#'   
+#'   # quick overview
+#'   par(mar=c(1,1,2,1))
+#'   groupedProfilePlot(mineralKing, groups='taxonname', print.id=FALSE)
+#'   
+#'   # init coords and CRS
+#'   coordinates(mineralKing) <- ~ x_std + y_std
+#'   proj4string(mineralKing) <- '+proj=longlat +datum=NAD83'
+#'   
+#'   # projected CRS, units of meters
+#'   crs.utm <- CRS('+proj=utm +zone=11 +datum=NAD83')
+#'   
+#'   # adjust margins
+#'   par(mar=c(4.5,4,4,1))
+#'   
+#'   # standard transect plot, profile sketches arranged along integer sequence
+#'   plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
+#'                grad.axis.title='Elevation (m)', label='pedon_id', name='hzname')
+#'   
+#'   # default behavior, attempt adjustments to prevent over-plot and preserve relative spacing
+#'   # use set.seed() to fix outcome
+#'   plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
+#'                grad.axis.title='Elevation (m)', label='pedon_id', 
+#'                name='hzname', width=0.15, spacing = 'relative')
+#'   
+#'   # attempt relative positioning based on scaled distances, no corrections for overlap
+#'   # profiles are clustered in space and therefore over-plot
+#'   plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
+#'                grad.axis.title='Elevation (m)', label='pedon_id', name='hzname', 
+#'                width=0.15, spacing = 'relative', fix.relative.pos = FALSE)
+#'   
+#'   # customize arguments to aqp::fixOverlap()
+#'   plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
+#'                grad.axis.title='Elevation (m)', label='pedon_id', name='hzname', 
+#'                width=0.15, spacing = 'relative', 
+#'                fix.relative.pos = list(maxIter=6000, adj=0.2, thresh=0.7))
+#'   
+#'   plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
+#'                grad.axis.title='Elevation (m)', label='pedon_id', name='hzname', 
+#'                width=0.2, spacing = 'relative', 
+#'                fix.relative.pos = list(maxIter=6000, adj=0.2, thresh=0.6),
+#'                name.style = 'center-center')
+#'   
+#' }
+#' }
+#' 
+#' 
+plotTransect <- function(s, grad.var.name, grad.var.order = order(site(s)[[grad.var.name]]), transect.col = 'RoyalBlue', tick.number = 7, y.offset = 100, scaling.factor = 0.5, distance.axis.title = 'Distance Along Transect (km)', crs = NULL, grad.axis.title = NULL, dist.scaling.factor = 1000, spacing = c('regular', 'relative'), fix.relative.pos = list(thresh = 0.6, maxIter = 5000), ...){
+  
+  # sanity checks
+  spacing <- match.arg(spacing)
+  
   
   # internal offsets
   
@@ -66,13 +176,19 @@ plotTransect <- function(s, grad.var.name, grad.var.order=order(site(s)[[grad.va
     
   
   # create transect
-  transect <- dist.along.grad(coords, site(s)[[grad.var.name]], grad.var.order, grad.scaled.min=0, grad.scaled.max=y.offset-15)
+  transect <- dist.along.grad(
+    coords = coords, 
+    var = site(s)[[grad.var.name]], 
+    grad.order = grad.var.order, 
+    grad.scaled.min = 0, 
+    grad.scaled.max = y.offset-15
+    )
   
   # use a linear model to translate original gradient -> scaled gradient 
-  l <- lm(scaled.grad ~ variable, data=transect)
+  l <- lm(scaled.grad ~ variable, data = transect)
   
   # establish gradient axis tick marks
-  axis.labels <- pretty(transect$variable, n=tick.number)
+  axis.labels <- pretty(transect$variable, n = tick.number)
   axis.pos <- round(predict(l, data.frame(variable=axis.labels)))
   
   # spacing style

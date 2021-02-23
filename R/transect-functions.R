@@ -38,8 +38,8 @@ dist.along.grad <- function(coords, var, grad.order, grad.scaled.min, grad.scale
 }
 
 
-# plot a transect with profiles below
-plotTransect <- function(s, grad.var.name, grad.var.order=order(site(s)[[grad.var.name]]), transect.col='RoyalBlue', tick.number=7, y.offset=100, scaling.factor=0.5, distance.axis.title='Distance Along Transect (km)', crs=NULL, grad.axis.title=NULL, dist.scaling.factor=1000, spacing='regular', fix.relative.pos = list(thresh = 0.6, trace = FALSE, maxIter = 5000), ...){
+
+plotTransect <- function(s, grad.var.name, grad.var.order=order(site(s)[[grad.var.name]]), transect.col='RoyalBlue', tick.number=7, y.offset=100, scaling.factor=0.5, distance.axis.title='Distance Along Transect (km)', crs=NULL, grad.axis.title=NULL, dist.scaling.factor=1000, spacing='regular', fix.relative.pos = list(thresh = 0.6, maxIter = 5000), ...){
   
   # internal offsets
   

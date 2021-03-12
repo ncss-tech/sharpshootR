@@ -50,6 +50,7 @@ importFrom(stringi,
 
 importFrom(igraph,
   graph.edgelist,
+  delete.vertices,
   count.multiple,
   get.adjacency,
   graph.adjacency,

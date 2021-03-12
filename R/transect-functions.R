@@ -4,6 +4,7 @@
 ## * perform all re-scaling via linear model?
 ## * consider sorting by distance vs. var (requires a starting point)
 ## * consider manually defined vector of indices
+## * see new function in aqp: alignTransect() for relative positions along x-axis
 
 # function for computing gradient vs. distance along gradient
 dist.along.grad <- function(coords, var, grad.order, grad.scaled.min, grad.scaled.max) {

@@ -21,23 +21,136 @@
 
 # dendrogram representation relies on ape plotting functions
 # ... are passed onto plot.igraph or plot.phylo
-plotSoilRelationGraph <- function(m, s='', plot.style='network', graph.mode='upper', spanning.tree=NULL, del.edges=NULL, vertex.scaling.method='degree', vertex.scaling.factor=2, edge.scaling.factor=1, vertex.alpha=0.65, edge.transparency=1, edge.col=grey(0.5), edge.highlight.col='royalblue', g.layout=layout_with_fr, vertex.label.color='black', ...) {
+
+
+
+
+#' @title Plot a component relation graph
+#'
+#' @description Plot a component relation graph based on an adjacency or similarity matrix.
+#'
+#' @param m adjacency matrix
+#' @param s central component; an empty character string is interpreted as no central component
+#' @param plot.style plot style ('network', or 'dendrogram'), or 'none' for no graphical output
+#' @param graph.mode interpretation of adjacency matrix: 'upper' or 'directed', see details
+#' @param spanning.tree plot the minimum or maximum spanning tree ('min', 'max'), or, max spanning tree plus edges with weight greater than the n-th quantile specified in `spanning.tree`. See details and examples.
+#' @param del.edges optionally delete edges with weights less than the specified quantile (0-1)
+#' @param vertex.scaling.method 'degree' (default) or 'distance', see details
+#' @param vertex.scaling.factor scaling factor applied to vertex size
+#' @param edge.scaling.factor optional scaling factor applied to edge width
+#' @param vertex.alpha optional transparency setting for vertices (0-1)
+#' @param edge.transparency optional transparency setting for edges (0-1)
+#' @param edge.col edge color, applied to all edges
+#' @param edge.highlight.col edge color applied to all edges connecting to component named in `s`
+#' @param g.layout an igraph layout function, defaults to `layout_with_fr`
+#' @param vertex.label.color vertex label color
+#' @param delete.singletons optionally delete vertices with no edges (`degree == 0`)
+#' @param ... further arguments passed to plotting function
+#' 
+#' @note This function is a work in progress, ideas welcome.
+#' 
+#' @details Vertex size is based on a normalized index of connectivity: 
+#' 
+#'   - "degree" size = `sqrt(degree(g)/max(degree(g))) * scaling.factor`
+#'   - "distance" size =  `sqrt(distance(V->s)/max(distance(V->s)))  * scaling.factor`, where distance(V->s) is the distance from all nodes to the named series, \code{s}. 
+#'   
+#' 
+#' Edge width can be optionally scaled by edge weight by specifying an \code{edge.scaling.factor} value. The maximum spanning tree represents a sub-graph where the sum of edge weights are maximized. The minimum spanning tree represents a sub-graph where the sum of edge weights are minimized. The maximum spanning tree is likely a more useful simplification of the full graph, in which only the strongest relationships (e.g. most common co-occurrences) are preserved.
+#' 
+#' The maximum spanning tree + edges with weights > n-th quantile is an experimental hybrid. The 'backbone' of the graph is created by the maximum spanning tree, and augmented by 'strong' auxiliary edges--defined by a value between 0 and 1.
+#' 
+#' The \code{graph.mode} argument is passed to \code{igraph::graph_from_adjacency_matrix()} and determines how vertex relationships are coded in the adjacency matrix \code{m}. Typically, the default value of 'upper' (the upper triangle of \code{m} contains adjacency information) is the desired mode. If \code{m} contains directional information, set \code{graph.mode} to 'directed'. This has the side-effect of altering the default community detection algorithm from \code{igraph::cluster_fast_greedy} to \code{igraph::cluster_walktrap}.
+#'
+#' @return an igraph `graph` object is invisibly returned
+#' 
+#' @author D.E. Beaudette
+#' 
+#' @keywords hplot
+#' 
+#' @export
+#'
+#' @examples
+#' 
+#' # load sample data set
+#' data(amador)
+#' 
+#' # create weighted adjacency matrix (see ?component.adj.matrix for details)
+#' m <- component.adj.matrix(amador)
+#' 
+#' # plot network diagram, with Amador soil highlighted
+#' plotSoilRelationGraph(m, s='amador')
+#' 
+#' # dendrogram representation
+#' plotSoilRelationGraph(m, s='amador', plot.style='dendrogram')
+#' 
+#' # compare methods
+#' m.o <- component.adj.matrix(amador, method='occurrence')
+#' 
+#' par(mfcol=c(1,2))
+#' plotSoilRelationGraph(m, s='amador', plot.style='dendrogram')
+#' title('community matrix')
+#' plotSoilRelationGraph(m.o, s='amador', plot.style='dendrogram')
+#' title('occurence')
+#' 
+#' # investigate max spanning tree
+#' plotSoilRelationGraph(m, spanning.tree='max')
+#' 
+#' # investigate max spanning tree + edges with weights > 75-th pctile
+#' plotSoilRelationGraph(m, spanning.tree=0.75)
+#' 
+#' \donttest{
+#'   
+#'   if(requireNamespace("curl") &
+#'      curl::has_internet() &
+#'      require(soilDB)) {
+#'     
+#'     # get similar data from soilweb, for the Pardee series
+#'     s <- 'pardee'
+#'     d <- siblings(s, component.data = TRUE)
+#'     
+#'     # normalize component names
+#'     d$sib.data$compname <- tolower(d$sib.data$compname)
+#'     
+#'     # keep only major components
+#'     d$sib.data <- subset(d$sib.data, subset=compkind == 'Series')
+#'     
+#'     # build adj. matrix and plot
+#'     m <- component.adj.matrix(d$sib.data)
+#'     plotSoilRelationGraph(m, s=s, plot.style='dendrogram')
+#'     
+#'     # alter plotting style, see ?plot.phylo
+#'     plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='fan')
+#'     plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='unrooted', use.edge.length=FALSE) 
+#'     
+#'   }
+#'   
+#'   
+#' }
+#' 
+plotSoilRelationGraph <- function(m, s='', plot.style = c('network', 'dendrogram'), graph.mode='upper', spanning.tree=NULL, del.edges=NULL, vertex.scaling.method='degree', vertex.scaling.factor=2, edge.scaling.factor=1, vertex.alpha=0.65, edge.transparency=1, edge.col=grey(0.5), edge.highlight.col='royalblue', g.layout=layout_with_fr, vertex.label.color='black', delete.singletons = FALSE, ...) {
 	
   # dumb hack to make R CMD check happy
   weight <- NULL
   name <- NULL
   
 	# generate graph
-	g <- graph.adjacency(m, mode=graph.mode, weighted=TRUE)
+	g <- graph.adjacency(adjmatrix = m, mode=graph.mode, weighted=TRUE)
+	
+	## this might have to happen later on, after edge deletion
+	# optionally delete singleton vertices
+	if(delete.singletons) {
+	  g <- delete.vertices(g, degree(g) == 0) 
+	}
+	
   
 	### TODO ###
-	## figure out some hueristics for selecting a method: layout_with_fr is almost always the best one
+	## figure out some heuristics for selecting a method: layout_with_fr is almost always the best one
 	
 	# when there are many clusters, layout_with_lgl doesn't work properly
 	# switch back to layout_with_fr when > 5
 	# g.n.clusters <-  clusters(g)$no
 	
-	# maybe this can be used as a hueristic as well:
+	# maybe this can be used as a heuristic as well:
 	# betweenness(g)
 	
 # 	# select layout if not provided

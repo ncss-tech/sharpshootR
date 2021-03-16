@@ -134,7 +134,7 @@ plotSoilRelationGraph <- function(m, s='', plot.style = c('network', 'dendrogram
   name <- NULL
   
   # argument sanity
-  plot.style <- mmatch.arg(plot.style)
+  plot.style <- match.arg(plot.style)
   
 	# generate graph
 	g <- graph.adjacency(adjmatrix = m, mode=graph.mode, weighted=TRUE)

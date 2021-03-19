@@ -1,6 +1,6 @@
 library(aqp)
 library(venn)
-
+library(sharpshootR)
 
 venn(7)
 
@@ -17,10 +17,9 @@ venn(x, ellipse = FALSE, zcolor = 'style')
 
 venn(5, ilabels = TRUE, zcolor = "style", ellipse = TRUE)
 
-## how to use with cross-tabulation?
 
 # chips <- c('10YR 8/2', '10R 4/8', '5Y 8/8', '5B 4/8', '5GY 4/8', '5Y 3/1', '7.5P 4/8')
-# chips <- c('10YR 8/2', '10R 4/8', '5Y 8/8', '5B 4/8', '5GY 4/8', '5Y 3/1')
+# chips <- c('10P 4/8', '10R 4/8', '5Y 8/8', '5B 4/8', '5GY 4/8', '5Y 3/1')
 # chips <- c('10YR 8/2', '10R 4/8', '5Y 8/8', '5B 4/8', '5GY 4/8')
 chips <- c('10YR 8/2', '10R 4/8', '5Y 8/8', '5B 4/8')
 # chips <- c('2.5R 4/6', '2.5B 4/6', '2.5Y 8/2')
@@ -33,6 +32,9 @@ chips <- c('10YR 8/2', '10R 4/8', '5Y 8/8', '5B 4/8')
 colorMixtureVenn(chips)
 colorMixtureVenn(chips, labels = FALSE)
 
+colorMixtureVenn(chips, ellipse = TRUE)
+
+par(bg = 'black', fg = 'white')
 colorMixtureVenn(chips, ellipse = TRUE)
 
 

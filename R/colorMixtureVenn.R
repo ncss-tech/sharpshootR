@@ -17,7 +17,9 @@
 #' colorMixtureVenn(chips)
 #' 
 #' }
-#' 
+
+## TODO: add support for weighted mixtures
+
 colorMixtureVenn <- function(chips, ellipse = FALSE, labels = TRUE) {
  
   # required package

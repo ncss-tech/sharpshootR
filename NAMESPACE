@@ -5,7 +5,7 @@ importFrom("grDevices", "colorRampPalette", "grey")
 importFrom("graphics", "abline", "arrows", "axis", "image", "layout",
              "legend", "lines", "mtext", "par", "points", "rect",
              "segments", "strheight", "text", "grid", "hist", "box", "boxplot", "title",
-           "barplot", "bxp", "contour")
+           "barplot", "bxp", "contour", "polygon")
 
 importFrom("methods", "as", "slot")
 
@@ -13,7 +13,8 @@ importFrom("stats", "as.dendrogram", "as.formula", "as.hclust",
              "complete.cases", "cutree", "density", "lm", "median",
              "na.omit", "predict", "quantile", "dnorm", "sd", "update")
 
-importFrom("utils", "URLencode", "download.file", "read.csv", "setTxtProgressBar", "txtProgressBar", "packageVersion")
+importFrom("utils", "URLencode", "download.file", "read.csv", "setTxtProgressBar", 
+           "txtProgressBar", "packageVersion", "combn")
 
 
 importFrom(ape,
@@ -33,7 +34,8 @@ importFrom(aqp,
            site,
            huePosition,
            invertLabelColor,
-           parseMunsell
+           parseMunsell,
+           mixMunsell
 )
 
 importFrom(curl,

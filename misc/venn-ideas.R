@@ -41,9 +41,15 @@ colorMixtureVenn(chips, ellipse = TRUE)
 chips <- c('10YR 8/1', '2.5YR 3/6', '10YR 2/2')
 colorMixtureVenn(chips)
 
-chips <- c('10YR 8/1', '2.5YR 3/6', '10YR 2/2', '5P 3/3')
+
+chips <- c('10YR 8/1', '2.5YR 3/6', '10YR 8/10', '5G 4/8')
 colorMixtureVenn(chips, ellipse = TRUE)
 
+chips <- c('2.5YR 8/2', '2.5B 3/6', '2.5G 4/4', '2.5R 4/8', '2.5Y 6/10')
+colorMixtureVenn(chips, ellipse = TRUE)
+
+chips <- c('10YR 8/2', '10YR 8/2', '5B 4/8', '5B 4/8')
+colorMixtureVenn(chips)
 
 library(soilDB)
 x <- fetchOSD('musick')

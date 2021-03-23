@@ -3,6 +3,12 @@
 #' @title Create a Venn Diagram of Simulated Color Mixtures
 #' 
 #' @param chips character vector of standard Munsell color notation (e.g. "10YR 3/4") 
+#' 
+#' @param mixingMethod approach used to simulate a mixture: 
+#'    * `spectra`: simulate a subtractive mixture of pigments, limited to available reference spectra
+#'    * `estimate`: closest Munsell chip to a weighted mean of CIELAB coordinates
+#'    * `adaptive`: use reference spectra when possible, falling-back to weighted mean of CIELAB coordinates
+#' 
 #' @param ellipse logical, use alternative ellipse-style (4 or 5 colors only) 
 #' @param labels logical, print mixture labels
 #'
@@ -20,7 +26,7 @@
 
 ## TODO: add support for weighted mixtures
 
-colorMixtureVenn <- function(chips, ellipse = FALSE, labels = TRUE) {
+colorMixtureVenn <- function(chips, mixingMethod = c('spectra', 'estimate', 'adaptive'), ellipse = FALSE, labels = TRUE) {
  
   # required package
   if(!requireNamespace('venn') | !requireNamespace("gower"))
@@ -31,6 +37,10 @@ colorMixtureVenn <- function(chips, ellipse = FALSE, labels = TRUE) {
   if(n.chips < 2) {
     stop('must supply more than 2 Munsell colors', call. = FALSE)
   }
+  
+  # sanity check on mixing method
+  # also performed by aqp::mixMunsell
+  mixingMethod <- match.arg(mixingMethod)
   
   # base colors
   cols <- parseMunsell(chips)
@@ -49,11 +59,11 @@ colorMixtureVenn <- function(chips, ellipse = FALSE, labels = TRUE) {
   
   if(n.chips > 2) {
     for(i in 1:(max(n.chips) - 2)) {
-      .fillCombinations(chips = chips, e = ellipse, labels = labels, degree = i)
+      .fillCombinations(chips = chips, e = ellipse, labels = labels, degree = i, mixingMethod = mixingMethod)
     }
   }
   
-  .fillCenter(chips = chips, e = ellipse, labels = labels)
+  .fillCenter(chips = chips, e = ellipse, labels = labels, mixingMethod = mixingMethod)
   
 }
 
@@ -90,7 +100,7 @@ colorMixtureVenn <- function(chips, ellipse = FALSE, labels = TRUE) {
   
 }
 
-.fillCenter <- function(chips, e, labels) {
+.fillCenter <- function(chips, e, labels, mixingMethod) {
   
   # local copy
   n.chips <- length(chips)
@@ -102,7 +112,7 @@ colorMixtureVenn <- function(chips, ellipse = FALSE, labels = TRUE) {
   cz <- venn::getZones(center.zone, ellipse = e)
   
   # mix all colors
-  all <- mixMunsell(chips)$munsell
+  all <- mixMunsell(chips, mixingMethod = mixingMethod)$munsell
   all.color <- parseMunsell(all)
   
   # fill center
@@ -123,7 +133,7 @@ colorMixtureVenn <- function(chips, ellipse = FALSE, labels = TRUE) {
 }
 
 
-.fillCombinations <- function(chips, e, labels, degree) {
+.fillCombinations <- function(chips, e, labels, degree, mixingMethod) {
   
   # local copy
   n.chips <- length(chips)
@@ -136,7 +146,7 @@ colorMixtureVenn <- function(chips, ellipse = FALSE, labels = TRUE) {
   # add mixtures
   chip.combinations$mix <- NA
   for(i in 1:nrow(chip.combinations)) {
-    mi <- mixMunsell(unlist(chip.combinations[i, 1:(n.chips-degree)]))$munsell
+    mi <- mixMunsell(unlist(chip.combinations[i, 1:(n.chips-degree)]), mixingMethod = mixingMethod)$munsell
     chip.combinations$mix[i] <- mi
   }
   

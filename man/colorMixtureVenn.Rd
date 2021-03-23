@@ -4,10 +4,22 @@
 \alias{colorMixtureVenn}
 \title{Create a Venn Diagram of Simulated Color Mixtures}
 \usage{
-colorMixtureVenn(chips, ellipse = FALSE, labels = TRUE)
+colorMixtureVenn(
+  chips,
+  mixingMethod = c("spectra", "estimate", "adaptive"),
+  ellipse = FALSE,
+  labels = TRUE
+)
 }
 \arguments{
 \item{chips}{character vector of standard Munsell color notation (e.g. "10YR 3/4")}
+
+\item{mixingMethod}{approach used to simulate a mixture:
+\itemize{
+\item \code{spectra}: simulate a subtractive mixture of pigments, limited to available reference spectra
+\item \code{estimate}: closest Munsell chip to a weighted mean of CIELAB coordinates
+\item \code{adaptive}: use reference spectra when possible, falling-back to weighted mean of CIELAB coordinates
+}}
 
 \item{ellipse}{logical, use alternative ellipse-style (4 or 5 colors only)}
 
@@ -25,5 +37,4 @@ chips <- c('10YR 8/1', '2.5YR 3/6', '10YR 2/2')
 colorMixtureVenn(chips)
 
 }
-
 }

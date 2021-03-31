@@ -2,7 +2,7 @@ library(aqp)
 library(venn)
 library(sharpshootR)
 
-venn(7)
+venn(7, box = FALSE)
 
 x <- as.data.frame(matrix(sample(0:1, 150, replace = TRUE), ncol = 5))
 names(x) <- c('DB', 'DSM', 'DSS', 'Initial', 'KSSL')

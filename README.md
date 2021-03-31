@@ -17,6 +17,9 @@ Install the development version from Github:
 ## Website
 http://ncss-tech.github.io/AQP/
 
+## Citation
+Dylan Beaudette, Jay Skovlin and Stephen Roecker (2021). sharpshootR: A Soil Survey Toolkit. R package version 1.7.2. https://CRAN.R-project.org/package=sharpshootR
+
 
 ## Quick Reference
 

@@ -1,6 +1,92 @@
 
-# this function only works when clustering Soil Taxonomy elements
-# ideally sourced from fetchOSD()
+
+#' @title Soil Taxonomy Dendrogram
+#' 
+#' @description Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimmilarity matrix is computed using Gower's distance metric for nominal-scale variables, based on order, sub order, great group, and subgroup level taxa. See the Details and Examples sections below for more information.
+#'
+#' @param spc a `SoilProfileCollection` object, typically returned by `soilDB::fetchOSD`
+#' @param name column name containing horizon names
+#' @param name.style passed to `aqp::plotSPC` (default: "right-center")
+#' @param rotationOrder numeric vector with desired ordering of leaves in the dendrogram from left to right, see details
+#' @param max.depth depth at which profiles are truncated for plotting
+#' @param n.depth.ticks suggested number of ticks on the depth axis
+#' @param scaling.factor scaling factor used to convert depth units into plotting units
+#' @param cex.names character scaling for horizon names
+#' @param cex.id character scaling for profile IDs
+#' @param axis.line.offset horizontal offset for depth axis
+#' @param width width of profiles
+#' @param y.offset vertical offset between dendrogram and profiles
+#' @param shrink logical, should long horizon names be shrunk by 80% ?
+#' @param font.id font style applied to profile id, default is 2 (bold)
+#' @param cex.taxon.labels character scaling for taxonomic information
+#' @param dend.color dendrogram line color
+#' @param dend.width dendrogram line width
+#' @param ... additional arguments to `aqp::plotSPC`
+#' 
+#' @details This function looks for specific site-level attributes named: `soilorder`, `suborder`, `greatgroup`, and `subgroup`.
+#' 
+#' The `rotationOrder` argument uses (requires) the `dendextend::rotate()` function to re-order leaves within the `hclust` representation of the ST hierarchy. Perfect sorting is not always possible.
+#'
+#' @return An invisibly-returned list containing:
+#'
+#'   * `dist`: pair-wise dissimilarity matrix
+#'   * `order`: final ordering of hclust leaves
+#'   
+#' @author D.E. Beaudette
+#' 
+#' @export
+#'
+#' @examples
+#' 
+#' \donttest{
+#' 
+#' if(requireNamespace("curl") &
+#'    curl::has_internet() &
+#'    require(aqp) &
+#'    require(soilDB)
+#' ) {
+#'   
+#'   
+#'   
+#'   # soils of interest
+#'   s.list <- c('musick', 'cecil', 'drummer', 'amador', 'pentz', 'reiff', 
+#'               'san joaquin','montpellier','grangeville','pollasky','ramona')
+#'   
+#'   # fetch and convert data into an SPC
+#'   h <- fetchOSD(s.list)
+#'   
+#'   # plot dendrogram + profiles
+#'   SoilTaxonomyDendrogram(h)
+#'   
+#'   # again, this time save the pair-wise dissimilarity matrix
+#'   # note that there isn't a lot of discrimination between soils
+#'   (d <- SoilTaxonomyDendrogram(h))
+#'   
+#'   
+#'   # a different set
+#'   soils <- c('cecil', 'altavista', 'lloyd', 'wickham', 'wilkes',
+#'              'chewacla', 'congaree')
+#'   
+#'   # get morphology + extended summaries for sorting of dendrogram
+#'   s <- fetchOSD(soils, extended = TRUE)
+#'   
+#'   # get summary and ignore the figure
+#'   res <- vizHillslopePosition(s$hillpos)
+#'   
+#'   # compare default sorting to soils sorting according to catenary, e.g.
+#'   # hillslope position
+#'   par(mar=c(0,0,1,1), mfrow=c(2,1))
+#'   
+#'   SoilTaxonomyDendrogram(s$SPC, width=0.25)
+#'   mtext('default sorting', side = 2, line=-1, font=3, cex=1.25)
+#'   
+#'   SoilTaxonomyDendrogram(s$SPC, rotationOrder = res$order, width=0.25)
+#'   mtext('approx. catenary sorting', side = 2, line=-1, font=3, cex=1.25)
+#'   
+#' }
+#' 
+#' }
+#' 
 SoilTaxonomyDendrogram <- function(spc, name='hzname', name.style='right-center', rotationOrder=NULL, max.depth=150, n.depth.ticks=6, scaling.factor=0.015, cex.names=0.75, cex.id=0.75, axis.line.offset=-4, width=0.1, y.offset=0.5, shrink=FALSE, font.id=2, cex.taxon.labels=0.66, dend.color=par('fg'), dend.width=1, ...) {
 	
 	# convert relevant columns into factors

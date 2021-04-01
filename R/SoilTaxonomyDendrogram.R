@@ -2,12 +2,12 @@
 
 #' @title Soil Taxonomy Dendrogram
 #' 
-#' @description Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimmilarity matrix is computed using Gower's distance metric for nominal-scale variables, based on order, sub order, great group, and subgroup level taxa. See the Details and Examples sections below for more information.
+#' @description Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimilarity matrix is computed using Gower's distance metric for nominal-scale variables, based on order, sub order, great group, and subgroup level taxa. See the Details and Examples sections below for more information.
 #'
 #' @param spc a `SoilProfileCollection` object, typically returned by `soilDB::fetchOSD`
 #' @param name column name containing horizon names
 #' @param name.style passed to `aqp::plotSPC` (default: "right-center")
-#' @param rotationOrder numeric vector with desired ordering of leaves in the dendrogram from left to right, see details
+#' @param rotationOrder numeric vector with desired ordering of leaves in the dendrogram from left to right, or character vector matching profile IDs
 #' @param max.depth depth at which profiles are truncated for plotting
 #' @param n.depth.ticks suggested number of ticks on the depth axis
 #' @param scaling.factor scaling factor used to convert depth units into plotting units
@@ -82,7 +82,103 @@
 #'   
 #'   SoilTaxonomyDendrogram(s$SPC, rotationOrder = res$order, width=0.25)
 #'   mtext('approx. catenary sorting', side = 2, line=-1, font=3, cex=1.25)
+#'  
 #'   
+#' # classic chronosequence from the San Joaquin Valley, CA
+#' library(aqp)
+#' library(soilDB)
+#' library(sharpshootR)
+#' 
+#' s <- c('tujunga', 'hanford', 'greenfield', 'snelling', 'san joaquin')
+#' osds <- fetchOSD(s)
+#' 
+#' idx <- match(toupper(s), profile_id(osds))
+#' 
+#' # encode horizon boundarydistinctness via vertical offset
+#' osds$hd <- hzDistinctnessCodeToOffset(
+#'   osds$distinctness, 
+#'   codes=c('very abrupt', 'abrupt', 'clear', 'gradual', 'diffuse')
+#' )
+#' 
+#' # encode horizon boundary topography via vertical offset
+#' osds$hzto <- hzTopographyCodeToOffset(
+#'   osds$topography, 
+#'   codes = c('smooth', 'wavy', 'irregular', 'broken')
+#' )
+#' 
+#' # also encode horizon boundary topography las line type
+#' osds$hzto.lty <- hzTopographyCodeToLineType(
+#'   osds$topography,
+#'   codes = c('smooth', 'wavy', 'irregular', 'broken')
+#' )
+#' 
+#' # label data source, used later 
+#' site(osds)$source <- 'OSD'
+#' 
+#' # concise representation of hz bnd distinctness and topography
+#' # similar to field notes
+#' osds$bnd.code <- sprintf(
+#'   "%s%s",
+#'   substr(osds$distinctness, 1, 1),
+#'   substr(osds$topography, 1, 1)
+#' )
+#' 
+#' # remove NA
+#' osds$bnd.code <- gsub('NANA', '', osds$bnd.code)
+#' 
+#' par(mar = c(0, 0, 0, 1), bg = 'black', fg = 'white')
+#' 
+#' plotSPC(
+#' osds, 
+#' plot.order = idx, 
+#' width = 0.3, 
+#' name.style = 'center-center', 
+#' cex.names = 0.66, 
+#' plot.depth.axis = FALSE, 
+#' hz.depths = TRUE, 
+#' shrink = TRUE, 
+#' hz.distinctness.offset = 'hd', 
+#' hz.topography.offset = 'hzto', 
+#' hz.boundary.lty = 'hzto.lty'
+#' )
+#' 
+#' legend(
+#' 'bottomright', 
+#' horiz = TRUE, 
+#' legend = c('Smooth', 'Wavy', 'Irregular', 'Broken'), 
+#' lty = 1:4, 
+#' inset = 0.05, 
+#' bty = 'n', 
+#' cex = 0.85
+#' )
+#' 
+#' # note that `rotationOrder` uses the ordering of series names (uppercase to match profile IDs)
+#' # to re-order the terminal branches of the dendrogram
+#' SoilTaxonomyDendrogram(
+#' osds, 
+#' rotationOrder = toupper(s), 
+#' cex.taxon.labels = 0.85, 
+#' width = 0.3, 
+#' name.style = 'center-center', 
+#' cex.names = 0.66, 
+#' plot.depth.axis = FALSE, 
+#' hz.depths = TRUE, 
+#' shrink = TRUE, 
+#' hz.distinctness.offset = 'hd', 
+#' hz.topography.offset = 'hzto', 
+#' hz.boundary.lty = 'hzto.lty'
+#' )
+#' 
+#' legend(
+#' 'bottomright', 
+#' horiz = TRUE, 
+#' legend = c('Smooth', 'Wavy', 'Irregular', 'Broken'), 
+#' lty = 1:4, 
+#' inset = 0.05, 
+#' bty = 'n', 
+#' cex = 0.85
+#' )
+#'      
 #' }
 #' 
 #' }
@@ -111,7 +207,7 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', name.style='right-center'
 	  
 	  # rotate branches as closely as possible to `rotationOrder`
 	  # sorting ideally results in left -> right orientation
-	  s.hclust <- dendextend::rotate(s.hclust, order = rev(rotationOrder))
+	  s.hclust <- dendextend::rotate(s.hclust, order = rotationOrder)
 	}
 	
 	# convert to phylo class

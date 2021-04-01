@@ -32,7 +32,7 @@ SoilTaxonomyDendrogram(
 
 \item{name.style}{passed to \code{aqp::plotSPC} (default: "right-center")}
 
-\item{rotationOrder}{numeric vector with desired ordering of leaves in the dendrogram from left to right, see details}
+\item{rotationOrder}{numeric vector with desired ordering of leaves in the dendrogram from left to right, or character vector matching profile IDs}
 
 \item{max.depth}{depth at which profiles are truncated for plotting}
 
@@ -70,7 +70,7 @@ An invisibly-returned list containing:
 }
 }
 \description{
-Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimmilarity matrix is computed using Gower's distance metric for nominal-scale variables, based on order, sub order, great group, and subgroup level taxa. See the Details and Examples sections below for more information.
+Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimilarity matrix is computed using Gower's distance metric for nominal-scale variables, based on order, sub order, great group, and subgroup level taxa. See the Details and Examples sections below for more information.
 }
 \details{
 This function looks for specific site-level attributes named: \code{soilorder}, \code{suborder}, \code{greatgroup}, and \code{subgroup}.
@@ -123,7 +123,103 @@ if(requireNamespace("curl") &
   
   SoilTaxonomyDendrogram(s$SPC, rotationOrder = res$order, width=0.25)
   mtext('approx. catenary sorting', side = 2, line=-1, font=3, cex=1.25)
+ 
   
+# classic chronosequence from the San Joaquin Valley, CA
+library(aqp)
+library(soilDB)
+library(sharpshootR)
+
+s <- c('tujunga', 'hanford', 'greenfield', 'snelling', 'san joaquin')
+osds <- fetchOSD(s)
+
+idx <- match(toupper(s), profile_id(osds))
+
+# encode horizon boundarydistinctness via vertical offset
+osds$hd <- hzDistinctnessCodeToOffset(
+  osds$distinctness, 
+  codes=c('very abrupt', 'abrupt', 'clear', 'gradual', 'diffuse')
+)
+
+# encode horizon boundary topography via vertical offset
+osds$hzto <- hzTopographyCodeToOffset(
+  osds$topography, 
+  codes = c('smooth', 'wavy', 'irregular', 'broken')
+)
+
+# also encode horizon boundary topography las line type
+osds$hzto.lty <- hzTopographyCodeToLineType(
+  osds$topography,
+  codes = c('smooth', 'wavy', 'irregular', 'broken')
+)
+
+# label data source, used later 
+site(osds)$source <- 'OSD'
+
+# concise representation of hz bnd distinctness and topography
+# similar to field notes
+osds$bnd.code <- sprintf(
+  "\%s\%s",
+  substr(osds$distinctness, 1, 1),
+  substr(osds$topography, 1, 1)
+)
+
+# remove NA
+osds$bnd.code <- gsub('NANA', '', osds$bnd.code)
+
+par(mar = c(0, 0, 0, 1), bg = 'black', fg = 'white')
+
+plotSPC(
+osds, 
+plot.order = idx, 
+width = 0.3, 
+name.style = 'center-center', 
+cex.names = 0.66, 
+plot.depth.axis = FALSE, 
+hz.depths = TRUE, 
+shrink = TRUE, 
+hz.distinctness.offset = 'hd', 
+hz.topography.offset = 'hzto', 
+hz.boundary.lty = 'hzto.lty'
+)
+
+legend(
+'bottomright', 
+horiz = TRUE, 
+legend = c('Smooth', 'Wavy', 'Irregular', 'Broken'), 
+lty = 1:4, 
+inset = 0.05, 
+bty = 'n', 
+cex = 0.85
+)
+
+# note that `rotationOrder` uses the ordering of series names (uppercase to match profile IDs)
+# to re-order the terminal branches of the dendrogram
+SoilTaxonomyDendrogram(
+osds, 
+rotationOrder = toupper(s), 
+cex.taxon.labels = 0.85, 
+width = 0.3, 
+name.style = 'center-center', 
+cex.names = 0.66, 
+plot.depth.axis = FALSE, 
+hz.depths = TRUE, 
+shrink = TRUE, 
+hz.distinctness.offset = 'hd', 
+hz.topography.offset = 'hzto', 
+hz.boundary.lty = 'hzto.lty'
+)
+
+legend(
+'bottomright', 
+horiz = TRUE, 
+legend = c('Smooth', 'Wavy', 'Irregular', 'Broken'), 
+lty = 1:4, 
+inset = 0.05, 
+bty = 'n', 
+cex = 0.85
+)
+     
 }
 
 }

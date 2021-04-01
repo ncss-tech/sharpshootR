@@ -1,7 +1,9 @@
 context("SoilTaxonomyDendrogram -- requires internet connection")
 
 ## tests
-library(soilDB)
+library(soilDB, quietly = TRUE)
+library(cluster, quietly = TRUE)
+library(dendextend, quietly = TRUE)
 
 test_that("SoilTaxonomyDendrogram works as expected", {
   
@@ -21,5 +23,9 @@ test_that("SoilTaxonomyDendrogram works as expected", {
   
   # hard-coded check on ordering of series, based on clustering of taxa
   expect_equal(d$order, c(1, 2, 3, 6, 7, 5, 4))
+  
+  # attempt re-ordering, isn't possibly to perfectly align
+  d <- SoilTaxonomyDendrogram(s, cex.taxon.labels=0.8, width=0.25, y.offset = 0.4, rotationOrder = toupper(s.list))
+  expect_true(inherits(d, 'list'))
 })
 

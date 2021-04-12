@@ -34,6 +34,9 @@ if(requireNamespace("curl") &
 
    curl::has_internet() &
     require(sp)) {
+    
+    # BLM PLSS API needs a long timeout
+    options(timeout = 60000)
 
     # create coordinates
     x <- -115.3823
@@ -43,7 +46,8 @@ if(requireNamespace("curl") &
     p.plss <- LL2PLSS(x, y)
 
     # plot geometry
-    plot(p.plss$geom)
+    if (length(p.plss$geom) > 0)
+     plot(p.plss$geom)
 }
 }
 

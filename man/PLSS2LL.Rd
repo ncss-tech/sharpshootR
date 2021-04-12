@@ -26,7 +26,10 @@ This function expects that the dataframe will have a 'plssid' column generated b
 
 if(requireNamespace("curl") &
    curl::has_internet()) {
-
+   
+  # BLM PLSS API needs a long timeout
+  options(timeout = 60000)
+  
   # create some data
   d <- data.frame(
     id = 1:3,

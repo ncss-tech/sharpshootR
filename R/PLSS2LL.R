@@ -296,7 +296,7 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
 # http://nationalcad.org/download/PublicationHandbookOct2016.pdf
 # http://nationalcad.blogspot.com/2015/03/plss-cadnsdi-plss-first-division.html
 
-# This function retrieves one coordinate. To be used by LSS2LL wrapper function.
+# This function retrieves one coordinate. To be used by PLSS2LL wrapper function.
 # consider not exporting
 
 .PLSS2LL <- function(p) {
@@ -336,13 +336,16 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
     # request that are less than QQ precision will return multiple QQ centers
     # keep the mean coordinates - get to one set of lat/lon coords
     if (nrow(r) >= 0) {
-      r <-
-        data.frame(id = p['id'], plssid = formatted.plss, t(colMeans(r[, 2:3], na.rm = TRUE)))
+      r <- data.frame(
+        id = p['id'], 
+        plssid = formatted.plss, 
+        t(colMeans(r[, 2:3], na.rm = TRUE))
+      )
     }
     res <- r
   }
+  # reset rownames
   row.names(res) <- NULL
-  #return(as.vector(res))
   return(res)
 }
 

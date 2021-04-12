@@ -24,6 +24,9 @@ This function requires the \code{rvest} package.
 if(requireNamespace("curl") &
    curl::has_internet() 
 ) {
+
+  # CDEC API needs a long timeout
+  options(timeout = 60000)
   
   CDEC_StationInfo('HHM')  
   

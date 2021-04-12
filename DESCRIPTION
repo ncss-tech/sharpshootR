@@ -35,7 +35,11 @@ Suggests:
     latticeExtra,
     farver,
     venn,
-    gower
+    gower,
+    daymetr,
+    elevatr,
+    Evapotranspiration,
+    zoo
 Depends: R (>= 3.5.0)
 Imports: grDevices, graphics, methods, stats, utils, aqp, ape, 
   soilDB, igraph, cluster, lattice, vegan, sp, 

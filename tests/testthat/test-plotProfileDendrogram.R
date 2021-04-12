@@ -3,7 +3,7 @@ context("plotProfileDendrogram")
 ## sample data
 
 library(aqp, quietly = TRUE)
-library(cluster, quietly = TRUE)
+suppressWarnings(library(cluster, quietly = TRUE))
 
 # example data that will have IDs re-shuffled by profile_compare (https://github.com/ncss-tech/aqp/issues/7)
 set.seed(10101)

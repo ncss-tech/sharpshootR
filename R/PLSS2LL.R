@@ -187,7 +187,9 @@ formatPLSS <- function(p, type = 'SN') {
 #' @export
 #'
 #' @examples
-#'
+#' 
+#' \donttest{
+#' 
 #' if(requireNamespace("curl") &
 #'
 #'    curl::has_internet() &
@@ -203,6 +205,8 @@ formatPLSS <- function(p, type = 'SN') {
 #'     # plot geometry
 #'     plot(p.plss$geom)
 #' }
+#' }
+#' 
 LL2PLSS <- function(x, y, returnlevel= 'I') {
 
   if (length(x) > 1 && length(y) > 1 && length(x) == length(y)) {
@@ -255,8 +259,12 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
 
     # convert JSON -> list
     res <- jsonlite::fromJSON(httr::content(res, as = 'text'), flatten = TRUE)
-
-    # check for invalid result (e.g. reversed coordinates)
+    
+    ## TODO: check for a valid result from API
+    
+    # check for invalid result:
+    # * reversed coordinates in x,y
+    # * nothing returned by the API
     if(is.null(res$features$geometry.rings))
       stop("invalid geometry specification, check coordinate XY order (longitude: X, latitude: Y)")
 
@@ -350,7 +358,11 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
 #' @seealso \code{\link{LL2PLSS}}, \code{\link{formatPLSS}}
 #' @export
 #'
+#'
 #' @examples
+#' 
+#' \donttest{
+#' 
 #' if(requireNamespace("curl") &
 #'    curl::has_internet()) {
 #'
@@ -373,6 +385,10 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
 #'   # fetch lat/long coordinates
 #'   PLSS2LL(d)
 #' }
+#' 
+#' }
+#' 
+#' 
 PLSS2LL <- function(p, plssid = "plssid") {
   # check for required packages
   if(!requireNamespace('httr', quietly = TRUE) | !requireNamespace('jsonlite', quietly = TRUE))

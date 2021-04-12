@@ -2,8 +2,8 @@ context("SoilTaxonomyDendrogram -- requires internet connection")
 
 ## tests
 library(soilDB, quietly = TRUE)
-library(cluster, quietly = TRUE)
-library(dendextend, quietly = TRUE)
+suppressWarnings(library(cluster, quietly = TRUE))
+suppressWarnings(library(dendextend, quietly = TRUE))
 
 test_that("SoilTaxonomyDendrogram works as expected", {
   

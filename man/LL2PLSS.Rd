@@ -28,6 +28,8 @@ This function requires the following packages: \code{httr}, \code{jsonlite}, and
 }
 \examples{
 
+\donttest{
+
 if(requireNamespace("curl") &
 
    curl::has_internet() &
@@ -43,6 +45,8 @@ if(requireNamespace("curl") &
     # plot geometry
     plot(p.plss$geom)
 }
+}
+
 }
 \seealso{
 \code{\link{PLSS2LL}}, \code{\link{formatPLSS}}

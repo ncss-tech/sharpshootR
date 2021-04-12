@@ -1,6 +1,35 @@
 
-# get sensor details for a CDEC station
-# s: CDEC station ID
+
+#' @title CDEC Sensor Details (by Station)
+#' 
+#' @description Query CDEC Website for Sensor Details
+#'
+#' @param s character, a single CDEC station ID (e.g. 'HHM')
+#' 
+#' @details This function requires the `rvest` package.
+#'
+#' @return A `list` object containing site metadata, sensor metadata, and possibly comments about the site.
+#' 
+#' @author D.E. Beaudette
+#' 
+#' @seealso `[CDECquery]`
+#' 
+#' @export
+#'
+#' @examples
+#' 
+#' \donttest{
+#' if(requireNamespace("curl") &
+#'    curl::has_internet() 
+#' ) {
+#'   
+#'   CDEC_StationInfo('HHM')  
+#'   
+#' }
+#' 
+#' 
+#' }
+#' 
 CDEC_StationInfo <- function(s) {
   # check for required packages
   if(!requireNamespace('rvest', quietly = TRUE) | !requireNamespace('xml2', quietly = TRUE))
@@ -31,10 +60,10 @@ CDEC_StationInfo <- function(s) {
     
     # column 1
     c1 <- as.data.frame(t(site.meta[, 2]))
-    names(c1) <- site.meta[, 1]
+    names(c1) <- as.character(unlist(site.meta[, 1]))
     # column 2
     c2 <- as.data.frame(t(site.meta[, 4]))
-    names(c2) <- site.meta[, 3]
+    names(c2) <- as.character(unlist(site.meta[, 3]))
     
     # combine
     site.meta <- cbind(c1, c2)
@@ -47,17 +76,26 @@ CDEC_StationInfo <- function(s) {
     site.meta$Latitude <- as.numeric(gsub("[^0-9\\.]", "", site.meta$Latitude))
     site.meta$Elevation <- as.numeric(gsub("[^0-9\\.]", "", site.meta$Elevation))
     
+    # reset rownames
+    row.names(site.meta) <- NULL
+    
     ## sensors, can be converted into data.frame
-    sensor.meta <- rvest::html_table(hn[[2]])
+    sensor.meta <- as.data.frame(rvest::html_table(hn[[2]]))
     names(sensor.meta) <- c('sensor_details', 'sensor', 'interval', 'sensor_name', 'collection_method', 'period_of_record')
     
     # comments, may be missing
     if(length(hn) > 2) {
-      # this will faily if the table is empty
-      site.comments <- try(suppressWarnings(rvest::html_table(hn[[3]])), silent = TRUE)
+      # this will fail if the table is empty
+      site.comments <- try(
+        suppressWarnings(
+          as.data.frame(
+            rvest::html_table(hn[[3]])
+          )
+        ), silent = TRUE
+      )
       
       # no comments
-      if(class(site.comments) == 'try-error') {
+      if(inherits(site.comments, 'try-error')) {
         site.comments <- NULL
         # otherwise, there are comments
       } else {
@@ -70,7 +108,13 @@ CDEC_StationInfo <- function(s) {
     }
     
     # return a list with nicely-formatted site, sensor, comment 
-    return(list('site.meta'=site.meta, 'sensor.meta'=sensor.meta, 'comments'=site.comments))
+    return(
+      list(
+        'site.meta' = site.meta, 
+        'sensor.meta' = sensor.meta, 
+        'comments' = site.comments
+        )
+    )
     
   } else {
     

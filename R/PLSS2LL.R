@@ -265,10 +265,13 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
     # check for invalid result:
     # * reversed coordinates in x,y
     # * nothing returned by the API
-    if(is.null(res$features$geometry.rings))
-      stop("invalid geometry specification, check coordinate XY order (longitude: X, latitude: Y)")
-
-    # attempt to extract PLSS geometry
+    if(is.null(res$features$geometry.rings)) {
+      message("invalid geometry specification, check coordinate XY order (longitude: X, latitude: Y)")
+      # return "NULL" result
+      return(list(geom=SpatialPolygons(list()), plss=NULL))
+    }
+    
+  # attempt to extract PLSS geometry
     geom <- SpatialPolygons(list(Polygons(list(Polygon(res$features$geometry.rings[[1]][1,, ])), ID = .polyID)))
     srid <- res$features$geometry.spatialReference.wkid
     proj4string(geom) <- paste0('+init=epsg:', srid)

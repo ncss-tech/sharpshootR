@@ -72,7 +72,13 @@
 #'   trellis.par.set(plot.line=list(col='RoyalBlue'))
 #'   
 #'   # control center symbol and size here
-#'   res <- vizAnnualClimate(sdata.competing.full$climate.annual, s=soil, IQR.cex = 1.1, cex=1.1, pch=18)
+#'   res <- vizAnnualClimate(
+#'   sdata.competing.full$climate.annual, 
+#'   s = soil, 
+#'   IQR.cex = 1.1, 
+#'   cex = 1.1, 
+#'   pch = 18
+#'   )
 #'   
 #'   # plot figure
 #'   print(res$fig)

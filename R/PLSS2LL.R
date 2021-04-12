@@ -307,10 +307,12 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
 # consider not exporting
 
 .PLSS2LL <- function(p) {
+  
   # p in a vectorized function is passed as named vector
   if (is.na(p['plssid'])) {
     return(NA)
   }
+  
   formatted.plss <- p['plssid']
 
 
@@ -340,6 +342,9 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
     # keep only coordinates
     r <- r$coordinates
 
+    if (is.null(r))
+      return(NULL)
+    
     # request that are less than QQ precision will return multiple QQ centers
     # keep the mean coordinates - get to one set of lat/lon coords
     if (nrow(r) >= 0) {
@@ -415,7 +420,7 @@ PLSS2LL <- function(p, plssid = "plssid") {
     p <- as.data.frame(p)
   }
 
-  if(!nrow(p) > 0) {
+  if (nrow(p) == 0) {
     stop('p must have more than 0 rows')
   }
 
@@ -425,7 +430,12 @@ PLSS2LL <- function(p, plssid = "plssid") {
   }
 
   # apply over data frame
-  res <-  do.call("rbind", apply(p, 1, .PLSS2LL))
+  pres <- apply(p, 1, .PLSS2LL)
+  
+  if (length(pres) == 0)
+    return(NULL)
+  
+  res <-  do.call("rbind", pres)
   return(res)
 }
 

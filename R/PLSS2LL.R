@@ -194,6 +194,9 @@ formatPLSS <- function(p, type = 'SN') {
 #'
 #'    curl::has_internet() &
 #'     require(sp)) {
+#'     
+#'     # BLM PLSS API needs a long timeout
+#'     options(timeout = 60000)
 #'
 #'     # create coordinates
 #'     x <- -115.3823
@@ -203,7 +206,8 @@ formatPLSS <- function(p, type = 'SN') {
 #'     p.plss <- LL2PLSS(x, y)
 #'
 #'     # plot geometry
-#'     plot(p.plss$geom)
+#'     if (length(p.plss$geom) > 0)
+#'      plot(p.plss$geom)
 #' }
 #' }
 #' 
@@ -265,10 +269,13 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
     # check for invalid result:
     # * reversed coordinates in x,y
     # * nothing returned by the API
-    if(is.null(res$features$geometry.rings))
-      stop("invalid geometry specification, check coordinate XY order (longitude: X, latitude: Y)")
-
-    # attempt to extract PLSS geometry
+    if(is.null(res$features$geometry.rings)) {
+      message("invalid geometry specification, check coordinate XY order (longitude: X, latitude: Y)")
+      # return "NULL" result
+      return(list(geom=SpatialPolygons(list()), plss=NULL))
+    }
+    
+  # attempt to extract PLSS geometry
     geom <- SpatialPolygons(list(Polygons(list(Polygon(res$features$geometry.rings[[1]][1,, ])), ID = .polyID)))
     srid <- res$features$geometry.spatialReference.wkid
     proj4string(geom) <- paste0('+init=epsg:', srid)
@@ -368,7 +375,10 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
 #' 
 #' if(requireNamespace("curl") &
 #'    curl::has_internet()) {
-#'
+#'    
+#'   # BLM PLSS API needs a long timeout
+#'   options(timeout = 60000)
+#'   
 #'   # create some data
 #'   d <- data.frame(
 #'     id = 1:3,

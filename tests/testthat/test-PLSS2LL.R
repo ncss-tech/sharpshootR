@@ -50,8 +50,10 @@ test_that("formatPLSS, PLSS2LL, LL2PLSS works", {
     # position of NA inputs is preserved
     expect_true(is.na(res$plssid[3]))
 
-    # expect error: lng/lat reversed
-    expect_error(LL2PLSS(res$lat[1], res$lon[1]))
+    # expect null object and message: lng/lat reversed
+    expect_message({badres <- LL2PLSS(res$lat[1], res$lon[1])})
+    expect_true(inherits(badres[[1]], 'SpatialPolygons'))
+    expect_true(is.null(badres[[2]]))
 
     # expect silent: LL2PLSS now vectorized (warnings because of NA DROPPED from SpatialPolygons)
     expect_warning({res2 <- LL2PLSS(res$lon, res$lat)})

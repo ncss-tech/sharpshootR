@@ -4,10 +4,7 @@
 #' 
 #' @param chips character vector of standard Munsell color notation (e.g. "10YR 3/4") 
 #' 
-#' @param mixingMethod approach used to simulate a mixture: 
-#'    * `spectra`: simulate a subtractive mixture of pigments, limited to available reference spectra
-#'    * `estimate`: closest Munsell chip to a weighted mean of CIELAB coordinates
-#'    * `adaptive`: use reference spectra when possible, falling-back to weighted mean of CIELAB coordinates
+#' @param mixingMethod approach used to simulate a mixture: see `aqp::mixMunsell` for details
 #' 
 #' @param ellipse logical, use alternative ellipse-style (4 or 5 colors only) 
 #' @param labels logical, print mixture labels
@@ -26,7 +23,7 @@
 
 ## TODO: add support for weighted mixtures
 
-colorMixtureVenn <- function(chips, mixingMethod = c('spectra', 'estimate', 'adaptive'), ellipse = FALSE, labels = TRUE) {
+colorMixtureVenn <- function(chips, mixingMethod = 'reference', ellipse = FALSE, labels = TRUE) {
  
   # required package
   if(!requireNamespace('venn') | !requireNamespace("gower"))
@@ -38,9 +35,7 @@ colorMixtureVenn <- function(chips, mixingMethod = c('spectra', 'estimate', 'ada
     stop('must supply more than 2 Munsell colors', call. = FALSE)
   }
   
-  # sanity check on mixing method
-  # also performed by aqp::mixMunsell
-  mixingMethod <- match.arg(mixingMethod)
+  # sanity check on mixing method performed by aqp::mixMunsell
   
   # base colors
   cols <- parseMunsell(chips)

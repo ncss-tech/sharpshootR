@@ -6,7 +6,7 @@
 \usage{
 colorMixtureVenn(
   chips,
-  mixingMethod = c("spectra", "estimate", "adaptive"),
+  mixingMethod = "reference",
   ellipse = FALSE,
   labels = TRUE
 )
@@ -14,12 +14,7 @@ colorMixtureVenn(
 \arguments{
 \item{chips}{character vector of standard Munsell color notation (e.g. "10YR 3/4")}
 
-\item{mixingMethod}{approach used to simulate a mixture:
-\itemize{
-\item \code{spectra}: simulate a subtractive mixture of pigments, limited to available reference spectra
-\item \code{estimate}: closest Munsell chip to a weighted mean of CIELAB coordinates
-\item \code{adaptive}: use reference spectra when possible, falling-back to weighted mean of CIELAB coordinates
-}}
+\item{mixingMethod}{approach used to simulate a mixture: see \code{aqp::mixMunsell} for details}
 
 \item{ellipse}{logical, use alternative ellipse-style (4 or 5 colors only)}
 

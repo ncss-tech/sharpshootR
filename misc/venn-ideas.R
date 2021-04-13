@@ -34,7 +34,17 @@ colorMixtureVenn(chips, labels = FALSE)
 
 colorMixtureVenn(chips, ellipse = TRUE)
 
+colorMixtureVenn(chips, ellipse = TRUE, mixingMethod = 'exact')
+colorMixtureVenn(chips, ellipse = TRUE, mixingMethod = 'reference')
 colorMixtureVenn(chips, ellipse = TRUE, mixingMethod = 'estimate')
+
+
+par(mfcol = c(1,2))
+colorMixtureVenn(chips, ellipse = TRUE, mixingMethod = 'reference')
+colorMixtureVenn(chips, ellipse = TRUE, mixingMethod = 'exact')
+
+mixMunsell(c('10R 4/8', '5B 4/8'), mixingMethod = 'reference')
+mixMunsell(c('10R 4/8', '5B 4/8'), mixingMethod = 'exact')
 
 par(bg = 'black', fg = 'white')
 colorMixtureVenn(chips, ellipse = TRUE)
@@ -42,11 +52,20 @@ colorMixtureVenn(chips, ellipse = TRUE)
 
 par(mfcol = c(1,2))
 chips <- c('10YR 8/1', '2.5YR 3/6', '10YR 2/2')
+
+colorMixtureVenn(chips, mixingMethod = 'reference')
+title('Simulation (Reference)', line = -4)
+
+colorMixtureVenn(chips, mixingMethod = 'exact')
+title('Simulation (Exact)', line = -4)
+
+
 colorMixtureVenn(chips)
 title('Simulation of Subtractive Mixture', line = -4)
 
 colorMixtureVenn(chips, mixingMethod = 'estimate')
 title('Weighted Mean CIELAB', line = -4)
+
 
 
 chips <- c('10YR 10/1', '2.5YR 3/6', '10YR 1/1')
@@ -60,8 +79,15 @@ title('Weighted Mean CIELAB', line = -4)
 
 par(mfcol = c(1,2))
 chips <- c('10YR 8/1', '5Y 8/8', '5B 4/8')
-colorMixtureVenn(chips)
-title('Simulation of Subtractive Mixture', line = -4)
+
+colorMixtureVenn(chips, mixingMethod = 'reference')
+title('Simulation of Subtractive Mixture\nReference', line = -4)
+
+colorMixtureVenn(chips, mixingMethod = 'exact')
+title('Simulation of Subtractive Mixture\nExact', line = -4)
+
+colorMixtureVenn(chips, mixingMethod = 'exact')
+title('Simulation of Subtractive Mixture\nExact', line = -4)
 
 colorMixtureVenn(chips, mixingMethod = 'estimate')
 title('Weighted Mean CIELAB', line = -4)

@@ -22,6 +22,7 @@
 #' }
 
 ## TODO: add support for weighted mixtures
+## TODO: consider mixed spectra -> sRGB without closest Munsell lookup
 
 colorMixtureVenn <- function(chips, mixingMethod = 'reference', ellipse = FALSE, labels = TRUE) {
  
@@ -107,8 +108,8 @@ colorMixtureVenn <- function(chips, mixingMethod = 'reference', ellipse = FALSE,
   cz <- venn::getZones(center.zone, ellipse = e)
   
   # mix all colors
-  all <- mixMunsell(chips, mixingMethod = mixingMethod)$munsell
-  all.color <- parseMunsell(all)
+  all <- mixMunsell(chips, mixingMethod = mixingMethod)
+  all.color <- parseMunsell(all$munsell)
   
   # fill center
   polygon(cz[[1]], col = all.color)
@@ -118,7 +119,7 @@ colorMixtureVenn <- function(chips, mixingMethod = 'reference', ellipse = FALSE,
     text(
       x = all.centroid[1], 
       y = all.centroid[2], 
-      labels = all, 
+      labels = all$munsell, 
       cex = 0.66, 
       col = invertLabelColor(all.color)
     )
@@ -141,8 +142,13 @@ colorMixtureVenn <- function(chips, mixingMethod = 'reference', ellipse = FALSE,
   # add mixtures
   chip.combinations$mix <- NA
   for(i in 1:nrow(chip.combinations)) {
-    mi <- mixMunsell(unlist(chip.combinations[i, 1:(n.chips-degree)]), mixingMethod = mixingMethod)$munsell
-    chip.combinations$mix[i] <- mi
+    mi <- mixMunsell(
+      x = unlist(chip.combinations[i, 1:(n.chips-degree)]), 
+      mixingMethod = mixingMethod
+    )
+    chip.combinations$mix[i] <- mi$munsell
+    # debugging:
+    # print(mi)
   }
   
   # mixtures -> colors

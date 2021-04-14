@@ -20,7 +20,7 @@ JOIN chorizon ON component.cokey = chorizon.cokey
 WHERE compname = '%s' 
 GROUP BY chorizon.cokey;", s
 )
-              
+
 
 # get via SDA
 res <- SDA_query(sql)
@@ -30,7 +30,7 @@ res <- SDA_query(sql)
 AWC <- round(median(res$ws, na.rm = TRUE) * 10)
 
 
-# monthyl climate data from series summary
+# monthly climate data from series summary
 PPT <- x$climate.monthly$q05[x$climate.monthly$variable == 'Precipitation (mm)']
 PET <- x$climate.monthly$q50[x$climate.monthly$variable == 'Potential ET (mm)']
 
@@ -43,7 +43,6 @@ x.wb[x.wb$mo == 'Sep', ]
 
 # plot
 plotWB(WB = x.wb, AWC = AWC, showAWC = 'above')
-
 plotWB(WB = x.wb, AWC = AWC, showAWC = 'below')
 
 
@@ -59,11 +58,13 @@ sum(x.wb$ET) * 0.03937
 # calendar year
 x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 1, rep = 5)
 x.wb[x.wb$mo == 'Jan', ]
-plotWB(WB = x.wb, AWC = AWC)
+plotWB(WB = x.wb, AWC = AWC, showAWC = 'above')
+plotWB(WB = x.wb, AWC = AWC, showAWC = 'below')
 
 # calendar year
 # last iteration
 x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 1, rep = 3, keep_last = TRUE)
-plotWB(WB = x.wb, AWC = AWC)
+plotWB(WB = x.wb, AWC = AWC, showAWC = 'above')
+plotWB(WB = x.wb, AWC = AWC, showAWC = 'below')
 
 

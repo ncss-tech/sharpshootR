@@ -72,8 +72,6 @@
 #' 
 #' }
 #' 
-#' 
-#'
 monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, keep_last = FALSE) {
   
   # sanity check: package requirements
@@ -83,7 +81,7 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
   # number of time steps in the original series
   n <- length(PPT)
   
-  # re-order monthly data acording to starting month
+  # re-order monthly data according to starting month
   if(starting_month == 1) {
     idx <- seq(from=starting_month, to=12, by = 1)
   } else {
@@ -98,13 +96,17 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
   PET <- PET[idx]
   
   # combine into format suitable for simulation
-  d <- data.frame(P=PPT, E=PET)
+  d <- data.frame(P = PPT, E = PET)
   
-  # Sb (total water storage): 250mm depth * 0.33 satiated VWC = 82.5mm
-  # fc (field capacity fraction): 250mm depth * 0.24 1/3bar water retention / Sb = 0.73
-  # S_0 (intitial moisture content as fraction of Sb): 
+  ## TODO: consider exposing more hydromad arguments
+  ## TODO: investigate use of `fc` here
+  ## TODO: consider the same abstraction as the daily version: .simpleWB() or related
+  
+  # Sb: total water storage (mm)
+  # fc field capacity fraction: using 1 for now
+  # S_0 initial moisture content as fraction of Sb 
   m <- hydromad::hydromad(d, sma = "bucket", routing = NULL)
-  m <- update(m, Sb=AWC, fc=1, S_0=S_init, a.ss=0, M=0, etmult=1, a.ei=0)
+  m <- update(m, Sb = AWC, fc = 1, S_0 = S_init, a.ss = 0, M=0, etmult=1, a.ei=0)
   res <- predict(m, return_state = TRUE)
   
   res <- data.frame(d, res)

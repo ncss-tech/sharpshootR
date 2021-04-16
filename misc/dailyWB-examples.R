@@ -25,10 +25,55 @@ library(viridis)
 
 ## TODO: verify that outputs are reasonable after all of the re-factoring...
 
+# Dunstone
+p <- SpatialPoints(cbind(-120.37673,37.99877), proj4string = CRS('+proj=longlat +datum=WGS84'))
+cokeys <- c('19586251')
+
+s <- prepare_SSURGO_hydro_data(cokeys = cokeys, max.depth = 100)
+
+daily.data <- .prepareDailyInputs(p, start = 2019, end = 2020)
+
+wb <- .simpleWB(
+  PPT = daily.data$DM$prcp..mm.day., 
+  PET = daily.data$ET$ET.Daily, 
+  D = daily.data$DM$date,
+  Sb = s$agg$Sb, 
+  fc = s$agg$FC, 
+  thick_mm = s$agg$corrected_depth * 10,
+  S_0 = 1, 
+  a.ss = 0.03, 
+  M = 0, 
+  etmult = 1, 
+  a.ei = 0
+)
+
+matplot(
+  x = wb[, 1],
+  y = wb[, c('P', 'E', 'ET', 'VWC')],
+  type = 'l',
+  lty = 1,
+  las = 1
+)
+
+matplot(
+  x = wb[, 1],
+  y = wb[, c('VWC')],
+  type = 'l',
+  lty = 1,
+  las = 1
+)
+
+
+
+##
+##
+##
 
 
 p <- SpatialPoints(cbind(-120.37673,37.99877), proj4string = CRS('+proj=longlat +datum=WGS84'))
 cokeys <- c('19586277', '19586422', '19586459', '19586387', '19586251')
+
+
 
 d <- dailyWB_SSURGO(x = p, cokeys = cokeys, modelDepth = 100, bufferRadiusMeters = 1)
 levels(d$series)

@@ -66,7 +66,7 @@ prepare_SSURGO_hydro_data <- function(cokeys, max.depth) {
   # join corrected depths with aggregate data
   agg.soil.data.median <- merge(agg.soil.data.median, real.depths, by='compname', all.x=TRUE, sort=FALSE)
   
-  
+  ## TODO: double-check calculation / expected interpretation of `fc`
   ## TODO return lower / upper limits
   
   ## max water storage (mm)

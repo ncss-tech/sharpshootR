@@ -10,7 +10,6 @@ Authors@R: c(
   person(given="Stephen", family="Roecker", role = c("aut")), 
   person(given="USDA-NRCS Soil Survey Staff", family="", role = c("ctb"))
   )
-Author: Dylan Beaudette [cre,aut], Jay Skovlin [aut], Stephen Roecker [aut], USDA-NRCS Soil Survey Staff [ctb]
 Maintainer: Dylan Beaudette <dylan.beaudette@usda.gov>
 LazyLoad: yes
 LazyData: true

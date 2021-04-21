@@ -29,23 +29,65 @@ library(viridis)
 p <- SpatialPoints(cbind(-120.37673,37.99877), proj4string = CRS('+proj=longlat +datum=WGS84'))
 cokeys <- c('19586251')
 
+# depth in cm
 s <- prepare_SSURGO_hydro_data(cokeys = cokeys, max.depth = 100)
 
 daily.data <- .prepareDailyInputs(p, start = 2019, end = 2020)
 
-wb <- .simpleWB(
+data("ROSETTA.centroids")
+s <- ROSETTA.centroids[4, ]
+
+wb.ls <- simpleWB(
   PPT = daily.data$DM$prcp..mm.day., 
   PET = daily.data$ET$ET.Daily, 
-  D = daily.data$DM$date,
-  Sb = s$agg$Sb, 
-  fc = s$agg$FC, 
-  thick_mm = s$agg$corrected_depth * 10,
-  S_0 = 1, 
-  a.ss = 0.03, 
-  M = 0, 
-  etmult = 1, 
-  a.ei = 0
+  D = daily.data$DM$date, 
+  thickness = 100, 
+  sat = s$sat, 
+  fc = s$fc
 )
+
+s <- ROSETTA.centroids[3, ]
+
+wb.l <- simpleWB(
+  PPT = daily.data$DM$prcp..mm.day., 
+  PET = daily.data$ET$ET.Daily, 
+  D = daily.data$DM$date, 
+  thickness = 100, 
+  sat = s$sat, 
+  fc = s$fc
+)
+
+matplot(
+  x = wb.l[, 1],
+  y = wb.l[, c('VWC')],
+  type = 'l',
+  lty = 1,
+  las = 1
+)
+
+lines(
+  x = wb.ls[, 1],
+  y = wb.ls[, c('VWC')],
+  type = 'l',
+  lty = 1,
+  las = 1,
+  col = 'red'
+)
+
+# 
+# wb2 <- .simpleWB(
+#   PPT = daily.data$DM$prcp..mm.day., 
+#   PET = daily.data$ET$ET.Daily, 
+#   D = daily.data$DM$date,
+#   Sb = s$agg$Sb, 
+#   fc = s$agg$FC, 
+#   thick_mm = s$agg$corrected_depth * 10,
+#   S_0 = 0.5, 
+#   a.ss = 0.03, 
+#   M = 0, 
+#   etmult = 1, 
+#   a.ei = 0
+# )
 
 matplot(
   x = wb[, 1],

@@ -80,8 +80,6 @@ plotWB(WB = x.wb, AWC = AWC)
 
 }
 
-
-
 }
 \author{
 D.E. Beaudette

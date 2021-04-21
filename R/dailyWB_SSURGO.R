@@ -139,35 +139,6 @@ SELECT * from SDA_Get_Mukey_from_intersection_with_WktWgs84('", x.wkt, "')
 
 
 
-## leaky bucket model
-# PPT: precipitation series
-# PET: potential ET series
-# D: Dates
-# Sb: total storage in mm (satiated WC * thickness * soil_fraction)
-# fc: field capacity fraction
-# thick_mm: effective thickness for computing VWC
-# ...: additional arguments to model
-.simpleWB <- function(PPT, PET, D, Sb, fc, thick_mm, ...) {
-  
-  
-  # prep input / output data for model
-  z <- data.frame(P = PPT, E = PET)
-  
-  # init model
-  m <- hydromad::hydromad(z, sma = "bucket", routing = NULL)
-  m <- update(m, Sb = Sb, fc = fc, ...)
-  
-  # predictions
-  res <- predict(m, return_state = TRUE)
-  # combine date, inputs / predictions
-  res <- data.frame(date=D, z, res)
-  
-  # rough approximation of VWC
-  res$VWC <- res$S / thick_mm
-  
-  return(res)
-  
-}
 
 
 #' @title Perform daily water balance modeling using SSURGO and DAYMET
@@ -227,19 +198,28 @@ dailyWB_SSURGO <- function(x, cokeys = NULL, start = 1988, end = 2018, modelDept
     series.i <- d.i[['compname']]
     
     # run water balance
-    wb <- .simpleWB(
+    wb <- simpleWB(
       PPT = daily.data$DM$prcp..mm.day., 
       PET = daily.data$ET$ET.Daily, 
-      D = daily.data$DM$date,
-      Sb = d.i$Sb, 
-      fc = d.i$FC, 
-      thick_mm = d.i$corrected_depth * 10,
-      S_0 = 1, 
-      a.ss = 0.03, 
-      M = 0, 
-      etmult = 1, 
-      a.ei = 0
+      D = daily.data$DM$date, 
+      thickness = d.i$corrected_depth, 
+      sat = d.i$sat, 
+      fc = d.i$fc
     )
+    
+    # wb <- simpleWB(
+    #   PPT = daily.data$DM$prcp..mm.day., 
+    #   PET = daily.data$ET$ET.Daily, 
+    #   D = daily.data$DM$date,
+    #   Sb = d.i$Sb, 
+    #   fc = d.i$FC, 
+    #   thick_mm = d.i$corrected_depth * 10,
+    #   S_0 = 1, 
+    #   a.ss = 0.03, 
+    #   M = 0, 
+    #   etmult = 1, 
+    #   a.ei = 0
+    # )
     
     # add series label
     wb[['series']] <- series.i

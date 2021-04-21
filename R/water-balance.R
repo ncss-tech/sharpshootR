@@ -100,10 +100,10 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
   
   ## TODO: consider exposing more hydromad arguments
   ## TODO: investigate use of `fc` here
-  ## TODO: consider the same abstraction as the daily version: .simpleWB() or related
+  ## TODO: consider the same abstraction as the daily version: simpleWB()
   
   # Sb: total water storage (mm)
-  # fc field capacity fraction: using 1 for now
+  # fc field capacity fraction: fraction of Sb
   # S_0 initial moisture content as fraction of Sb 
   m <- hydromad::hydromad(d, sma = "bucket", routing = NULL)
   m <- update(m, Sb = AWC, fc = 1, S_0 = S_init, a.ss = 0, M=0, etmult=1, a.ei=0)

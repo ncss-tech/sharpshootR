@@ -21,7 +21,7 @@ estimateSoilMoistureState(VWC, U, sat, fc, pwp)
 vector of moisture states (ordered factor)
 }
 \description{
-This is a very simple classification of volumetric water content (VWC) into 5 "moisture states", based on an interpretation of water retention thresholds. Classification is performed using VWC at satiation, field capacity (typically 1/3 bar suction), permanent wilting point (typically 15 bar suction), and water surplus in mm. The inputs to this function are closely aligned with the assuptions and output from hydromad::hydromad(sma = 'bucket', ...).
+This is a very simple classification of volumetric water content (VWC) into 5 "moisture states", based on an interpretation of water retention thresholds. Classification is performed using VWC at satiation, field capacity (typically 1/3 bar suction), permanent wilting point (typically 15 bar suction), and water surplus in mm. The inputs to this function are closely aligned with the assumptions and output from hydromad::hydromad(sma = 'bucket', ...).
 
 Soil moisture classification rules are as follows:
 \itemize{
@@ -29,13 +29,16 @@ Soil moisture classification rules are as follows:
 \item VWC > \code{pwp} and <= (mid-point between \code{fc} and \code{pwp}): "dry"
 \item VWC > (mid-point between \code{fc} and \code{pwp}) and <= \code{fc}: "moist"
 \item VWC > \code{fc}: "very moist"
-\item \code{U} (surplus) > 2mm: "wet / runoff"
+\item \code{U} (surplus) > 2mm: "saturated / runoff"
 }
 }
 \examples{
 
 # "very moist"
 estimateSoilMoistureState(VWC = 0.3, U = 0, sat = 0.35, fc = 0.25, pwp = 0.15)
+
+# "very dry"
+estimateSoilMoistureState(VWC = 0.15, U = 0, sat = 0.35, fc = 0.25, pwp = 0.15)
 
 }
 \author{

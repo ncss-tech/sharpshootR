@@ -1,10 +1,4 @@
 
-# http://hydromad.catchment.org/#bucket
-# https://github.com/josephguillaume/hydromad/blob/master/src/bucket.c
-
-## consider implementation as a GRASS t.* routine or t.mapcalc expression
-
-
 #' @title Monthly Water Balances
 #' 
 #' @description Perform a monthly water balance by "leaky bucket" model, provided by the `hydromad` package.
@@ -102,11 +96,12 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
   ## TODO: investigate use of `fc` here
   ## TODO: consider the same abstraction as the daily version: simpleWB()
   
-  # Sb: total water storage (mm)
-  # fc field capacity fraction: fraction of Sb
+  # Sb: total water storage (mm), this is the satiated VWC
+  # fc field capacity fraction: fraction of Sb, using 0.5 for a monthly timestep seems reasonable
   # S_0 initial moisture content as fraction of Sb 
+  # a.ss should always be > 0
   m <- hydromad::hydromad(d, sma = "bucket", routing = NULL)
-  m <- update(m, Sb = AWC, fc = 1, S_0 = S_init, a.ss = 0, M=0, etmult=1, a.ei=0)
+  m <- update(m, Sb = AWC, fc = 0.5, S_0 = S_init, a.ss = 0.05, M=0, etmult=1, a.ei=0)
   res <- predict(m, return_state = TRUE)
   
   res <- data.frame(d, res)

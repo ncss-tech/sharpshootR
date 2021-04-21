@@ -150,6 +150,8 @@ SELECT * from SDA_Get_Mukey_from_intersection_with_WktWgs84('", x.wkt, "')
 #' @param end ending year (limited to DAYMET holdings)
 #' @param modelDepth soil depth used for water balance, see details
 #' @param bufferRadiusMeters spatial buffer (meters) applied to `x` for the lookup of SSURGO data
+#' @param ... additional arguments to [`simpleWB`]
+#' 
 #' 
 #' @author D.E. Beaudette
 #' 
@@ -157,7 +159,7 @@ SELECT * from SDA_Get_Mukey_from_intersection_with_WktWgs84('", x.wkt, "')
 #' 
 #' @export
 #'
-dailyWB_SSURGO <- function(x, cokeys = NULL, start = 1988, end = 2018, modelDepth = 100, bufferRadiusMeters = 1) {
+dailyWB_SSURGO <- function(x, cokeys = NULL, start = 1988, end = 2018, modelDepth = 100, bufferRadiusMeters = 1, ...) {
   
   
   # required packages
@@ -204,22 +206,9 @@ dailyWB_SSURGO <- function(x, cokeys = NULL, start = 1988, end = 2018, modelDept
       D = daily.data$DM$date, 
       thickness = d.i$corrected_depth, 
       sat = d.i$sat, 
-      fc = d.i$fc
+      fc = d.i$fc,
+      ...
     )
-    
-    # wb <- simpleWB(
-    #   PPT = daily.data$DM$prcp..mm.day., 
-    #   PET = daily.data$ET$ET.Daily, 
-    #   D = daily.data$DM$date,
-    #   Sb = d.i$Sb, 
-    #   fc = d.i$FC, 
-    #   thick_mm = d.i$corrected_depth * 10,
-    #   S_0 = 1, 
-    #   a.ss = 0.03, 
-    #   M = 0, 
-    #   etmult = 1, 
-    #   a.ei = 0
-    # )
     
     # add series label
     wb[['series']] <- series.i

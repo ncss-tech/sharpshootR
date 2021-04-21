@@ -44,13 +44,14 @@ prepare_SSURGO_hydro_data <- function(cokeys, max.depth) {
   )
   
   # get via SDA
-  s <- SDA_query(sql)
+  s <- suppressMessages(SDA_query(sql))
   
   ## TODO account for no / missing data
   
   ## TODO: use cokey vs. compname in case of multiple phases
   
   # init SPC for slab()
+  s$cokey <- as.character(s$cokey)
   depths(s) <- cokey ~ hz_top + hz_bottom
   site(s) <- ~ compname
   
@@ -63,15 +64,19 @@ prepare_SSURGO_hydro_data <- function(cokeys, max.depth) {
   agg.soil.data.median <- dcast(agg.soil.data, compname ~ variable, value.var = 'p.q50')
   
   
-  ## Note: this is typically a good correction factor for depth, 
-  ##       but not when there are missing data
-  
-  # use real depth: contributing fraction * max.depth
+  # get contributing_fraction for corrected depth calculation
   real.depths <- unique(agg.soil.data[, c('compname', 'contributing_fraction')])
-  real.depths$corrected_depth <- real.depths$contributing_fraction * max.depth
   
   # join corrected depths with aggregate data
   agg.soil.data.median <- merge(agg.soil.data.median, real.depths, by='compname', all.x=TRUE, sort=FALSE)
+  
+  ## Note: contributing_fraction is typically a good correction factor for depth, 
+  ##       but not when there are missing data
+  
+  # corrected depth = max.depth * contributing_fraction (from slab) * soil_fraction (rock frag adjust)
+  agg.soil.data.median$corrected_depth <- with(agg.soil.data.median,
+                                               soil_fraction * contributing_fraction * max.depth
+  )
   
   ## TODO return lower / upper limits
   

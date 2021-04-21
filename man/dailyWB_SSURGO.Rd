@@ -10,7 +10,8 @@ dailyWB_SSURGO(
   start = 1988,
   end = 2018,
   modelDepth = 100,
-  bufferRadiusMeters = 1
+  bufferRadiusMeters = 1,
+  ...
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ dailyWB_SSURGO(
 \item{modelDepth}{soil depth used for water balance, see details}
 
 \item{bufferRadiusMeters}{spatial buffer (meters) applied to \code{x} for the lookup of SSURGO data}
+
+\item{...}{additional arguments to \code{\link{simpleWB}}}
 }
 \value{
 \code{data.frame} of daily water balance results

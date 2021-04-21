@@ -52,6 +52,9 @@ moistureStateThreshold <- function(x, id = 'series', threshold = 'moist', operat
       stringsAsFactors = FALSE
     )
     
+    # use original ID name
+    names(res)[1] <- id
+    
     return(res)
   })
   

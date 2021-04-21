@@ -27,8 +27,8 @@ moistureStateProportions <- function(x, id = 'series', step = c('month', 'week',
     ss <- as.data.frame(ss)
     names(ss) <- c('interval', 'state', 'proportion')
     
-    # keep track of current series/ID
-    ss$series <- unique(i$series)
+    # keep track of current ID
+    ss[[id]] <- unique(i[[id]])
     
     return(ss)
   })

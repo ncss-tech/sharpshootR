@@ -1,3 +1,6 @@
+
+## TODO: document assumptions / considerations for monthly vs. daily WB
+
 #' @title Monthly Water Balances
 #' 
 #' @description Perform a monthly water balance by "leaky bucket" model, provided by the `hydromad` package.
@@ -6,13 +9,13 @@
 #' 
 #' @author D.E. Beaudette
 #' 
-#' @param AWC available water-holding capacity (mm)
+#' @param AWC available water-holding capacity (mm), typically thickness (mm) * awc
 #' 
 #' @param PPT time-series of monthly PPT (mm), calendar year ordering
 #' 
 #' @param PET time-series of monthly PET (mm), calendar year ordering
 #' 
-#' @param S_init initial fraction of \code{AWC} filled with water
+#' @param S_init initial fraction of `AWC` filled with water
 #' 
 #' @param starting_month starting month index, 1=January, 9=September
 #' 
@@ -20,11 +23,17 @@
 #' 
 #' @param keep_last keep only the last iteration of the water balance
 #' 
+#' @param fc fraction of `AWC` representing field capacity (see details)
+#' 
+#' @param a.ss recession coefficients for subsurface flow from saturated zone, should be > 0 but very small (see details)
+#' 
+#' @details At a monthly time step, `fc` and `a.ss` have very little impact on results. See `?bucket.sim` for details.
+#' 
 #' @references 
 #' 
 #' Farmer, D., M. Sivapalan, Farmer, D. (2003). Climate, soil and vegetation controls upon the variability of water balance in temperate and semiarid landscapes: downward approach to water balance analysis. Water Resources Research 39(2), p 1035.
 #' 
-#' @return a \code{data.frame} with the following elements:
+#' @return a `data.frame` with the following elements:
 #' 
 #' \itemize{
 #' \item{PPT: }{monthly PPT values}
@@ -40,6 +49,8 @@
 #' @examples 
 #' 
 #' if(requireNamespace('hydromad')) {
+#' 
+#' # 4" water storage ~ 100mm
 #' 
 #' # AWC in mm
 #' AWC <- 200
@@ -68,7 +79,7 @@
 #' 
 #' }
 #' 
-monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, keep_last = FALSE) {
+monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, keep_last = FALSE, fc = 1, a.ss = 0.001) {
   
   # sanity check: package requirements
   if(!requireNamespace('hydromad'))
@@ -94,16 +105,14 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
   # combine into format suitable for simulation
   d <- data.frame(P = PPT, E = PET)
   
-  ## TODO: consider exposing more hydromad arguments
-  ## TODO: investigate use of `fc` here
   ## TODO: consider the same abstraction as the daily version: simpleWB()
   
   # Sb: total water storage (mm), this is the satiated VWC
   # fc field capacity fraction: fraction of Sb, using 0.5 for a monthly timestep seems reasonable
   # S_0 initial moisture content as fraction of Sb 
-  # a.ss should always be > 0
+  # a.ss should always be > 0, but very small at this time step
   m <- hydromad::hydromad(d, sma = "bucket", routing = NULL)
-  m <- update(m, Sb = AWC, fc = 0.5, S_0 = S_init, a.ss = 0.05, M=0, etmult=1, a.ei=0)
+  m <- update(m, Sb = AWC, fc = fc, S_0 = S_init, a.ss = a.ss, M = 0, etmult = 1, a.ei = 0)
   res <- predict(m, return_state = TRUE)
   
   res <- data.frame(d, res)

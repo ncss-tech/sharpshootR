@@ -80,23 +80,6 @@ prepare_SSURGO_hydro_data <- function(cokeys, max.depth) {
   
   ## TODO return lower / upper limits
   
-  ## to be removed, these calculations are now done in simpleWB()
-  
-  # ## max water storage (mm) = total pore volume
-  # # Sb = thickness * satiated WC * soil_fraction
-  # agg.soil.data.median$Sb <- with(agg.soil.data.median, corrected_depth * sat * soil_fraction) * 10
-  # 
-  # ## field capacity, fraction of total storage
-  # agg.soil.data.median$FC <- with(agg.soil.data.median, (corrected_depth * fc) / (corrected_depth * sat))
-  # 
-  # ## available water storage (mm) 
-  # # after drainage / run-off / utilization
-  # # includes RF adjustment
-  # agg.soil.data.median$AWS <- with(agg.soil.data.median, (corrected_depth * awc)) * 10
-  # 
-  # # PWP equivalent depths (mm)
-  # agg.soil.data.median$PWP <- with(agg.soil.data.median, (pwp * corrected_depth)) * 10
-  
   # package and return
   res <- list(
     SPC = s, 

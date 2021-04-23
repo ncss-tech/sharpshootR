@@ -71,11 +71,12 @@
 #' @param x  `SpatialPoints` object representing a single location
 #' @param start start year (1998)
 #' @param end end year (2018)
+#' @param onlyWB logical, return just those date required by `dailyWB`
 #'
 #' @return a `data.frame`
 #' @export
 #'
-prepareDailyClimateData <- function(x, start, end) {
+prepareDailyClimateData <- function(x, start, end, onlyWB = TRUE) {
   
   # check for required packages
   if(
@@ -108,12 +109,25 @@ prepareDailyClimateData <- function(x, start, end) {
     .estimatePET(DM, elevation = e)
   )
   
-  return(
-    list(
+  # re-package into something really simple
+  if(onlyWB) {
+    
+    res <- data.frame(
+      date = DM$date,
+      PPT = DM$prcp..mm.day.,
+      PET = ET$ET.Daily
+    )
+    
+  } else {
+    # everything
+    res <- list(
       DM = DM,
       ET = ET
     )
-  )
+    
+  }
+  
+  return(res)
   
 }
 

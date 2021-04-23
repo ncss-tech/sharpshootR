@@ -1,4 +1,10 @@
 
+##
+## all of these methods fail to communicate differences in "total water stored"
+##
+
+
+
 
 library(daymetr)
 library(Evapotranspiration)
@@ -28,14 +34,7 @@ library(viridis)
 
 # near Sonora, CA
 p <- SpatialPoints(cbind(-120.37673,37.99877), proj4string = CRS('+proj=longlat +datum=WGS84'))
-dd <- prepareDailyClimateData(p, start = 2010, end = 2020)
-
-# re-package
-daily.data <- data.frame(
-  date = dd$DM$date,
-  PPT = dd$DM$prcp..mm.day.,
-  PET = dd$ET$ET.Daily
-)
+daily.data <- prepareDailyClimateData(p, start = 2010, end = 2020, onlyWB = TRUE)
 
 # example soil material
 data("ROSETTA.centroids")
@@ -135,7 +134,7 @@ tapply(mst$Pr, mst$texture, function(i) length(which(i > 0.8)))
 
 
 ##
-##
+## use SSURGO data
 ##
 
 
@@ -149,16 +148,20 @@ par(mar = c(0, 0, 3, 0))
 plotSPC(s$SPC, color = 'sat', name.style = 'center-center', plot.depth.axis = FALSE, label = 'compname', hz.depths = TRUE, cex.names = 0.8)
 
 
-d <- dailyWB_SSURGO(x = p, cokeys = cokeys, modelDepth = 50, bufferRadiusMeters = 1)
-levels(d$series)
+d <- dailyWB_SSURGO(x = p, cokeys = cokeys, modelDepth = 50, bufferRadiusMeters = 1, a.ss = 0.2)
+levels(d$compname)
+
+str(d)
+
+xyplot(S ~ as.numeric(doy) | compname, groups = year, data = d, type = 'l', subset = year %in% c('1990', '1991', '1992'), par.settings = tactile.theme(), scales = list(y = list(rot = 0)))
 
 
 
 ## quick check on 30-yr proportions
-kable(prop.table(table(d$series, d$state), margin = 1), digits = 2)
+kable(prop.table(table(d$compname, d$state), margin = 1), digits = 2)
 
-kable(prop.table(table(d$series, d$state < 'dry'), margin = 1), digits = 2)
-kable(prop.table(table(d$series, d$state > 'very moist'), margin = 1), digits = 2)
+kable(prop.table(table(d$compname, d$state < 'dry'), margin = 1), digits = 2)
+kable(prop.table(table(d$compname, d$state > 'very moist'), margin = 1), digits = 2)
 
 
 msp <- moistureStateProportions(d, step = 'week')
@@ -177,7 +180,7 @@ sK <- simpleKey(text = ll, space='top', columns=n.states, rectangles = TRUE, poi
 
 
 
-barchart(proportion ~ interval | series, groups = state, 
+barchart(proportion ~ interval | compname, groups = state, 
          main='Expected Weekly Soil Moisture State\nDAYMET 1988-2018',
          data = msp, horiz = FALSE, stack = TRUE, xlab = '', ylab='Proportion',
          as.table=TRUE,
@@ -199,9 +202,9 @@ barchart(proportion ~ interval | series, groups = state,
 )
 
 
-barchart(proportion ~ interval | series, groups = state, 
+barchart(proportion ~ interval | compname, groups = state, 
          main='Expected Weekly Soil Moisture State\n1988-2018',
-         subset=series %in% c('Clarno', 'Diablo', 'Drummer', 'Frederick', 'Sierra'),
+         subset=compname %in% c('Clarno', 'Diablo', 'Drummer', 'Frederick', 'Sierra'),
          data = msp, horiz = FALSE, stack = TRUE, xlab = '', ylab='Proportion',
          as.table=TRUE,
          key=sK,
@@ -221,7 +224,7 @@ barchart(proportion ~ interval | series, groups = state,
 
 
 
-msp <- moistureStateProportions(d, step = 'month')
+msp <- moistureStateProportions(d, step = 'month', id = 'compname')
 
 
 # colors / style
@@ -236,7 +239,7 @@ suppressWarnings(
 sK <- simpleKey(text = ll, space='top', columns=n.states, rectangles = TRUE, points=FALSE, cex=1)
 
 
-barchart(proportion ~ interval | series, groups = state, 
+barchart(proportion ~ interval | compname, groups = state, 
          main='Expected Weekly Soil Moisture State\nDAYMET 1988-2018',
          data = msp, horiz = FALSE, stack = TRUE, xlab = '', ylab='Proportion',
          as.table=TRUE,
@@ -257,7 +260,7 @@ barchart(proportion ~ interval | series, groups = state,
          }
 )
 
-barchart(proportion ~ series | interval, groups = state, 
+barchart(proportion ~ compname | interval, groups = state, 
          main='Expected Soil Moisture State\n1988-2018',
          data = msp, horiz = FALSE, stack = TRUE, xlab = '', ylab='Proportion',
          as.table=TRUE,
@@ -277,13 +280,13 @@ barchart(proportion ~ series | interval, groups = state,
 
 
 # a different take: "on average, when do the soils
-xyplot(proportion ~ interval | state, groups = series,
+xyplot(proportion ~ interval | state, groups = compname,
        subset = state < 'moist',
        main='Expected Soil Moisture State\n1988-2018',
        data = msp, type=c('l', 'g'),
        xlab = '', ylab='Proportion',
        as.table=TRUE,
-       auto.key=list(lines=TRUE, points=FALSE, columns=length(levels(msp$series))),
+       auto.key=list(lines=TRUE, points=FALSE, columns=length(levels(msp$compname))),
        strip=strip.custom(bg=grey(0.9)),
        par.strip.text=list(cex=1.25),
        scales=list(y=list(alternating=3, cex=1), x=list(relation='free', alternating=1, cex=0.85, rot=90)),
@@ -298,31 +301,32 @@ mst <- moistureStateThreshold(d, threshold = 'dry', operator = '<=')
 # colors / style
 stripe.colors <- colorRampPalette(viridis(100), interpolate = 'spline', space = 'Lab')
 
-levelplot(Pr ~ as.numeric(doy) * series, data = mst, 
+levelplot(Pr ~ as.numeric(doy) * compname, data = mst, 
           col.regions = stripe.colors,
           par.settings = tactile.theme(),
           xlab = 'Day of the Year',
           ylab = '',
-          main='Pr(Soil at Field Capacity or Drier)\n1988-2018',
+          main='Pr(<=Dry)\n1988-2018',
           scales=list(x=list(tick.number=25))
 )
 
 
 
 # a different take: "on average, when do the soils
-xyplot(Pr ~ as.numeric(doy), groups = series,
+xyplot(Pr ~ as.numeric(doy), groups = compname,
        main='Expected Soil Moisture State\n1988-2018',
        data = mst, type=c('l', 'g'),
        xlab = '', ylab='Proportion',
        as.table=TRUE,
-       auto.key=list(lines=TRUE, points=FALSE, columns=length(levels(msp$series))),
+       auto.key=list(lines=TRUE, points=FALSE, columns=length(levels(msp$compname))),
        strip=strip.custom(bg=grey(0.9)),
        par.strip.text=list(cex=1.25),
        scales=list(y=list(alternating=3, cex=1), x=list(relation='free', alternating=1, cex=0.85, rot=0)),
-       par.settings = tactile.theme(superpose.line = list(lwd = 2)))
+       par.settings = tactile.theme(superpose.line = list(lwd = 2))
 )
 
-tapply(mst$Pr, mst$series, function(i) length(which(i > 0.8)))
+
+tapply(mst$Pr, mst$compname, function(i) length(which(i > 0.8)))
 
 
 

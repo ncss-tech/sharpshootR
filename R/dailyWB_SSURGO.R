@@ -93,80 +93,90 @@ dailyWB_SSURGO <- function(x, cokeys = NULL, start = 1988, end = 2018, modelDept
   stopifnot(class(x) == 'SpatialPoints')
   stopifnot(length(x) == 1)
   
+  ## TODO: this contains a lot more data than we actually need
   # get daily input data as list
-  daily.data <- prepareDailyClimateData(x, start = start, end = end)
+  daily.data <- prepareDailyClimateData(x, start = start, end = end, onlyWB = TRUE)
   
   # use component keys at `x` if none provided
   if(is.null(cokeys)) {
     cokeys <- .getSSURGO_at_point(x, bufferRadiusMeters = bufferRadiusMeters)
   }
   
+  
+  ## TODO: there is no accounting for two components with the same name (e.g. phases)
+  # ---> use cokey for internal iteration
   # get SSURGO hydraulic data for select components
   s <- suppressMessages(
     prepare_SSURGO_hydro_data(cokeys = cokeys, max.depth = 100)
   )
   
+  # extract required variables
+  vars <- c('compname', 'sat', 'fc', 'pwp', 'corrected_depth')
+  s <- s$agg[, vars]
+  
+  # specify thickness and recession coef.
+  s$thickness <- s$corrected_depth
+  s$a.ss <- 0.1
+  
+  # daily water balance and moisture state classification
+  wb <- dailyWB(s, daily.data, id = 'compname', S_0 = 0.5)
+  
+  # ## run model
+  # # iterate over soils and perform water balance
+  # wb.series <- list()
+  # for(i in 1:nrow(s$agg)) {
+  #   
+  #   # current data
+  #   d.i <- s$agg[i, ]
+  #   series.i <- d.i[['compname']]
+  #   
+  #   # run water balance
+  #   wb <- simpleWB(
+  #     PPT = daily.data$DM$prcp..mm.day., 
+  #     PET = daily.data$ET$ET.Daily, 
+  #     D = daily.data$DM$date, 
+  #     thickness = d.i$corrected_depth, 
+  #     sat = d.i$sat, 
+  #     fc = d.i$fc,
+  #     ...
+  #   )
+  #   
+  #   # add series label
+  #   wb[['series']] <- series.i
+  #   
+  #   wb.series[[series.i]] <- wb
+  # }
+  # 
+  # # flatten to DF
+  # wb.series <- do.call('rbind', wb.series)
+  # 
+  # # ## careful!!! this is not well tested
+  # # # set series levels
+  # # wb.series$series <- factor(wb.series$series, levels=s$agg$compname[gc$order])
+  # 
+  # ## moisture state classification
+  # # join with aggregate data, likely a better way to do this..?
+  # wb.series <- merge(wb.series, s$agg, by.x='series', by.y='compname', all.x=TRUE, sort=FALSE)
+  # 
+  # # classify moisture state
+  # wb.series$state <- with(wb.series, estimateSoilMoistureState(VWC, U, sat, fc, pwp))
+  # 
+  # # months for grouping
+  # wb.series$month <- months(wb.series$date, abbreviate = TRUE)
+  # wb.series$month <- factor(wb.series$month, levels=c('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'))
+  # 
+  # # weeks for grouping
+  # wb.series$week <- factor(format(wb.series$date, '%U'))
+  # 
+  # # days for grouping
+  # wb.series$doy <- factor(format(wb.series$date, '%j'))
+  # 
+  # ## TODO: need a proper cokey / site ID
+  # # convert series to factor for now
+  # wb.series$series <- factor(wb.series$series)
   
   
-  ## TODO: there is no accounting for two components with the same name (e.g. phases)
-  # ---> use cokey for internal iteration
-  
-  
-  ## run model
-  # iterate over soils and perform water balance
-  wb.series <- list()
-  for(i in 1:nrow(s$agg)) {
-    
-    # current data
-    d.i <- s$agg[i, ]
-    series.i <- d.i[['compname']]
-    
-    # run water balance
-    wb <- simpleWB(
-      PPT = daily.data$DM$prcp..mm.day., 
-      PET = daily.data$ET$ET.Daily, 
-      D = daily.data$DM$date, 
-      thickness = d.i$corrected_depth, 
-      sat = d.i$sat, 
-      fc = d.i$fc,
-      ...
-    )
-    
-    # add series label
-    wb[['series']] <- series.i
-    
-    wb.series[[series.i]] <- wb
-  }
-  
-  # flatten to DF
-  wb.series <- do.call('rbind', wb.series)
-  
-  # ## careful!!! this is not well tested
-  # # set series levels
-  # wb.series$series <- factor(wb.series$series, levels=s$agg$compname[gc$order])
-  
-  ## moisture state classification
-  # join with aggregate data, likely a better way to do this..?
-  wb.series <- merge(wb.series, s$agg, by.x='series', by.y='compname', all.x=TRUE, sort=FALSE)
-  
-  # classify moisture state
-  wb.series$state <- with(wb.series, estimateSoilMoistureState(VWC, U, sat, fc, pwp))
-  
-  # months for grouping
-  wb.series$month <- months(wb.series$date, abbreviate = TRUE)
-  wb.series$month <- factor(wb.series$month, levels=c('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'))
-  
-  # weeks for grouping
-  wb.series$week <- factor(format(wb.series$date, '%U'))
-  
-  # days for grouping
-  wb.series$doy <- factor(format(wb.series$date, '%j'))
-  
-  ## TODO: need a proper cokey / site ID
-  # convert series to factor for now
-  wb.series$series <- factor(wb.series$series)
-  
-  return(wb.series)
+  return(wb)
 }
 
 

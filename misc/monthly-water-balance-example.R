@@ -6,7 +6,7 @@ library(hydromad)
 ## get basic morphology and series-level summaries of climate etc.
 # http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html
 
-s <- 'drummer'
+s <- 'pierre'
 
 
 x <- fetchOSD(s, extended = TRUE)
@@ -42,7 +42,6 @@ x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 9, rep=3)
 x.wb[x.wb$mo == 'Sep', ]
 
 # plot
-plotWB(WB = x.wb, AWC = AWC, showAWC = 'above')
 plotWB(WB = x.wb, AWC = AWC, showAWC = 'below')
 
 

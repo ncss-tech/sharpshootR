@@ -2,7 +2,9 @@
 
 
 
-#' Simple Daily Water Balance
+#' @title Simple Daily Water Balance
+#' 
+#' @description A simple daily water balance.
 #'
 #' @param x `data.frame`, required columns include:
 #'   * `sat`
@@ -21,11 +23,10 @@
 #' 
 #' @param S_0 fraction of water storage filled at time = 0 (range: 0-1)
 #'
-#' @return a `data.frame` containing:
+#' @return a `data.frame`
 #' 
 #' @export
 #'
-#' @examples
 dailyWB <- function(x, daily.data, id, S_0 = 0.5) {
   
   # sanity checks
@@ -83,6 +84,9 @@ dailyWB <- function(x, daily.data, id, S_0 = 0.5) {
     z$month, 
     levels = c('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')
   )
+  
+  # years for grouping
+  z$year <- factor(format(z$date, '%Y'))
   
   # weeks for grouping
   z$week <- factor(format(z$date, '%U'))

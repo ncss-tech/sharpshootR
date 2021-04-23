@@ -11,7 +11,7 @@
 #' @return `data.frame`
 #' @export
 #'
-moistureStateProportions <- function(x, id = 'series', step = c('month', 'week', 'doy')) {
+moistureStateProportions <- function(x, id = 'compname', step = c('month', 'week', 'doy')) {
   
   # limit argument choices
   step <- match.arg(step)

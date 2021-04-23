@@ -12,7 +12,7 @@
 #' @return `data.frame`
 #' @export
 #'
-moistureStateThreshold <- function(x, id = 'series', threshold = 'moist', operator = c("<", ">", "==", "<=", ">=")) {
+moistureStateThreshold <- function(x, id = 'compname', threshold = 'moist', operator = c("<", ">", "==", "<=", ">=")) {
   
   # limit to these choices
   operator <- match.arg(operator)

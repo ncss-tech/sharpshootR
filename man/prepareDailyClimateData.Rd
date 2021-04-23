@@ -4,7 +4,7 @@
 \alias{prepareDailyClimateData}
 \title{Prepare daily climate data (DAYMET)}
 \usage{
-prepareDailyClimateData(x, start, end)
+prepareDailyClimateData(x, start, end, onlyWB = TRUE)
 }
 \arguments{
 \item{x}{\code{SpatialPoints} object representing a single location}
@@ -12,6 +12,8 @@ prepareDailyClimateData(x, start, end)
 \item{start}{start year (1998)}
 
 \item{end}{end year (2018)}
+
+\item{onlyWB}{logical, return just those date required by \code{dailyWB}}
 }
 \value{
 a \code{data.frame}

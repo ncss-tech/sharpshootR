@@ -29,8 +29,8 @@ dailyWB(x, daily.data, id, S_0 = 0.5)
 \item{S_0}{fraction of water storage filled at time = 0 (range: 0-1)}
 }
 \value{
-a \code{data.frame} containing:
+a \code{data.frame}
 }
 \description{
-Simple Daily Water Balance
+A simple daily water balance.
 }

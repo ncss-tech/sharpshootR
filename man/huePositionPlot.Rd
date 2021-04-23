@@ -31,6 +31,11 @@ A simple visualization of the hue positions for a given Munsell value/chroma acc
 }
 \examples{
 
-huePositionPlot(value = 6, chroma = 6, contour.dE00 = TRUE, grid.res = 2)
+huePositionPlot(value = 4, chroma = 4)
 
+huePositionPlot(value = 6, chroma = 6)
+
+huePositionPlot(value = 8, chroma = 8)
+
+huePositionPlot(value = 6, chroma = 6, contour.dE00 = TRUE, grid.res = 2)
 }

@@ -1,3 +1,7 @@
+
+## deprecate all of this
+
+
 ##
 ## Note: these queries are not very efficient because of the use of WHERE UPPER(compname) IN ", in.statement, "
 ## this doesn't properly utilize existing indexes
@@ -9,6 +13,9 @@
 # s: vector of soil series names
 # replaceNA: convert missing categories into 0 probabilities
 geomPosMountainProbability <- function(s, replaceNA=TRUE) {
+  
+  .Deprecated(msg = 'This function is now deprecated, consider using soilDB::fetchSDA() or soilDB::fetchOSD(..., extended = TRUE)')
+  
   # format IN statement, convert to upper case for comp name normalization
   in.statement <- format_SQL_in_statement(toupper(s))
     
@@ -70,6 +77,9 @@ geomPosMountainProbability <- function(s, replaceNA=TRUE) {
 # s: vector of soil series names
 # replaceNA: convert missing categories into 0 probabilities
 geomPosHillProbability <- function(s, replaceNA=TRUE) {
+  
+  .Deprecated(msg = 'This function is now deprecated, consider using soilDB::fetchSDA() or soilDB::fetchOSD(..., extended = TRUE)')
+  
   # format IN statement, convert to upper case for comp name normalization
   in.statement <- format_SQL_in_statement(toupper(s))
   
@@ -132,6 +142,9 @@ geomPosHillProbability <- function(s, replaceNA=TRUE) {
 # s: vector of soil series names
 # replaceNA: convert missing categories into 0 probabilities
 surfaceShapeProbability <- function(s, replaceNA=TRUE) {
+  
+  .Deprecated(msg = 'This function is now deprecated, consider using soilDB::fetchSDA() or soilDB::fetchOSD(..., extended = TRUE)')
+  
   # format IN statement, convert to upper case for comp name normalization
   in.statement <- format_SQL_in_statement(toupper(s))
   
@@ -195,6 +208,9 @@ surfaceShapeProbability <- function(s, replaceNA=TRUE) {
 
 # 's' is a vector of soil series names
 hillslopeProbability <- function(s, replaceNA=TRUE) {	
+  
+  .Deprecated(msg = 'This function is now deprecated, consider using soilDB::fetchSDA() or soilDB::fetchOSD(..., extended = TRUE)')
+  
   # format IN statement, convert to upper case for comp name normalization
   in.statement <- format_SQL_in_statement(toupper(s))
   

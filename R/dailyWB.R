@@ -4,20 +4,20 @@
 
 #' @title Simple Daily Water Balance
 #' 
-#' @description A simple daily water balance.
+#' @description Simple interface to the hydromad "leaky bucket" soil moisture model, with accommodation for typical inputs from common soil data and climate sources. Critical points along the water retention curve are specified using volumetric water content (VWC): satiation (saturation), field capacity (typically 1/3 bar suction), and permanent wilting point (typically 15 bar suction).
 #'
 #' @param x `data.frame`, required columns include:
-#'   * `sat`
-#'   * `fc`
-#'   * `pwp`
-#'   * `thickness`
-#'   * `a.ss`
+#'   * `sat`: VWC at satiation
+#'   * `fc`: VWC at field capacity
+#'   * `pwp`: VWC at permanent wilting point
+#'   * `thickness`: soil material thickness in cm
+#'   * `a.ss`: recession coefficients for subsurface flow from saturated zone, should be > 0 (range: 0-1)
 #'   * "id"
 #'   
 #' @param daily.data `data.frame`, required columns include:
-#'    * `date`
-#'    * `PPT`
-#'    * `PET`
+#'    * `date`: `Date` class representation of dates
+#'    * `PPT`: daily total, precipitation in mm
+#'    * `PET`: daily total, potential ET in mm
 #' 
 #' @param id character, name of column in `x` that is used to identify records
 #' 
@@ -25,9 +25,18 @@
 #'
 #' @return a `data.frame`
 #' 
+#' @references 
+#' 
+#' Farmer, D., M. Sivapalan, Farmer, D. (2003). Climate, soil and vegetation controls upon the variability of water balance in temperate and semiarid landscapes: downward approach to water balance analysis. Water Resources Research 39(2), p 1035.
+#' 
+#' Bai, Y., T. Wagener, P. Reed (2009). A top-down framework for watershed model evaluation and selection under uncertainty. Environmental Modelling and Software 24(8), pp. 901-916.
 #' @export
 #'
 dailyWB <- function(x, daily.data, id, S_0 = 0.5) {
+  
+  # sanity check: package requirements
+  if(!requireNamespace('hydromad'))
+    stop('please install the hydromad package', call. = FALSE)
   
   # sanity checks
   stopifnot(inherits(x, 'data.frame'))

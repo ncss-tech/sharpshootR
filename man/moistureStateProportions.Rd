@@ -4,12 +4,12 @@
 \alias{moistureStateProportions}
 \title{Compute moisture state proportions}
 \usage{
-moistureStateProportions(x, id = "series", step = c("month", "week", "doy"))
+moistureStateProportions(x, id = "compname", step = c("month", "week", "doy"))
 }
 \arguments{
-\item{x}{\code{data.frame} created by \code{dailyWB_SSURGO()}}
+\item{x}{\code{data.frame} created by \code{\link[=dailyWB]{dailyWB()}} or \code{\link[=dailyWB_SSURGO]{dailyWB_SSURGO()}}}
 
-\item{id}{character, column name identifying sites, soils, or soil series}
+\item{id}{character, column name identifying sites, components, or soil series}
 
 \item{step}{time step, one of 'month', 'week', or 'doy'}
 }

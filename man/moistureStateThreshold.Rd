@@ -6,13 +6,13 @@
 \usage{
 moistureStateThreshold(
   x,
-  id = "series",
+  id = "compname",
   threshold = "moist",
   operator = c("<", ">", "==", "<=", ">=")
 )
 }
 \arguments{
-\item{x}{\code{data.frame} created by \code{\link[=dailyWB_SSURGO]{dailyWB_SSURGO()}}}
+\item{x}{a \code{data.frame} created by \code{\link[=dailyWB]{dailyWB()}} or \code{\link[=dailyWB_SSURGO]{dailyWB_SSURGO()}}}
 
 \item{id}{character, column name identifying sites, soils, or soil series}
 

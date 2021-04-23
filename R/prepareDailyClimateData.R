@@ -67,6 +67,8 @@
 
 
 #' @title Prepare daily climate data (DAYMET)
+#' 
+#' @description Pending.
 #'
 #' @param x  `SpatialPoints` object representing a single location
 #' @param start start year (1998)

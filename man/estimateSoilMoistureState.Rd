@@ -21,7 +21,7 @@ estimateSoilMoistureState(VWC, U, sat, fc, pwp)
 vector of moisture states (ordered factor)
 }
 \description{
-This is a very simple classification of volumetric water content (VWC) into 5 "moisture states", based on an interpretation of water retention thresholds. Classification is performed using VWC at satiation, field capacity (typically 1/3 bar suction), permanent wilting point (typically 15 bar suction), and water surplus in mm. The inputs to this function are closely aligned with the assumptions and output from hydromad::hydromad(sma = 'bucket', ...).
+This is a very simple classification of volumetric water content (VWC) into 5 "moisture states", based on an interpretation of water retention thresholds. Classification is performed using VWC at satiation, field capacity (typically 1/3 bar suction), permanent wilting point (typically 15 bar suction), and water surplus in mm. The inputs to this function are closely aligned with the assumptions and output from \code{hydromad::hydromad(sma = 'bucket', ...)}.
 
 Soil moisture classification rules are as follows:
 \itemize{

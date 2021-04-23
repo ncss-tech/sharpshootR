@@ -4,8 +4,8 @@
 
 #' @title Compute moisture state proportions
 #'
-#' @param x `data.frame` created by `dailyWB_SSURGO()`
-#' @param id character, column name identifying sites, soils, or soil series
+#' @param x `data.frame` created by [`dailyWB()`] or [`dailyWB_SSURGO()`]
+#' @param id character, column name identifying sites, components, or soil series
 #' @param step time step, one of 'month', 'week', or 'doy'
 #'
 #' @return `data.frame`

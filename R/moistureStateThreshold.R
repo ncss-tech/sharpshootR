@@ -2,7 +2,7 @@
 
 #' @title Apply a threshold to soil moisture states
 #'
-#' @param x `data.frame` created by [`dailyWB_SSURGO()`]
+#' @param x a `data.frame` created by [`dailyWB()`] or [`dailyWB_SSURGO()`]
 #' @param id character, column name identifying sites, soils, or soil series
 #' @param threshold moisture state threshold, see [`estimateSoilMoistureState`]
 #' @param operator one of "<", ">", "==", "<=", or ">="

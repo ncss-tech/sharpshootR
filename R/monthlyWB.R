@@ -105,7 +105,7 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
   # combine into format suitable for simulation
   d <- data.frame(P = PPT, E = PET)
   
-  ## TODO: consider the same abstraction as the daily version: simpleWB()
+  ## Note: not using simpleWB() at this time
   
   # Sb: total water storage (mm), this is the satiated VWC
   # fc field capacity fraction: fraction of Sb, using 0.5 for a monthly timestep seems reasonable

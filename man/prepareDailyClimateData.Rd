@@ -19,5 +19,5 @@ prepareDailyClimateData(x, start, end, onlyWB = TRUE)
 a \code{data.frame}
 }
 \description{
-Prepare daily climate data (DAYMET)
+Pending.
 }

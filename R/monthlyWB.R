@@ -1,0 +1,126 @@
+#' @title Monthly Water Balances
+#' 
+#' @description Perform a monthly water balance by "leaky bucket" model, provided by the `hydromad` package.
+#' 
+#' @note This function depends on the \href{http://hydromad.catchment.org/}{hydromad package}.
+#' 
+#' @author D.E. Beaudette
+#' 
+#' @param AWC available water-holding capacity (mm)
+#' 
+#' @param PPT time-series of monthly PPT (mm), calendar year ordering
+#' 
+#' @param PET time-series of monthly PET (mm), calendar year ordering
+#' 
+#' @param S_init initial fraction of \code{AWC} filled with water
+#' 
+#' @param starting_month starting month index, 1=January, 9=September
+#' 
+#' @param rep number of cycles to run water balance
+#' 
+#' @param keep_last keep only the last iteration of the water balance
+#' 
+#' @references 
+#' 
+#' Farmer, D., M. Sivapalan, Farmer, D. (2003). Climate, soil and vegetation controls upon the variability of water balance in temperate and semiarid landscapes: downward approach to water balance analysis. Water Resources Research 39(2), p 1035.
+#' 
+#' @return a \code{data.frame} with the following elements:
+#' 
+#' \itemize{
+#' \item{PPT: }{monthly PPT values}
+#' \item{PET: }{monthly PET values}
+#' \item{U: }{monthly U values}
+#' \item{S: }{monthly S values}
+#' \item{ET: }{monthly ET values}
+#' \item{D: }{monthly D values}
+#' \item{month: }{month number}
+#' \item{mo: }{month label}   
+#' }
+#' 
+#' @examples 
+#' 
+#' if(requireNamespace('hydromad')) {
+#' 
+#' # AWC in mm
+#' AWC <- 200
+#' 
+#' # monthly PET and PPT in mm
+#' PET <- c(0,0,5,80,90,120,130,140,110,90,20,5)
+#' PPT <- c(0, 150, 200, 120, 20, 0, 0, 0, 10, 20, 30, 60)
+#' 
+#' # run water balance
+#' # start with soil AWC "empty"
+#' (x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0))
+#' 
+#' # plot the results
+#' par(mar=c(4,4,2,1), bg = 'white')
+#' plotWB(WB = x.wb, AWC = AWC)
+#' 
+#' # compute fraction of AWC filled after the last month of simulation
+#' (last.S <- x.wb$S[12] / AWC)
+#' 
+#' # re-run the water balance with this value
+#' (x.wb <- monthlyWB(AWC, PPT, PET, S_init = last.S))
+#' 
+#' # not much difference
+#' par(mar=c(4,4,2,1), bg = 'white')
+#' plotWB(WB = x.wb, AWC = AWC)
+#' 
+#' }
+#' 
+monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, keep_last = FALSE) {
+  
+  # sanity check: package requirements
+  if(!requireNamespace('hydromad'))
+    stop('please install the hydromad package', call. = FALSE)
+  
+  # number of time steps in the original series
+  n <- length(PPT)
+  
+  # re-order monthly data according to starting month
+  if(starting_month == 1) {
+    idx <- seq(from=starting_month, to=12, by = 1)
+  } else {
+    idx <- c(seq(from=starting_month, to=12, by=1), seq(from=1, to=(starting_month - 1), by=1))
+  }
+  
+  # replicate as needed
+  idx <- rep(idx, times=rep)
+  
+  # re-index months as needed
+  PPT <- PPT[idx]
+  PET <- PET[idx]
+  
+  # combine into format suitable for simulation
+  d <- data.frame(P = PPT, E = PET)
+  
+  ## TODO: consider exposing more hydromad arguments
+  ## TODO: investigate use of `fc` here
+  ## TODO: consider the same abstraction as the daily version: simpleWB()
+  
+  # Sb: total water storage (mm), this is the satiated VWC
+  # fc field capacity fraction: fraction of Sb, using 0.5 for a monthly timestep seems reasonable
+  # S_0 initial moisture content as fraction of Sb 
+  # a.ss should always be > 0
+  m <- hydromad::hydromad(d, sma = "bucket", routing = NULL)
+  m <- update(m, Sb = AWC, fc = 0.5, S_0 = S_init, a.ss = 0.05, M=0, etmult=1, a.ei=0)
+  res <- predict(m, return_state = TRUE)
+  
+  res <- data.frame(d, res)
+  
+  names(res) <- c('PPT', 'PET', 'U', 'S', 'ET')
+  res$D <- with(res, ET - PET)
+  
+  # add month index
+  res$month <- idx
+  res$mo <- c('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')[idx]
+  
+  # optionally keep the last cycle
+  if(keep_last) {
+    keep.idx <- seq(from=nrow(res) - (n-1), to = nrow(res), by = 1)
+    res <- res[keep.idx, ]
+  }
+  
+  # done
+  return(res)
+}

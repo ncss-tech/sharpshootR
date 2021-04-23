@@ -8,7 +8,7 @@ library(zoo)
 
 library(aqp)
 library(soilDB)
-library(sharpshootR)
+# library(sharpshootR)
 
 library(sp)
 library(rgeos)
@@ -23,59 +23,39 @@ library(knitr)
 library(RColorBrewer)
 library(viridis)
 
-## TODO: verify that outputs are reasonable after all of the re-factoring...
 
-# Dunstone
+## prepare some example data via DAYMET
+
+# near Sonora, CA
 p <- SpatialPoints(cbind(-120.37673,37.99877), proj4string = CRS('+proj=longlat +datum=WGS84'))
-daily.data <- sharpshootR:::.prepareDailyInputs(p, start = 2010, end = 2020)
+dd <- prepareDailyClimateData(p, start = 2010, end = 2020)
 
+# re-package
+daily.data <- data.frame(
+  date = dd$DM$date,
+  PPT = dd$DM$prcp..mm.day.,
+  PET = dd$ET$ET.Daily
+)
+
+# example soil material
 data("ROSETTA.centroids")
+vars <- c('texture', 'sat', 'fc', 'pwp')
 
-x <- ROSETTA.centroids[c(12, 1, 3, 5), ]
+# required soil hydraulic parameters + ID
+x <- ROSETTA.centroids[c(12, 1, 3, 5), vars]
 
+# thickness and recession coef.
+x$thickness <- 100
+x$a.ss <- 0.1
 
-## TODO: abstract all of this into a new function: dailyWB()
+x
 
-z <- lapply(1:nrow(x), function(i) {
-  
-  x.i <- x[i, ]
-  
-  wb <- simpleWB(
-    PPT = daily.data$DM$prcp..mm.day., 
-    PET = daily.data$ET$ET.Daily, 
-    D = daily.data$DM$date, 
-    thickness = 100, 
-    sat = x.i$sat, 
-    fc = x.i$fc, a.ss = 0.05
-  )
+z <- dailyWB(x, daily.data, id = 'texture')
 
-  # add contextual data
-  wb$id <- factor(x.i$texture)
-  wb$sat <- x.i$sat
-  wb$fc <- x.i$fc
-  wb$pwp <- x.i$pwp
-    
-  return(wb)
-})
-
-z <- do.call('rbind', z)
-
-z$state <- with(z, estimateSoilMoistureState(VWC, U, sat, fc, pwp))
-table(z$id, z$state)
-
-# months for grouping
-z$month <- months(z$date, abbreviate = TRUE)
-z$month <- factor(z$month, levels=c('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'))
-
-# weeks for grouping
-z$week <- factor(format(z$date, '%U'))
-
-# days for grouping
-z$doy <- factor(format(z$date, '%j'))
-
+str(z)
 
 #
-msp <- moistureStateProportions(z, id = 'id', step = 'week')
+msp <- moistureStateProportions(z, id = 'texture', step = 'week')
 
 # colors / style
 ll <- levels(msp$state)
@@ -90,7 +70,7 @@ sK <- simpleKey(text = ll, space='top', columns=n.states, rectangles = TRUE, poi
 
 
 
-barchart(proportion ~ interval | id, groups = state, 
+barchart(proportion ~ interval | texture, groups = state, 
          main='Expected Weekly Soil Moisture State\nDAYMET 1988-2018',
          data = msp, horiz = FALSE, stack = TRUE, xlab = '', ylab='Proportion',
          as.table=TRUE,
@@ -112,9 +92,45 @@ barchart(proportion ~ interval | id, groups = state,
 )
 
 
-xyplot(VWC ~ date, groups = id, data = z, type = 'l', par.settings = tactile.theme(), auto.key = list(lines = TRUE, points = FALSE, columns = 3))
+xyplot(VWC ~ date, groups = texture, data = z, type = 'l', par.settings = tactile.theme(), auto.key = list(lines = TRUE, points = FALSE, columns = 3))
+
+xyplot(VWC ~ date | texture, data = z, type = c('l', 'g'), par.settings = tactile.theme(), auto.key = list(lines = TRUE, points = FALSE, columns = 3))
 
 
+
+
+mst <- moistureStateThreshold(z, id = 'texture', threshold = 'dry', operator = '<=')
+str(mst)
+
+# colors / style
+stripe.colors <- colorRampPalette(viridis(100), interpolate = 'spline', space = 'Lab')
+
+levelplot(Pr ~ as.numeric(doy) * texture, data = mst, 
+          col.regions = stripe.colors,
+          par.settings = tactile.theme(),
+          xlab = 'Day of the Year',
+          ylab = '',
+          main='Pr(Soil at Field Capacity or Drier)\n1988-2018',
+          scales=list(x=list(tick.number=25))
+)
+
+
+
+# a different take: "on average, when do the soils
+xyplot(Pr ~ as.numeric(doy), groups = texture,
+       main='Expected Soil Moisture State\n1988-2018',
+       data = mst, type=c('l', 'g'),
+       xlab = '', ylab='Proportion',
+       as.table=TRUE,
+       auto.key=list(lines=TRUE, points=FALSE, columns=length(levels(msp$texture))),
+       strip=strip.custom(bg=grey(0.9)),
+       par.strip.text=list(cex=1.25),
+       scales=list(y=list(alternating=3, cex=1), x=list(relation='free', alternating=1, cex=0.85, rot=0)),
+       par.settings = tactile.theme(superpose.line = list(lwd = 2))
+)
+
+
+tapply(mst$Pr, mst$texture, function(i) length(which(i > 0.8)))
 
 
 

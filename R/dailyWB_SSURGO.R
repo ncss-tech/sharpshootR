@@ -1,102 +1,13 @@
 
 
 
-# d: DAYMET data with Date added
-# elevation: elevation in meters
-.estimatePET <- function(d, elevation) {
-  
-  # compile into zoo objects
-  Tmax <- zoo::zoo(d$tmax..deg.c., d$date)
-  Tmin <- zoo::zoo(d$tmin..deg.c., d$date)
-  
-  # daily total SRAD in MJ/sq.m
-  # https://daymet.ornl.gov/overview
-  Rs <- zoo::zoo(d$srad..W.m.2. * d$dayl..s. / 1e6, d$date)
-  
-  # compile into expected input format
-  climate.data <- list(
-    Date.daily = d$date, 
-    Tmax = Tmax, 
-    Tmin = Tmin, 
-    Rs = Rs
-  )
-  
-  # safe way to load package data
-  # note: this is incompatible with LazyData: true
-  constants <- NULL
-  # whoa: non-standard file naming...
-  load(system.file("data/constants.RData", package="Evapotranspiration")[1])
-  cs <- constants
-  
-  # only need to modify elevation
-  cs$Elev <- elevation
-  
-  # this works
-  ET <- Evapotranspiration::ET.Makkink(
-    climate.data, 
-    constants = cs, 
-    ts = "daily", 
-    solar = "data", 
-    save.csv = FALSE
-  )
-  
-  return(ET)
-}
-
-
-# x: long
-# y: lat
-# start_yr
-# end_yr
-.getDayMet <- function(x, y, start_yr, end_yr) {
-  
-  d <- daymetr::download_daymet("daymet",
-                                lat = y,
-                                lon = x,
-                                start = start_yr,
-                                end = end_yr,
-                                internal = TRUE
-  )
-  
-  # keep only the data
-  d <- d$data
-  
-  # date for plotting and ET estimation
-  d$date <- as.Date(sprintf('%s %s', d$year, d$yday), format="%Y %j")
-  return(d)
-}
-
-
-.prepareDailyInputs <- function(x, start, end) {
-  
-  # get elevation
-  e <- suppressMessages(elevatr::get_elev_point(locations = x)$elevation)
-  
-  # coordinates for DAYMET
-  coords <- coordinates(x)  
-  
-  # DAYMET WWW lookup
-  dm <- suppressMessages(
-    .getDayMet(x = coords[, 1], y = coords[, 2], start_yr = start, end_yr = end)
-  )
-  
-  ## estimate PET from DAYMET
-  ET <- suppressMessages(
-    .estimatePET(dm, elevation = e)
-  )
-  
-  return(
-    list(
-      DM = dm,
-      ET = ET
-    )
-  )
-  
-}
 
 
 
 
+
+# x: SpatialPoint with single feature
+# bufferRadiusMeters: radius in meters
 .getSSURGO_at_point <- function(x, bufferRadiusMeters) {
   
   
@@ -144,7 +55,7 @@ SELECT * from SDA_Get_Mukey_from_intersection_with_WktWgs84('", x.wkt, "')
 #' @title Perform daily water balance modeling using SSURGO and DAYMET
 #' 
 #'
-#' @param x `SpatialPoints` or `SpatialPointsDataFrame` representing a single point
+#' @param x `SpatialPoints` object representing a single point
 #' @param cokeys vector of component keys to use
 #' @param start starting year (limited to DAYMET holdings)
 #' @param end ending year (limited to DAYMET holdings)
@@ -154,6 +65,12 @@ SELECT * from SDA_Get_Mukey_from_intersection_with_WktWgs84('", x.wkt, "')
 #' 
 #' 
 #' @author D.E. Beaudette
+#' 
+#' @references 
+#' 
+#' Farmer, D., M. Sivapalan, Farmer, D. (2003). Climate, soil and vegetation controls upon the variability of water balance in temperate and semiarid landscapes: downward approach to water balance analysis. Water Resources Research 39(2), p 1035.
+#' 
+#' 
 #' 
 #' @return `data.frame` of daily water balance results
 #' 
@@ -170,9 +87,14 @@ dailyWB_SSURGO <- function(x, cokeys = NULL, start = 1988, end = 2018, modelDept
   ) {
     stop('this function requires the following packages: daymetr, elevatr, Evapotranspiration', call.=FALSE)
   }
-    
+  
+  ## TODO: relax constraints: other object types / iteration over features
+  # sanity checks
+  stopifnot(class(x) == 'SpatialPoints')
+  stopifnot(length(x) == 1)
+  
   # get daily input data as list
-  daily.data <- .prepareDailyInputs(x, start = start, end = end)
+  daily.data <- prepareDailyClimateData(x, start = start, end = end)
   
   # use component keys at `x` if none provided
   if(is.null(cokeys)) {

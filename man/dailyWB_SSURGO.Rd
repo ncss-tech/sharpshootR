@@ -15,7 +15,7 @@ dailyWB_SSURGO(
 )
 }
 \arguments{
-\item{x}{\code{SpatialPoints} or \code{SpatialPointsDataFrame} representing a single point}
+\item{x}{\code{SpatialPoints} object representing a single point}
 
 \item{cokeys}{vector of component keys to use}
 
@@ -34,6 +34,9 @@ dailyWB_SSURGO(
 }
 \description{
 Perform daily water balance modeling using SSURGO and DAYMET
+}
+\references{
+Farmer, D., M. Sivapalan, Farmer, D. (2003). Climate, soil and vegetation controls upon the variability of water balance in temperate and semiarid landscapes: downward approach to water balance analysis. Water Resources Research 39(2), p 1035.
 }
 \author{
 D.E. Beaudette

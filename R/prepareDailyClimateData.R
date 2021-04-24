@@ -66,7 +66,7 @@
 }
 
 
-#' @title Prepare daily climate data (DAYMET)
+#' @title Prepare daily climate data (DAYMET) for a single point
 #' 
 #' @description Pending.
 #'

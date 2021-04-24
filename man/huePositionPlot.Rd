@@ -38,4 +38,5 @@ huePositionPlot(value = 6, chroma = 6)
 huePositionPlot(value = 8, chroma = 8)
 
 huePositionPlot(value = 6, chroma = 6, contour.dE00 = TRUE, grid.res = 2)
+
 }

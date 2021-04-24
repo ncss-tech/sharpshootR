@@ -19,5 +19,10 @@ prepareDailyClimateData(x, start, end, onlyWB = TRUE)
 a \code{data.frame}
 }
 \description{
-Pending.
+This function returns daily climate data required for a simple water balance (and more), using three packages:
+\itemize{
+\item \code{elevatr}: elevation data at \code{x}
+\item \code{daymetr}: DAYMET data at \code{x} for years \code{start} through \code{end}
+\item \code{Evapotranspiration}: Makkink formulation for estimating reference crop evapotranspiration
+}
 }

@@ -68,7 +68,10 @@
 
 #' @title Prepare daily climate data (DAYMET) for a single point
 #' 
-#' @description Pending.
+#' @description This function returns daily climate data required for a simple water balance (and more), using three packages:
+#'   * `elevatr`: elevation data at `x`
+#'   * `daymetr`: DAYMET data at `x` for years `start` through `end`
+#'   * `Evapotranspiration`: Makkink formulation for estimating reference crop evapotranspiration
 #'
 #' @param x  `SpatialPoints` object representing a single location
 #' @param start start year (1998)

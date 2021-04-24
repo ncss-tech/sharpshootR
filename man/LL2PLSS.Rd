@@ -26,32 +26,6 @@ This function takes xy coordinates and returns the PLSS section geometry to the 
 \note{
 This function requires the following packages: \code{httr}, \code{jsonlite}, and \code{sp}.
 }
-\examples{
-
-\donttest{
-
-if(requireNamespace("curl") &
-
-   curl::has_internet() &
-    require(sp)) {
-    
-    # BLM PLSS API needs a long timeout
-    options(timeout = 60000)
-
-    # create coordinates
-    x <- -115.3823
-    y <- 48.88228
-
-    # fetch PLSS geometry for these coordinates
-    p.plss <- LL2PLSS(x, y)
-
-    # plot geometry
-    if (length(p.plss$geom) > 0)
-     plot(p.plss$geom)
-}
-}
-
-}
 \seealso{
 \code{\link{PLSS2LL}}, \code{\link{formatPLSS}}
 }

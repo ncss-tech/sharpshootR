@@ -4,10 +4,7 @@
 #' 
 #' @param chips character vector of standard Munsell color notation (e.g. "10YR 3/4") 
 #' 
-#' @param mixingMethod approach used to simulate a mixture: 
-#'    * `spectra`: simulate a subtractive mixture of pigments, limited to available reference spectra
-#'    * `estimate`: closest Munsell chip to a weighted mean of CIELAB coordinates
-#'    * `adaptive`: use reference spectra when possible, falling-back to weighted mean of CIELAB coordinates
+#' @param mixingMethod approach used to simulate a mixture: see `aqp::mixMunsell` for details
 #' 
 #' @param ellipse logical, use alternative ellipse-style (4 or 5 colors only) 
 #' @param labels logical, print mixture labels
@@ -26,7 +23,7 @@
 
 ## TODO: add support for weighted mixtures
 
-colorMixtureVenn <- function(chips, mixingMethod = c('spectra', 'estimate', 'adaptive'), ellipse = FALSE, labels = TRUE) {
+colorMixtureVenn <- function(chips, mixingMethod = 'spectra', ellipse = FALSE, labels = TRUE) {
  
   # required package
   if(!requireNamespace('venn') | !requireNamespace("gower"))
@@ -38,9 +35,7 @@ colorMixtureVenn <- function(chips, mixingMethod = c('spectra', 'estimate', 'ada
     stop('must supply more than 2 Munsell colors', call. = FALSE)
   }
   
-  # sanity check on mixing method
-  # also performed by aqp::mixMunsell
-  mixingMethod <- match.arg(mixingMethod)
+  # sanity check on mixing method performed by aqp::mixMunsell
   
   # base colors
   cols <- parseMunsell(chips)
@@ -112,8 +107,8 @@ colorMixtureVenn <- function(chips, mixingMethod = c('spectra', 'estimate', 'ada
   cz <- venn::getZones(center.zone, ellipse = e)
   
   # mix all colors
-  all <- mixMunsell(chips, mixingMethod = mixingMethod)$munsell
-  all.color <- parseMunsell(all)
+  all <- mixMunsell(chips, mixingMethod = mixingMethod)
+  all.color <- parseMunsell(all$munsell)
   
   # fill center
   polygon(cz[[1]], col = all.color)
@@ -123,7 +118,7 @@ colorMixtureVenn <- function(chips, mixingMethod = c('spectra', 'estimate', 'ada
     text(
       x = all.centroid[1], 
       y = all.centroid[2], 
-      labels = all, 
+      labels = all$munsell, 
       cex = 0.66, 
       col = invertLabelColor(all.color)
     )
@@ -146,8 +141,13 @@ colorMixtureVenn <- function(chips, mixingMethod = c('spectra', 'estimate', 'ada
   # add mixtures
   chip.combinations$mix <- NA
   for(i in 1:nrow(chip.combinations)) {
-    mi <- mixMunsell(unlist(chip.combinations[i, 1:(n.chips-degree)]), mixingMethod = mixingMethod)$munsell
-    chip.combinations$mix[i] <- mi
+    mi <- mixMunsell(
+      x = unlist(chip.combinations[i, 1:(n.chips-degree)]), 
+      mixingMethod = mixingMethod
+    )
+    chip.combinations$mix[i] <- mi$munsell
+    # debugging:
+    # print(mi)
   }
   
   # mixtures -> colors

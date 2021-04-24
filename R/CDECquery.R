@@ -47,8 +47,8 @@
 #'     
 #'     library(RColorBrewer)
 #'     
-#'     # get daily resevoir storage (ac. ft) from 
-#'     # Pinecrest, New Melones and Lyons resevoirs
+#'     # get daily reservoir storage (ac. ft) from 
+#'     # Pinecrest, New Melones and Lyons reservoirs
 #'     pinecrest <- CDECquery(id='swb', sensor=15, interval='D', 
 #'     start='2012-09-01', end='2015-01-01')
 #'     
@@ -153,8 +153,6 @@
 #'            auto.key=list(columns=2, points=FALSE, lines=TRUE))
 #'     
 #'   }
-
-
 #' 
 #' 
 #' }

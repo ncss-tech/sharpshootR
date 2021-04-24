@@ -35,7 +35,10 @@ importFrom(aqp,
            huePosition,
            invertLabelColor,
            parseMunsell,
-           mixMunsell
+           mixMunsell,
+           'depths<-',
+           'site<-',
+           slab
 )
 
 importFrom(curl,

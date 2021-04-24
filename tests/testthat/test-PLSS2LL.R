@@ -1,6 +1,7 @@
 context("PLSS Conversion")
 
-
+# S4 dispatch for plot()
+library(sp)
 
 test_that("formatPLSS, PLSS2LL, LL2PLSS works", {
 

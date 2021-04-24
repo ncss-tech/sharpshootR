@@ -43,6 +43,7 @@ d <- data.frame(
 names(d) <- c('id', 'qq', 'q', 's', 't', 'r', 'type', 'm')
 # generate formatted PLSS codes
 formatPLSS(d, type='SN')
+
 }
 \seealso{
 \code{\link{PLSS2LL}}

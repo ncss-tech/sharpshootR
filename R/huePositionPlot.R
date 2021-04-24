@@ -15,8 +15,15 @@
 #'
 #' @examples
 #' 
+#' huePositionPlot(value = 4, chroma = 4)
+#' 
+#' huePositionPlot(value = 6, chroma = 6)
+#' 
+#' huePositionPlot(value = 8, chroma = 8)
+#' 
 #' huePositionPlot(value = 6, chroma = 6, contour.dE00 = TRUE, grid.res = 2)
 #' 
+
 huePositionPlot <- function(value = 6, chroma = 6, chip.cex = 4.5, label.cex = 0.75, contour.dE00 = FALSE, grid.res = 2) {
   
   # dE00 contours requires farver >= 2.0.3

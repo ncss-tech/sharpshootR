@@ -6,7 +6,7 @@
 \usage{
 colorMixtureVenn(
   chips,
-  mixingMethod = "reference",
+  mixingMethod = "spectra",
   ellipse = FALSE,
   labels = TRUE
 )

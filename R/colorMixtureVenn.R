@@ -22,9 +22,8 @@
 #' }
 
 ## TODO: add support for weighted mixtures
-## TODO: consider mixed spectra -> sRGB without closest Munsell lookup
 
-colorMixtureVenn <- function(chips, mixingMethod = 'reference', ellipse = FALSE, labels = TRUE) {
+colorMixtureVenn <- function(chips, mixingMethod = 'spectra', ellipse = FALSE, labels = TRUE) {
  
   # required package
   if(!requireNamespace('venn') | !requireNamespace("gower"))

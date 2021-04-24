@@ -2,7 +2,7 @@
 % Please edit documentation in R/prepareDailyClimateData.R
 \name{prepareDailyClimateData}
 \alias{prepareDailyClimateData}
-\title{Prepare daily climate data (DAYMET)}
+\title{Prepare daily climate data (DAYMET) for a single point}
 \usage{
 prepareDailyClimateData(x, start, end, onlyWB = TRUE)
 }

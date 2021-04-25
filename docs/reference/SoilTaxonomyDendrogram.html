@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Soil Taxonomy Dendrogram — SoilTaxonomyDendrogram" />
-<meta property="og:description" content="Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimmilarity matrix is computed using Gower's distance metric for nominal-scale variables, based on order, sub order, great group, and subgroup level taxa. See the Details and Examples sections below for more information." />
+<meta property="og:description" content="Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimilarity matrix is computed using Gower's distance metric for nominal-scale variables, based on order, sub order, great group, and subgroup level taxa. See the Details and Examples sections below for more information." />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8</span>
       </span>
     </div>
 
@@ -109,27 +109,41 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Soil Taxonomy Dendrogram</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/ncss-tech/aqp/blob/master/R/SoilTaxonomyDendrogram.R'><code>R/SoilTaxonomyDendrogram.R</code></a></small>
     <div class="hidden name"><code>SoilTaxonomyDendrogram.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimmilarity matrix is computed using Gower's distance metric for nominal-scale variables, based on order, sub order, great group, and subgroup level taxa. See the Details and Examples sections below for more information.</p>
+    <p>Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimilarity matrix is computed using Gower's distance metric for nominal-scale variables, based on order, sub order, great group, and subgroup level taxa. See the Details and Examples sections below for more information.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>SoilTaxonomyDendrogram</span><span class='op'>(</span><span class='va'>spc</span>, name <span class='op'>=</span> <span class='st'>"hzname"</span>, name.style <span class='op'>=</span> <span class='st'>"right-center"</span>,
-                   rotationOrder <span class='op'>=</span> <span class='cn'>NULL</span>, max.depth <span class='op'>=</span> <span class='fl'>150</span>, n.depth.ticks <span class='op'>=</span>
-                   <span class='fl'>6</span>, scaling.factor <span class='op'>=</span> <span class='fl'>0.015</span>, cex.names <span class='op'>=</span> <span class='fl'>0.75</span>, cex.id <span class='op'>=</span>
-                   <span class='fl'>0.75</span>, axis.line.offset <span class='op'>=</span> <span class='op'>-</span><span class='fl'>4</span>, width <span class='op'>=</span> <span class='fl'>0.1</span>, y.offset <span class='op'>=</span>
-                   <span class='fl'>0.5</span>, shrink <span class='op'>=</span> <span class='cn'>FALSE</span>, font.id <span class='op'>=</span> <span class='fl'>2</span>, cex.taxon.labels <span class='op'>=</span>
-                   <span class='fl'>0.66</span>, dend.color <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='st'>"fg"</span><span class='op'>)</span>, dend.width <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>SoilTaxonomyDendrogram</span><span class='op'>(</span>
+  <span class='va'>spc</span>,
+  name <span class='op'>=</span> <span class='st'>"hzname"</span>,
+  name.style <span class='op'>=</span> <span class='st'>"right-center"</span>,
+  rotationOrder <span class='op'>=</span> <span class='cn'>NULL</span>,
+  max.depth <span class='op'>=</span> <span class='fl'>150</span>,
+  n.depth.ticks <span class='op'>=</span> <span class='fl'>6</span>,
+  scaling.factor <span class='op'>=</span> <span class='fl'>0.015</span>,
+  cex.names <span class='op'>=</span> <span class='fl'>0.75</span>,
+  cex.id <span class='op'>=</span> <span class='fl'>0.75</span>,
+  axis.line.offset <span class='op'>=</span> <span class='op'>-</span><span class='fl'>4</span>,
+  width <span class='op'>=</span> <span class='fl'>0.1</span>,
+  y.offset <span class='op'>=</span> <span class='fl'>0.5</span>,
+  shrink <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  font.id <span class='op'>=</span> <span class='fl'>2</span>,
+  cex.taxon.labels <span class='op'>=</span> <span class='fl'>0.66</span>,
+  dend.color <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='st'>"fg"</span><span class='op'>)</span>,
+  dend.width <span class='op'>=</span> <span class='fl'>1</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>spc</th>
-      <td><p>a <code>SoilProfileCollection</code> object, see details</p></td>
+      <td><p>a <code>SoilProfileCollection</code> object, typically returned by <code><a href='https://rdrr.io/pkg/soilDB/man/fetchOSD.html'>soilDB::fetchOSD</a></code></p></td>
     </tr>
     <tr>
       <th>name</th>
@@ -137,11 +151,11 @@
     </tr>
     <tr>
       <th>name.style</th>
-      <td><p>name.style for <code>plotSPC</code> (default: "right-center")</p></td>
+      <td><p>passed to <code><a href='https://rdrr.io/pkg/aqp/man/SoilProfileCollection-plotting-methods.html'>aqp::plotSPC</a></code> (default: "right-center")</p></td>
     </tr>
     <tr>
       <th>rotationOrder</th>
-      <td><p>numeric vector with desired ordering of leaves in the dendrogram from left to right, see details</p></td>
+      <td><p>numeric vector with desired ordering of leaves in the dendrogram from left to right, or character vector matching profile IDs</p></td>
     </tr>
     <tr>
       <th>max.depth</th>
@@ -177,7 +191,7 @@
     </tr>
     <tr>
       <th>shrink</th>
-      <td><p>should long horizon names be shrunk by 80% ?</p></td>
+      <td><p>logical, should long horizon names be shrunk by 80% ?</p></td>
     </tr>
     <tr>
       <th>font.id</th>
@@ -197,32 +211,28 @@
     </tr>
     <tr>
       <th>...</th>
-      <td><p>additional arguments to plotSPC</p></td>
+      <td><p>additional arguments to <code><a href='https://rdrr.io/pkg/aqp/man/SoilProfileCollection-plotting-methods.html'>aqp::plotSPC</a></code></p></td>
     </tr>
     </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>An invisibly-returned list containing:</p><ul>
+<li><p><code>dist</code>: pair-wise dissimilarity matrix</p></li>
+<li><p><code>order</code>: final ordering of hclust leaves</p></li>
+</ul>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function looks for specific site-level attributes named: <code>soilorder</code>, <code>suborder</code>, <code>greatgroup</code>, and <code>subgroup</code>.</p>
-<p>The <code>rotationOrder</code> argument uses (i.e. requires) the <code><a href='http://talgalili.github.io/dendextend/reference/rotate.html'>dendextend::rotate()</a></code> function to re-order leaves within the <code>hclust</code> representation of the ST hierarchy. Perfect sorting is not always possible.</p>
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>An invisibly-returned list containing:</p><dl>
-<dt><code>dist</code></dt><dd><p>pair-wise dissimilarity matrix</p></dd>
-<dt><code>order</code></dt><dd><p>final ordering of hclust leaves</p></dd>
-
-</dl>
-
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>D.E. Beaudette, P. Roudier and A.T. O'Geen. 2012. Algorithms for Quantitative Pedology, a Toolkit
-for Soil Scientists. Computers &amp; Geosciences: 52: 258--268. (doi: 10.1016/j.cageo.2012.10.020)</p>
+<p>The <code>rotationOrder</code> argument uses (requires) the <code><a href='http://talgalili.github.io/dendextend/reference/rotate.html'>dendextend::rotate()</a></code> function to re-order leaves within the <code>hclust</code> representation of the ST hierarchy. Perfect sorting is not always possible.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>D.E. Beaudette</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+    <pre class="examples"><div class='input'>
+<span class='co'># \donttest{</span>
 
 <span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"curl"</span><span class='op'>)</span> <span class='op'>&amp;</span>
    <span class='fu'>curl</span><span class='fu'>::</span><span class='fu'><a href='https://jeroen.cran.dev/curl/reference/nslookup.html'>has_internet</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>&amp;</span>
@@ -231,48 +241,144 @@ for Soil Scientists. Computers &amp; Geosciences: 52: 258--268. (doi: 10.1016/j.
 <span class='op'>)</span> <span class='op'>{</span>
   
   
-
-<span class='co'># soils of interest</span>
-<span class='va'>s.list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'musick'</span>, <span class='st'>'cecil'</span>, <span class='st'>'drummer'</span>, <span class='st'>'amador'</span>, <span class='st'>'pentz'</span>, <span class='st'>'reiff'</span>, 
-<span class='st'>'san joaquin'</span>,<span class='st'>'montpellier'</span>,<span class='st'>'grangeville'</span>,<span class='st'>'pollasky'</span>,<span class='st'>'ramona'</span><span class='op'>)</span>
-
-<span class='co'># fetch and convert data into an SPC</span>
-<span class='va'>h</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/soilDB/man/fetchOSD.html'>fetchOSD</a></span><span class='op'>(</span><span class='va'>s.list</span><span class='op'>)</span>
-
-<span class='co'># plot dendrogram + profiles</span>
-<span class='fu'>SoilTaxonomyDendrogram</span><span class='op'>(</span><span class='va'>h</span><span class='op'>)</span>
-
-<span class='co'># again, this time save the pair-wise dissimilarity matrix</span>
-<span class='co'># note that there isn't a lot of discrimination between soils</span>
-<span class='op'>(</span><span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'>SoilTaxonomyDendrogram</span><span class='op'>(</span><span class='va'>h</span><span class='op'>)</span><span class='op'>)</span>
-
-
-<span class='co'># a different set</span>
-<span class='va'>soils</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'cecil'</span>, <span class='st'>'altavista'</span>, <span class='st'>'lloyd'</span>, <span class='st'>'wickham'</span>, <span class='st'>'wilkes'</span>,
-<span class='st'>'chewacla'</span>, <span class='st'>'congaree'</span><span class='op'>)</span>
-
-<span class='co'># get morphology + extended summaries for sorting of dendrogram</span>
-<span class='va'>s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/soilDB/man/fetchOSD.html'>fetchOSD</a></span><span class='op'>(</span><span class='va'>soils</span>, extended <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='co'># get summary and ignore the figure</span>
-<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='vizHillslopePosition.html'>vizHillslopePosition</a></span><span class='op'>(</span><span class='va'>s</span><span class='op'>$</span><span class='va'>hillpos</span><span class='op'>)</span>
-
-<span class='co'># compare default sorting to soils sorting according to catenary, e.g.</span>
-<span class='co'># hillslope position</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mar<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span>, mfrow<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='fu'>SoilTaxonomyDendrogram</span><span class='op'>(</span><span class='va'>s</span><span class='op'>$</span><span class='va'>SPC</span>, width<span class='op'>=</span><span class='fl'>0.25</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span><span class='op'>(</span><span class='st'>'default sorting'</span>, side <span class='op'>=</span> <span class='fl'>2</span>, line<span class='op'>=</span><span class='op'>-</span><span class='fl'>1</span>, font<span class='op'>=</span><span class='fl'>3</span>, cex<span class='op'>=</span><span class='fl'>1.25</span><span class='op'>)</span>
-
-<span class='fu'>SoilTaxonomyDendrogram</span><span class='op'>(</span><span class='va'>s</span><span class='op'>$</span><span class='va'>SPC</span>, rotationOrder <span class='op'>=</span> <span class='va'>res</span><span class='op'>$</span><span class='va'>order</span>, width<span class='op'>=</span><span class='fl'>0.25</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span><span class='op'>(</span><span class='st'>'approx. catenary sorting'</span>, side <span class='op'>=</span> <span class='fl'>2</span>, line<span class='op'>=</span><span class='op'>-</span><span class='fl'>1</span>, font<span class='op'>=</span><span class='fl'>3</span>, cex<span class='op'>=</span><span class='fl'>1.25</span><span class='op'>)</span>
   
+  <span class='co'># soils of interest</span>
+  <span class='va'>s.list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html'>c</a></span><span class='op'>(</span><span class='st'>'musick'</span>, <span class='st'>'cecil'</span>, <span class='st'>'drummer'</span>, <span class='st'>'amador'</span>, <span class='st'>'pentz'</span>, <span class='st'>'reiff'</span>, 
+              <span class='st'>'san joaquin'</span>,<span class='st'>'montpellier'</span>,<span class='st'>'grangeville'</span>,<span class='st'>'pollasky'</span>,<span class='st'>'ramona'</span><span class='op'>)</span>
+  
+  <span class='co'># fetch and convert data into an SPC</span>
+  <span class='va'>h</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/soilDB/man/fetchOSD.html'>fetchOSD</a></span><span class='op'>(</span><span class='va'>s.list</span><span class='op'>)</span>
+  
+  <span class='co'># plot dendrogram + profiles</span>
+  <span class='fu'>SoilTaxonomyDendrogram</span><span class='op'>(</span><span class='va'>h</span><span class='op'>)</span>
+  
+  <span class='co'># again, this time save the pair-wise dissimilarity matrix</span>
+  <span class='co'># note that there isn't a lot of discrimination between soils</span>
+  <span class='op'>(</span><span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'>SoilTaxonomyDendrogram</span><span class='op'>(</span><span class='va'>h</span><span class='op'>)</span><span class='op'>)</span>
+  
+  
+  <span class='co'># a different set</span>
+  <span class='va'>soils</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html'>c</a></span><span class='op'>(</span><span class='st'>'cecil'</span>, <span class='st'>'altavista'</span>, <span class='st'>'lloyd'</span>, <span class='st'>'wickham'</span>, <span class='st'>'wilkes'</span>,
+             <span class='st'>'chewacla'</span>, <span class='st'>'congaree'</span><span class='op'>)</span>
+  
+  <span class='co'># get morphology + extended summaries for sorting of dendrogram</span>
+  <span class='va'>s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/soilDB/man/fetchOSD.html'>fetchOSD</a></span><span class='op'>(</span><span class='va'>soils</span>, extended <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+  
+  <span class='co'># get summary and ignore the figure</span>
+  <span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='vizHillslopePosition.html'>vizHillslopePosition</a></span><span class='op'>(</span><span class='va'>s</span><span class='op'>$</span><span class='va'>hillpos</span><span class='op'>)</span>
+  
+  <span class='co'># compare default sorting to soils sorting according to catenary, e.g.</span>
+  <span class='co'># hillslope position</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mar<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span>, mfrow<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+  
+  <span class='fu'>SoilTaxonomyDendrogram</span><span class='op'>(</span><span class='va'>s</span><span class='op'>$</span><span class='va'>SPC</span>, width<span class='op'>=</span><span class='fl'>0.25</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span><span class='op'>(</span><span class='st'>'default sorting'</span>, side <span class='op'>=</span> <span class='fl'>2</span>, line<span class='op'>=</span><span class='op'>-</span><span class='fl'>1</span>, font<span class='op'>=</span><span class='fl'>3</span>, cex<span class='op'>=</span><span class='fl'>1.25</span><span class='op'>)</span>
+  
+  <span class='fu'>SoilTaxonomyDendrogram</span><span class='op'>(</span><span class='va'>s</span><span class='op'>$</span><span class='va'>SPC</span>, rotationOrder <span class='op'>=</span> <span class='va'>res</span><span class='op'>$</span><span class='va'>order</span>, width<span class='op'>=</span><span class='fl'>0.25</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span><span class='op'>(</span><span class='st'>'approx. catenary sorting'</span>, side <span class='op'>=</span> <span class='fl'>2</span>, line<span class='op'>=</span><span class='op'>-</span><span class='fl'>1</span>, font<span class='op'>=</span><span class='fl'>3</span>, cex<span class='op'>=</span><span class='fl'>1.25</span><span class='op'>)</span>
+ 
+  
+<span class='co'># classic chronosequence from the San Joaquin Valley, CA</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/ncss-tech/aqp'>aqp</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://ncss-tech.github.io/AQP/'>soilDB</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/ncss-tech/aqp'>sharpshootR</a></span><span class='op'>)</span>
+
+<span class='va'>s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html'>c</a></span><span class='op'>(</span><span class='st'>'tujunga'</span>, <span class='st'>'hanford'</span>, <span class='st'>'greenfield'</span>, <span class='st'>'snelling'</span>, <span class='st'>'san joaquin'</span><span class='op'>)</span>
+<span class='va'>osds</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/soilDB/man/fetchOSD.html'>fetchOSD</a></span><span class='op'>(</span><span class='va'>s</span><span class='op'>)</span>
+
+<span class='va'>idx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/match.html'>match</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/chartr.html'>toupper</a></span><span class='op'>(</span><span class='va'>s</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/profile_id.html'>profile_id</a></span><span class='op'>(</span><span class='va'>osds</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'># encode horizon boundarydistinctness via vertical offset</span>
+<span class='va'>osds</span><span class='op'>$</span><span class='va'>hd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/hzDistinctnessCodeToOffset.html'>hzDistinctnessCodeToOffset</a></span><span class='op'>(</span>
+  <span class='va'>osds</span><span class='op'>$</span><span class='va'>distinctness</span>, 
+  codes<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html'>c</a></span><span class='op'>(</span><span class='st'>'very abrupt'</span>, <span class='st'>'abrupt'</span>, <span class='st'>'clear'</span>, <span class='st'>'gradual'</span>, <span class='st'>'diffuse'</span><span class='op'>)</span>
+<span class='op'>)</span>
+
+<span class='co'># encode horizon boundary topography via vertical offset</span>
+<span class='va'>osds</span><span class='op'>$</span><span class='va'>hzto</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/hzTopographyCodeToOffset.html'>hzTopographyCodeToOffset</a></span><span class='op'>(</span>
+  <span class='va'>osds</span><span class='op'>$</span><span class='va'>topography</span>, 
+  codes <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html'>c</a></span><span class='op'>(</span><span class='st'>'smooth'</span>, <span class='st'>'wavy'</span>, <span class='st'>'irregular'</span>, <span class='st'>'broken'</span><span class='op'>)</span>
+<span class='op'>)</span>
+
+<span class='co'># also encode horizon boundary topography las line type</span>
+<span class='va'>osds</span><span class='op'>$</span><span class='va'>hzto.lty</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/hzTopographyCodeToLineType.html'>hzTopographyCodeToLineType</a></span><span class='op'>(</span>
+  <span class='va'>osds</span><span class='op'>$</span><span class='va'>topography</span>,
+  codes <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html'>c</a></span><span class='op'>(</span><span class='st'>'smooth'</span>, <span class='st'>'wavy'</span>, <span class='st'>'irregular'</span>, <span class='st'>'broken'</span><span class='op'>)</span>
+<span class='op'>)</span>
+
+<span class='co'># label data source, used later </span>
+<span class='fu'><a href='https://rdrr.io/pkg/aqp/man/site.html'>site</a></span><span class='op'>(</span><span class='va'>osds</span><span class='op'>)</span><span class='op'>$</span><span class='va'>source</span> <span class='op'>&lt;-</span> <span class='st'>'OSD'</span>
+
+<span class='co'># concise representation of hz bnd distinctness and topography</span>
+<span class='co'># similar to field notes</span>
+<span class='va'>osds</span><span class='op'>$</span><span class='va'>bnd.code</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span>
+  <span class='st'>"%s%s"</span>,
+  <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span><span class='op'>(</span><span class='va'>osds</span><span class='op'>$</span><span class='va'>distinctness</span>, <span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span>,
+  <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span><span class='op'>(</span><span class='va'>osds</span><span class='op'>$</span><span class='va'>topography</span>, <span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span>
+<span class='op'>)</span>
+
+<span class='co'># remove NA</span>
+<span class='va'>osds</span><span class='op'>$</span><span class='va'>bnd.code</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span><span class='op'>(</span><span class='st'>'NANA'</span>, <span class='st'>''</span>, <span class='va'>osds</span><span class='op'>$</span><span class='va'>bnd.code</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>, bg <span class='op'>=</span> <span class='st'>'black'</span>, fg <span class='op'>=</span> <span class='st'>'white'</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/pkg/aqp/man/SoilProfileCollection-plotting-methods.html'>plotSPC</a></span><span class='op'>(</span>
+<span class='va'>osds</span>, 
+plot.order <span class='op'>=</span> <span class='va'>idx</span>, 
+width <span class='op'>=</span> <span class='fl'>0.3</span>, 
+name.style <span class='op'>=</span> <span class='st'>'center-center'</span>, 
+cex.names <span class='op'>=</span> <span class='fl'>0.66</span>, 
+plot.depth.axis <span class='op'>=</span> <span class='cn'>FALSE</span>, 
+hz.depths <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+shrink <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+hz.distinctness.offset <span class='op'>=</span> <span class='st'>'hd'</span>, 
+hz.topography.offset <span class='op'>=</span> <span class='st'>'hzto'</span>, 
+hz.boundary.lty <span class='op'>=</span> <span class='st'>'hzto.lty'</span>
+<span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span>
+<span class='st'>'bottomright'</span>, 
+horiz <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html'>c</a></span><span class='op'>(</span><span class='st'>'Smooth'</span>, <span class='st'>'Wavy'</span>, <span class='st'>'Irregular'</span>, <span class='st'>'Broken'</span><span class='op'>)</span>, 
+lty <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, 
+inset <span class='op'>=</span> <span class='fl'>0.05</span>, 
+bty <span class='op'>=</span> <span class='st'>'n'</span>, 
+cex <span class='op'>=</span> <span class='fl'>0.85</span>
+<span class='op'>)</span>
+
+<span class='co'># note that `rotationOrder` uses the ordering of series names (uppercase to match profile IDs)</span>
+<span class='co'># to re-order the terminal branches of the dendrogram</span>
+<span class='fu'>SoilTaxonomyDendrogram</span><span class='op'>(</span>
+<span class='va'>osds</span>, 
+rotationOrder <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/chartr.html'>toupper</a></span><span class='op'>(</span><span class='va'>s</span><span class='op'>)</span>, 
+cex.taxon.labels <span class='op'>=</span> <span class='fl'>0.85</span>, 
+width <span class='op'>=</span> <span class='fl'>0.3</span>, 
+name.style <span class='op'>=</span> <span class='st'>'center-center'</span>, 
+cex.names <span class='op'>=</span> <span class='fl'>0.66</span>, 
+plot.depth.axis <span class='op'>=</span> <span class='cn'>FALSE</span>, 
+hz.depths <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+shrink <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+hz.distinctness.offset <span class='op'>=</span> <span class='st'>'hd'</span>, 
+hz.topography.offset <span class='op'>=</span> <span class='st'>'hzto'</span>, 
+hz.boundary.lty <span class='op'>=</span> <span class='st'>'hzto.lty'</span>
+<span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span>
+<span class='st'>'bottomright'</span>, 
+horiz <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html'>c</a></span><span class='op'>(</span><span class='st'>'Smooth'</span>, <span class='st'>'Wavy'</span>, <span class='st'>'Irregular'</span>, <span class='st'>'Broken'</span><span class='op'>)</span>, 
+lty <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, 
+inset <span class='op'>=</span> <span class='fl'>0.05</span>, 
+bty <span class='op'>=</span> <span class='st'>'n'</span>, 
+cex <span class='op'>=</span> <span class='fl'>0.85</span>
+<span class='op'>)</span>
+     
 <span class='op'>}</span>
 </div><div class='img'><img src='SoilTaxonomyDendrogram-1.png' alt='' width='768' height='475' /></div><div class='output co'>#&gt; <span class='message'>Registered S3 method overwritten by 'dendextend':</span>
 #&gt; <span class='message'>  method     from </span>
-#&gt; <span class='message'>  rev.hclust vegan</span></div><div class='img'><img src='SoilTaxonomyDendrogram-2.png' alt='' width='768' height='475' /></div><div class='img'><img src='SoilTaxonomyDendrogram-3.png' alt='' width='768' height='475' /></div><div class='input'>
-
+#&gt; <span class='message'>  rev.hclust vegan</span></div><div class='img'><img src='SoilTaxonomyDendrogram-2.png' alt='' width='768' height='475' /></div><div class='img'><img src='SoilTaxonomyDendrogram-3.png' alt='' width='768' height='475' /></div><div class='img'><img src='SoilTaxonomyDendrogram-4.png' alt='' width='768' height='475' /></div><div class='input'>
 <span class='co'># }</span>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

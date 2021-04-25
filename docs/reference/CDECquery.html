@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8</span>
       </span>
     </div>
 
@@ -181,8 +181,8 @@
     
     <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>RColorBrewer</span><span class='op'>)</span>
     
-    <span class='co'># get daily resevoir storage (ac. ft) from </span>
-    <span class='co'># Pinecrest, New Melones and Lyons resevoirs</span>
+    <span class='co'># get daily reservoir storage (ac. ft) from </span>
+    <span class='co'># Pinecrest, New Melones and Lyons reservoirs</span>
     <span class='va'>pinecrest</span> <span class='op'>&lt;-</span> <span class='fu'>CDECquery</span><span class='op'>(</span>id<span class='op'>=</span><span class='st'>'swb'</span>, sensor<span class='op'>=</span><span class='fl'>15</span>, interval<span class='op'>=</span><span class='st'>'D'</span>, 
     start<span class='op'>=</span><span class='st'>'2012-09-01'</span>, end<span class='op'>=</span><span class='st'>'2015-01-01'</span><span class='op'>)</span>
     
@@ -209,7 +209,7 @@
     
     <span class='co'># plot</span>
     <span class='fu'>xyplot</span><span class='op'>(</span><span class='va'>capacity</span> <span class='op'>~</span> <span class='va'>datetime</span>, groups<span class='op'>=</span><span class='va'>which</span>, data<span class='op'>=</span><span class='va'>g</span>, type<span class='op'>=</span><span class='st'>'l'</span>, 
-           xlab<span class='op'>=</span><span class='st'>''</span>, ylab<span class='op'>=</span><span class='st'>'Capacity (%)'</span>, ylim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>5</span>, <span class='fl'>105</span><span class='op'>)</span>,
+           xlab<span class='op'>=</span><span class='st'>''</span>, ylab<span class='op'>=</span><span class='st'>'Capacity (%)'</span>, ylim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>5</span>, <span class='fl'>105</span><span class='op'>)</span>,
            scales<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>at<span class='op'>=</span><span class='va'>s.r</span>, labels<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='va'>s.r</span>, <span class='st'>"%b\n%Y"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>, 
            auto.key<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>columns<span class='op'>=</span><span class='fl'>3</span>, lines<span class='op'>=</span><span class='cn'>TRUE</span>, points<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>,
            par.settings<span class='op'>=</span><span class='va'>tps</span>,
@@ -243,7 +243,7 @@
     <span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'>CDECquery</span><span class='op'>(</span>id<span class='op'>=</span><span class='st'>'spw'</span>, sensor<span class='op'>=</span><span class='fl'>45</span>, interval<span class='op'>=</span><span class='st'>'D'</span>, start<span class='op'>=</span><span class='st'>'1900-01-01'</span>, end<span class='op'>=</span><span class='st'>'2019-01-01'</span><span class='op'>)</span>
     
     <span class='co'># compute total precip by year/month</span>
-    <span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/plyr/man/ddply.html'>ddply</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'year'</span>, <span class='st'>'month'</span><span class='op'>)</span>, <span class='va'>summarize</span>, s<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>value</span>, na.rm<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/plyr/man/ddply.html'>ddply</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html'>c</a></span><span class='op'>(</span><span class='st'>'year'</span>, <span class='st'>'month'</span><span class='op'>)</span>, <span class='va'>summarize</span>, s<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>value</span>, na.rm<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
     
     <span class='co'># convert monthly precipitation values into Z-scores by month</span>
     <span class='va'>a.scaled</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/plyr/man/ddply.html'>ddply</a></span><span class='op'>(</span><span class='va'>a</span>, <span class='st'>'month'</span>, <span class='va'>summarize</span>, year<span class='op'>=</span><span class='va'>year</span>, scaled.ppt<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/scale.html'>scale</a></span><span class='op'>(</span><span class='va'>s</span><span class='op'>)</span><span class='op'>)</span>
@@ -277,20 +277,20 @@
     <span class='co'># Bryte test site (BYT)</span>
     <span class='co'># single request: air temperature and soil temperature at depth 1 (25cm)</span>
     <span class='co'># measurement interval is 20 minutes</span>
-    <span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'>CDECquery</span><span class='op'>(</span><span class='st'>'BYT'</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>194</span><span class='op'>)</span>, <span class='st'>'E'</span>, <span class='st'>'2016-01-01'</span>, <span class='st'>'2017-01-01'</span><span class='op'>)</span>
+    <span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'>CDECquery</span><span class='op'>(</span><span class='st'>'BYT'</span>, <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html'>c</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>194</span><span class='op'>)</span>, <span class='st'>'E'</span>, <span class='st'>'2016-01-01'</span>, <span class='st'>'2017-01-01'</span><span class='op'>)</span>
     
     <span class='co'># data are in long format, check number of records for each sensor</span>
     <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>$</span><span class='va'>sensor_type</span><span class='op'>)</span>
     
     <span class='co'># plot grouped data</span>
-    <span class='fu'>xyplot</span><span class='op'>(</span><span class='va'>value</span> <span class='op'>~</span> <span class='va'>datetime</span>, groups<span class='op'>=</span><span class='va'>sensor_type</span>, data<span class='op'>=</span><span class='va'>x</span>, type<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'g'</span>, <span class='st'>'l'</span><span class='op'>)</span>,
+    <span class='fu'>xyplot</span><span class='op'>(</span><span class='va'>value</span> <span class='op'>~</span> <span class='va'>datetime</span>, groups<span class='op'>=</span><span class='va'>sensor_type</span>, data<span class='op'>=</span><span class='va'>x</span>, type<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html'>c</a></span><span class='op'>(</span><span class='st'>'g'</span>, <span class='st'>'l'</span><span class='op'>)</span>,
            auto.key<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>columns<span class='op'>=</span><span class='fl'>2</span>, points<span class='op'>=</span><span class='cn'>FALSE</span>, lines<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
     
   <span class='op'>}</span>
 </div><div class='output co'>#&gt; <span class='message'>Loading required package: latticeExtra</span></div><div class='output co'>#&gt; <span class='warning'>Warning: package 'latticeExtra' was built under R version 4.0.3</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: lattice</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: plyr</span></div><div class='output co'>#&gt; <span class='warning'>Warning: package 'plyr' was built under R version 4.0.3</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: 'plyr'</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:aqp':</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    mutate, summarize</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: e1071</span></div><div class='output co'>#&gt; <span class='warning'>Warning: package 'e1071' was built under R version 4.0.3</span></div><div class='output co'>#&gt; <span class='warning'>Warning: package 'RColorBrewer' was built under R version 4.0.3</span></div><div class='img'><img src='CDECquery-1.png' alt='' width='768' height='475' /></div><div class='input'>
+#&gt; <span class='message'>    mutate, summarize</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: e1071</span></div><div class='output co'>#&gt; <span class='warning'>Warning: package 'e1071' was built under R version 4.0.5</span></div><div class='output co'>#&gt; <span class='warning'>Warning: package 'RColorBrewer' was built under R version 4.0.3</span></div><div class='img'><img src='CDECquery-1.png' alt='' width='768' height='475' /></div><div class='input'>
 
 <span class='co'># }</span>
 

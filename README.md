@@ -4,7 +4,7 @@
 
 # sharpshootR
 
-This package contains mish-mash of functionality and sample data related to the daily business of soil survey operations with the USDA-NRCS. Many of the functions are highly specialized and inherit default arguments from the names used by the various NCSS (National Cooperative Soil Survey) databases.
+This package contains a mish-mash of functionality and sample data related to the daily business of soil survey operations with the USDA-NRCS. Many of the functions are highly specialized and inherit default arguments from the names used by the various NCSS (National Cooperative Soil Survey) databases.
 
 Install the stable version from CRAN:
 
@@ -18,7 +18,7 @@ Install the development version from Github:
 http://ncss-tech.github.io/AQP/
 
 ## Citation
-Dylan Beaudette, Jay Skovlin and Stephen Roecker (2021). sharpshootR: A Soil Survey Toolkit. R package version 1.7.2. https://CRAN.R-project.org/package=sharpshootR
+Dylan Beaudette, Jay Skovlin and Stephen Roecker (2021). sharpshootR: A Soil Survey Toolkit. R package version 1.8. https://CRAN.R-project.org/package=sharpshootR
 
 
 ## Quick Reference
@@ -45,6 +45,9 @@ Dylan Beaudette, Jay Skovlin and Stephen Roecker (2021). sharpshootR: A Soil Sur
    
 ### Climate
    * [`monthlyWB`](http://ncss-tech.github.io/sharpshootR/docs/reference/monthlyWB.html)
+   * [`simpleWB`](http://ncss-tech.github.io/sharpshootR/docs/reference/simpleWB.html)
+   * [`dailyWB`](http://ncss-tech.github.io/sharpshootR/docs/reference/dailyWB.html)
+   * [`dailyWB_SSURGO`](http://ncss-tech.github.io/sharpshootR/docs/reference/dailyWB_SSURGO.html)
    * [`CDECquery`](http://ncss-tech.github.io/sharpshootR/docs/reference/CDECquery.html)
    * [`CDECsnowQuery`](http://ncss-tech.github.io/sharpshootR/docs/reference/CDECsnowQuery.html)
    * [`FFD`](http://ncss-tech.github.io/sharpshootR/docs/reference/FFD.html)

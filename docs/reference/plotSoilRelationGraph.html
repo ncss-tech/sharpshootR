@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8</span>
       </span>
     </div>
 
@@ -109,7 +109,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot a component relation graph</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/ncss-tech/aqp/blob/master/R/plotSoilRelationGraph.R'><code>R/plotSoilRelationGraph.R</code></a></small>
     <div class="hidden name"><code>plotSoilRelationGraph.Rd</code></div>
     </div>
 
@@ -117,12 +117,25 @@
     <p>Plot a component relation graph based on an adjacency or similarity matrix.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m</span>, s<span class='op'>=</span><span class='st'>''</span>, plot.style<span class='op'>=</span><span class='st'>'network'</span>, graph.mode<span class='op'>=</span><span class='st'>'upper'</span>, 
-spanning.tree<span class='op'>=</span><span class='cn'>NULL</span>, del.edges<span class='op'>=</span><span class='cn'>NULL</span>, vertex.scaling.method<span class='op'>=</span><span class='st'>'degree'</span>,
-vertex.scaling.factor<span class='op'>=</span><span class='fl'>2</span>, edge.scaling.factor<span class='op'>=</span><span class='fl'>1</span>, 
-vertex.alpha<span class='op'>=</span><span class='fl'>0.65</span>, edge.transparency<span class='op'>=</span><span class='fl'>1</span>, 
-edge.col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>grey</a></span><span class='op'>(</span><span class='fl'>0.5</span><span class='op'>)</span>, edge.highlight.col<span class='op'>=</span><span class='st'>'royalblue'</span>, g.layout<span class='op'>=</span><span class='va'>layout_with_fr</span>,
-vertex.label.color<span class='op'>=</span><span class='st'>'black'</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span>
+  <span class='va'>m</span>,
+  s <span class='op'>=</span> <span class='st'>""</span>,
+  plot.style <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html'>c</a></span><span class='op'>(</span><span class='st'>"network"</span>, <span class='st'>"dendrogram"</span><span class='op'>)</span>,
+  graph.mode <span class='op'>=</span> <span class='st'>"upper"</span>,
+  spanning.tree <span class='op'>=</span> <span class='cn'>NULL</span>,
+  del.edges <span class='op'>=</span> <span class='cn'>NULL</span>,
+  vertex.scaling.method <span class='op'>=</span> <span class='st'>"degree"</span>,
+  vertex.scaling.factor <span class='op'>=</span> <span class='fl'>2</span>,
+  edge.scaling.factor <span class='op'>=</span> <span class='fl'>1</span>,
+  vertex.alpha <span class='op'>=</span> <span class='fl'>0.65</span>,
+  edge.transparency <span class='op'>=</span> <span class='fl'>1</span>,
+  edge.col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>grey</a></span><span class='op'>(</span><span class='fl'>0.5</span><span class='op'>)</span>,
+  edge.highlight.col <span class='op'>=</span> <span class='st'>"royalblue"</span>,
+  g.layout <span class='op'>=</span> <span class='va'>layout_with_fr</span>,
+  vertex.label.color <span class='op'>=</span> <span class='st'>"black"</span>,
+  delete.singletons <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,7 +158,7 @@ vertex.label.color<span class='op'>=</span><span class='st'>'black'</span>, <spa
     </tr>
     <tr>
       <th>spanning.tree</th>
-      <td><p>plot the minimim or maximum spaning tree ('min', 'max'), or, max spanning tree plus edges with weight greater than the n-th quantile specified in `spanning.tree`. See details and examples.</p></td>
+      <td><p>plot the minimum or maximum spanning tree ('min', 'max'), or, max spanning tree plus edges with weight greater than the n-th quantile specified in <code>spanning.tree</code>. See details and examples.</p></td>
     </tr>
     <tr>
       <th>del.edges</th>
@@ -188,29 +201,38 @@ vertex.label.color<span class='op'>=</span><span class='st'>'black'</span>, <spa
       <td><p>vertex label color</p></td>
     </tr>
     <tr>
+      <th>delete.singletons</th>
+      <td><p>optionally delete vertices with no edges (<code>degree == 0</code>)</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>further arguments passed to plotting function</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>an igraph <code>graph</code> object is invisibly returned</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Vertex size is based on a normalized index of connectivity:</p><ul>
+<li><p>"degree" size = <code>sqrt(degree(g)/max(degree(g))) * scaling.factor</code></p></li>
+<li><p>"distance" size =  <code>sqrt(distance(V-&gt;s)/max(distance(V-&gt;s)))  * scaling.factor</code>, where distance(V-&gt;s) is the distance from all nodes to the named series, <code>s</code>.</p></li>
+</ul>
+
+<p>Edge width can be optionally scaled by edge weight by specifying an <code>edge.scaling.factor</code> value. The maximum spanning tree represents a sub-graph where the sum of edge weights are maximized. The minimum spanning tree represents a sub-graph where the sum of edge weights are minimized. The maximum spanning tree is likely a more useful simplification of the full graph, in which only the strongest relationships (e.g. most common co-occurrences) are preserved.</p>
+<p>The maximum spanning tree + edges with weights &gt; n-th quantile is an experimental hybrid. The 'backbone' of the graph is created by the maximum spanning tree, and augmented by 'strong' auxiliary edges--defined by a value between 0 and 1.</p>
+<p>The <code>graph.mode</code> argument is passed to <code><a href='https://rdrr.io/pkg/igraph/man/graph_from_adjacency_matrix.html'>igraph::graph_from_adjacency_matrix()</a></code> and determines how vertex relationships are coded in the adjacency matrix <code>m</code>. Typically, the default value of 'upper' (the upper triangle of <code>m</code> contains adjacency information) is the desired mode. If <code>m</code> contains directional information, set <code>graph.mode</code> to 'directed'. This has the side-effect of altering the default community detection algorithm from <code><a href='https://rdrr.io/pkg/igraph/man/cluster_fast_greedy.html'>igraph::cluster_fast_greedy</a></code> to <code><a href='https://rdrr.io/pkg/igraph/man/cluster_walktrap.html'>igraph::cluster_walktrap</a></code>.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>This function is a work in progress, ideas welcome.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Vertex size is based on a normalized index of connectivity: "degree" size = sqrt(degree(g)/max(degree(g))) * scaling.factor, or "distance" size =  sqrt(distance(V-&gt;s)/max(distance(V-&gt;s)))  * scaling.factor, where distance(V-&gt;s) is the distance from all nodes to the named series, <code>s</code>.</p>
-<p>Edge width can be optionally scaled by edge weight by specifying an <code>edge.scaling.factor</code> value. The maximum spanning tree represents a sub-graph where the sum of edge weights are maximized. The mimimum spanning tree represents a sub-graph where the sum of edge weights are minimized. The maximum spanning tree is likely a more useful simplification of the full graph, in which only the strongest relationships (e.g. most common co-occurrences) are preserved.</p>
-<p>The maximum spanning tree + edges with weights &gt; n-th quantile is an experimental hybrid. The 'backbone' of the graph is created by the maximum spanning tree, and augmented by 'strong' auxillary edges-- defined by a value between 0 and 1.</p>
-<p>The <code>graph.mode</code> argument is passed to <code><a href='https://rdrr.io/pkg/igraph/man/graph_from_adjacency_matrix.html'>igraph::graph_from_adjacency_matrix()</a></code> and determines how vertex relationships are coded in the adjacency matrix <code>m</code>. Typically, the default value of 'upper' (the upper triangle of <code>m</code> contains adjacency information) is the desired mode. If <code>m</code> contains directional information, set <code>graph.mode</code> to 'directed'. This has the side-effect of altering the default community detection algorithm from <code><a href='https://rdrr.io/pkg/igraph/man/cluster_fast_greedy.html'>igraph::cluster_fast_greedy</a></code> to <code><a href='https://rdrr.io/pkg/igraph/man/cluster_walktrap.html'>igraph::cluster_walktrap</a></code>.</p>
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>an igraph `graph` object is invisibly returned</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>D.E. Beaudette</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># load sample data set</span>
+    <pre class="examples"><div class='input'>
+<span class='co'># load sample data set</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>amador</span><span class='op'>)</span>
 
 <span class='co'># create weighted adjacency matrix (see ?component.adj.matrix for details)</span>
@@ -225,7 +247,7 @@ vertex.label.color<span class='op'>=</span><span class='st'>'black'</span>, <spa
 <span class='co'># compare methods</span>
 <span class='va'>m.o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='component.adj.matrix.html'>component.adj.matrix</a></span><span class='op'>(</span><span class='va'>amador</span>, method<span class='op'>=</span><span class='st'>'occurrence'</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mfcol<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mfcol<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m</span>, s<span class='op'>=</span><span class='st'>'amador'</span>, plot.style<span class='op'>=</span><span class='st'>'dendrogram'</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/title.html'>title</a></span><span class='op'>(</span><span class='st'>'community matrix'</span><span class='op'>)</span>
 <span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m.o</span>, s<span class='op'>=</span><span class='st'>'amador'</span>, plot.style<span class='op'>=</span><span class='st'>'dendrogram'</span><span class='op'>)</span>
@@ -238,33 +260,34 @@ vertex.label.color<span class='op'>=</span><span class='st'>'black'</span>, <spa
 <span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m</span>, spanning.tree<span class='op'>=</span><span class='fl'>0.75</span><span class='op'>)</span>
 </div><div class='img'><img src='plotSoilRelationGraph-4.png' alt='' width='768' height='475' /></div><div class='input'>
 <span class='co'># \donttest{</span>
-
-<span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"curl"</span><span class='op'>)</span> <span class='op'>&amp;</span>
-   <span class='fu'>curl</span><span class='fu'>::</span><span class='fu'><a href='https://jeroen.cran.dev/curl/reference/nslookup.html'>has_internet</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>&amp;</span>
-   <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='http://ncss-tech.github.io/AQP/'>soilDB</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
   
- <span class='co'># get similar data from soilweb, for the Pardee series</span>
-<span class='va'>s</span> <span class='op'>&lt;-</span> <span class='st'>'pardee'</span>
-<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/soilDB/man/siblings.html'>siblings</a></span><span class='op'>(</span><span class='va'>s</span>, component.data <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='co'># normalize component names</span>
-<span class='va'>d</span><span class='op'>$</span><span class='va'>sib.data</span><span class='op'>$</span><span class='va'>compname</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/chartr.html'>tolower</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>$</span><span class='va'>sib.data</span><span class='op'>$</span><span class='va'>compname</span><span class='op'>)</span>
-
-<span class='co'># keep only major components</span>
-<span class='va'>d</span><span class='op'>$</span><span class='va'>sib.data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/subset-SoilProfileCollection-method.html'>subset</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>$</span><span class='va'>sib.data</span>, subset<span class='op'>=</span><span class='va'>compkind</span> <span class='op'>==</span> <span class='st'>'Series'</span><span class='op'>)</span>
-
-<span class='co'># build adj. matrix and plot</span>
-<span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='component.adj.matrix.html'>component.adj.matrix</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>$</span><span class='va'>sib.data</span><span class='op'>)</span>
-<span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m</span>, s<span class='op'>=</span><span class='va'>s</span>, plot.style<span class='op'>=</span><span class='st'>'dendrogram'</span><span class='op'>)</span>
-
-<span class='co'># alter plotting style, see ?plot.phylo</span>
-<span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m</span>, s<span class='op'>=</span><span class='va'>s</span>, plot.style<span class='op'>=</span><span class='st'>'dendrogram'</span>, type<span class='op'>=</span><span class='st'>'fan'</span><span class='op'>)</span>
-<span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m</span>, s<span class='op'>=</span><span class='va'>s</span>, plot.style<span class='op'>=</span><span class='st'>'dendrogram'</span>, type<span class='op'>=</span><span class='st'>'unrooted'</span>, use.edge.length<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span> 
+  <span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"curl"</span><span class='op'>)</span> <span class='op'>&amp;</span>
+     <span class='fu'>curl</span><span class='fu'>::</span><span class='fu'><a href='https://jeroen.cran.dev/curl/reference/nslookup.html'>has_internet</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>&amp;</span>
+     <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='http://ncss-tech.github.io/AQP/'>soilDB</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    
+    <span class='co'># get similar data from soilweb, for the Pardee series</span>
+    <span class='va'>s</span> <span class='op'>&lt;-</span> <span class='st'>'pardee'</span>
+    <span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/soilDB/man/siblings.html'>siblings</a></span><span class='op'>(</span><span class='va'>s</span>, component.data <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+    
+    <span class='co'># normalize component names</span>
+    <span class='va'>d</span><span class='op'>$</span><span class='va'>sib.data</span><span class='op'>$</span><span class='va'>compname</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/chartr.html'>tolower</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>$</span><span class='va'>sib.data</span><span class='op'>$</span><span class='va'>compname</span><span class='op'>)</span>
+    
+    <span class='co'># keep only major components</span>
+    <span class='va'>d</span><span class='op'>$</span><span class='va'>sib.data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/aqp/man/subset-SoilProfileCollection-method.html'>subset</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>$</span><span class='va'>sib.data</span>, subset<span class='op'>=</span><span class='va'>compkind</span> <span class='op'>==</span> <span class='st'>'Series'</span><span class='op'>)</span>
+    
+    <span class='co'># build adj. matrix and plot</span>
+    <span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='component.adj.matrix.html'>component.adj.matrix</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>$</span><span class='va'>sib.data</span><span class='op'>)</span>
+    <span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m</span>, s<span class='op'>=</span><span class='va'>s</span>, plot.style<span class='op'>=</span><span class='st'>'dendrogram'</span><span class='op'>)</span>
+    
+    <span class='co'># alter plotting style, see ?plot.phylo</span>
+    <span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m</span>, s<span class='op'>=</span><span class='va'>s</span>, plot.style<span class='op'>=</span><span class='st'>'dendrogram'</span>, type<span class='op'>=</span><span class='st'>'fan'</span><span class='op'>)</span>
+    <span class='fu'>plotSoilRelationGraph</span><span class='op'>(</span><span class='va'>m</span>, s<span class='op'>=</span><span class='va'>s</span>, plot.style<span class='op'>=</span><span class='st'>'dendrogram'</span>, type<span class='op'>=</span><span class='st'>'unrooted'</span>, use.edge.length<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span> 
+    
+  <span class='op'>}</span>
+</div><div class='img'><img src='plotSoilRelationGraph-5.png' alt='' width='768' height='475' /></div><div class='input'>  
   
-<span class='op'>}</span>
-</div><div class='img'><img src='plotSoilRelationGraph-5.png' alt='' width='768' height='475' /></div><div class='input'>
-
 <span class='co'># }</span>
+
 </div><div class='img'><img src='plotSoilRelationGraph-6.png' alt='' width='768' height='475' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

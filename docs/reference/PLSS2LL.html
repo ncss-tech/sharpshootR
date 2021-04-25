@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8</span>
       </span>
     </div>
 
@@ -143,35 +143,8 @@
     <div class='dont-index'><p><code><a href='LL2PLSS.html'>LL2PLSS</a></code>, <code><a href='formatPLSS.html'>formatPLSS</a></code></p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
-    <p>D.E. Beaudette, Jay Skovlin</p>
+    <p>D.E. Beaudette, Jay Skovlin, A.G. Brown</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"curl"</span><span class='op'>)</span> <span class='op'>&amp;</span>
-   <span class='fu'>curl</span><span class='fu'>::</span><span class='fu'><a href='https://jeroen.cran.dev/curl/reference/nslookup.html'>has_internet</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-
-  <span class='co'># create some data</span>
-  <span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
-    id <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>,
-    qq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'SW'</span>, <span class='st'>'SW'</span>, <span class='st'>'SE'</span><span class='op'>)</span>,
-    q <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'NE'</span>, <span class='st'>'NW'</span>, <span class='st'>'SE'</span><span class='op'>)</span>,
-    s <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>17</span>, <span class='fl'>32</span>, <span class='fl'>30</span><span class='op'>)</span>,
-    t <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'T36N'</span>, <span class='st'>'T35N'</span>, <span class='st'>'T35N'</span><span class='op'>)</span>,
-    r <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'R29W'</span>, <span class='st'>'R28W'</span>, <span class='st'>'R28W'</span><span class='op'>)</span>,
-    type <span class='op'>=</span> <span class='st'>'SN'</span>,
-    m <span class='op'>=</span> <span class='st'>'MT20'</span>,
-    stringsAsFactors <span class='op'>=</span> <span class='cn'>FALSE</span>
-  <span class='op'>)</span>
-
-  <span class='co'># generate formatted PLSS codes</span>
-  <span class='va'>d</span><span class='op'>$</span><span class='va'>plssid</span> <span class='op'>&lt;-</span> <span class='fu'><a href='formatPLSS.html'>formatPLSS</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span>
-
-  <span class='co'># fetch lat/long coordinates</span>
-  <span class='fu'>PLSS2LL</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt;   id                    plssid      lat       lon
-#&gt; 1  1 MT200360N0290W0SN170ASWNE 48.88590 -115.3768
-#&gt; 2  2 MT200350N0280W0SN320ASWNW 48.75450 -115.2578
-#&gt; 3  3 MT200350N0280W0SN300ASESE 48.76173 -115.2633</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

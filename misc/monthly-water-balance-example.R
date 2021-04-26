@@ -42,13 +42,13 @@ x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 9, rep=3)
 x.wb[x.wb$mo == 'Sep', ]
 
 # plot
-plotWB(WB = x.wb, AWC = AWC, showAWC = 'below')
+plotWB(WB = x.wb, AWC = AWC)
 
 
 # water year
 # last iteration
 x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 9, rep = 3, keep_last = TRUE)
-plotWB(WB = x.wb, AWC = AWC)
+plotWB(WB = x.wb)
 
 # convert total ETa into inches
 sum(x.wb$ET) * 0.03937
@@ -57,13 +57,11 @@ sum(x.wb$ET) * 0.03937
 # calendar year
 x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 1, rep = 5)
 x.wb[x.wb$mo == 'Jan', ]
-plotWB(WB = x.wb, AWC = AWC, showAWC = 'above')
-plotWB(WB = x.wb, AWC = AWC, showAWC = 'below')
+plotWB(WB = x.wb)
 
 # calendar year
 # last iteration
 x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 1, rep = 3, keep_last = TRUE)
-plotWB(WB = x.wb, AWC = AWC, showAWC = 'above')
-plotWB(WB = x.wb, AWC = AWC, showAWC = 'below')
+plotWB(WB = x.wb)
 
 

@@ -14,7 +14,7 @@ library(zoo)
 
 library(aqp)
 library(soilDB)
-# library(sharpshootR)
+library(sharpshootR)
 
 library(sp)
 library(rgeos)
@@ -34,7 +34,7 @@ library(viridis)
 
 # near Sonora, CA
 p <- SpatialPoints(cbind(-120.37673,37.99877), proj4string = CRS('+proj=longlat +datum=WGS84'))
-daily.data <- prepareDailyClimateData(p, start = 2010, end = 2020, onlyWB = TRUE)
+daily.data <- prepareDailyClimateData(p, start = 2000, end = 2019, onlyWB = TRUE)
 
 # example soil material
 data("ROSETTA.centroids")
@@ -44,14 +44,29 @@ vars <- c('texture', 'sat', 'fc', 'pwp')
 x <- ROSETTA.centroids[c(12, 1, 3, 5), vars]
 
 # thickness and recession coef.
-x$thickness <- 100
-x$a.ss <- 0.1
+x$thickness <- 50
+# this should reflect drainage class: lower numbers = less internal drainage
+x$a.ss <- c(0.2, 0.01, 0.3, 0.7)
 
+x$a.ss <- 0.3
 x
 
 z <- dailyWB(x, daily.data, id = 'texture')
 
 str(z)
+
+
+
+xyplot(VWC ~ date, groups = texture, data = z, type = 'l', par.settings = tactile.theme(), auto.key = list(lines = TRUE, points = FALSE, columns = 3), subset = year %in% c('2013'))
+
+xyplot(VWC ~ date | texture, data = z, type = c('l', 'g'), par.settings = tactile.theme(), auto.key = list(lines = TRUE, points = FALSE, columns = 3), subset = year %in% c('2013'))
+
+
+xyplot(S ~ date | texture, data = z, type = c('l', 'g'), par.settings = tactile.theme(), auto.key = list(lines = TRUE, points = FALSE, columns = 3), subset = year %in% c('2013'))
+
+xyplot(U ~ date | texture, data = z, type = c('l', 'g'), par.settings = tactile.theme(), auto.key = list(lines = TRUE, points = FALSE, columns = 3), subset = year %in% c('2013'))
+
+
 
 #
 msp <- moistureStateProportions(z, id = 'texture', step = 'week')
@@ -67,7 +82,42 @@ suppressWarnings(
 
 sK <- simpleKey(text = ll, space='top', columns=n.states, rectangles = TRUE, points=FALSE, cex=1)
 
+levelplot(state ~ as.numeric(doy) * texture | year, data = z, 
+          # subset = year %in% c('2010'),
+          col.regions = colorRampPalette(brewer.pal(n.states, 'Spectral'), interpolate = 'spline', space = 'Lab'),
+          par.settings = tactile.theme(),
+          as.table = TRUE,
+          key = sK,
+          colorkey = FALSE,
+          xlab = 'Day of the Year',
+          ylab = '',
+          main='Pr(Soil at Field Capacity or Drier)\n1988-2018',
+          scales=list(alternating = 1, x=list(tick.number=25))
+)
 
+levelplot(state ~ as.numeric(doy) * year | texture, data = z, 
+          # subset = year %in% c('2010'),
+          col.regions = colorRampPalette(brewer.pal(n.states, 'Spectral'), interpolate = 'spline', space = 'Lab'),
+          par.settings = tactile.theme(),
+          as.table = TRUE,
+          key = sK,
+          colorkey = FALSE,
+          xlab = 'Day of the Year',
+          ylab = '',
+          main='Pr(Soil at Field Capacity or Drier)\n1988-2018',
+          scales=list(alternating = 1, x=list(tick.number=25))
+)
+
+levelplot(VWC ~ as.numeric(doy) * year | texture, data = z, 
+          # subset = year %in% c('2010'),
+          col.regions = colorRampPalette(brewer.pal(n.states, 'Spectral'), interpolate = 'spline', space = 'Lab'),
+          par.settings = tactile.theme(),
+          as.table = TRUE,
+          xlab = 'Day of the Year',
+          ylab = '',
+          main='Pr(Soil at Field Capacity or Drier)\n1988-2018',
+          scales=list(alternating = 1, x=list(tick.number=25))
+)
 
 barchart(proportion ~ interval | texture, groups = state, 
          main='Expected Weekly Soil Moisture State\nDAYMET 1988-2018',
@@ -91,14 +141,11 @@ barchart(proportion ~ interval | texture, groups = state,
 )
 
 
-xyplot(VWC ~ date, groups = texture, data = z, type = 'l', par.settings = tactile.theme(), auto.key = list(lines = TRUE, points = FALSE, columns = 3))
-
-xyplot(VWC ~ date | texture, data = z, type = c('l', 'g'), par.settings = tactile.theme(), auto.key = list(lines = TRUE, points = FALSE, columns = 3))
 
 
 
 
-mst <- moistureStateThreshold(z, id = 'texture', threshold = 'dry', operator = '<=')
+mst <- moistureStateThreshold(z, id = 'texture', threshold = 'dry', operator = '<')
 str(mst)
 
 # colors / style
@@ -129,6 +176,7 @@ xyplot(Pr ~ as.numeric(doy), groups = texture,
 )
 
 
+## not the right question
 tapply(mst$Pr, mst$texture, function(i) length(which(i > 0.8)))
 
 
@@ -139,7 +187,7 @@ tapply(mst$Pr, mst$texture, function(i) length(which(i > 0.8)))
 
 
 p <- SpatialPoints(cbind(-120.37673,37.99877), proj4string = CRS('+proj=longlat +datum=WGS84'))
-cokeys <- c('19586277', '19586422', '19586459', '19586387', '19586251')
+cokeys <- c('19586277', '19586422', '19586459', '19586251')
 
 # investigate source data
 s <- prepare_SSURGO_hydro_data(cokeys = cokeys, max.depth = 100)
@@ -153,8 +201,11 @@ levels(d$compname)
 
 str(d)
 
+xyplot(VWC ~ as.numeric(doy) | compname, groups = year, data = d, type = 'l', subset = year %in% c('1990', '1991', '1992'), par.settings = tactile.theme(), scales = list(y = list(rot = 0)))
+
 xyplot(S ~ as.numeric(doy) | compname, groups = year, data = d, type = 'l', subset = year %in% c('1990', '1991', '1992'), par.settings = tactile.theme(), scales = list(y = list(rot = 0)))
 
+xyplot(U ~ as.numeric(doy) | compname, groups = year, data = d, type = 'l', subset = year %in% c('1990', '1991', '1992'), par.settings = tactile.theme(), scales = list(y = list(rot = 0)))
 
 
 ## quick check on 30-yr proportions
@@ -163,6 +214,45 @@ kable(prop.table(table(d$compname, d$state), margin = 1), digits = 2)
 kable(prop.table(table(d$compname, d$state < 'dry'), margin = 1), digits = 2)
 kable(prop.table(table(d$compname, d$state > 'very moist'), margin = 1), digits = 2)
 
+
+
+levelplot(state ~ as.numeric(doy) * compname | year, data = d, 
+          # subset = year %in% c('2010'),
+          col.regions = colorRampPalette(brewer.pal(n.states, 'Spectral'), interpolate = 'spline', space = 'Lab'),
+          par.settings = tactile.theme(),
+          as.table = TRUE,
+          key = sK,
+          colorkey = FALSE,
+          xlab = 'Day of the Year',
+          ylab = '',
+          main='Pr(Soil at Field Capacity or Drier)\n1988-2018',
+          scales=list(alternating = 1, x=list(tick.number=25))
+)
+
+levelplot(state ~ as.numeric(doy) * year | compname, data = d, 
+          # subset = year %in% c('2010'),
+          col.regions = colorRampPalette(brewer.pal(n.states, 'Spectral'), interpolate = 'spline', space = 'Lab'),
+          par.settings = tactile.theme(),
+          as.table = TRUE,
+          key = sK,
+          colorkey = FALSE,
+          xlab = 'Day of the Year',
+          ylab = '',
+          main='Pr(Soil at Field Capacity or Drier)\n1988-2018',
+          scales=list(alternating = 1, x=list(tick.number=25))
+)
+
+
+levelplot(ET ~ as.numeric(doy) * year | compname, data = d, 
+          # subset = year %in% c('2010'),
+          col.regions = colorRampPalette(brewer.pal(n.states, 'Spectral'), interpolate = 'spline', space = 'Lab'),
+          par.settings = tactile.theme(),
+          as.table = TRUE,
+          xlab = 'Day of the Year',
+          ylab = '',
+          main='Pr(Soil at Field Capacity or Drier)\n1988-2018',
+          scales=list(alternating = 1, x=list(tick.number=25))
+)
 
 msp <- moistureStateProportions(d, step = 'week')
 

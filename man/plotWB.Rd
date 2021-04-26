@@ -6,7 +6,7 @@
 \usage{
 plotWB(
   WB,
-  AWC,
+  AWC = attr(WB, "AWC"),
   showAWC = "below",
   sw.col = "#377EB8",
   surplus.col = "#4DAF4A",
@@ -17,17 +17,18 @@ plotWB(
   lwd = 2,
   n.ticks = 8,
   grid.col = grey(0.65),
-  month.cex = 1
+  month.cex = 1,
+  legend.cex = 0.9
 )
 }
 \arguments{
-\item{WB}{output from \code{monthlyWB}}
+\item{WB}{output from \code{monthlyWB()}}
 
-\item{AWC}{available water-holding capacity (mm)}
+\item{AWC}{available water-holding capacity (mm), typically the value used in \code{monthlyWB()} and stored as an attrbute of \code{WB}}
 
-\item{showAWC}{styling to show box for AWC below (default) or above zero point of axis}
+\item{showAWC}{now deprecated, always 'below'}
 
-\item{sw.col}{color for soil water}
+\item{sw.col}{color for soil water ("storage)}
 
 \item{surplus.col}{color for surplus water}
 
@@ -45,10 +46,16 @@ plotWB(
 
 \item{grid.col}{horizontal grid line color}
 
-\item{month.cex}{character expansion factor for month labels (x-axis)}
+\item{month.cex}{scaling factor for month labels (x-axis)}
+
+\item{legend.cex}{scaling factor for legend}
 }
 \description{
-This function offers one possible visualization for the results of \code{monthlyWB}.
+This function offers one possible visualization for the results of \code{monthlyWB()}. Note that "surplus" water is stacked on top of "actual ET", and "deficit" water is stacked below "storage". Calculate actual values for "surplus" and "deficit" from the figure like this:
+\itemize{
+\item surplus value = surplus - AET
+\item deficit value = deficit - storage
+}
 }
 \note{
 You may have to adjust figure margins and size to get all of the elements to "look right".
@@ -57,8 +64,8 @@ You may have to adjust figure margins and size to get all of the elements to "lo
 
 if(requireNamespace('hydromad')) {
 
-## 100mm (4") AWC
-# monthly PPT and PET extracted from monthly estimates at Sonora, CA
+## A shallow / droughty soil near Sonora CA 
+# 100mm (4") AWC
 AWC <- 100
 PPT <- c(171, 151, 138, 71, 36, 7, 1, 2, 11, 48, 102, 145)
 PET <- c(15.17, 18.26, 30.57, 42.95, 75.37, 108.05, 139.74, 128.9, 93.99, 59.84, 26.95, 14.2)
@@ -68,21 +75,32 @@ PET <- c(15.17, 18.26, 30.57, 42.95, 75.37, 108.05, 139.74, 128.9, 93.99, 59.84,
 x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 9, rep = 3)
 x.wb[x.wb$mo == 'Sep', ]
 
-# new-style representation, with AWC "above 0"
-plotWB(x.wb, AWC, showAWC = 'below')
+# plot all three years
+plotWB(x.wb)
 
-# old-style representation, with AWC "above 0"
-plotWB(x.wb, AWC, showAWC = 'above')
-
-
-# water year
-# last iteration
+# water-year / last iteration
 x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, 
                   starting_month = 9, rep = 3, 
                   keep_last = TRUE
 )
 
-plotWB(x.wb, AWC)
+# plot
+plotWB(x.wb)
+
+
+## Drummer series (Fine-silty, mixed, superactive, mesic Typic Endoaquolls), southern IL
+
+AWC <- 244
+PPT <- c(36, 37, 54, 82, 98, 96, 92, 75, 69, 70, 65, 50)
+PET <- c(0, 0, 12, 46, 90, 130, 145, 128, 88, 46, 14, 0)
+
+# using calendar year
+x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0,
+                  starting_month = 1, rep = 3,
+                  keep_last = TRUE
+)
+
+plotWB(x.wb)
 
 }
 

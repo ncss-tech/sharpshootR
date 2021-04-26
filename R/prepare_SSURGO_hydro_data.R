@@ -21,7 +21,7 @@ prepare_SSURGO_hydro_data <- function(cokeys, max.depth) {
   
   # assemble SDA query
   sql <- sprintf("
-                 SELECT chorizon.cokey, compname, hzname, hzdept_r AS hz_top, hzdepb_r AS hz_bottom,
+                 SELECT chorizon.cokey, compname, drainagecl, hzname, hzdept_r AS hz_top, hzdepb_r AS hz_bottom,
                  (hzdepb_r - hzdept_r) AS thick,
                  wsatiated_r / 100.0 AS sat,
                  wthirdbar_r / 100.0 AS fc,
@@ -53,7 +53,7 @@ prepare_SSURGO_hydro_data <- function(cokeys, max.depth) {
   # init SPC for slab()
   s$cokey <- as.character(s$cokey)
   depths(s) <- cokey ~ hz_top + hz_bottom
-  site(s) <- ~ compname
+  site(s) <- ~ compname + drainagecl
   
   ## TODO: weighted mean is simpler to explain (physical mixture)
   # weighted median values

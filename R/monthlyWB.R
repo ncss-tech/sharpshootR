@@ -65,7 +65,7 @@
 #' 
 #' # plot the results
 #' par(mar=c(4,4,2,1), bg = 'white')
-#' plotWB(WB = x.wb, AWC = AWC)
+#' plotWB(WB = x.wb)
 #' 
 #' # compute fraction of AWC filled after the last month of simulation
 #' (last.S <- x.wb$S[12] / AWC)
@@ -73,9 +73,12 @@
 #' # re-run the water balance with this value
 #' (x.wb <- monthlyWB(AWC, PPT, PET, S_init = last.S))
 #' 
-#' # not much difference
+#' # interesting...
 #' par(mar=c(4,4,2,1), bg = 'white')
-#' plotWB(WB = x.wb, AWC = AWC)
+#' plotWB(WB = x.wb)
+#' 
+#' # note: consider using `rep = 3, keep_last = TRUE` 
+#' # to "warm-up" the water balance first
 #' 
 #' }
 #' 
@@ -115,9 +118,12 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
   m <- update(m, Sb = AWC, fc = fc, S_0 = S_init, a.ss = a.ss, M = 0, etmult = 1, a.ei = 0)
   res <- predict(m, return_state = TRUE)
   
+  # combine original PPT,PET with results
   res <- data.frame(d, res)
   
+  # cleanup names
   names(res) <- c('PPT', 'PET', 'U', 'S', 'ET')
+  # compute deficit: AET - PET
   res$D <- with(res, ET - PET)
   
   # add month index
@@ -126,9 +132,15 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
   
   # optionally keep the last cycle
   if(keep_last) {
-    keep.idx <- seq(from=nrow(res) - (n-1), to = nrow(res), by = 1)
+    keep.idx <- seq(from = nrow(res) - (n-1), to = nrow(res), by = 1)
     res <- res[keep.idx, ]
   }
+  
+  # reset rownames
+  row.names(res) <- NULL
+  
+  # add original AWC used as an attribute
+  attr(res, 'AWC') <- AWC
   
   # done
   return(res)

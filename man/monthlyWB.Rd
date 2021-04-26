@@ -77,7 +77,7 @@ PPT <- c(0, 150, 200, 120, 20, 0, 0, 0, 10, 20, 30, 60)
 
 # plot the results
 par(mar=c(4,4,2,1), bg = 'white')
-plotWB(WB = x.wb, AWC = AWC)
+plotWB(WB = x.wb)
 
 # compute fraction of AWC filled after the last month of simulation
 (last.S <- x.wb$S[12] / AWC)
@@ -85,9 +85,12 @@ plotWB(WB = x.wb, AWC = AWC)
 # re-run the water balance with this value
 (x.wb <- monthlyWB(AWC, PPT, PET, S_init = last.S))
 
-# not much difference
+# interesting...
 par(mar=c(4,4,2,1), bg = 'white')
-plotWB(WB = x.wb, AWC = AWC)
+plotWB(WB = x.wb)
+
+# note: consider using `rep = 3, keep_last = TRUE` 
+# to "warm-up" the water balance first
 
 }
 

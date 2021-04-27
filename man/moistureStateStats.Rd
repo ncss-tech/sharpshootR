@@ -7,7 +7,7 @@
 moistureStateStats(x, id = "compname")
 }
 \arguments{
-\item{x}{\code{data.frame}, created by \code{moistureStateProportions()}}
+\item{x}{\code{data.frame}, created by \code{\link[=moistureStateProportions]{moistureStateProportions()}}}
 
 \item{id}{name of ID column}
 }

@@ -16,23 +16,6 @@
 #' 
 #' @export
 #'
-#' @examples
-#' 
-#' \donttest{
-#' if(requireNamespace("curl") &
-#'    curl::has_internet() 
-#' ) {
-#' 
-#'   # CDEC API needs a long timeout
-#'   options(timeout = 60000)
-#'   
-#'   CDEC_StationInfo('HHM')  
-#'   
-#' }
-#' 
-#' 
-#' }
-#' 
 CDEC_StationInfo <- function(s) {
   # check for required packages
   if(!requireNamespace('rvest', quietly = TRUE) | !requireNamespace('xml2', quietly = TRUE))

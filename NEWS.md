@@ -1,5 +1,6 @@
-# sharpshootR 1.8.1 (2021-04-26) 
+# sharpshootR 1.8.1 (2021-04-27) 
  * bugfixes in `plotWB()`
+ * new function `plotWB_lines()` c/o J.M. Skovlin
  * `monthlyWB` now includes `AWC` used to init model as an attribute in return value
  * `prepare_SSURGO_hydro_data()` now returns drainage class
 

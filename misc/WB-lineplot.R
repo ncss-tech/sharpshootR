@@ -6,7 +6,7 @@ library(hydromad)
 ## get basic morphology and series-level summaries of climate etc.
 # http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html
 
-s <- 'Redding'
+s <- 'Pierre'
 
 x <- fetchOSD(s, extended = TRUE)
 
@@ -40,18 +40,21 @@ x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 1, rep = 3, keep_l
 plotWB(WB = x.wb)
 
 
+## TODO: only works with calendar year
+
 d <- x.wb
 
 
-
+library(colorspace)
 
 # colors
-col.ppt <- rgb(0, 0, 1, alpha=0.25)
-col.pet <- rgb(1, 0, 0, alpha=0.25)
+col.ppt <- lighten('royalblue', amount = 0.25)
+col.pet <- lighten('firebrick', amount = 0.25)
+col.utilization <- desaturate(lighten('darkgreen', amount = 0.25), amount = 0.25)
 
 # generate interpolation functions for estimating intersection
 # approxfun - linear interpolation
-# splinefun - spline interpolation
+# splinefun - spline interpolation: can cause overshoots
 ppt.interp <- approxfun(d$month, d$PPT)
 pet.interp <- approxfun(d$month, d$PET)
 aet.interp <- approxfun(d$month, d$ET)
@@ -60,18 +63,20 @@ aet.interp <- approxfun(d$month, d$ET)
 y.range <- range(c(d$PET, d$PPT))
 
 # interpolate between month centers
-month.start <- 1
-month.end <- 12
+month.start <- d$month[1]
+month.end <- d$month[12]
+
 month.seq <- seq(from=month.start, to=month.end, by=0.1)
 ppt.seq <- ppt.interp(month.seq)
 pet.seq <- pet.interp(month.seq)
 aet.seq <- aet.interp(month.seq)
 
+## TODO: PET - AET crossngs are the real targets
+
 # locate crossings - isolate area of intersection where PET > PPT
 surplus_deficit.flag <- sign(ppt.seq - pet.seq)
 crossings.idx <- which(abs(diff(surplus_deficit.flag)) > 0)
-# add first and last indices for boundaries - not necessary!
-#crossings.idx <- c(1, crossings.idx, length(month.seq))
+
 # locate additional crossings - isolate the intersection of AET > PPT
 surplus_deficit.flag <- sign(ppt.seq - aet.seq)
 crossings1.idx <- which(abs(diff(surplus_deficit.flag)) > 0)
@@ -109,6 +114,15 @@ p.2.x <- rev(p.1.x)
 p.2.y <- ppt.interp(p.2.x)
 polygon(c(p.1.x, p.2.x), c(p.1.y, p.2.y), col=col.ppt, border=NA)
 
+# this shades all areas under the AET line
+p.1.x <- month.seq
+p.1.y <- rep(1, length(month.seq))
+p.2.x <- rev(p.1.x)
+p.2.y <- aet.interp(p.2.x)
+polygon(c(p.1.x, p.2.x), c(p.1.y, p.2.y), col = 0, border = NA)
+polygon(c(p.1.x, p.2.x), c(p.1.y, p.2.y), col = col.utilization, border = NA)
+
+
 # shades the AET > PPT polygon - determine color scheme to make this area look like area under PPT line, uncolor then re-shade it?
 p.1.x <- month.seq[crossings1.idx[1]:crossings1.idx[2]]
 p.1.y <- aet.interp(p.1.x)
@@ -116,7 +130,7 @@ p.2.x <- rev(p.1.x)
 p.2.y <- ppt.interp(p.2.x)
 # set area to no color then shade area the same color as PPT area
 polygon(c(p.1.x, p.2.x), c(p.1.y, p.2.y), col=0, border=NA)
-polygon(c(p.1.x, p.2.x), c(p.1.y, p.2.y), col=col.ppt, border=NA)
+polygon(c(p.1.x, p.2.x), c(p.1.y, p.2.y), col=col.utilization, border=NA)
 
 # add original PPT and PET data
 lines(ppt.seq ~ month.seq, type='l', lwd=2, col='blue')
@@ -128,15 +142,18 @@ lines(aet.seq ~ month.seq, type='l', lwd=2, lty=4, col='black')
 month.cex <- 1
 axis(side = 1, at = month.start:month.end, labels = d$mo, line = 0, tick = TRUE, font = 2, cex = month.cex, col = NA, col.ticks = par('fg'))
 
+# PPT / PET axis
+axis(side = 2, at = pretty(y.range, n = 8), las = 1)
 
-## TODO: figure out how to place these automatically
-text(11,50,c("Recharge"))
-text(1.5,37, c("Surplus"))
-text(7.5,70, c("Deficit"))
+# 
+# ## TODO: figure out how to place these automatically
+# text(11,50,c("Recharge"))
+# text(1.5,37, c("Surplus"))
+# text(7.5,70, c("Deficit"))
 
 
 # add legend
-legend('topleft', legend=c('Soil Moisture Gain', 'Soil Moisture Loss', 'PPT', 'PET', 'AET'), col=c(col.ppt, col.pet, 'blue', 'brown', 'black'), pch=c(15, 15, NA, NA, NA), pt.cex=2, lwd=c(NA, NA, 2, 2, 2), lty=c(NA, NA, 1, 2, 4), bty='n')
+legend('topleft', legend=c('Surplus / Recharge', 'Utilization', 'Deficit', 'PPT', 'PET', 'AET'), col=c(col.ppt, col.utilization, col.pet, 'blue', 'brown', 'black'), pch=c(15, 15, 15, NA, NA, NA), pt.cex=2, lwd=c(NA, NA, NA, 2, 2, 2), lty=c(NA, NA, NA, 1, 2, 4), bty='n')
 
 #add title
 title(sprintf('Annual Water Balance: %s Series', toupper(s)))

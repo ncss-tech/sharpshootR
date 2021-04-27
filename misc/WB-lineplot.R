@@ -6,7 +6,7 @@ library(hydromad)
 ## get basic morphology and series-level summaries of climate etc.
 # http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html
 
-s <- 'Fresno'
+s <- 'Holloway'
 
 x <- fetchOSD(s, extended = TRUE)
 
@@ -80,9 +80,6 @@ crossings1.idx <- which(abs(diff(surplus_deficit.flag)) > 0)
 plot(0, 0, type='n', xlim=c(0.5, 12.5), ylim=c(y.range), ylab='Water (mm)', xlab='Months', las = 1)
 
 grid()
-text(11,50,c("Recharge"))
-text(1.5,37, c("Surplus"))
-text(7.5,70, c("Deficit"))
 
 # iterate over crossings
 for(i in 1:(length(crossings.idx) - 1)) {
@@ -125,6 +122,13 @@ polygon(c(p.1.x, p.2.x), c(p.1.y, p.2.y), col=col.ppt, border=NA)
 lines(ppt.seq ~ month.seq, type='l', lwd=2, col='blue')
 lines(pet.seq ~ month.seq, type='l', lwd=2, lty=2, col='brown')
 lines(aet.seq ~ month.seq, type='l', lwd=2, lty=4, col='black')
+
+
+## TODO: figure out how to place these automatically
+text(11,50,c("Recharge"))
+text(1.5,37, c("Surplus"))
+text(7.5,70, c("Deficit"))
+
 
 # add legend
 legend('topleft', legend=c('Soil Moisture Gain', 'Soil Moisture Loss', 'PPT', 'PET', 'AET'), col=c(col.ppt, col.pet, 'blue', 'brown', 'black'), pch=c(15, 15, NA, NA, NA), pt.cex=2, lwd=c(NA, NA, 2, 2, 2), lty=c(NA, NA, 1, 2, 4), bty='n')

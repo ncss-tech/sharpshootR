@@ -1,11 +1,4 @@
 
-
-
-
-
-
-
-
 # x: SpatialPoint with single feature
 # bufferRadiusMeters: radius in meters
 .getSSURGO_at_point <- function(x, bufferRadiusMeters) {
@@ -47,11 +40,6 @@ SELECT * from SDA_Get_Mukey_from_intersection_with_WktWgs84('", x.wkt, "')
 
 
 
-
-
-
-
-
 #' @title Perform daily water balance modeling using SSURGO and DAYMET
 #' 
 #'
@@ -60,8 +48,9 @@ SELECT * from SDA_Get_Mukey_from_intersection_with_WktWgs84('", x.wkt, "')
 #' @param start starting year (limited to DAYMET holdings)
 #' @param end ending year (limited to DAYMET holdings)
 #' @param modelDepth soil depth used for water balance, see details
-#' @param bufferRadiusMeters spatial buffer (meters) applied to `x` for the lookup of SSURGO data
-#' @param ... additional arguments to [`simpleWB`]
+#' @param a.ss recession coefficients for subsurface flow from saturated zone, should be > 0 (range: 0-1)
+#' @param S_0 fraction of water storage filled at time = 0 (range: 0-1)
+#' @param bufferRadiusMeters spatial buffer (meters) applied to `x` for the look-up of SSURGO data
 #' 
 #' 
 #' @author D.E. Beaudette
@@ -76,7 +65,7 @@ SELECT * from SDA_Get_Mukey_from_intersection_with_WktWgs84('", x.wkt, "')
 #' 
 #' @export
 #'
-dailyWB_SSURGO <- function(x, cokeys = NULL, start = 1988, end = 2018, modelDepth = 100, bufferRadiusMeters = 1, ...) {
+dailyWB_SSURGO <- function(x, cokeys = NULL, start = 1988, end = 2018, modelDepth = 100, a.ss = 0.1, S_0 = 0.5, bufferRadiusMeters = 1) {
   
   
   # required packages
@@ -103,8 +92,6 @@ dailyWB_SSURGO <- function(x, cokeys = NULL, start = 1988, end = 2018, modelDept
   }
   
   
-  ## TODO: there is no accounting for two components with the same name (e.g. phases)
-  # ---> use cokey for internal iteration
   # get SSURGO hydraulic data for select components
   s <- suppressMessages(
     prepare_SSURGO_hydro_data(cokeys = cokeys, max.depth = 100)
@@ -114,67 +101,16 @@ dailyWB_SSURGO <- function(x, cokeys = NULL, start = 1988, end = 2018, modelDept
   vars <- c('compname', 'sat', 'fc', 'pwp', 'corrected_depth')
   s <- s$agg[, vars]
   
+  ## TODO: more flexible / intelligent specification of a.ss and S_0
+  #        * interpretation of drainage class
+  #        * empirical values from SCAN network
+  
   # specify thickness and recession coef.
   s$thickness <- s$corrected_depth
-  s$a.ss <- 0.1
+  s$a.ss <- a.ss
   
   # daily water balance and moisture state classification
-  wb <- dailyWB(s, daily.data, id = 'compname', S_0 = 0.5)
-  
-  # ## run model
-  # # iterate over soils and perform water balance
-  # wb.series <- list()
-  # for(i in 1:nrow(s$agg)) {
-  #   
-  #   # current data
-  #   d.i <- s$agg[i, ]
-  #   series.i <- d.i[['compname']]
-  #   
-  #   # run water balance
-  #   wb <- simpleWB(
-  #     PPT = daily.data$DM$prcp..mm.day., 
-  #     PET = daily.data$ET$ET.Daily, 
-  #     D = daily.data$DM$date, 
-  #     thickness = d.i$corrected_depth, 
-  #     sat = d.i$sat, 
-  #     fc = d.i$fc,
-  #     ...
-  #   )
-  #   
-  #   # add series label
-  #   wb[['series']] <- series.i
-  #   
-  #   wb.series[[series.i]] <- wb
-  # }
-  # 
-  # # flatten to DF
-  # wb.series <- do.call('rbind', wb.series)
-  # 
-  # # ## careful!!! this is not well tested
-  # # # set series levels
-  # # wb.series$series <- factor(wb.series$series, levels=s$agg$compname[gc$order])
-  # 
-  # ## moisture state classification
-  # # join with aggregate data, likely a better way to do this..?
-  # wb.series <- merge(wb.series, s$agg, by.x='series', by.y='compname', all.x=TRUE, sort=FALSE)
-  # 
-  # # classify moisture state
-  # wb.series$state <- with(wb.series, estimateSoilMoistureState(VWC, U, sat, fc, pwp))
-  # 
-  # # months for grouping
-  # wb.series$month <- months(wb.series$date, abbreviate = TRUE)
-  # wb.series$month <- factor(wb.series$month, levels=c('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'))
-  # 
-  # # weeks for grouping
-  # wb.series$week <- factor(format(wb.series$date, '%U'))
-  # 
-  # # days for grouping
-  # wb.series$doy <- factor(format(wb.series$date, '%j'))
-  # 
-  # ## TODO: need a proper cokey / site ID
-  # # convert series to factor for now
-  # wb.series$series <- factor(wb.series$series)
-  
+  wb <- dailyWB(s, daily.data, id = 'compname', S_0 = S_0)
   
   return(wb)
 }

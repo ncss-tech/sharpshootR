@@ -8,18 +8,15 @@ library(hydromad)
 
 s <- 'pierre'
 
-
 x <- fetchOSD(s, extended = TRUE)
 
 # get representative, profile-total AWC from SSURGO
-sql <- sprintf("
-SELECT chorizon.cokey AS cokey, 
+sql <- sprintf("SELECT chorizon.cokey AS cokey, 
 SUM(awc_r * (hzdepb_r - hzdept_r)) AS ws 
 FROM component 
 JOIN chorizon ON component.cokey = chorizon.cokey 
 WHERE compname = '%s' 
-GROUP BY chorizon.cokey;", s
-)
+GROUP BY chorizon.cokey;", s)
 
 
 # get via SDA
@@ -37,14 +34,6 @@ PET <- x$climate.monthly$q50[x$climate.monthly$variable == 'Potential ET (mm)']
 # tighter margins
 par(mar=c(4,4,2,1), bg = 'white')
 
-# water-year
-x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 9, rep=3)
-x.wb[x.wb$mo == 'Sep', ]
-
-# plot
-plotWB(WB = x.wb, AWC = AWC)
-
-
 # water year
 # last iteration
 x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 9, rep = 3, keep_last = TRUE)
@@ -54,8 +43,8 @@ plotWB(WB = x.wb)
 sum(x.wb$ET) * 0.03937
 
 
-# calendar year
-x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 1, rep = 5)
+# calendar year, 3 cycles, keeping all results
+x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 1, rep = 3)
 x.wb[x.wb$mo == 'Jan', ]
 plotWB(WB = x.wb)
 

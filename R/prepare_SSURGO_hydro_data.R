@@ -1,14 +1,16 @@
 
 #' @title Get and prepare basic soil hydraulic parameters from SSURGO via SDA
+#' 
+#' @details Weighted mean soil hydraulic parameters are returned over the interval of `0-max.depth`, calculated by `aqp::slab()`.
 #'
 #' @param cokeys vector of component keys (cokey) in current SSURGO snapshot
-#' @param max.depth target depth of aggregation, corrected later by real soil depth as reported by `slab()`
+#' @param max.depth target depth of aggregation (cm), corrected later by real soil depth as reported by `slab()`
 #'
 #' @author D.E. Beaudette
 #'
 #' @return a `list` containing:
 #'    * `SPC`: `SoilProfileCollection`
-#'    * `agg`: aggregate representation of hydraulic parameters
+#'    * `agg`: aggregate representation of hydraulic parameters, by cokey
 #'    
 #' @export
 #'
@@ -16,6 +18,7 @@
 #' 
 prepare_SSURGO_hydro_data <- function(cokeys, max.depth) {
   
+  ## TODO return lower / upper limits
   
   in.statement <- format_SQL_in_statement(cokeys)
   
@@ -48,42 +51,39 @@ prepare_SSURGO_hydro_data <- function(cokeys, max.depth) {
   
   ## TODO account for no / missing data
   
-  ## TODO: use cokey vs. compname in case of multiple phases
-  
   # init SPC for slab()
   s$cokey <- as.character(s$cokey)
   depths(s) <- cokey ~ hz_top + hz_bottom
   site(s) <- ~ compname + drainagecl
   
-  ## TODO: weighted mean is simpler to explain (physical mixture)
-  # weighted median values
-  agg.soil.data <- slab(s, compname ~ sat + fc + pwp + awc + soil_fraction, slab.structure = c(0, max.depth))
+  # weighted mean
+  agg.soil.data <- slab(s, cokey ~ sat + fc + pwp + awc + soil_fraction, slab.structure = c(0, max.depth), slab.fun = mean, na.rm = TRUE)
   
-  # retain medians for now
+  # retaining only wt.mean
   # using reshape2
-  agg.soil.data.median <- dcast(agg.soil.data, compname ~ variable, value.var = 'p.q50')
-  
+  agg.soil.data.wide <- dcast(agg.soil.data, cokey ~ variable, value.var = 'value')
   
   # get contributing_fraction for corrected depth calculation
-  real.depths <- unique(agg.soil.data[, c('compname', 'contributing_fraction')])
+  real.depths <- unique(agg.soil.data[, c('cokey', 'contributing_fraction')])
+  
+  # join component names
+  real.depths <- merge(real.depths, site(s)[, c('cokey', 'compname')], by = 'cokey', all.x = TRUE, sort = FALSE)
   
   # join corrected depths with aggregate data
-  agg.soil.data.median <- merge(agg.soil.data.median, real.depths, by='compname', all.x=TRUE, sort=FALSE)
+  agg.soil.data.wide <- merge(agg.soil.data.wide, real.depths, by='cokey', all.x = TRUE, sort = FALSE)
   
   ## Note: contributing_fraction is typically a good correction factor for depth, 
   ##       but not when there are missing data
   
   # corrected depth = max.depth * contributing_fraction (from slab) * soil_fraction (rock frag adjust)
-  agg.soil.data.median$corrected_depth <- with(agg.soil.data.median,
+  agg.soil.data.wide$corrected_depth <- with(agg.soil.data.wide,
                                                soil_fraction * contributing_fraction * max.depth
   )
-  
-  ## TODO return lower / upper limits
   
   # package and return
   res <- list(
     SPC = s, 
-    agg = agg.soil.data.median
+    agg = agg.soil.data.wide
   )
   
   return(res)

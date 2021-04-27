@@ -10,8 +10,9 @@ dailyWB_SSURGO(
   start = 1988,
   end = 2018,
   modelDepth = 100,
-  bufferRadiusMeters = 1,
-  ...
+  a.ss = 0.1,
+  S_0 = 0.5,
+  bufferRadiusMeters = 1
 )
 }
 \arguments{
@@ -25,9 +26,11 @@ dailyWB_SSURGO(
 
 \item{modelDepth}{soil depth used for water balance, see details}
 
-\item{bufferRadiusMeters}{spatial buffer (meters) applied to \code{x} for the lookup of SSURGO data}
+\item{a.ss}{recession coefficients for subsurface flow from saturated zone, should be > 0 (range: 0-1)}
 
-\item{...}{additional arguments to \code{\link{simpleWB}}}
+\item{S_0}{fraction of water storage filled at time = 0 (range: 0-1)}
+
+\item{bufferRadiusMeters}{spatial buffer (meters) applied to \code{x} for the look-up of SSURGO data}
 }
 \value{
 \code{data.frame} of daily water balance results

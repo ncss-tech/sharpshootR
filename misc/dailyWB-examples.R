@@ -14,7 +14,7 @@ library(zoo)
 
 library(aqp)
 library(soilDB)
-library(sharpshootR)
+# library(sharpshootR)
 
 library(sp)
 library(rgeos)
@@ -187,7 +187,7 @@ tapply(mst$Pr, mst$texture, function(i) length(which(i > 0.8)))
 
 
 p <- SpatialPoints(cbind(-120.37673,37.99877), proj4string = CRS('+proj=longlat +datum=WGS84'))
-cokeys <- c('19586277', '19586422', '19586459', '19586251')
+cokeys <- c('19586277', '19586145', '19586459', '19586251')
 
 # investigate source data
 s <- prepare_SSURGO_hydro_data(cokeys = cokeys, max.depth = 100)
@@ -196,16 +196,20 @@ par(mar = c(0, 0, 3, 0))
 plotSPC(s$SPC, color = 'sat', name.style = 'center-center', plot.depth.axis = FALSE, label = 'compname', hz.depths = TRUE, cex.names = 0.8)
 
 
-d <- dailyWB_SSURGO(x = p, cokeys = cokeys, modelDepth = 50, bufferRadiusMeters = 1, a.ss = 0.2)
-levels(d$compname)
-
-str(d)
+d <- dailyWB_SSURGO(x = p, cokeys = cokeys, modelDepth = 50, bufferRadiusMeters = 1, a.ss = 0.1)
 
 xyplot(VWC ~ as.numeric(doy) | compname, groups = year, data = d, type = 'l', subset = year %in% c('1990', '1991', '1992'), par.settings = tactile.theme(), scales = list(y = list(rot = 0)))
 
+xyplot(VWC ~ as.numeric(doy) | year, groups = compname, data = d, type = 'l', subset = year %in% c('1990', '1991', '1992'), par.settings = tactile.theme(), scales = list(y = list(rot = 0)), auto.key = list(lines = TRUE, points = FALSE, columns = 4))
+
 xyplot(S ~ as.numeric(doy) | compname, groups = year, data = d, type = 'l', subset = year %in% c('1990', '1991', '1992'), par.settings = tactile.theme(), scales = list(y = list(rot = 0)))
 
+xyplot(S ~ as.numeric(doy) | year, groups = compname, data = d, type = 'l', subset = year %in% c('1990', '1991', '1992'), par.settings = tactile.theme(), scales = list(y = list(rot = 0)), auto.key = list(lines = TRUE, points = FALSE, columns = 4))
+
 xyplot(U ~ as.numeric(doy) | compname, groups = year, data = d, type = 'l', subset = year %in% c('1990', '1991', '1992'), par.settings = tactile.theme(), scales = list(y = list(rot = 0)))
+
+xyplot(U ~ as.numeric(doy) | year, groups = compname, data = d, type = 'l', subset = year %in% c('1990', '1991', '1992'), par.settings = tactile.theme(), scales = list(y = list(rot = 0)), auto.key = list(lines = TRUE, points = FALSE, columns = 4))
+
 
 
 ## quick check on 30-yr proportions
@@ -217,7 +221,7 @@ kable(prop.table(table(d$compname, d$state > 'very moist'), margin = 1), digits 
 
 
 levelplot(state ~ as.numeric(doy) * compname | year, data = d, 
-          # subset = year %in% c('2010'),
+          subset = year %in% c('2011', '2012', '2013', '2014'),
           col.regions = colorRampPalette(brewer.pal(n.states, 'Spectral'), interpolate = 'spline', space = 'Lab'),
           par.settings = tactile.theme(),
           as.table = TRUE,
@@ -242,7 +246,7 @@ levelplot(state ~ as.numeric(doy) * year | compname, data = d,
           scales=list(alternating = 1, x=list(tick.number=25))
 )
 
-
+## sum over each year likely the best metric
 levelplot(ET ~ as.numeric(doy) * year | compname, data = d, 
           # subset = year %in% c('2010'),
           col.regions = colorRampPalette(brewer.pal(n.states, 'Spectral'), interpolate = 'spline', space = 'Lab'),

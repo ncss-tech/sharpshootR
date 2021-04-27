@@ -9,17 +9,20 @@ prepare_SSURGO_hydro_data(cokeys, max.depth)
 \arguments{
 \item{cokeys}{vector of component keys (cokey) in current SSURGO snapshot}
 
-\item{max.depth}{target depth of aggregation, corrected later by real soil depth as reported by \code{slab()}}
+\item{max.depth}{target depth of aggregation (cm), corrected later by real soil depth as reported by \code{slab()}}
 }
 \value{
 a \code{list} containing:
 \itemize{
 \item \code{SPC}: \code{SoilProfileCollection}
-\item \code{agg}: aggregate representation of hydraulic parameters
+\item \code{agg}: aggregate representation of hydraulic parameters, by cokey
 }
 }
 \description{
 Get and prepare basic soil hydraulic parameters from SSURGO via SDA
+}
+\details{
+Weighted mean soil hydraulic parameters are returned over the interval of \code{0-max.depth}, calculated by \code{aqp::slab()}.
 }
 \author{
 D.E. Beaudette

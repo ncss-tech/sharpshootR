@@ -7,10 +7,10 @@
 #' 
 #' Soil moisture classification rules are as follows:
 #'   * VWC <= `pwp`: "very dry"
-#'   * VWC > `pwp` and <= (mid-point between `fc` and `pwp`): "dry"
-#'   * VWC > (mid-point between `fc` and `pwp`) and <= `fc`: "moist"
+#'   * VWC > `pwp` AND <= (mid-point between `fc` and `pwp`): "dry"
+#'   * VWC > (mid-point between `fc` and `pwp`) AND <= `fc`: "moist"
 #'   * VWC > `fc`: "very moist"
-#'   * `U` (surplus) > 2mm: "saturated / runoff"
+#'   * VWC > `fc` AND `U` (surplus) > 2mm: "saturated / runoff"
 #'
 #' @param VWC vector of volumetric water content (VWC), range is 0-1
 #' @param U vector of surplus water (mm)
@@ -28,9 +28,16 @@
 #' 
 #' # "very moist"
 #' estimateSoilMoistureState(VWC = 0.3, U = 0, sat = 0.35, fc = 0.25, pwp = 0.15)
+#' estimateSoilMoistureState(VWC = 0.3, U = 2, sat = 0.35, fc = 0.25, pwp = 0.15)
+#' 
+#' "saturated / runoff"
+#' estimateSoilMoistureState(VWC = 0.3, U = 4, sat = 0.35, fc = 0.25, pwp = 0.15)
 #' 
 #' # "very dry"
 #' estimateSoilMoistureState(VWC = 0.15, U = 0, sat = 0.35, fc = 0.25, pwp = 0.15)
+#' 
+#' # "dry" 
+#' estimateSoilMoistureState(VWC = 0.18, U = 0, sat = 0.35, fc = 0.25, pwp = 0.15)
 #' 
 estimateSoilMoistureState <- function(VWC, U, sat, fc, pwp) {
   
@@ -52,8 +59,8 @@ estimateSoilMoistureState <- function(VWC, U, sat, fc, pwp) {
   # between FC and saturation
   ms[VWC > fc] <- 'very moist'
   
-  # surplus > 2mm -> saturation or flooded
-  ms[U > 2] <- 'saturated / runoff'
+  # above FC AND surplus > 2mm -> saturation or flooded
+  ms[VWC > fc & U > 2] <- 'saturated / runoff'
   
   # set levels
   ms <- factor(

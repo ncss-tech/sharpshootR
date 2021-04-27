@@ -38,7 +38,8 @@ importFrom(aqp,
            mixMunsell,
            'depths<-',
            'site<-',
-           slab
+           slab,
+           shannonEntropy
 )
 
 importFrom(curl,

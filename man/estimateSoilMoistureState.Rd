@@ -29,7 +29,7 @@ Soil moisture classification rules are as follows:
 \item VWC > \code{pwp} AND <= (mid-point between \code{fc} and \code{pwp}): "dry"
 \item VWC > (mid-point between \code{fc} and \code{pwp}) AND <= \code{fc}: "moist"
 \item VWC > \code{fc}: "very moist"
-\item VWC > \code{fc} AND \code{U} (surplus) > 2mm: "saturated / runoff"
+\item VWC > \code{fc} AND \code{U} (surplus) > 2mm: "wet"
 }
 }
 \examples{
@@ -38,7 +38,7 @@ Soil moisture classification rules are as follows:
 estimateSoilMoistureState(VWC = 0.3, U = 0, sat = 0.35, fc = 0.25, pwp = 0.15)
 estimateSoilMoistureState(VWC = 0.3, U = 2, sat = 0.35, fc = 0.25, pwp = 0.15)
 
-"saturated / runoff"
+"wet"
 estimateSoilMoistureState(VWC = 0.3, U = 4, sat = 0.35, fc = 0.25, pwp = 0.15)
 
 # "very dry"

@@ -1,5 +1,43 @@
 
 
+#' @title Statistics on Soil Moisture State
+#'
+#' @param x `data.frame`, created by [`moistureStateProportions()`]
+#' @param id name of ID column
+#'
+#' @return `data.frame` containing the most-likely moisture state and Shannon entropy.
+#' @export
+#' 
+moistureStateStats <- function(x, id = 'compname') {
+  
+  # iterate over ID / interval
+  xx <- split(x, f = list(x[[id]], x[['interval']]))
+  
+  xx <- lapply(xx, function(i) {
+    
+    ## TODO: no accounting for ties
+    # most-likely state
+    ml.state <- i$state[which.max(i$proportion)]
+    # Shannon entropy via aqp
+    H <- shannonEntropy(i$proportion)
+    
+    # package-up
+    res <- data.frame(
+      id = i[[id]][1],
+      interval = i[['interval']][1],
+      state = ml.state,
+      H = H
+    )
+    
+    return(res)
+  })
+  
+  xx <- do.call('rbind', xx)
+  names(xx)[1] <- id
+  row.names(xx) <- NULL
+  
+  return(xx)
+}
 
 
 #' @title Compute moisture state proportions

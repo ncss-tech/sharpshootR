@@ -1,10 +1,4 @@
 
-##
-## all of these methods fail to communicate differences in "total water stored"
-##
-
-
-
 
 library(daymetr)
 library(Evapotranspiration)
@@ -14,7 +8,7 @@ library(zoo)
 
 library(aqp)
 library(soilDB)
-# library(sharpshootR)
+library(sharpshootR)
 
 library(sp)
 library(rgeos)
@@ -48,23 +42,34 @@ x$thickness <- 50
 # this should reflect drainage class: lower numbers = less internal drainage
 x$a.ss <- c(0.2, 0.01, 0.3, 0.7)
 
-x$a.ss <- 0.3
+# x$a.ss <- 0.3
 x
 
 z <- dailyWB(x, daily.data, id = 'texture')
 
 str(z)
 
+ann.AET <- tapply(
+  z$ET, INDEX = list(z$texture, z$year), FUN = sum
+)
+
+t(apply(ann.AET, 1, quantile))
 
 
-xyplot(VWC ~ date, groups = texture, data = z, type = 'l', par.settings = tactile.theme(), auto.key = list(lines = TRUE, points = FALSE, columns = 3), subset = year %in% c('2013'))
+kable(prop.table(table(z$texture, z$state), margin = 1), digits = 2)
 
-xyplot(VWC ~ date | texture, data = z, type = c('l', 'g'), par.settings = tactile.theme(), auto.key = list(lines = TRUE, points = FALSE, columns = 3), subset = year %in% c('2013'))
+kable(prop.table(table(z$texture, z$state <= 'dry'), margin = 1), digits = 2)
+kable(prop.table(table(z$texture, z$state > 'very moist'), margin = 1), digits = 2)
 
 
-xyplot(S ~ date | texture, data = z, type = c('l', 'g'), par.settings = tactile.theme(), auto.key = list(lines = TRUE, points = FALSE, columns = 3), subset = year %in% c('2013'))
+
+xyplot(VWC ~ date, groups = texture, data = z, type = 'l', par.settings = tactile.theme(), auto.key = list(lines = TRUE, points = FALSE, columns = 4), subset = year %in% c('2013'))
+
+xyplot(S ~ date, groups = texture, data = z, type = c('l', 'g'), par.settings = tactile.theme(), auto.key = list(lines = TRUE, points = FALSE, columns = 4), subset = year %in% c('2013'))
 
 xyplot(U ~ date | texture, data = z, type = c('l', 'g'), par.settings = tactile.theme(), auto.key = list(lines = TRUE, points = FALSE, columns = 3), subset = year %in% c('2013'))
+
+
 
 
 
@@ -83,7 +88,7 @@ suppressWarnings(
 sK <- simpleKey(text = ll, space='top', columns=n.states, rectangles = TRUE, points=FALSE, cex=1)
 
 levelplot(state ~ as.numeric(doy) * texture | year, data = z, 
-          # subset = year %in% c('2010'),
+          subset = year %in% c('2013'),
           col.regions = colorRampPalette(brewer.pal(n.states, 'Spectral'), interpolate = 'spline', space = 'Lab'),
           par.settings = tactile.theme(),
           as.table = TRUE,
@@ -91,7 +96,7 @@ levelplot(state ~ as.numeric(doy) * texture | year, data = z,
           colorkey = FALSE,
           xlab = 'Day of the Year',
           ylab = '',
-          main='Pr(Soil at Field Capacity or Drier)\n1988-2018',
+          main='Soil Moisture State',
           scales=list(alternating = 1, x=list(tick.number=25))
 )
 
@@ -104,7 +109,18 @@ levelplot(state ~ as.numeric(doy) * year | texture, data = z,
           colorkey = FALSE,
           xlab = 'Day of the Year',
           ylab = '',
-          main='Pr(Soil at Field Capacity or Drier)\n1988-2018',
+          main='Soil Moisture State',
+          scales=list(alternating = 1, x=list(tick.number=25))
+)
+
+levelplot(S ~ as.numeric(doy) * year | texture, data = z, 
+          # subset = year %in% c('2010'),
+          col.regions = colorRampPalette(brewer.pal(n.states, 'Spectral'), interpolate = 'spline', space = 'Lab'),
+          par.settings = tactile.theme(),
+          as.table = TRUE,
+          xlab = 'Day of the Year',
+          ylab = '',
+          main='Soil Moisture',
           scales=list(alternating = 1, x=list(tick.number=25))
 )
 
@@ -115,9 +131,22 @@ levelplot(VWC ~ as.numeric(doy) * year | texture, data = z,
           as.table = TRUE,
           xlab = 'Day of the Year',
           ylab = '',
-          main='Pr(Soil at Field Capacity or Drier)\n1988-2018',
+          main='Soil Moisture',
           scales=list(alternating = 1, x=list(tick.number=25))
 )
+
+levelplot(ET ~ as.numeric(doy) * year | texture, data = z, 
+          # subset = year %in% c('2010'),
+          col.regions = colorRampPalette(brewer.pal(n.states, 'Spectral'), interpolate = 'spline', space = 'Lab'),
+          par.settings = tactile.theme(),
+          as.table = TRUE,
+          xlab = 'Day of the Year',
+          ylab = '',
+          main='Soil Moisture',
+          scales=list(alternating = 1, x=list(tick.number=25))
+)
+
+## 
 
 barchart(proportion ~ interval | texture, groups = state, 
          main='Expected Weekly Soil Moisture State\nDAYMET 1988-2018',
@@ -141,9 +170,24 @@ barchart(proportion ~ interval | texture, groups = state,
 )
 
 
+mss <- moistureStateStats(msp, id = 'texture')
 
+xyplot(H ~ as.numeric(interval), groups = texture, data = mss, type = c('l', 'g'), par.settings = tactile.theme(), auto.key = list(lines = TRUE, points = FALSE, columns = 4))
 
+levelplot(state ~ as.numeric(interval) * texture, data = mss, 
+          # subset = year %in% c('2010'),
+          col.regions = colorRampPalette(brewer.pal(n.states, 'Spectral'), interpolate = 'spline', space = 'Lab'),
+          par.settings = tactile.theme(),
+          as.table = TRUE,
+          key = sK,
+          colorkey = FALSE,
+          xlab = 'Day of the Year',
+          ylab = '',
+          main='Soil Moisture',
+          scales=list(alternating = 1, x=list(tick.number=25))
+)
 
+##
 
 mst <- moistureStateThreshold(z, id = 'texture', threshold = 'dry', operator = '<')
 str(mst)
@@ -176,7 +220,7 @@ xyplot(Pr ~ as.numeric(doy), groups = texture,
 )
 
 
-## not the right question
+## hmmm
 tapply(mst$Pr, mst$texture, function(i) length(which(i > 0.8)))
 
 
@@ -197,6 +241,7 @@ plotSPC(s$SPC, color = 'sat', name.style = 'center-center', plot.depth.axis = FA
 
 
 d <- dailyWB_SSURGO(x = p, cokeys = cokeys, modelDepth = 50, bufferRadiusMeters = 1, a.ss = 0.1)
+
 
 xyplot(VWC ~ as.numeric(doy) | compname, groups = year, data = d, type = 'l', subset = year %in% c('1990', '1991', '1992'), par.settings = tactile.theme(), scales = list(y = list(rot = 0)))
 
@@ -229,7 +274,7 @@ levelplot(state ~ as.numeric(doy) * compname | year, data = d,
           colorkey = FALSE,
           xlab = 'Day of the Year',
           ylab = '',
-          main='Pr(Soil at Field Capacity or Drier)\n1988-2018',
+          main='Soil Moisture State',
           scales=list(alternating = 1, x=list(tick.number=25))
 )
 
@@ -242,7 +287,7 @@ levelplot(state ~ as.numeric(doy) * year | compname, data = d,
           colorkey = FALSE,
           xlab = 'Day of the Year',
           ylab = '',
-          main='Pr(Soil at Field Capacity or Drier)\n1988-2018',
+          main='Soil Moisture State',
           scales=list(alternating = 1, x=list(tick.number=25))
 )
 
@@ -254,10 +299,11 @@ levelplot(ET ~ as.numeric(doy) * year | compname, data = d,
           as.table = TRUE,
           xlab = 'Day of the Year',
           ylab = '',
-          main='Pr(Soil at Field Capacity or Drier)\n1988-2018',
+          main='AET (mm)\n1988-2018',
           scales=list(alternating = 1, x=list(tick.number=25))
 )
 
+##
 msp <- moistureStateProportions(d, step = 'week')
 
 
@@ -296,23 +342,23 @@ barchart(proportion ~ interval | compname, groups = state,
 )
 
 
-barchart(proportion ~ interval | compname, groups = state, 
-         main='Expected Weekly Soil Moisture State\n1988-2018',
-         subset=compname %in% c('Clarno', 'Diablo', 'Drummer', 'Frederick', 'Sierra'),
-         data = msp, horiz = FALSE, stack = TRUE, xlab = '', ylab='Proportion',
-         as.table=TRUE,
-         key=sK,
-         strip=strip.custom(bg=grey(0.9)),
-         par.strip.text=list(cex=1.25),
-         # layout=c(2,2),
-         scales=list(y=list(alternating=3, cex=1), x=list(draw=FALSE, relation='free', alternating=1, cex=0.75, rot=90)),
-         par.settings=list(superpose.polygon=list(col=ms.colors, lwd = 1, lend = 1)),
-         # this breaks auto.key, thus requires simpleKey()
-         panel=function(...) {
-           # panel.abline(h=seq(0, 1, by=0.1), v=1:12, col=grey(0.9))
-           panel.barchart(...)
-         }
-)
+# barchart(proportion ~ interval | compname, groups = state, 
+#          main='Expected Weekly Soil Moisture State\n1988-2018',
+#          subset=compname %in% c('Clarno', 'Diablo', 'Drummer', 'Frederick', 'Sierra'),
+#          data = msp, horiz = FALSE, stack = TRUE, xlab = '', ylab='Proportion',
+#          as.table=TRUE,
+#          key=sK,
+#          strip=strip.custom(bg=grey(0.9)),
+#          par.strip.text=list(cex=1.25),
+#          # layout=c(2,2),
+#          scales=list(y=list(alternating=3, cex=1), x=list(draw=FALSE, relation='free', alternating=1, cex=0.75, rot=90)),
+#          par.settings=list(superpose.polygon=list(col=ms.colors, lwd = 1, lend = 1)),
+#          # this breaks auto.key, thus requires simpleKey()
+#          panel=function(...) {
+#            # panel.abline(h=seq(0, 1, by=0.1), v=1:12, col=grey(0.9))
+#            panel.barchart(...)
+#          }
+# )
 
 
 

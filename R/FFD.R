@@ -141,7 +141,7 @@ FFD <- function(d, returnDailyPr=TRUE, minDays=165, ...) {
   # days where Pr(no frost) = 50%, 80%, 90%
   q.fall <- quantile(ffp$firstFall, probs=c(0.5, 0.2, 0.1))
   
-  # compute probabalistic estimates of FFD
+  # compute probabilistic estimates of FFD
   ffd.q <- q.fall - q.spring
   
   # combine FFD, last spring / first fall DOY, number of years data

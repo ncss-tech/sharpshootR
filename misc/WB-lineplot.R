@@ -6,7 +6,7 @@ library(hydromad)
 ## get basic morphology and series-level summaries of climate etc.
 # http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html
 
-s <- 'Holloway'
+s <- 'Redding'
 
 x <- fetchOSD(s, extended = TRUE)
 
@@ -77,7 +77,7 @@ surplus_deficit.flag <- sign(ppt.seq - aet.seq)
 crossings1.idx <- which(abs(diff(surplus_deficit.flag)) > 0)
 
 # setup plot area
-plot(0, 0, type='n', xlim=c(0.5, 12.5), ylim=c(y.range), ylab='Water (mm)', xlab='Months', las = 1)
+plot(0, 0, type='n', xlim=c(0.5, 12.5), ylim=c(y.range), ylab='Water (mm)', xlab='', las = 1, axes = FALSE)
 
 grid()
 
@@ -122,6 +122,11 @@ polygon(c(p.1.x, p.2.x), c(p.1.y, p.2.y), col=col.ppt, border=NA)
 lines(ppt.seq ~ month.seq, type='l', lwd=2, col='blue')
 lines(pet.seq ~ month.seq, type='l', lwd=2, lty=2, col='brown')
 lines(aet.seq ~ month.seq, type='l', lwd=2, lty=4, col='black')
+
+## TODO: adapt to use function arguments
+# month axis
+month.cex <- 1
+axis(side = 1, at = month.start:month.end, labels = d$mo, line = 0, tick = TRUE, font = 2, cex = month.cex, col = NA, col.ticks = par('fg'))
 
 
 ## TODO: figure out how to place these automatically

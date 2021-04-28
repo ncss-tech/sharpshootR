@@ -41,6 +41,7 @@ Dylan Beaudette, Jay Skovlin and Stephen Roecker (2021). sharpshootR: A Soil Sur
    * [`vizMountainPosition`](http://ncss-tech.github.io/sharpshootR/docs/reference/vizMountainPosition.html)
    * [`vizAnnualClimate`](http://ncss-tech.github.io/sharpshootR/docs/reference/vizAnnualClimate.html)
    * [`plotWB`](http://ncss-tech.github.io/sharpshootR/docs/reference/plotWB.html)
+   * [`plotWB_lines`](http://ncss-tech.github.io/sharpshootR/docs/reference/plotWB_lines.html)
 
    
 ### Climate

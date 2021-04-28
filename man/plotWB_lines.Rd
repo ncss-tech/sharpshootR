@@ -13,13 +13,13 @@ plotWB_lines(
 )
 }
 \arguments{
-\item{WB}{output from \code{monthlyWB()}}
+\item{WB}{output from \code{\link[=monthlyWB]{monthlyWB()}}}
 
 \item{cols}{vector of three colors used for area under PPT, PET, and AET curves}
 
-\item{interpolator}{spline or linear interpolation of monthly values, use of \code{spline} may lead to minor smoothing artifacts in shadded areas}
+\item{interpolator}{spline or linear interpolation of monthly values, use of \code{spline} may lead to minor smoothing artifacts in shaded areas}
 
-\item{spline.method}{when \code{interpolator = 'spline'}, pass this to \code{splinefun}}
+\item{spline.method}{when \code{interpolator = 'spline'}, argument passed to \code{splinefun(..., method = spline.method)}}
 
 \item{month.cex}{scaling factor for month labels}
 }
@@ -28,7 +28,7 @@ Line / Area Visualization for Monthly Water Balance
 }
 \examples{
 
-#' if(requireNamespace('hydromad')) {
+if(requireNamespace('hydromad')) {
 
 ## A shallow / droughty soil near Sonora CA 
 # 100mm (4") AWC

@@ -6,10 +6,10 @@
 #' 
 #' @author J.M. Skovlin and D.E. Beaudette
 #'
-#' @param WB output from `monthlyWB()`
+#' @param WB output from [`monthlyWB()`]
 #' @param cols vector of three colors used for area under PPT, PET, and AET curves
-#' @param interpolator spline or linear interpolation of monthly values, use of `spline` may lead to minor smoothing artifacts in shadded areas
-#' @param spline.method when `interpolator = 'spline'`, pass this to `splinefun`
+#' @param interpolator spline or linear interpolation of monthly values, use of `spline` may lead to minor smoothing artifacts in shaded areas
+#' @param spline.method when `interpolator = 'spline'`, argument passed to `splinefun(..., method = spline.method)`
 #' @param month.cex scaling factor for month labels
 #'
 #' @export

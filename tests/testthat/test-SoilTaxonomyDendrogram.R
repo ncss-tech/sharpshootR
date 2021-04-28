@@ -8,6 +8,7 @@ suppressWarnings(library(dendextend, quietly = TRUE))
 test_that("SoilTaxonomyDendrogram works as expected", {
   
   skip_if_offline()
+  skip_on_cran()
   
   # soils of interest
   s.list <- c('hornitos', 'auburn', 'pentz', 'pardee', 'peters', 'amador', 'palau')

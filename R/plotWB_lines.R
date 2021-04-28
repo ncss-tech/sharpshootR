@@ -57,7 +57,7 @@ plotWB_lines <- function(WB, cols = c("#ACC0F0", "#E88C8C", "#65BF65"), interpol
   # negative overshoots -> truncate at 0
   # positive overshoots...?
   
-  if(interpolator == 'exact') {
+  if(interpolator == 'linear') {
     ppt.interp <- approxfun(WB$month, WB$PPT)
     pet.interp <- approxfun(WB$month, WB$PET)
     aet.interp <- approxfun(WB$month, WB$ET)

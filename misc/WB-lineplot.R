@@ -11,7 +11,7 @@ library(hydromad)
 # 
 
 
-s <- 'holland'
+s <- 'amador'
 
 x <- fetchOSD(s, extended = TRUE)
 

@@ -6,7 +6,9 @@
 \usage{
 plotWB_lines(
   WB,
-  cols = c("#ACC0F0", "#E88C8C", "#65BF65"),
+  cols = c("#759CC9", "#EB6D6E", "#7FC47D"),
+  line.col = "black",
+  line.lty = c(1, 2, 3),
   interpolator = c("spline", "linear"),
   spline.method = c("natural", "periodic"),
   month.cex = 1
@@ -16,6 +18,10 @@ plotWB_lines(
 \item{WB}{output from \code{\link[=monthlyWB]{monthlyWB()}}}
 
 \item{cols}{vector of three colors used for area under PPT, PET, and AET curves}
+
+\item{line.col}{single color used for PPT, PET, and AET lines}
+
+\item{line.lty}{vector of three line styles used for PPT, PET, AET curves}
 
 \item{interpolator}{spline or linear interpolation of monthly values, use of \code{spline} may lead to minor smoothing artifacts in shaded areas}
 

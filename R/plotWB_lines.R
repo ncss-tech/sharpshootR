@@ -8,6 +8,8 @@
 #'
 #' @param WB output from [`monthlyWB()`]
 #' @param cols vector of three colors used for area under PPT, PET, and AET curves
+#' @param line.col single color used for PPT, PET, and AET lines
+#' @param line.lty vector of three line styles used for PPT, PET, AET curves
 #' @param interpolator spline or linear interpolation of monthly values, use of `spline` may lead to minor smoothing artifacts in shaded areas
 #' @param spline.method when `interpolator = 'spline'`, argument passed to `splinefun(..., method = spline.method)`
 #' @param month.cex scaling factor for month labels
@@ -33,13 +35,16 @@
 #' 
 #' }
 #'
-plotWB_lines <- function(WB, cols = c("#ACC0F0", "#E88C8C", "#65BF65"), interpolator = c('spline', 'linear'), spline.method = c('natural', 'periodic'), month.cex = 1) {
+plotWB_lines <- function(WB, cols = c("#759CC9", "#EB6D6E", "#7FC47D"), line.col = 'black', line.lty = c(1, 2, 3), interpolator = c('spline', 'linear'), spline.method = c('natural', 'periodic'), month.cex = 1) {
   
   ## TODO: better colors
   
   ## first draft colors
   # cols <- c('royalblue', 'firebrick', 'darkgreen')
-  # cols <- desaturate(lighten(cols, amount = 0.25), 0.25)
+  # better
+  # cols <- RColorBrewer::brewer.pal(3, 'Set1')[c(2, 1, 3)]
+  # cols <- colorspace::desaturate(colorspace::lighten(cols, amount = 0.25), 0.25)
+  # dput(cols)
   
   # sanity checks
   interpolator <- match.arg(interpolator)
@@ -158,9 +163,9 @@ plotWB_lines <- function(WB, cols = c("#ACC0F0", "#E88C8C", "#65BF65"), interpol
   # polygon(c(p.1.x, p.2.x), c(p.1.y, p.2.y), col=col.utilization, border=NA)
   
   # add original PPT and PET series
-  lines(ppt.seq ~ month.seq, type='l', lwd=2, col='blue')
-  lines(pet.seq ~ month.seq, type='l', lwd=2, lty=2, col='brown')
-  lines(aet.seq ~ month.seq, type='l', lwd=2, lty=4, col='black')
+  lines(ppt.seq ~ month.seq, type='l', lwd=2, lty = line.lty[1], col = line.col)
+  lines(pet.seq ~ month.seq, type='l', lwd=2, lty = line.lty[2], col = line.col)
+  lines(aet.seq ~ month.seq, type='l', lwd=2, lty = line.lty[3], col = line.col)
   
   ## how can we use / make sense of WB deficit?
   # lines(def.seq ~ month.seq, type='l', lwd=1, lty=1, col='black')
@@ -178,7 +183,7 @@ plotWB_lines <- function(WB, cols = c("#ACC0F0", "#E88C8C", "#65BF65"), interpol
   legend(x = 0, y = y.range[2], legend=c('Surplus / Recharge', 'Utilization', 'Deficit'), col=c(col.ppt, col.utilization, col.pet), pch=c(15, 15, 15), pt.cex=2, bty='n', horiz = TRUE, xpd = NA, xjust = 0, yjust = -0.25)
   
   # line legend
-  legend(x = 12, y = y.range[2], legend = c('PPT', 'PET', 'AET'), col = c( 'blue', 'brown', 'black'), lwd = 2, lty=c(1, 2, 4), bty='n', horiz = TRUE, xpd = NA, xjust = 1, yjust = -0.25)
+  legend(x = 12, y = y.range[2], legend = c('PPT', 'PET', 'AET'), col = line.col, lwd = 2, lty = line.lty, bty='n', horiz = TRUE, xpd = NA, xjust = 1, yjust = -0.25)
   
   # annotate AWC
   AWC <- attr(WB, 'AWC')

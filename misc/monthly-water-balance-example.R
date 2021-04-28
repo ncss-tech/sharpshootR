@@ -53,4 +53,5 @@ plotWB(WB = x.wb)
 x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 1, rep = 3, keep_last = TRUE)
 plotWB(WB = x.wb)
 
+plotWB_lines(x.wb)
 

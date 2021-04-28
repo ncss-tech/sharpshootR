@@ -24,11 +24,72 @@ library(RColorBrewer)
 library(viridis)
 
 
+## simulate NULL PET
+# near Sonora, CA
+p <- SpatialPoints(cbind(-120.37673,37.99877), proj4string = CRS('+proj=longlat +datum=WGS84'))
+daily.data <- prepareDailyClimateData(p, start = 2013, end = 2014, onlyWB = TRUE)
+
+# save PET
+daily.data$PET_saved <- daily.data$PET
+
+# example soil material
+data("ROSETTA.centroids")
+vars <- c('texture', 'sat', 'fc', 'pwp')
+
+# required soil hydraulic parameters + ID
+x <- ROSETTA.centroids[c(12, 1, 3, 5), vars]
+
+# thickness and recession coef.
+x$thickness <- 50
+# recession coef.
+x$a.ss <- c(0.2, 0.1, 0.3, 0.4)
+x
+
+# NO PET
+daily.data$PET <- 0
+
+z <- dailyWB(x, daily.data, id = 'texture', S_0 = 1)
+
+xyplot(
+  VWC ~ date, 
+  groups = texture, 
+  data = z, 
+  type = 'l', 
+  par.settings = tactile.theme(), 
+  auto.key = list(lines = TRUE, points = FALSE, columns = 4), 
+  panel = function(...) {
+    panel.xyplot(...)
+    panel.abline(h = x$fc, col = tactile.theme()$superpose.line$col, lty = 2)
+  })
+
+
+daily.data$PET <- daily.data$PET_saved
+
+z <- dailyWB(x, daily.data, id = 'texture', S_0 = 0.75)
+
+xyplot(
+  VWC ~ date, 
+  groups = texture, 
+  data = z, 
+  type = 'l', 
+  par.settings = tactile.theme(), 
+  auto.key = list(lines = TRUE, points = FALSE, columns = 4), 
+  panel = function(...) {
+    panel.xyplot(...)
+    panel.abline(h = x$pwp, col = tactile.theme()$superpose.line$col, lty = 2)
+  })
+
+
+
+
 ## prepare some example data via DAYMET
 
 # near Sonora, CA
 p <- SpatialPoints(cbind(-120.37673,37.99877), proj4string = CRS('+proj=longlat +datum=WGS84'))
 daily.data <- prepareDailyClimateData(p, start = 2000, end = 2019, onlyWB = TRUE)
+
+head(daily.data)
+
 
 # example soil material
 data("ROSETTA.centroids")
@@ -40,7 +101,7 @@ x <- ROSETTA.centroids[c(12, 1, 3, 5), vars]
 # thickness and recession coef.
 x$thickness <- 50
 # this should reflect drainage class: lower numbers = less internal drainage
-x$a.ss <- c(0.2, 0.01, 0.3, 0.7)
+x$a.ss <- c(0.2, 0.1, 0.3, 0.5)
 
 # x$a.ss <- 0.3
 x
@@ -63,7 +124,18 @@ kable(prop.table(table(z$texture, z$state > 'very moist'), margin = 1), digits =
 
 
 
-xyplot(VWC ~ date, groups = texture, data = z, type = 'l', par.settings = tactile.theme(), auto.key = list(lines = TRUE, points = FALSE, columns = 4), subset = year %in% c('2013'))
+xyplot(
+  VWC ~ date, 
+  groups = texture, 
+  data = z, 
+  type = 'l', 
+  par.settings = tactile.theme(), 
+  auto.key = list(lines = TRUE, points = FALSE, columns = 4), 
+  subset = year %in% c('2013'), 
+  panel = function(...) {
+    panel.xyplot(...)
+    panel.abline(h = x$fc, col = tactile.theme()$superpose.line$col, lty = 2)
+  })
 
 xyplot(S ~ date, groups = texture, data = z, type = c('l', 'g'), par.settings = tactile.theme(), auto.key = list(lines = TRUE, points = FALSE, columns = 4), subset = year %in% c('2013'))
 
@@ -181,7 +253,7 @@ levelplot(state ~ as.numeric(interval) * texture, data = mss,
           as.table = TRUE,
           key = sK,
           colorkey = FALSE,
-          xlab = 'Day of the Year',
+          xlab = 'Week',
           ylab = '',
           main='Soil Moisture',
           scales=list(alternating = 1, x=list(tick.number=25))

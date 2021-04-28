@@ -11,7 +11,8 @@ importFrom("methods", "as", "slot")
 
 importFrom("stats", "as.dendrogram", "as.formula", "as.hclust",
              "complete.cases", "cutree", "density", "lm", "median",
-             "na.omit", "predict", "quantile", "dnorm", "sd", "update")
+             "na.omit", "predict", "quantile", "dnorm", "sd", "update",
+           "approxfun", "splinefun")
 
 importFrom("utils", "URLencode", "download.file", "read.csv", "setTxtProgressBar", 
            "txtProgressBar", "packageVersion", "combn")

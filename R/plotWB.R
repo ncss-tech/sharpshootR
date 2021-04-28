@@ -138,7 +138,7 @@ plotWB <- function(WB, AWC = attr(WB, 'AWC'), showAWC = 'below', sw.col = '#377E
   
   # using a bg-colored plotting symbol to paint behind PPT and PET plotting symbols
   # must be a little smaller than the symbol
-  bg.cex <- strheight(pch[1], font = 2, cex = pt.cex) / 6
+  bg.cex <- strheight(pch[1], font = 2, cex = pt.cex) / 7
   
   # PPT
   points(bp, WB$PPT, col=par('bg'), pch = 15, cex = bg.cex)

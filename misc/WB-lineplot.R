@@ -6,12 +6,12 @@ library(hydromad)
 ## get basic morphology and series-level summaries of climate etc.
 # http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html
 
-## usefule examples:
+## useful examples:
 # BOONE: no deficit
 # 
 
 
-s <- 'zenker'
+s <- 'holland'
 
 x <- fetchOSD(s, extended = TRUE)
 
@@ -36,11 +36,14 @@ AWC <- round(median(res$ws, na.rm = TRUE) * 10)
 PPT <- x$climate.monthly$q05[x$climate.monthly$variable == 'Precipitation (mm)']
 PET <- x$climate.monthly$q50[x$climate.monthly$variable == 'Potential ET (mm)']
 
-# tighter margins
-par(mar=c(4,4,2,1), bg = 'white')
-
-# last iteration
+# 3 warm-up cycles
+# keep last iteration
+# calendar year
 x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 1, rep = 3, keep_last = TRUE)
+
+# tighter margins
+par(mar=c(4,4,3,1), bg = 'white')
+
 plotWB(WB = x.wb)
 
 
@@ -48,7 +51,7 @@ plotWB(WB = x.wb)
 plotWB_lines(x.wb)
 
 #add title
-title(sprintf('Monthly Water Balance: %s Series', toupper(s)))
+title(sprintf('Monthly Water Balance: %s Series', toupper(s)), line = 2)
 
 
 

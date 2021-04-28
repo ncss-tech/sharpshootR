@@ -1,20 +1,37 @@
 
 
 
-#' @title 
+#' @title Line / Area Visualization for Monthly Water Balance
 #' 
-#' @description 
 #' 
 #' @author J.M. Skovlin and D.E. Beaudette
 #'
-#' @param WB 
-#' @param cols 
-#' @param interpolator 
-#' @param spline.method 
-#' @param month.cex 
+#' @param WB output from `monthlyWB()`
+#' @param cols vector of three colors used for area under PPT, PET, and AET curves
+#' @param interpolator spline or linear interpolation of monthly values, use of `spline` may lead to minor smoothing artifacts in shadded areas
+#' @param spline.method when `interpolator = 'spline'`, pass this to `splinefun`
+#' @param month.cex scaling factor for month labels
 #'
-#' @return
 #' @export
+#' 
+#' @examples 
+#' 
+#' if(requireNamespace('hydromad')) {
+#' 
+#' ## A shallow / droughty soil near Sonora CA 
+#' # 100mm (4") AWC
+#' AWC <- 100
+#' PPT <- c(171, 151, 138, 71, 36, 7, 1, 2, 11, 48, 102, 145)
+#' PET <- c(15.17, 18.26, 30.57, 42.95, 75.37, 108.05, 139.74, 128.9, 93.99, 59.84, 26.95, 14.2)
+#' 
+#' # calendar-year
+#' # three year warm-up
+#' x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 1, rep = 3, keep_last = TRUE)
+#'  
+#' # plot
+#' plotWB_lines(x.wb)
+#' 
+#' }
 #'
 plotWB_lines <- function(WB, cols = c("#ACC0F0", "#E88C8C", "#65BF65"), interpolator = c('spline', 'linear'), spline.method = c('natural', 'periodic'), month.cex = 1) {
   
@@ -158,10 +175,18 @@ plotWB_lines <- function(WB, cols = c("#ACC0F0", "#E88C8C", "#65BF65"), interpol
   grid()
   
   # shaded area legend
-  legend('topleft', legend=c('Surplus / Recharge', 'Utilization', 'Deficit'), col=c(col.ppt, col.utilization, col.pet), pch=c(15, 15, 15), pt.cex=2, bty='n')
+  legend(x = 0, y = y.range[2], legend=c('Surplus / Recharge', 'Utilization', 'Deficit'), col=c(col.ppt, col.utilization, col.pet), pch=c(15, 15, 15), pt.cex=2, bty='n', horiz = TRUE, xpd = NA, xjust = 0, yjust = -0.25)
   
   # line legend
-  legend('topright', legend = c('PPT', 'PET', 'AET'), col = c( 'blue', 'brown', 'black'), lwd = 2, lty=c(1, 2, 4), bty='n')
+  legend(x = 12, y = y.range[2], legend = c('PPT', 'PET', 'AET'), col = c( 'blue', 'brown', 'black'), lwd = 2, lty=c(1, 2, 4), bty='n', horiz = TRUE, xpd = NA, xjust = 1, yjust = -0.25)
+  
+  # annotate AWC
+  AWC <- attr(WB, 'AWC')
+  mtext(sprintf("AWC: %s mm", AWC), side = 1,  at = 1, cex = 0.85, adj = 0, line = 2.5)
+  
+  # annotate total deficit
+  sumD <- bquote(sum(Deficit)  ==  .(round(sum(WB$D)))~mm)
+  mtext(sumD, side = 1,  at = 12, cex = 0.85,  adj = 1, line = 2.5)
   
 }
 

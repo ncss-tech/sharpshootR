@@ -75,6 +75,8 @@
 #'   
 #'   # compare default sorting to soils sorting according to catenary, e.g.
 #'   # hillslope position
+#'   op <- par(no.readonly = TRUE)
+#'   
 #'   par(mar=c(0,0,1,1), mfrow=c(2,1))
 #'   
 #'   SoilTaxonomyDendrogram(s$SPC, width=0.25)
@@ -84,10 +86,7 @@
 #'   mtext('approx. catenary sorting', side = 2, line=-1, font=3, cex=1.25)
 #'  
 #'   
-#' # classic chronosequence from the San Joaquin Valley, CA
-#' library(aqp)
-#' library(soilDB)
-#' library(sharpshootR)
+#' # classic chrono-sequence from the San Joaquin Valley, CA
 #' 
 #' s <- c('tujunga', 'hanford', 'greenfield', 'snelling', 'san joaquin')
 #' osds <- fetchOSD(s)
@@ -178,7 +177,9 @@
 #' bty = 'n', 
 #' cex = 0.85
 #' )
-#'      
+#'
+#' par(op)
+#'
 #' }
 #' 
 #' }
@@ -217,6 +218,9 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', name.style='right-center'
 	max.dist <- max(s.dist)
 	taxa.lab.y.vect <- c(max.dist / 1.6666666, (max.dist / 1.6666666) + 0.12)
 	
+	# device options are modified locally, reset when done
+	op <- par(no.readonly = TRUE)
+	on.exit(par(op))
 	
 	# setup plot and add dendrogram
 	par(mar=c(0,0,0,0))

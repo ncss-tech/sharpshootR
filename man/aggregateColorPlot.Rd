@@ -76,8 +76,12 @@ if(require(aqp) &
   a <- aggregateColor(loafercreek, 'genhz')
   
   # plot
+  op <- par(no.readonly = TRUE)
+  
   par(mar=c(4,4,1,1))
   aggregateColorPlot(a, print.n.hz = TRUE)
+  
+  par(op)
   
 }
 

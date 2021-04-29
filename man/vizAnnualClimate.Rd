@@ -86,9 +86,13 @@ curl::has_internet() &
   str(res$clust)
   
   # do something with clustering
+  op <- par(no.readonly = TRUE)
+  
   par(mar=c(0,0,1,1))
   plotProfileDendrogram(spc, clust = res$clust, scaling.factor = 0.075, width = 0.2, y.offset = 0.5)
   mtext('sorted by annual climate summaries', side = 3, at = 0.5, adj = 0, line = -1.5, font=3)
+  
+  par(op)
   
 }
 

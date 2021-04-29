@@ -84,6 +84,9 @@ require(sp) &
   # sample data
   data("mineralKing", package = "soilDB")
   
+  # device options are modified locally, reset when done
+  op <- par(no.readonly = TRUE)
+  
   # quick overview
   par(mar=c(1,1,2,1))
   groupedProfilePlot(mineralKing, groups='taxonname', print.id=FALSE)
@@ -125,6 +128,8 @@ require(sp) &
                width=0.2, spacing = 'relative', 
                fix.relative.pos = list(maxIter=6000, adj=0.2, thresh=0.6),
                name.style = 'center-center')
+               
+ par(op)
   
 }
 }

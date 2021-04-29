@@ -116,6 +116,8 @@ if(requireNamespace("curl") &
   
   # compare default sorting to soils sorting according to catenary, e.g.
   # hillslope position
+  op <- par(no.readonly = TRUE)
+  
   par(mar=c(0,0,1,1), mfrow=c(2,1))
   
   SoilTaxonomyDendrogram(s$SPC, width=0.25)
@@ -125,10 +127,7 @@ if(requireNamespace("curl") &
   mtext('approx. catenary sorting', side = 2, line=-1, font=3, cex=1.25)
  
   
-# classic chronosequence from the San Joaquin Valley, CA
-library(aqp)
-library(soilDB)
-library(sharpshootR)
+# classic chrono-sequence from the San Joaquin Valley, CA
 
 s <- c('tujunga', 'hanford', 'greenfield', 'snelling', 'san joaquin')
 osds <- fetchOSD(s)
@@ -219,7 +218,9 @@ inset = 0.05,
 bty = 'n', 
 cex = 0.85
 )
-     
+
+par(op)
+
 }
 
 }

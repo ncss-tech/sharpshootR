@@ -71,7 +71,8 @@ p.narrow <- runif(n=25, min=215, max=280)
 p.wide <- runif(n=25, min=0, max=270)
 
 # set figure margins to 0, 2-column plot
-op <- par(mar = c(0,0,0,0), mfcol = c(1,2))
+op <- par(no.readonly = TRUE)
+par(mar = c(0,0,0,0), mfcol = c(1,2))
 
 # plot, save circular stats 
 x <- aspect.plot(p.narrow, p.bw=10, plot.title='Soil A', pch=21, col='black', bg='RoyalBlue')

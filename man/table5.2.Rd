@@ -23,6 +23,8 @@ if(requireNamespace("igraph")) {
   g <- igraph::graph_from_adjacency_matrix(table5.2, mode = 'upper', diag = FALSE, weighted = TRUE)
   
   # visualize
+  op <- par(no.readonly = TRUE)
+  
   par(mar = c(0,0,0,0))
   plot(g)
   
@@ -32,6 +34,7 @@ if(requireNamespace("igraph")) {
   cm <- igraph::cluster_walktrap(g)
   plot(cm, g, vertex.label.family = 'sans')
   
+  par(op)
 }
 
 }

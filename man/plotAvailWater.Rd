@@ -61,8 +61,12 @@ plotAvailWater(s, name.cex=1.25)
     # re-order based on approximate AWC
     x <- x[order(x$awc), ]
     
+    op <- par(no.readonly = TRUE)
+    
     par(mar=c(5, 6.5, 0.5, 0.5))
-    plotAvailWater(x, name.cex=1)
+    plotAvailWater(x, name.cex = 1)
+    
+    par(op)
     
   }
   
@@ -85,9 +89,13 @@ ORDER BY cokey, hzdept_r ASC;"
     x <- x[order(x$name), ]
     x$solid <- with(x, 1-sat)
     
+    
+    op <- par(no.readonly = TRUE)
+    
     par(mar=c(5, 5, 0.5, 0.5))
     plotAvailWater(x)
     
+    par(op)
   }
   
 }

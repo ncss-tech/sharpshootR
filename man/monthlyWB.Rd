@@ -76,6 +76,8 @@ PPT <- c(0, 150, 200, 120, 20, 0, 0, 0, 10, 20, 30, 60)
 (x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0))
 
 # plot the results
+op <- par(no.readonly = TRUE)
+
 par(mar=c(4,4,2,1), bg = 'white')
 plotWB(WB = x.wb)
 
@@ -91,6 +93,8 @@ plotWB(WB = x.wb)
 
 # note: consider using `rep = 3, keep_last = TRUE` 
 # to "warm-up" the water balance first
+
+par(op)
 
 }
 

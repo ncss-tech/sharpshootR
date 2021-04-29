@@ -98,6 +98,8 @@ plotSoilRelationGraph(m, s='amador', plot.style='dendrogram')
 # compare methods
 m.o <- component.adj.matrix(amador, method='occurrence')
 
+op <- par(no.readonly = TRUE)
+
 par(mfcol=c(1,2))
 plotSoilRelationGraph(m, s='amador', plot.style='dendrogram')
 title('community matrix')
@@ -109,6 +111,8 @@ plotSoilRelationGraph(m, spanning.tree='max')
 
 # investigate max spanning tree + edges with weights > 75-th pctile
 plotSoilRelationGraph(m, spanning.tree=0.75)
+
+par(op)
 
 \donttest{
   

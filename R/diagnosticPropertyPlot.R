@@ -131,10 +131,11 @@ diagnosticPropertyPlot <- function(f, v, k, grid.label='pedon_id', dend.label='p
   n.profiles <- nrow(m)
     
   ### BUG: this doesn't use the margins as specified
-  # plot dendrogram
-  op <- par(mar = c(0.5,1,5.5,1), no.readonly = TRUE)
-  # restore graphical device settings
+  op <- par(no.readonly = TRUE)
   on.exit(par(op))
+  
+  # plot dendrogram
+  par(mar = c(0.5,1,5.5,1))
   
   ### possible fix?
   # setup plotting region

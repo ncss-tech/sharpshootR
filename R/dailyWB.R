@@ -21,7 +21,12 @@
 #' 
 #' @param id character, name of column in `x` that is used to identify records
 #' 
+#' @param MS.style moisture state classification style, see [`estimateSoilMoistureState`]
+#' 
 #' @param S_0 fraction of water storage filled at time = 0 (range: 0-1)
+#'
+#' @param M fraction of area covered by deep-rooted vegetation
+#' @param etmult multiplier for PET
 #'
 #' @return a `data.frame`
 #' 
@@ -32,7 +37,7 @@
 #' Bai, Y., T. Wagener, P. Reed (2009). A top-down framework for watershed model evaluation and selection under uncertainty. Environmental Modelling and Software 24(8), pp. 901-916.
 #' @export
 #'
-dailyWB <- function(x, daily.data, id, S_0 = 0.5) {
+dailyWB <- function(x, daily.data, id, MS.style = 'default', S_0 = 0.5, M = 0, etmult = 1) {
   
   # sanity check: package requirements
   if(!requireNamespace('hydromad'))
@@ -85,7 +90,7 @@ dailyWB <- function(x, daily.data, id, S_0 = 0.5) {
   z <- do.call('rbind', z)
   
   # moisture state, based on interpretation of water retention curve
-  z$state <- with(z, estimateSoilMoistureState(VWC, U, sat, fc, pwp))
+  z$state <- with(z, estimateSoilMoistureState(VWC, U, sat, fc, pwp, style = MS.style))
   
   # months for grouping
   z$month <- months(z$date, abbreviate = TRUE)

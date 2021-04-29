@@ -110,8 +110,8 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
   
   ## Note: not using simpleWB() at this time
   
-  # Sb: total water storage (mm), this is the satiated VWC
-  # fc field capacity fraction: fraction of Sb, using 0.5 for a monthly timestep seems reasonable
+  # Sb: total water storage (mm), this is the awc at monthly timestep
+  # fc field capacity fraction: fraction of Sb, 1 for a monthly timestep seems reasonable
   # S_0 initial moisture content as fraction of Sb 
   # a.ss should always be > 0, but very small at this time step
   m <- hydromad::hydromad(d, sma = "bucket", routing = NULL)

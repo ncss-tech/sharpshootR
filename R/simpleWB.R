@@ -12,6 +12,9 @@
 #' 
 #' @param S_0 initial soil moisture as a fraction of total water storage (mm)
 #' @param a.ss recession coefficients for subsurface flow from saturated zone, should be > 0
+#' 
+#' @param M fraction of area covered by deep-rooted vegetation
+#' @param etmult multiplier for PET
 #'
 #' @details Adjustments for coarse fragments should be made by reducing `thickness`.
 #' 
@@ -30,7 +33,7 @@
 # https://github.com/josephguillaume/hydromad/blob/master/R/bucket.R
 # https://github.com/josephguillaume/hydromad/blob/master/src/bucket.c
 
-simpleWB <- function(PPT, PET, D, thickness, sat, fc, S_0 = 0.5, a.ss = 0.05) {
+simpleWB <- function(PPT, PET, D, thickness, sat, fc, S_0 = 0.5, a.ss = 0.05, M = 0, etmult = 1) {
   
   # sanity check: package requirements
   if(!requireNamespace('hydromad'))
@@ -58,8 +61,8 @@ simpleWB <- function(PPT, PET, D, thickness, sat, fc, S_0 = 0.5, a.ss = 0.05) {
     fc = Sb.fc, 
     S_0 = S_0,
     a.ss = a.ss,
-    M = 0, 
-    etmult = 1, 
+    M = M, 
+    etmult = etmult, 
     a.ei = 0
   )
   

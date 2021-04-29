@@ -4,7 +4,18 @@
 \alias{simpleWB}
 \title{Simple interface to the hydromad "leaky bucket" soil moisture model}
 \usage{
-simpleWB(PPT, PET, D, thickness, sat, fc, S_0 = 0.5, a.ss = 0.05)
+simpleWB(
+  PPT,
+  PET,
+  D,
+  thickness,
+  sat,
+  fc,
+  S_0 = 0.5,
+  a.ss = 0.05,
+  M = 0,
+  etmult = 1
+)
 }
 \arguments{
 \item{PPT}{precipitation series (mm)}
@@ -22,6 +33,10 @@ simpleWB(PPT, PET, D, thickness, sat, fc, S_0 = 0.5, a.ss = 0.05)
 \item{S_0}{initial soil moisture as a fraction of total water storage (mm)}
 
 \item{a.ss}{recession coefficients for subsurface flow from saturated zone, should be > 0}
+
+\item{M}{fraction of area covered by deep-rooted vegetation}
+
+\item{etmult}{multiplier for PET}
 }
 \value{
 a \code{data.frame}

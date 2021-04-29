@@ -48,6 +48,7 @@ SELECT * from SDA_Get_Mukey_from_intersection_with_WktWgs84('", x.wkt, "')
 #' @param start starting year (limited to DAYMET holdings)
 #' @param end ending year (limited to DAYMET holdings)
 #' @param modelDepth soil depth used for water balance, see details
+#' @param MS.style moisture state classification style, see [`estimateSoilMoistureState`]
 #' @param a.ss recession coefficients for subsurface flow from saturated zone, should be > 0 (range: 0-1)
 #' @param S_0 fraction of water storage filled at time = 0 (range: 0-1)
 #' @param bufferRadiusMeters spatial buffer (meters) applied to `x` for the look-up of SSURGO data
@@ -65,8 +66,7 @@ SELECT * from SDA_Get_Mukey_from_intersection_with_WktWgs84('", x.wkt, "')
 #' 
 #' @export
 #'
-dailyWB_SSURGO <- function(x, cokeys = NULL, start = 1988, end = 2018, modelDepth = 100, a.ss = 0.1, S_0 = 0.5, bufferRadiusMeters = 1) {
-  
+dailyWB_SSURGO <- function(x, cokeys = NULL, start = 1988, end = 2018, modelDepth = 100, MS.style = 'default', a.ss = 0.1, S_0 = 0.5, bufferRadiusMeters = 1) {
   
   # required packages
   if(!requireNamespace('daymetr', quietly=TRUE) |
@@ -94,7 +94,7 @@ dailyWB_SSURGO <- function(x, cokeys = NULL, start = 1988, end = 2018, modelDept
   
   # get SSURGO hydraulic data for select components
   s <- suppressMessages(
-    prepare_SSURGO_hydro_data(cokeys = cokeys, max.depth = 100)
+    prepare_SSURGO_hydro_data(cokeys = cokeys, max.depth = modelDepth)
   )
   
   # extract required variables
@@ -110,7 +110,7 @@ dailyWB_SSURGO <- function(x, cokeys = NULL, start = 1988, end = 2018, modelDept
   s$a.ss <- a.ss
   
   # daily water balance and moisture state classification
-  wb <- dailyWB(s, daily.data, id = 'compname', S_0 = S_0)
+  wb <- dailyWB(s, daily.data, id = 'compname', S_0 = S_0, MS.style = MS.style)
   
   return(wb)
 }

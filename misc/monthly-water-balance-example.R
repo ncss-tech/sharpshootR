@@ -3,6 +3,28 @@ library(soilDB)
 library(sharpshootR)
 library(hydromad)
 
+
+## overly simplistic simulation
+
+AWC <- 50
+PPT <- rep(5, times = 12)
+PET <- rep(10, times = 12)
+
+x <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 1, rep = 1, keep_last = TRUE)
+
+x
+
+plotWB(x)
+
+# note spline overshoots
+plotWB_lines(x, interpolator = 'spline')
+plotWB_lines(x, interpolator = 'linear')
+
+# important: ET is scaled by VWC
+
+
+
+
 ## get basic morphology and series-level summaries of climate etc.
 # http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html
 

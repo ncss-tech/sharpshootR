@@ -4,7 +4,14 @@
 \alias{estimateSoilMoistureState}
 \title{A very simple estimation of soil moisture state based on volumetric water content}
 \usage{
-estimateSoilMoistureState(VWC, U, sat, fc, pwp)
+estimateSoilMoistureState(
+  VWC,
+  U,
+  sat,
+  fc,
+  pwp,
+  style = c("default", "newhall")
+)
 }
 \arguments{
 \item{VWC}{vector of volumetric water content (VWC), range is 0-1}
@@ -16,6 +23,8 @@ estimateSoilMoistureState(VWC, U, sat, fc, pwp)
 \item{fc}{field capacity water content, range is 0-1}
 
 \item{pwp}{permanent wilting point water content, range is 0-1}
+
+\item{style}{VWC classification style}
 }
 \value{
 vector of moisture states (ordered factor)

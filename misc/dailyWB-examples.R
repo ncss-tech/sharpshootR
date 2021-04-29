@@ -79,6 +79,22 @@ xyplot(
     panel.abline(h = x$pwp, col = tactile.theme()$superpose.line$col, lty = 2)
   })
 
+## what about M parameter?
+## no effect
+
+# z <- dailyWB(x, daily.data, id = 'texture', S_0 = 0.75, M = 0)
+# 
+# xyplot(
+#   VWC ~ date, 
+#   groups = texture, 
+#   data = z, 
+#   type = 'l', 
+#   par.settings = tactile.theme(), 
+#   auto.key = list(lines = TRUE, points = FALSE, columns = 4), 
+#   panel = function(...) {
+#     panel.xyplot(...)
+#     panel.abline(h = x$fc, col = tactile.theme()$superpose.line$col, lty = 2)
+#   })
 
 
 
@@ -106,7 +122,7 @@ x$a.ss <- c(0.2, 0.1, 0.3, 0.5)
 # x$a.ss <- 0.3
 x
 
-z <- dailyWB(x, daily.data, id = 'texture')
+z <- dailyWB(x, daily.data, id = 'texture', MS.style = 'newhall')
 
 str(z)
 
@@ -119,8 +135,8 @@ t(apply(ann.AET, 1, quantile))
 
 kable(prop.table(table(z$texture, z$state), margin = 1), digits = 2)
 
-kable(prop.table(table(z$texture, z$state <= 'dry'), margin = 1), digits = 2)
-kable(prop.table(table(z$texture, z$state > 'very moist'), margin = 1), digits = 2)
+# kable(prop.table(table(z$texture, z$state <= 'dry'), margin = 1), digits = 2)
+# kable(prop.table(table(z$texture, z$state > 'very moist'), margin = 1), digits = 2)
 
 
 
@@ -261,7 +277,7 @@ levelplot(state ~ as.numeric(interval) * texture, data = mss,
 
 ##
 
-mst <- moistureStateThreshold(z, id = 'texture', threshold = 'dry', operator = '<')
+mst <- moistureStateThreshold(z, id = 'texture', threshold = 'dry', operator = '<=')
 str(mst)
 
 # colors / style
@@ -311,8 +327,10 @@ s <- prepare_SSURGO_hydro_data(cokeys = cokeys, max.depth = 100)
 par(mar = c(0, 0, 3, 0))
 plotSPC(s$SPC, color = 'sat', name.style = 'center-center', plot.depth.axis = FALSE, label = 'compname', hz.depths = TRUE, cex.names = 0.8)
 
+## moisture state proportions still aren't quite right... need to compare with real data
 
-d <- dailyWB_SSURGO(x = p, cokeys = cokeys, modelDepth = 50, bufferRadiusMeters = 1, a.ss = 0.1)
+# with a.ss = 1, xeric soils are "saturated" too often
+d <- dailyWB_SSURGO(x = p, cokeys = cokeys, modelDepth = 50, bufferRadiusMeters = 1, a.ss = 0.6, MS.style = 'default')
 
 
 xyplot(VWC ~ as.numeric(doy) | compname, groups = year, data = d, type = 'l', subset = year %in% c('1990', '1991', '1992'), par.settings = tactile.theme(), scales = list(y = list(rot = 0)))
@@ -332,8 +350,12 @@ xyplot(U ~ as.numeric(doy) | year, groups = compname, data = d, type = 'l', subs
 ## quick check on 30-yr proportions
 kable(prop.table(table(d$compname, d$state), margin = 1), digits = 2)
 
-kable(prop.table(table(d$compname, d$state < 'dry'), margin = 1), digits = 2)
-kable(prop.table(table(d$compname, d$state > 'very moist'), margin = 1), digits = 2)
+# MS.style = 'newhall'
+# mean "days dry|moist|saturated"
+kable(table(d$compname, d$state) / length(unique(d$year)), digits = 2)
+
+# kable(prop.table(table(d$compname, d$state < 'dry'), margin = 1), digits = 2)
+# kable(prop.table(table(d$compname, d$state > 'very moist'), margin = 1), digits = 2)
 
 
 
@@ -377,7 +399,6 @@ levelplot(ET ~ as.numeric(doy) * year | compname, data = d,
 
 ##
 msp <- moistureStateProportions(d, step = 'week')
-
 
 # colors / style
 ll <- levels(msp$state)

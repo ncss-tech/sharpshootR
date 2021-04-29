@@ -4,7 +4,7 @@
 \alias{dailyWB}
 \title{Simple Daily Water Balance}
 \usage{
-dailyWB(x, daily.data, id, S_0 = 0.5)
+dailyWB(x, daily.data, id, MS.style = "default", S_0 = 0.5, M = 0, etmult = 1)
 }
 \arguments{
 \item{x}{\code{data.frame}, required columns include:
@@ -26,7 +26,13 @@ dailyWB(x, daily.data, id, S_0 = 0.5)
 
 \item{id}{character, name of column in \code{x} that is used to identify records}
 
+\item{MS.style}{moisture state classification style, see \code{\link{estimateSoilMoistureState}}}
+
 \item{S_0}{fraction of water storage filled at time = 0 (range: 0-1)}
+
+\item{M}{fraction of area covered by deep-rooted vegetation}
+
+\item{etmult}{multiplier for PET}
 }
 \value{
 a \code{data.frame}

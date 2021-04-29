@@ -10,6 +10,7 @@ dailyWB_SSURGO(
   start = 1988,
   end = 2018,
   modelDepth = 100,
+  MS.style = "default",
   a.ss = 0.1,
   S_0 = 0.5,
   bufferRadiusMeters = 1
@@ -25,6 +26,8 @@ dailyWB_SSURGO(
 \item{end}{ending year (limited to DAYMET holdings)}
 
 \item{modelDepth}{soil depth used for water balance, see details}
+
+\item{MS.style}{moisture state classification style, see \code{\link{estimateSoilMoistureState}}}
 
 \item{a.ss}{recession coefficients for subsurface flow from saturated zone, should be > 0 (range: 0-1)}
 

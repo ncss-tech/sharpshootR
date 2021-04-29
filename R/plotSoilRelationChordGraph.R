@@ -1,4 +1,6 @@
 
+#' @return nothing, function is called to generate graphical output
+
 plotSoilRelationChordGraph <- function(m, s, mult=2, base.color='grey', highlight.colors=c('RoyalBlue', 'DarkOrange', 'DarkGreen'), add.legend=TRUE, ...) {
   
   # check for package

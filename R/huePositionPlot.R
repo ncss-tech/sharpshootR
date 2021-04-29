@@ -12,6 +12,8 @@
 #' @param grid.res grid resolution for contours, units are CIELAB A/B coordinates. Caution, small values result in many pair-wise distances which could take a very long time.
 #'
 #' @export
+#' 
+#' @return nothing, function is called to generate graphical output
 #'
 #' @examples
 #' 

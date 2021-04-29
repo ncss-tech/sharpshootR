@@ -10,8 +10,7 @@ FFD(
   minDays = 165,
   frostTemp = 32,
   endSpringDOY = 182,
-  startFallDOY = 213,
-  ...
+  startFallDOY = 213
 )
 }
 \arguments{

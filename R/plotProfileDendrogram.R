@@ -1,4 +1,5 @@
 
+#' @return nothing, function is called to generate graphical output
 
 ## TODO: move more hard-coded geom elements to arguments / heuristics
 ## NOTE: works best if distance matrix scaled to approximately {0,1}

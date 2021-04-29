@@ -23,6 +23,9 @@ plotAvailWater(
 
 \item{annotate}{logical, annotate AWC}
 }
+\value{
+nothing, function is called to generate graphical output
+}
 \description{
 Generate a simplistic diagram of the various fractions of water held within soil pore-space. Largely inspired by \href{https://www.nature.com/scitable/knowledge/library/soil-water-dynamics-103089121/}{Figure 2 from O'geen (2013)}.
 }

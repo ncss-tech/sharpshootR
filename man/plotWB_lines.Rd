@@ -29,6 +29,9 @@ plotWB_lines(
 
 \item{month.cex}{scaling factor for month labels}
 }
+\value{
+nothing, function is called to generate graphical output
+}
 \description{
 Line / Area Visualization for Monthly Water Balance
 }

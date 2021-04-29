@@ -50,6 +50,9 @@ plotWB(
 
 \item{legend.cex}{scaling factor for legend}
 }
+\value{
+nothing, function is called to generate graphical output
+}
 \description{
 This function offers one possible visualization for the results of \code{monthlyWB()}. Note that "surplus" water is stacked on top of "actual ET", and "deficit" water is stacked below "storage". Calculate actual values for "surplus" and "deficit" from the figure like this:
 \itemize{

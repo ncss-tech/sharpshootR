@@ -19,6 +19,8 @@
 #' @references O'Geen, A. T. (2013) Soil Water Dynamics. Nature Education Knowledge 4(5):9.
 #'
 #' @export
+#' 
+#' @return nothing, function is called to generate graphical output
 #'
 #' @examples
 #' 

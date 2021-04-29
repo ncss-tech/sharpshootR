@@ -158,7 +158,7 @@
 #' 
 #' str(x.ffd)
 #' 
-FFD <- function(d, returnDailyPr = TRUE, minDays = 165, frostTemp = 32, endSpringDOY = 182, startFallDOY = 213, ...) {
+FFD <- function(d, returnDailyPr = TRUE, minDays = 165, frostTemp = 32, endSpringDOY = 182, startFallDOY = 213) {
   
   ## TODO: replace ddply with split/lapply
   

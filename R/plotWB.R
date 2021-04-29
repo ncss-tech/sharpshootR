@@ -38,6 +38,8 @@
 #' 
 #' @keywords hplots
 #' 
+#' @return nothing, function is called to generate graphical output
+#' 
 #' @examples 
 #' 
 #' if(requireNamespace('hydromad')) {

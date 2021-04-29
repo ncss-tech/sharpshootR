@@ -26,6 +26,9 @@ huePositionPlot(
 
 \item{grid.res}{grid resolution for contours, units are CIELAB A/B coordinates. Caution, small values result in many pair-wise distances which could take a very long time.}
 }
+\value{
+nothing, function is called to generate graphical output
+}
 \description{
 A simple visualization of the hue positions for a given Munsell value/chroma according to \href{https://www.nrcs.usda.gov/wps/portal/nrcs/detail/soils/ref/?cid=nrcs142p2_053569}{Soil Survey Technical Note 2}.
 }

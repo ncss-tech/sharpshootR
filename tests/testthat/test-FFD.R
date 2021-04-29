@@ -48,9 +48,9 @@ test_that("FFD results are correct", {
 
 
 # TODO: test related functions
-# findFirstLastFrostDOY
-# makeFrostMatrix
-# frostFreePeriod
-# alignDOY
+# .findFirstLastFrostDOY
+# .makeFrostMatrix
+# .frostFreePeriod
+# .alignDOY
 
 

@@ -130,7 +130,7 @@ diagnosticPropertyPlot <- function(f, v, k, grid.label='pedon_id', dend.label='p
   n.vars <- ncol(m)
   n.profiles <- nrow(m)
     
-  ### BUG: this doesn't use the margins as specified
+  # device options are modified locally, reset when done
   op <- par(no.readonly = TRUE)
   on.exit(par(op))
   

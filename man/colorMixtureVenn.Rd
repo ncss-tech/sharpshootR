@@ -20,6 +20,9 @@ colorMixtureVenn(
 
 \item{labels}{logical, print mixture labels}
 }
+\value{
+nothing returned, function is called to create graphical output
+}
 \description{
 Create a Venn Diagram of Simulated Color Mixtures
 }

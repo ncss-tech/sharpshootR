@@ -1,4 +1,25 @@
-# fetch and format monthly data by course number, starting year, and ending year
+
+#' @title Get snow survey data (California only) from the CDEC website.
+#' 
+#' @description Get snow survey data (California only) from the CDEC website.
+#' 
+#' 
+#' @param course integer, course number (e.g. 129)
+#' @param start_yr integer, the starting year (e.g. 2010)
+#' @param end_yr integer, the ending year (e.g. 2013)
+#' 
+#' @details This function downloads data from the CDEC website, therefore an internet connection is required. The `SWE` column contains adjusted SWE if available (`Adjusted` column), otherwise the reported SWE is used (`Water` column). See the [tutorial](http://ncss-tech.github.io/AQP/sharpshootR/CA-snow-survey.html) for examples.
+#' 
+#' @note Snow course locations, ID numbers, and other information can be found here: \url{http://cdec.water.ca.gov/misc/SnowCourses.html}
+#' 
+#' @return a `data.frame` object, see examples
+#' 
+#' @references \url{http://cdec.water.ca.gov/cgi-progs/snowQuery}
+#' 
+#' @author D.E. Beaudette
+#' 
+#' @export
+#'
 CDECsnowQuery <- function(course, start_yr, end_yr) {
   # construct the URL for the DWR website	
   u <- paste(

@@ -7,6 +7,69 @@
 # k: number of groups to highlight
 # id: id to print next to dendrogram
 # sort.vars: should variables be sorted according to similarity?
+
+
+#' @title Diagnostic Property Plot (base graphics)
+#' 
+#' @description Generate a graphical description of the presence/absence of soil diagnostic properties.
+#'
+#' @param f `SoilProfileCollection` object
+#' @param v character vector of site-level attribute names of `logical` type
+#' @param k an integer, number of groups to highlight
+#' @param grid.label the name of a site-level attribute (usually unique) annotating the y-axis of the grid
+#' @param dend.label the name of a site-level attribute (usually unique) annotating dendrogram terminal leaves
+#' @param sort.vars sort variables according to natural clustering (`TRUE`), or use supplied ordering in `v`
+#'
+#' @details This function attempts to display several pieces of information within a single figure. First, soil profiles are sorted according to the presence/absence of diagnostic features named in `v`. Second, these diagnostic features are sorted according to their distribution among soil profiles. Third, a binary grid is established with row-ordering of profiles based on step 1 and column-ordering based on step 2. Blue cells represent the presence of a diagnostic feature. Soils with similar diagnostic features should 'clump' together. See examples below.
+#' 
+#' @return a `list` is silently returned by this function, containing:
+#' \describe{
+#'   \item{\code{rd}}{a \code{data.frame} containing IDs and grouping code}
+#'   \item{\code{profile.order}}{a vector containing the order of soil profiles (row-order in figure), according to diagnostic property values}
+#'   \item{\code{var.order}}{a vector containing the order of variables (column-order in figure), according to their distribution among profiles}
+#' }
+#' 
+#' @seealso \code{\link{multinominal2logical}}
+#' 
+#' @keywords hplots
+#' 
+#' @author D.E. Beaudette and J.M. Skovlin
+#' 
+#' @export
+#'
+#' @examples
+#' 
+#' \donttest{
+#' 
+#' if(require(aqp) &
+#'    require(soilDB) &
+#'    require(latticeExtra)
+#' ) {
+#'   
+#'   # sample data, an SPC
+#'   data(gopheridge, package='soilDB')
+#'   
+#'   # get depth class
+#'   sdc <- getSoilDepthClass(gopheridge)
+#'   site(gopheridge) <- sdc
+#'   
+#'   # diagnostic properties to consider, no need to convert to factors
+#'   v <- c('lithic.contact', 'paralithic.contact', 'argillic.horizon', 
+#'          'cambic.horizon', 'ochric.epipedon', 'mollic.epipedon', 'very.shallow',
+#'          'shallow', 'mod.deep', 'deep', 'very.deep')
+#'   
+#'   # base graphics
+#'   x <- diagnosticPropertyPlot(gopheridge, v, k=5)
+#'   
+#'   # lattice graphics
+#'   x <- diagnosticPropertyPlot2(gopheridge, v, k=3)
+#'   
+#'   # check output
+#'   str(x)
+#'   
+#' }
+#' 
+#' }
 diagnosticPropertyPlot <- function(f, v, k, grid.label='pedon_id', dend.label='pedon_id', sort.vars=TRUE) {
   
   # setup colors
@@ -69,7 +132,9 @@ diagnosticPropertyPlot <- function(f, v, k, grid.label='pedon_id', dend.label='p
     
   ### BUG: this doesn't use the margins as specified
   # plot dendrogram
-  par(mar=c(0.5,1,5.5,1))
+  op <- par(mar = c(0.5,1,5.5,1), no.readonly = TRUE)
+  # restore graphical device settings
+  on.exit(par(op))
   
   ### possible fix?
   # setup plotting region
@@ -118,7 +183,68 @@ diagnosticPropertyPlot <- function(f, v, k, grid.label='pedon_id', dend.label='p
 }
 
 
-# similar version with lattice
+
+#' @title Diagnostic Property Plot (lattice)
+#' 
+#' @description Generate a graphical description of the presence/absence of soil diagnostic properties.
+#'
+#' @param f `SoilProfileCollection` object
+#' @param v character vector of site-level attribute names of `logical` type
+#' @param k an integer, number of groups to highlight
+#' @param grid.label the name of a site-level attribute (usually unique) annotating the y-axis of the grid
+#' @param sort.vars sort variables according to natural clustering (`TRUE`), or use supplied ordering in `v`
+#'
+#' @details This function attempts to display several pieces of information within a single figure. First, soil profiles are sorted according to the presence/absence of diagnostic features named in `v`. Second, these diagnostic features are sorted according to their distribution among soil profiles. Third, a binary grid is established with row-ordering of profiles based on step 1 and column-ordering based on step 2. Blue cells represent the presence of a diagnostic feature. Soils with similar diagnostic features should 'clump' together. See examples below.
+#' 
+#' @return a `list` is silently returned by this function, containing:
+#' \describe{
+#'   \item{\code{rd}}{a \code{data.frame} containing IDs and grouping code}
+#'   \item{\code{profile.order}}{a vector containing the order of soil profiles (row-order in figure), according to diagnostic property values}
+#'   \item{\code{var.order}}{a vector containing the order of variables (column-order in figure), according to their distribution among profiles}
+#' }
+#' 
+#' @seealso \code{\link{multinominal2logical}}
+#' 
+#' @keywords hplots
+#' 
+#' @author D.E. Beaudette and J.M. Skovlin
+#' 
+#' @export
+#'
+#' @examples
+#' 
+#' \donttest{
+#' 
+#' if(require(aqp) &
+#'    require(soilDB) &
+#'    require(latticeExtra)
+#' ) {
+#'   
+#'   # sample data, an SPC
+#'   data(gopheridge, package='soilDB')
+#'   
+#'   # get depth class
+#'   sdc <- getSoilDepthClass(gopheridge)
+#'   site(gopheridge) <- sdc
+#'   
+#'   # diagnostic properties to consider, no need to convert to factors
+#'   v <- c('lithic.contact', 'paralithic.contact', 'argillic.horizon', 
+#'          'cambic.horizon', 'ochric.epipedon', 'mollic.epipedon', 'very.shallow',
+#'          'shallow', 'mod.deep', 'deep', 'very.deep')
+#'   
+#'   # base graphics
+#'   x <- diagnosticPropertyPlot(gopheridge, v, k=5)
+#'   
+#'   # lattice graphics
+#'   x <- diagnosticPropertyPlot2(gopheridge, v, k=3)
+#'   
+#'   # check output
+#'   str(x)
+#'   
+#' }
+#' 
+#' }
+#' 
 diagnosticPropertyPlot2 <- function(f, v, k, grid.label='pedon_id', sort.vars=TRUE) {
   
   # sanity check: package requirements

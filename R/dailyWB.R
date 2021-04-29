@@ -35,6 +35,7 @@
 #' Farmer, D., M. Sivapalan, Farmer, D. (2003). Climate, soil and vegetation controls upon the variability of water balance in temperate and semiarid landscapes: downward approach to water balance analysis. Water Resources Research 39(2), p 1035.
 #' 
 #' Bai, Y., T. Wagener, P. Reed (2009). A top-down framework for watershed model evaluation and selection under uncertainty. Environmental Modelling and Software 24(8), pp. 901-916.
+#' 
 #' @export
 #'
 dailyWB <- function(x, daily.data, id, MS.style = 'default', S_0 = 0.5, M = 0, etmult = 1) {

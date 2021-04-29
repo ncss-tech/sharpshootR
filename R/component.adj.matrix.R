@@ -1,15 +1,47 @@
 
 
-## new method based on dissimilarity eval of community matrix
-component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', method='community.matrix', standardization='max', metric='jaccard', rm.orphans=TRUE, similarity=TRUE, return.comm.matrix=FALSE) {
+
+#' @title Create an adjacency matrix from a data.frame of component data
+#' 
+#' @description Create an adjacency matrix from SSURGO component data
+#'
+#' @param d `data.frame`, typically of SSURGO data
+#' @param mu name of the column containing the map unit ID (typically 'mukey')
+#' @param co name of the column containing the component ID (typically 'compname')
+#' @param wt name of the column containing the component weight percent (typically 'comppct_r')
+#' @param method one of either: `community.matrix`, or `occurrence`; see details
+#' @param standardization community matrix standardization method, passed to `vegan::decostand`
+#' @param metric community matrix dissimilarity metric, passed to `vegan::vegdist`
+#' @param rm.orphans `logical`, should map units with a single component be omitted? (typically yes)
+#' @param similarity logical, return a similarity matrix? (if `FALSE`, a distance matrix is returned)
+#' @param return.comm.matrix logical, return pseudo-community matrix? (if `TRUE` no adjacency matrix is created)
+#'
+#' @return a similarity matrix / adjacency matrix suitable for use with `igraph` functions or anything else that can accommodate a _similarity_ matrix.
+#' 
+#' @author D.E. Beaudette
+#' 
+#' @export
+#' 
+#' @keywords manip
+#'
+#' @examples
+#' 
+#' # load sample data set
+#' data(amador)
+#' 
+#' # convert into adjacency matrix
+#' m <- component.adj.matrix(amador)
+#' 
+#' # plot network diagram, with Amador soil highlighted
+#' plotSoilRelationGraph(m, s = 'amador')
+#' 
+component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', method = c('community.matrix', 'occurrence'), standardization='max', metric='jaccard', rm.orphans=TRUE, similarity=TRUE, return.comm.matrix=FALSE) {
 	
   # appease R CMD check
   .wt <- NULL
   
   # sanity check
-  if(! method %in% c('community.matrix', 'occurrence')) {
-    stop('please specify a method: `community.matrix` | `occurrence`')
-  }
+  method <- match.arg(method)
   
   ## hack: move wt column into '.wt'
   d$.wt <- d[[wt]]

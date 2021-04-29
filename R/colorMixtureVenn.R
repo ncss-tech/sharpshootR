@@ -11,6 +11,8 @@
 #'
 #' @export
 #'
+#' @return nothing returned, function is called to create graphical output
+#'
 #' @examples
 #' 
 #' if(requireNamespace("venn") & requireNamespace("gower")) {

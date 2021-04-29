@@ -11,7 +11,7 @@ library(hydromad)
 # 
 
 
-s <- 'amador'
+s <- 'auburn'
 
 x <- fetchOSD(s, extended = TRUE)
 
@@ -44,7 +44,7 @@ x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 1, rep = 3, keep_l
 # tighter margins
 par(mar=c(4,4,3,1), bg = 'white')
 
-plotWB(WB = x.wb)
+plotWB(x.wb)
 
 
 ## TODO: only works with calendar year

@@ -49,15 +49,29 @@
 ## TODO: add a "today" option for specifying a specific date vs. current year
 ## TODO: explain differences between exemplar years and boxplot at current water day -- not the same
 
-# ugh, terrible name
-# percentiles of cumulative precipitation plot
-# x: result from CDECquery for now, will need to generalize to other sources
-# this.year: a single water year
-# this.day: plot as of given day since start of water year
-# method: exemplar|daily
-# q.color
-# c.color
-# ...: further arguments to plot()
+
+#' @title Percentiles of Cumulative Precipitation
+#' 
+#' @description Generate a plot representing percentiles of cumulative precipitation, given a historic record, and criteria for selecting a year of data for comparison.
+#'
+#' @param x result from `CDECquery` for now, will need to generalize to other sources
+#' @param this.year a single water year, e.g. 2020
+#' @param this.day optional integer representing days since start of selected water year
+#' @param method 'exemplar' or 'daily', currently 'exemplar' is the only method available
+#' @param q.color color of percentiles cumulative precipitation
+#' @param c.color color of selected year
+#' @param ... additional arguments to `plot`
+#' 
+#' @details This is very much a work in progress. Further examples at \url{https://ncss-tech.github.io/AQP/sharpshootR/CDEC.html}, and \url{https://ncss-tech.github.io/AQP/sharpshootR/cumulative-PPT.html}.
+#'
+#' @return nothing, this function is called to create graphical output
+#' @author D.E. Beaudette
+#' 
+#' @seealso [waterDayYear]
+#' @keywords hplots
+#' 
+#' @export
+#'
 PCP_plot <- function(x, this.year, this.day=NULL, method='exemplar', q.color='RoyalBlue', c.color='firebrick', ...) {
   
   # hack for R CMD check

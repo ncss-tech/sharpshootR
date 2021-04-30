@@ -54,7 +54,7 @@ PPT <- x$climate.monthly$q05[x$climate.monthly$variable == 'Precipitation (mm)']
 PET <- x$climate.monthly$q50[x$climate.monthly$variable == 'Potential ET (mm)']
 
 # tighter margins
-par(mar=c(4,4,2,1), bg = 'white')
+par(mar=c(4,4,3,1), bg = 'white')
 
 # water year
 # last iteration
@@ -76,4 +76,4 @@ x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 1, rep = 3, keep_l
 plotWB(WB = x.wb)
 
 plotWB_lines(x.wb)
-
+title('Pierre Soil Series', line = 2)

@@ -119,6 +119,8 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
   # 
   # https://github.com/josephguillaume/hydromad/blob/master/R/bucket.R
   
+  ## sharpshootR-specific
+  # https://github.com/ncss-tech/sharpshootR/issues/40
   
   ## opened issue
   # https://github.com/josephguillaume/hydromad/issues/188

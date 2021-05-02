@@ -114,13 +114,30 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
   
   ## Note: not using simpleWB() at this time
   
+  ## bug? in hydromad::bucket.sim()
+  # ET[t] should not be greater than PPT[t] or S[t] when S_prev = 0
+  # 
+  # https://github.com/josephguillaume/hydromad/blob/master/R/bucket.R
+  
+  
+  ## opened issue
+  # https://github.com/josephguillaume/hydromad/issues/188
+  #
   # Sb: total water storage (mm), this is the awc at monthly timestep
   # fc field capacity fraction: fraction of Sb, 1 for a monthly timestep seems reasonable
   # S_0 initial moisture content as fraction of Sb 
   # a.ss should always be > 0, but very small at this time step
-  m <- hydromad::hydromad(d, sma = "bucket", routing = NULL)
-  m <- update(m, Sb = AWC, fc = fc, S_0 = S_init, a.ss = a.ss, M = 0, etmult = 1, a.ei = 0)
-  res <- predict(m, return_state = TRUE)
+  # m <- hydromad::hydromad(d, sma = "bucket", routing = NULL)
+  # m <- update(m, Sb = AWC, fc = fc, S_0 = S_init, a.ss = a.ss, M = 0, etmult = 1, a.ei = 0)
+  # res <- predict(m, return_state = TRUE)
+  
+  ## until resolved:
+  # internal version, based on 
+  # https://github.com/josephguillaume/hydromad/blob/master/R/bucket.R
+  # with change:
+  # ET[t] <- Eintc + min(S[t], Etrans) + min(S[t], Ebare)
+  res <- .leakyBucket(d, Sb = AWC, fc = fc, S_0 = S_init, a.ss = a.ss, M = 0, etmult = 1, a.ei = 0)
+  
   
   # combine original PPT,PET with results
   res <- data.frame(d, res)

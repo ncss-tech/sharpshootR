@@ -122,6 +122,7 @@ x$a.ss <- c(0.2, 0.1, 0.3, 0.5)
 # x$a.ss <- 0.3
 x
 
+## much slower with current R-based implementation
 z <- dailyWB(x, daily.data, id = 'texture', MS.style = 'newhall')
 
 str(z)
@@ -350,6 +351,8 @@ xyplot(U ~ as.numeric(doy) | year, groups = compname, data = d, type = 'l', subs
 ## quick check on 30-yr proportions
 kable(prop.table(table(d$compname, d$state), margin = 1), digits = 2)
 
+
+## TODO: cross-check with newhall output
 # MS.style = 'newhall'
 # mean "days dry|moist|saturated"
 kable(table(d$compname, d$state) / length(unique(d$year)), digits = 2)

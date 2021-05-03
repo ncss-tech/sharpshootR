@@ -137,7 +137,7 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
   # internal version, based on 
   # https://github.com/josephguillaume/hydromad/blob/master/R/bucket.R
   # with change:
-  # ET[t] <- Eintc + min(S[t], Etrans) + min(S[t], Ebare)
+  # ET[t] <- Eintc + min(S[t], (Etrans + Ebare))
   res <- .leakyBucket(d, Sb = AWC, fc = fc, S_0 = S_init, a.ss = a.ss, M = 0, etmult = 1, a.ei = 0)
   
   

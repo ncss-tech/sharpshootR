@@ -18,9 +18,12 @@ x <- fetchOSD(s, extended = TRUE)
 # get representative, profile-total AWC from SSURGO
 sql <- sprintf("SELECT chorizon.cokey AS cokey, 
 SUM(awc_r * (hzdepb_r - hzdept_r)) AS ws 
-FROM component 
+FROM 
+legend JOIN mapunit ON legend.lkey = mapunit.lkey
+JOIN component ON mapunit.mukey = component.mukey
 JOIN chorizon ON component.cokey = chorizon.cokey 
-WHERE compname = '%s' 
+WHERE compname = '%s'
+AND areasymbol != 'US'
 GROUP BY chorizon.cokey;", s)
 
 

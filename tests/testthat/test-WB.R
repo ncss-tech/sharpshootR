@@ -5,6 +5,10 @@ context("leaky bucket models")
 
 test_that("thermic / xeric WB is reasonable", {
   
+  # this is only possible with required packages
+  if(requireNamespace('hydromad'))
+    skip(message = 'this test requires the hydomad package')
+  
   # AMADOR soil series data
   AWC <- 47
   PPT <- c(65, 59, 57, 28, 13, 3, 0, 1, 4, 20, 33, 53)
@@ -31,6 +35,10 @@ test_that("thermic / xeric WB is reasonable", {
 
 
 test_that("thermic / udic WB is reasonable", {
+  
+  # this is only possible with required packages
+  if(requireNamespace('hydromad'))
+    skip(message = 'this test requires the hydomad package')
   
   # LUCY soil series data
   AWC <- 207

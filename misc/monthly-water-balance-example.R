@@ -28,7 +28,7 @@ plotWB_lines(x, interpolator = 'linear')
 ## get basic morphology and series-level summaries of climate etc.
 # http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html
 
-s <- 'pierre'
+s <- 'lucy'
 
 x <- fetchOSD(s, extended = TRUE)
 

@@ -4,10 +4,14 @@
 #' 
 #' @param chips character vector of standard Munsell color notation (e.g. "10YR 3/4") 
 #' 
+#' @param w vector of proportions, can sum to any number, must be same length as `chips`
+#' 
 #' @param mixingMethod approach used to simulate a mixture: see `aqp::mixMunsell` for details
 #' 
 #' @param ellipse logical, use alternative ellipse-style (4 or 5 colors only) 
 #' @param labels logical, print mixture labels
+#' @param names logical, print names outside of the "sets"
+#' @param sncs scaling factor for set names
 #'
 #' @export
 #'
@@ -17,16 +21,29 @@
 #' 
 #' if(requireNamespace("venn") & requireNamespace("gower")) {
 #' 
-#' # "tan" / "dark red" / "dark brown"
 #' chips <- c('10YR 8/1', '2.5YR 3/6', '10YR 2/2')
-#' colorMixtureVenn(chips)
+#' names(chips) <- c("tan", "dark red", "dark brown")
 #' 
+#' colorMixtureVenn(chips, mixingMethod = 'exact')
+#' colorMixtureVenn(chips, mixingMethod = 'exact', names = TRUE)
+#' 
+#' colorMixtureVenn(chips, mixingMethod = 'exact', w = c(1, 1, 1), names = TRUE)
+#' colorMixtureVenn(chips, mixingMethod = 'exact', w = c(10, 5, 1), names = TRUE)
+#' 
+#' 
+#' chips <- c('10YR 8/1', '2.5YR 3/6', '10YR 2/2', '5GY 6/6')
+#' names(chips) <- c("tan", "dark red", "dark brown", "light green")
+#' 
+#' colorMixtureVenn(chips, mixingMethod = 'exact', names = TRUE)
+#' colorMixtureVenn(chips, mixingMethod = 'exact', w = c(1, 1, 1, 2), names = TRUE)
+#' colorMixtureVenn(chips, mixingMethod = 'exact', w = c(10, 5, 2, 1), names = TRUE)
+#' colorMixtureVenn(chips, mixingMethod = 'exact', w = c(1, 2, 5, 10), names = TRUE)
+#'  
 #' }
+#' 
 
-## TODO: add support for weighted mixtures
-
-colorMixtureVenn <- function(chips, mixingMethod = 'spectra', ellipse = FALSE, labels = TRUE) {
- 
+colorMixtureVenn <- function(chips, w = rep(1, times = length(chips))/length(chips), mixingMethod = 'exact', ellipse = FALSE, labels = TRUE, names = FALSE, sncs = 0.85) {
+  
   # required package
   if(!requireNamespace('venn') | !requireNamespace("gower"))
     stop('please install the `venn` and `gower` packages', call.=FALSE)
@@ -37,7 +54,15 @@ colorMixtureVenn <- function(chips, mixingMethod = 'spectra', ellipse = FALSE, l
     stop('must supply more than 2 Munsell colors', call. = FALSE)
   }
   
-  # sanity check on mixing method performed by aqp::mixMunsell
+  # sanity check on flags
+  stopifnot(inherits(labels, 'logical'))
+  stopifnot(inherits(ellipse, 'logical'))
+  stopifnot(inherits(names, 'logical'))
+  
+  # w should have same length as chips
+  stopifnot(length(w) == length(chips))
+  
+  # sanity check on `mixingMethod` and performed by aqp::mixMunsell()
   
   # base colors
   cols <- parseMunsell(chips)
@@ -48,19 +73,33 @@ colorMixtureVenn <- function(chips, mixingMethod = 'spectra', ellipse = FALSE, l
   }
   
   # Venn diagram outlines
-  # TODO: is there a better way to suppress category labels besides sncs?
-  venn::venn(n.chips, zcolor = 'bw', box = FALSE, sncs = 0.001, ellipse = ellipse)
+  if(names) {
+    nm <- names(chips)
+    if(is.null(nm)) {
+      message('`chips` does not have a "names" attribute')
+      nm <- rep('', times = n.chips)
+    } 
+    # include set names
+    venn::venn(n.chips, snames = nm, zcolor = 'bw', box = FALSE, sncs = sncs, ellipse = ellipse)
+  } else {
+    # suppress default set names
+    nm <- rep('', times = n.chips)
+    venn::venn(n.chips, snames = nm, zcolor = 'bw', box = FALSE, ellipse = ellipse)
+  }
+  
   
   # add outer-most colors / no mixing
   .fillOuter(chips = chips, cols = cols, e = ellipse, labels = labels)
   
+  # all combinations
   if(n.chips > 2) {
     for(i in 1:(max(n.chips) - 2)) {
-      .fillCombinations(chips = chips, e = ellipse, labels = labels, degree = i, mixingMethod = mixingMethod)
+      .fillCombinations(chips = chips, w = w, e = ellipse, labels = labels, degree = i, mixingMethod = mixingMethod)
     }
   }
   
-  .fillCenter(chips = chips, e = ellipse, labels = labels, mixingMethod = mixingMethod)
+  # center
+  .fillCenter(chips = chips, w = w, e = ellipse, labels = labels, mixingMethod = mixingMethod)
   
 }
 
@@ -97,7 +136,7 @@ colorMixtureVenn <- function(chips, mixingMethod = 'spectra', ellipse = FALSE, l
   
 }
 
-.fillCenter <- function(chips, e, labels, mixingMethod) {
+.fillCenter <- function(chips, w, e, labels, mixingMethod) {
   
   # local copy
   n.chips <- length(chips)
@@ -109,7 +148,7 @@ colorMixtureVenn <- function(chips, mixingMethod = 'spectra', ellipse = FALSE, l
   cz <- venn::getZones(center.zone, ellipse = e)
   
   # mix all colors
-  all <- mixMunsell(chips, mixingMethod = mixingMethod)
+  all <- mixMunsell(chips, w = w, mixingMethod = mixingMethod)
   all.color <- parseMunsell(all$munsell)
   
   # fill center
@@ -130,7 +169,7 @@ colorMixtureVenn <- function(chips, mixingMethod = 'spectra', ellipse = FALSE, l
 }
 
 
-.fillCombinations <- function(chips, e, labels, degree, mixingMethod) {
+.fillCombinations <- function(chips, w, e, labels, degree, mixingMethod) {
   
   # local copy
   n.chips <- length(chips)
@@ -140,16 +179,34 @@ colorMixtureVenn <- function(chips, mixingMethod = 'spectra', ellipse = FALSE, l
   chip.combinations <- t(combn(chips, n.chips - degree))
   chip.combinations <- data.frame(chip.combinations)
   
+  # weight matrix for each combination
+  w.idx <- t(apply(chip.combinations, 1, match, chips))
+  w.mat <- t(apply(w.idx, 1, function(i) {
+    w[i]
+  }))
+  
+  # # testing:
+  # cat(sprintf("Degree: %s\n", degree))
+  # print(
+  #   data.frame(
+  #     chips,
+  #     w
+  #   )
+  # )
+  # 
+  # print(chip.combinations)
+  # print(w.mat)
+  # cat('\n')
+  
   # add mixtures
   chip.combinations$mix <- NA
   for(i in 1:nrow(chip.combinations)) {
     mi <- mixMunsell(
       x = unlist(chip.combinations[i, 1:(n.chips-degree)]), 
+      w = w.mat[i, ],
       mixingMethod = mixingMethod
     )
     chip.combinations$mix[i] <- mi$munsell
-    # debugging:
-    # print(mi)
   }
   
   # mixtures -> colors

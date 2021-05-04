@@ -24,16 +24,18 @@
 #' chips <- c('10YR 8/1', '2.5YR 3/6', '10YR 2/2')
 #' names(chips) <- c("tan", "dark red", "dark brown")
 #' 
-#' colorMixtureVenn(chips, mixingMethod = 'exact')
-#' colorMixtureVenn(chips, mixingMethod = 'exact', names = TRUE)
+#' colorMixtureVenn(chips)
+#' colorMixtureVenn(chips, names = TRUE)
 #' 
-#' colorMixtureVenn(chips, mixingMethod = 'exact', w = c(1, 1, 1), names = TRUE)
-#' colorMixtureVenn(chips, mixingMethod = 'exact', w = c(10, 5, 1), names = TRUE)
+#' colorMixtureVenn(chips, w = c(1, 1, 1), names = TRUE)
+#' colorMixtureVenn(chips, w = c(10, 5, 1), names = TRUE)
 #' 
 #' }
 #' 
 
-colorMixtureVenn <- function(chips, w = rep(1, times = length(chips))/length(chips), mixingMethod = 'exact', ellipse = FALSE, labels = TRUE, names = FALSE, sncs = 0.85) {
+## TODO: once the new aqp is on CRAN, convert mixingMethod = 'exact'
+
+colorMixtureVenn <- function(chips, w = rep(1, times = length(chips))/length(chips), mixingMethod = 'spectra', ellipse = FALSE, labels = TRUE, names = FALSE, sncs = 0.85) {
   
   # required package
   if(!requireNamespace('venn') | !requireNamespace("gower"))

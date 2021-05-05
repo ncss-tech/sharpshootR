@@ -1,6 +1,4 @@
 
-## TODO: document assumptions / considerations for monthly vs. daily WB
-
 #' @title Monthly Water Balances
 #' 
 #' @description Perform a monthly water balance by "leaky bucket" model, inspired by code from `bucket.sim` of `hydromad` package, as defined in Bai et al., (2009) (model "SMA_S1"). The plant available water-holding storage (soil thickness * awc) is used as the "bucket capacity". All water in excess of this capacity is lumped into a single "surplus" term.
@@ -27,9 +25,13 @@
 #' 
 #' @references 
 #' 
+#' Arkley R, Ulrich R. 1962. The use of calculated actual and potential evapotranspiration for estimating potential plant growth. Hilgardia 32(10):443-469.
+#' 
 #' Bai, Y., T. Wagener, P. Reed (2009). A top-down framework for watershed model evaluation and selection under uncertainty. Environmental Modelling and Software 24(8), pp. 901-916.
 #' 
 #' Farmer, D., M. Sivapalan, Farmer, D. (2003). Climate, soil and vegetation controls upon the variability of water balance in temperate and semiarid landscapes: downward approach to water balance analysis. Water Resources Research 39(2), p 1035.
+#' 
+#' 
 #' 
 #' @return a `data.frame` with the following elements:
 #' 
@@ -136,7 +138,7 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
     res <- res[keep.idx, ]
   }
   
-  # reset rownames
+  # reset row names
   row.names(res) <- NULL
   
   # add original AWC used as an attribute

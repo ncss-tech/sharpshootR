@@ -3,13 +3,14 @@
 
 #' @title Monthly Water Balances
 #' 
-#' @description Perform a monthly water balance by "leaky bucket" model, provided by the `hydromad` package.
+#' @description Perform a monthly water balance by "leaky bucket" model, inspired by code from `bucket.sim` of `hydromad` package, as defined in Bai et al., (2009) (model "SMA_S1"). The plant available water-holding storage (soil thickness * awc) is used as the "bucket capacity". All water in excess of this capacity is lumped into a single "surplus" term.
 #' 
-#' @note This function depends on the \href{http://hydromad.catchment.org/}{hydromad package}.
+#' @details A number of important assumptions are made by this approach:
+#'    * the concept of field capacity is built into the specified bucket size
+#'    * the influence of aquitards or local terrain cannot be integrated into this model
+#'    * interception is not used in this model
 #' 
-#' @author D.E. Beaudette
-#' 
-#' @param AWC available water-holding capacity (mm), typically thickness (mm) * awc
+#' @param AWC available water-holding capacity (mm), typically thickness (mm) * awc (fraction)
 #' 
 #' @param PPT time-series of monthly PPT (mm), calendar year ordering
 #' 
@@ -23,37 +24,32 @@
 #' 
 #' @param keep_last keep only the last iteration of the water balance
 #' 
-#' @param fc fraction of `AWC` representing field capacity (see details)
-#' 
-#' @param a.ss recession coefficients for subsurface flow from saturated zone, should be > 0 but very small (see details)
-#' 
-#' @details At a monthly time step, `fc` and `a.ss` have very little impact on results. See `?bucket.sim` for details.
 #' 
 #' @references 
+#' 
+#' Bai, Y., T. Wagener, P. Reed (2009). A top-down framework for watershed model evaluation and selection under uncertainty. Environmental Modelling and Software 24(8), pp. 901-916.
 #' 
 #' Farmer, D., M. Sivapalan, Farmer, D. (2003). Climate, soil and vegetation controls upon the variability of water balance in temperate and semiarid landscapes: downward approach to water balance analysis. Water Resources Research 39(2), p 1035.
 #' 
 #' @return a `data.frame` with the following elements:
 #' 
 #' \itemize{
-#' \item{PPT: }{monthly PPT values}
-#' \item{PET: }{monthly PET values}
-#' \item{U: }{monthly U values}
-#' \item{S: }{monthly S values}
-#' \item{ET: }{monthly ET values}
-#' \item{D: }{monthly D values}
+#' \item{PPT: }{monthly PPT (mm)}
+#' \item{PET: }{monthly PET (mm)}
+#' \item{U: }{monthly surplus (mm)}
+#' \item{S: }{monthly soil moisture storage (mm)}
+#' \item{ET: }{monthly AET (mm)}
+#' \item{D: }{monthly deficit (mm)}
 #' \item{month: }{month number}
 #' \item{mo: }{month label}   
 #' }
 #' 
 #' @examples 
 #' 
-#' if(requireNamespace('hydromad')) {
-#' 
 #' # 4" water storage ~ 100mm
 #' 
 #' # AWC in mm
-#' AWC <- 200
+#' AWC <- 100
 #' 
 #' # monthly PET and PPT in mm
 #' PET <- c(0,0,5,80,90,120,130,140,110,90,20,5)
@@ -84,13 +80,8 @@
 #' 
 #' par(op)
 #' 
-#' }
 #' 
-monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, keep_last = FALSE, fc = 1, a.ss = 0.001) {
-  
-  # sanity check: package requirements
-  if(!requireNamespace('hydromad'))
-    stop('please install the hydromad package', call. = FALSE)
+monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, keep_last = FALSE) {
   
   # number of time steps in the original series
   n <- length(PPT)
@@ -112,33 +103,19 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
   # combine into format suitable for simulation
   d <- data.frame(P = PPT, E = PET)
   
-  ## Note: not using simpleWB() at this time
-  
-  ## bug? in hydromad::bucket.sim()
-  # ET[t] should not be greater than PPT[t] or S[t] when S_prev = 0
-  # 
-  # https://github.com/josephguillaume/hydromad/blob/master/R/bucket.R
-  
-  ## sharpshootR-specific
-  # https://github.com/ncss-tech/sharpshootR/issues/40
-  
-  ## opened issue
-  # https://github.com/josephguillaume/hydromad/issues/188
-  #
-  # Sb: total water storage (mm), this is the awc at monthly timestep
-  # fc field capacity fraction: fraction of Sb, 1 for a monthly timestep seems reasonable
-  # S_0 initial moisture content as fraction of Sb 
-  # a.ss should always be > 0, but very small at this time step
+  ## hydromad interface
   # m <- hydromad::hydromad(d, sma = "bucket", routing = NULL)
   # m <- update(m, Sb = AWC, fc = fc, S_0 = S_init, a.ss = a.ss, M = 0, etmult = 1, a.ei = 0)
   # res <- predict(m, return_state = TRUE)
   
-  ## until resolved:
-  # internal version, based on 
-  # https://github.com/josephguillaume/hydromad/blob/master/R/bucket.R
-  # with change:
+  ## custom implementation of "model S2" from Bai et al., 2009
+  # soil moisture accounting "SMA_S2"
+  # routing "R1"
+  # SMA_S2 + R1 
+  #
+  # important change:
   # ET[t] <- Eintc + min(S[t], (Etrans + Ebare))
-  res <- .leakyBucket(d, Sb = AWC, fc = fc, S_0 = S_init, a.ss = a.ss, M = 0, etmult = 1, a.ei = 0)
+  res <- .monthlyBucket(d, Sb = AWC, S_0 = S_init, fc = 1, a.ss = 0.01, M = 0, etmult = 1, a.ei = 0)
   
   
   # combine original PPT,PET with results

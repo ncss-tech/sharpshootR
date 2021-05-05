@@ -11,13 +11,11 @@ monthlyWB(
   S_init = AWC,
   starting_month = 1,
   rep = 1,
-  keep_last = FALSE,
-  fc = 1,
-  a.ss = 0.001
+  keep_last = FALSE
 )
 }
 \arguments{
-\item{AWC}{available water-holding capacity (mm), typically thickness (mm) * awc}
+\item{AWC}{available water-holding capacity (mm), typically thickness (mm) * awc (fraction)}
 
 \item{PPT}{time-series of monthly PPT (mm), calendar year ordering}
 
@@ -30,42 +28,38 @@ monthlyWB(
 \item{rep}{number of cycles to run water balance}
 
 \item{keep_last}{keep only the last iteration of the water balance}
-
-\item{fc}{fraction of \code{AWC} representing field capacity (see details)}
-
-\item{a.ss}{recession coefficients for subsurface flow from saturated zone, should be > 0 but very small (see details)}
 }
 \value{
 a \code{data.frame} with the following elements:
 
 \itemize{
-\item{PPT: }{monthly PPT values}
-\item{PET: }{monthly PET values}
-\item{U: }{monthly U values}
-\item{S: }{monthly S values}
-\item{ET: }{monthly ET values}
-\item{D: }{monthly D values}
+\item{PPT: }{monthly PPT (mm)}
+\item{PET: }{monthly PET (mm)}
+\item{U: }{monthly surplus (mm)}
+\item{S: }{monthly soil moisture storage (mm)}
+\item{ET: }{monthly AET (mm)}
+\item{D: }{monthly deficit (mm)}
 \item{month: }{month number}
 \item{mo: }{month label}
 }
 }
 \description{
-Perform a monthly water balance by "leaky bucket" model, provided by the \code{hydromad} package.
+Perform a monthly water balance by "leaky bucket" model, inspired by code from \code{bucket.sim} of \code{hydromad} package, as defined in Bai et al., (2009) (model "SMA_S1"). The plant available water-holding storage (soil thickness * awc) is used as the "bucket capacity". All water in excess of this capacity is lumped into a single "surplus" term.
 }
 \details{
-At a monthly time step, \code{fc} and \code{a.ss} have very little impact on results. See \code{?bucket.sim} for details.
+A number of important assumptions are made by this approach:
+\itemize{
+\item the concept of field capacity is built into the specified bucket size
+\item the influence of aquitards or local terrain cannot be integrated into this model
+\item interception is not used in this model
 }
-\note{
-This function depends on the \href{http://hydromad.catchment.org/}{hydromad package}.
 }
 \examples{
-
-if(requireNamespace('hydromad')) {
 
 # 4" water storage ~ 100mm
 
 # AWC in mm
-AWC <- 200
+AWC <- 100
 
 # monthly PET and PPT in mm
 PET <- c(0,0,5,80,90,120,130,140,110,90,20,5)
@@ -96,12 +90,10 @@ plotWB(WB = x.wb)
 
 par(op)
 
-}
 
 }
 \references{
+Bai, Y., T. Wagener, P. Reed (2009). A top-down framework for watershed model evaluation and selection under uncertainty. Environmental Modelling and Software 24(8), pp. 901-916.
+
 Farmer, D., M. Sivapalan, Farmer, D. (2003). Climate, soil and vegetation controls upon the variability of water balance in temperate and semiarid landscapes: downward approach to water balance analysis. Water Resources Research 39(2), p 1035.
-}
-\author{
-D.E. Beaudette
 }

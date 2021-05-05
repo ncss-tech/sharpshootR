@@ -105,7 +105,7 @@ dailyWB_SSURGO <- function(x, cokeys = NULL, start = 1988, end = 2018, modelDept
   #        * interpretation of drainage class
   #        * empirical values from SCAN network
   
-  # specify thickness and recession coef.
+  # soil-specific thickness and recession coef.
   s$thickness <- s$corrected_depth
   s$a.ss <- a.ss
   

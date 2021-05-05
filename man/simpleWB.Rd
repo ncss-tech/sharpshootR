@@ -11,6 +11,7 @@ simpleWB(
   thickness,
   sat,
   fc,
+  pwp,
   S_0 = 0.5,
   a.ss = 0.05,
   M = 0,
@@ -26,9 +27,11 @@ simpleWB(
 
 \item{thickness}{soil thickness (cm)}
 
-\item{sat}{volumeric water content at saturation (satiated water content)}
+\item{sat}{volumetric water content at saturation (satiated water content)}
 
 \item{fc}{volumetric water content at field capacity (typically 1/3 bar suction)}
+
+\item{pwp}{volumetric water content at permanent wilting point (typically 15 bar suction)}
 
 \item{S_0}{initial soil moisture as a fraction of total water storage (mm)}
 

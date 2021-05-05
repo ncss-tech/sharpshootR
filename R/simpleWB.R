@@ -1,5 +1,6 @@
 
-## TODO: using local copy of leaky bucket model until resolved:
+## consider options while these issues are open
+## seems more relevant at the monthly time-step
 
 ## bug? in hydromad::bucket.sim()
 # ET[t] should not be greater than PPT[t] or S[t] when S_prev = 0
@@ -24,8 +25,9 @@
 #' @param PET potential ET series (mm)
 #' @param D dates
 #' @param thickness soil thickness (cm)
-#' @param sat volumeric water content at saturation (satiated water content)
+#' @param sat volumetric water content at saturation (satiated water content)
 #' @param fc volumetric water content at field capacity (typically 1/3 bar suction)
+#' @param pwp volumetric water content at permanent wilting point (typically 15 bar suction)
 #' 
 #' @param S_0 initial soil moisture as a fraction of total water storage (mm)
 #' @param a.ss recession coefficients for subsurface flow from saturated zone, should be > 0
@@ -47,10 +49,13 @@
 #' 
 ## TODO: investigate realistic a.ss values for various drainage classes
 
+## TODO: double-check specification of `Sb.fc`
+
+## source
 # https://github.com/josephguillaume/hydromad/blob/master/R/bucket.R
 # https://github.com/josephguillaume/hydromad/blob/master/src/bucket.c
 
-simpleWB <- function(PPT, PET, D, thickness, sat, fc, S_0 = 0.5, a.ss = 0.05, M = 0, etmult = 1) {
+simpleWB <- function(PPT, PET, D, thickness, sat, fc, pwp, S_0 = 0.5, a.ss = 0.05, M = 0, etmult = 1) {
   
   # sanity check: package requirements
   if(!requireNamespace('hydromad'))
@@ -62,36 +67,38 @@ simpleWB <- function(PPT, PET, D, thickness, sat, fc, S_0 = 0.5, a.ss = 0.05, M 
   # total water storage (mm) = thickness (cm) * 10 mm/cm * saturated VWC
   Sb <- thickness * 10 * sat
   
+  ## TODO: verify this
   # field capacity as a fraction of Sb
-  # Sb.fc = field capacity AWC / saturated VWC 
-  Sb.fc <- fc / sat
+  # Model S1/S2 of Bai et al., 2009
+  # see Appendix A1
+  Sb.fc <- (fc - pwp) / (sat - pwp)
   
   # prep input / output data for model
   z <- data.frame(P = PPT, E = PET)
   
-  # # init model: leaky-bucket SMA, no routing component
-  # m <- hydromad::hydromad(z, sma = "bucket", routing = NULL)
-  # # add soil hydraulic parameters
-  # m <- update(
-  #   m, 
-  #   Sb = Sb, 
-  #   fc = Sb.fc, 
-  #   S_0 = S_0,
-  #   a.ss = a.ss,
-  #   M = M, 
-  #   etmult = etmult, 
-  #   a.ei = 0
-  # )
-  # 
-  # # predictions
-  # res <- predict(m, return_state = TRUE)
+  # init model: leaky-bucket SMA, no routing component
+  m <- hydromad::hydromad(z, sma = "bucket", routing = NULL)
+  # add soil hydraulic parameters
+  m <- update(
+    m,
+    Sb = Sb,
+    fc = Sb.fc,
+    S_0 = S_0,
+    a.ss = a.ss,
+    M = M,
+    etmult = etmult,
+    a.ei = 0
+  )
+
+  # predictions
+  res <- predict(m, return_state = TRUE)
   
-  ## until resolved:
+  ## consider implications:
   # internal version, based on 
   # https://github.com/josephguillaume/hydromad/blob/master/R/bucket.R
   # with change:
   # ET[t] <- Eintc + min(S[t], (Etrans + Ebare))
-  res <- .leakyBucket(z, Sb = Sb, fc = Sb.fc, S_0 = S_0, a.ss = a.ss, M = M, etmult = etmult, a.ei = 0)
+  # res <- .monthlyBucket(z, Sb = Sb, fc = Sb.fc, S_0 = S_0, a.ss = a.ss, M = M, etmult = etmult, a.ei = 0)
   
   # combine date, inputs (z), predictions (res)
   res <- data.frame(

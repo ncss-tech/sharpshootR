@@ -1,5 +1,3 @@
-
-
 library(daymetr)
 library(Evapotranspiration)
 library(elevatr)
@@ -24,6 +22,10 @@ library(RColorBrewer)
 library(viridis)
 
 
+
+
+
+
 ## simulate NULL PET
 # near Sonora, CA
 p <- SpatialPoints(cbind(-120.37673,37.99877), proj4string = CRS('+proj=longlat +datum=WGS84'))
@@ -41,8 +43,9 @@ x <- ROSETTA.centroids[c(12, 1, 3, 5), vars]
 
 # thickness and recession coef.
 x$thickness <- 50
+
 # recession coef.
-x$a.ss <- c(0.2, 0.1, 0.3, 0.4)
+x$a.ss <- c(0.1, 0.1, 0.1, 0.1)
 x
 
 # NO PET
@@ -59,13 +62,13 @@ xyplot(
   auto.key = list(lines = TRUE, points = FALSE, columns = 4), 
   panel = function(...) {
     panel.xyplot(...)
-    panel.abline(h = x$fc, col = tactile.theme()$superpose.line$col, lty = 2)
+    panel.abline(h = (x$sat), col = tactile.theme()$superpose.line$col, lty = 2)
   })
 
 
 daily.data$PET <- daily.data$PET_saved
 
-z <- dailyWB(x, daily.data, id = 'texture', S_0 = 0.75)
+z <- dailyWB(x, daily.data, id = 'texture', S_0 = 1)
 
 xyplot(
   VWC ~ date, 
@@ -76,7 +79,7 @@ xyplot(
   auto.key = list(lines = TRUE, points = FALSE, columns = 4), 
   panel = function(...) {
     panel.xyplot(...)
-    panel.abline(h = x$pwp, col = tactile.theme()$superpose.line$col, lty = 2)
+    panel.abline(h = x$fc, col = tactile.theme()$superpose.line$col, lty = 2)
   })
 
 ## what about M parameter?
@@ -117,7 +120,7 @@ x <- ROSETTA.centroids[c(12, 1, 3, 5), vars]
 # thickness and recession coef.
 x$thickness <- 50
 # this should reflect drainage class: lower numbers = less internal drainage
-x$a.ss <- c(0.2, 0.1, 0.3, 0.5)
+x$a.ss <- c(0.1, 0.1, 0.1, 0.1)
 
 # x$a.ss <- 0.3
 x
@@ -231,7 +234,7 @@ levelplot(ET ~ as.numeric(doy) * year | texture, data = z,
           as.table = TRUE,
           xlab = 'Day of the Year',
           ylab = '',
-          main='Soil Moisture',
+          main='AET',
           scales=list(alternating = 1, x=list(tick.number=25))
 )
 
@@ -323,7 +326,7 @@ p <- SpatialPoints(cbind(-120.37673,37.99877), proj4string = CRS('+proj=longlat 
 cokeys <- c('19586277', '19586145', '19586459', '19586251')
 
 # investigate source data
-s <- prepare_SSURGO_hydro_data(cokeys = cokeys, max.depth = 100)
+s <- prepare_SSURGO_hydro_data(cokeys = cokeys, max.depth = 50)
 
 par(mar = c(0, 0, 3, 0))
 plotSPC(s$SPC, color = 'sat', name.style = 'center-center', plot.depth.axis = FALSE, label = 'compname', hz.depths = TRUE, cex.names = 0.8)
@@ -331,7 +334,7 @@ plotSPC(s$SPC, color = 'sat', name.style = 'center-center', plot.depth.axis = FA
 ## moisture state proportions still aren't quite right... need to compare with real data
 
 # with a.ss = 1, xeric soils are "saturated" too often
-d <- dailyWB_SSURGO(x = p, cokeys = cokeys, modelDepth = 50, bufferRadiusMeters = 1, a.ss = 0.6, MS.style = 'default')
+d <- dailyWB_SSURGO(x = p, cokeys = cokeys, modelDepth = 100, bufferRadiusMeters = 1, a.ss = 0.01, MS.style = 'newhall')
 
 
 xyplot(VWC ~ as.numeric(doy) | compname, groups = year, data = d, type = 'l', subset = year %in% c('1990', '1991', '1992'), par.settings = tactile.theme(), scales = list(y = list(rot = 0)))
@@ -361,6 +364,15 @@ kable(table(d$compname, d$state) / length(unique(d$year)), digits = 2)
 # kable(prop.table(table(d$compname, d$state > 'very moist'), margin = 1), digits = 2)
 
 
+ll <- levels(d$state)
+n.states <- length(ll)
+ms.colors <- brewer.pal(n.states, 'Spectral')
+
+suppressWarnings(
+  trellis.par.set(list(superpose.polygon=list(col=ms.colors, border=ms.colors)))
+)
+
+sK <- simpleKey(text = ll, space='top', columns=n.states, rectangles = TRUE, points=FALSE, cex=1)
 
 levelplot(state ~ as.numeric(doy) * compname | year, data = d, 
           subset = year %in% c('2011', '2012', '2013', '2014'),

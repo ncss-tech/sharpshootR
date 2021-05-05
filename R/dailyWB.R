@@ -73,6 +73,7 @@ dailyWB <- function(x, daily.data, id, MS.style = 'default', S_0 = 0.5, M = 0, e
       thickness = x.i$thickness, 
       sat = x.i$sat, 
       fc = x.i$fc, 
+      pwp = x.i$pwp,
       a.ss = x.i$a.ss,
       S_0 = S_0
     )

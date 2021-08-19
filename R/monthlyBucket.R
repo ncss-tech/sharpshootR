@@ -2,13 +2,14 @@
 # https://github.com/josephguillaume/hydromad/blob/master/R/bucket.R
 
 
-## bug? in hydromad::bucket.sim()
-# ET[t] should not be greater than PPT[t] or S[t] when S_prev = 0
-
-## related issues
+## identification of bug, testing
 # https://github.com/ncss-tech/sharpshootR/issues/40
-# https://github.com/josephguillaume/hydromad/issues/188
 
+## small bug in accumulation of Et
+# https://github.com/josephguillaume/hydromad/issues/188 [closed]
+
+
+## local implementation of bucket.sim
 
 # with change:
 # ET[t] <- Eintc + min(S[t], (Etrans + Ebare))

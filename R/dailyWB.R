@@ -1,7 +1,4 @@
 
-
-
-
 #' @title Simple Daily Water Balance
 #' 
 #' @description Simple interface to the hydromad "leaky bucket" soil moisture model, with accommodation for typical inputs from common soil data and climate sources. Critical points along the water retention curve are specified using volumetric water content (VWC): satiation (saturation), field capacity (typically 1/3 bar suction), and permanent wilting point (typically 15 bar suction).

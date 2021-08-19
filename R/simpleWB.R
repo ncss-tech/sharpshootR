@@ -1,22 +1,4 @@
 
-## consider options while these issues are open
-## seems more relevant at the monthly time-step
-
-## bug? in hydromad::bucket.sim()
-# ET[t] should not be greater than PPT[t] or S[t] when S_prev = 0
-# 
-# https://github.com/josephguillaume/hydromad/blob/master/R/bucket.R
-
-## sharpshootR-specific
-# https://github.com/ncss-tech/sharpshootR/issues/40
-
-## opened issue
-# https://github.com/josephguillaume/hydromad/issues/188
-
-
-
-
-
 #' @title Simple interface to the hydromad "leaky bucket" soil moisture model
 #' 
 #' @description Simple interface to the hydromad "leaky bucket" soil moisture model.
@@ -51,7 +33,7 @@
 
 ## TODO: double-check specification of `Sb.fc`
 
-## source
+## source:
 # https://github.com/josephguillaume/hydromad/blob/master/R/bucket.R
 # https://github.com/josephguillaume/hydromad/blob/master/src/bucket.c
 
@@ -92,13 +74,6 @@ simpleWB <- function(PPT, PET, D, thickness, sat, fc, pwp, S_0 = 0.5, a.ss = 0.0
 
   # predictions
   res <- predict(m, return_state = TRUE)
-  
-  ## consider implications:
-  # internal version, based on 
-  # https://github.com/josephguillaume/hydromad/blob/master/R/bucket.R
-  # with change:
-  # ET[t] <- Eintc + min(S[t], (Etrans + Ebare))
-  # res <- .monthlyBucket(z, Sb = Sb, fc = Sb.fc, S_0 = S_0, a.ss = a.ss, M = M, etmult = etmult, a.ei = 0)
   
   # combine date, inputs (z), predictions (res)
   res <- data.frame(

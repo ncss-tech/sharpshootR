@@ -1,4 +1,7 @@
-# sharpshootR 1.8.1 (2021-05-03) 
+# sharpshootR 1.8.2 (2021-08-19)
+ * hydromad issue #188 closed, current binaries include fix in bucket.c
+
+# sharpshootR 1.8.1 (2021-05-03)
  * using local (modified) copy of leaky-bucket until resolved:
    - https://github.com/ncss-tech/sharpshootR/issues/40
    - https://github.com/josephguillaume/hydromad/issues/188

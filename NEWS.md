@@ -1,5 +1,6 @@
 # sharpshootR 1.8.2 (2021-08-19)
  * hydromad issue #188 closed, current binaries include fix in bucket.c
+ * `colorMixtureVenn()` now using `method = 'exact'`
 
 # sharpshootR 1.8.1 (2021-05-03)
  * using local (modified) copy of leaky-bucket until resolved:

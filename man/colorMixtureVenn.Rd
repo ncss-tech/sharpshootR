@@ -7,7 +7,7 @@
 colorMixtureVenn(
   chips,
   w = rep(1, times = length(chips))/length(chips),
-  mixingMethod = "spectra",
+  mixingMethod = "exact",
   ellipse = FALSE,
   labels = TRUE,
   names = FALSE,
@@ -49,5 +49,6 @@ colorMixtureVenn(chips, w = c(1, 1, 1), names = TRUE)
 colorMixtureVenn(chips, w = c(10, 5, 1), names = TRUE)
 
 }
+
 
 }

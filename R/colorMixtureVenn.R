@@ -32,10 +32,8 @@
 #' 
 #' }
 #' 
-
-## TODO: once the new aqp is on CRAN, convert mixingMethod = 'exact'
-
-colorMixtureVenn <- function(chips, w = rep(1, times = length(chips))/length(chips), mixingMethod = 'spectra', ellipse = FALSE, labels = TRUE, names = FALSE, sncs = 0.85) {
+#' 
+colorMixtureVenn <- function(chips, w = rep(1, times = length(chips))/length(chips), mixingMethod = 'exact', ellipse = FALSE, labels = TRUE, names = FALSE, sncs = 0.85) {
   
   # required package
   if(!requireNamespace('venn') | !requireNamespace("gower"))

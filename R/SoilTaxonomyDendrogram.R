@@ -35,6 +35,17 @@
 #' @author D.E. Beaudette
 #' 
 #' @export
+#' 
+#' @examples 
+#' 
+#' # built-in data, same as results from soilDB::fetchOSD()
+#' data("OSDexamples")
+#' 
+#' # use first 8 profiles
+#' SoilTaxonomyDendrogram(
+#' OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center'
+#' )
+#' 
 SoilTaxonomyDendrogram <- function(spc, name='hzname', name.style='right-center', rotationOrder=NULL, max.depth=150, n.depth.ticks=6, scaling.factor=0.015, cex.names=0.75, cex.id=0.75, axis.line.offset=-4, width=0.1, y.offset=0.5, shrink=FALSE, font.id=2, cex.taxon.labels=0.66, dend.color=par('fg'), dend.width=1, ...) {
 	
 	# convert relevant columns into factors

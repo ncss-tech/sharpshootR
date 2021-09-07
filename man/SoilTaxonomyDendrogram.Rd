@@ -77,6 +77,17 @@ This function looks for specific site-level attributes named: \code{soilorder}, 
 
 The \code{rotationOrder} argument uses (requires) the \code{dendextend::rotate()} function to re-order leaves within the \code{hclust} representation of the ST hierarchy. Perfect sorting is not always possible.
 }
+\examples{
+
+# built-in data, same as results from soilDB::fetchOSD()
+data("OSDexamples")
+
+# use first 8 profiles
+SoilTaxonomyDendrogram(
+OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center'
+)
+
+}
 \author{
 D.E. Beaudette
 }

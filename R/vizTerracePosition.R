@@ -38,6 +38,9 @@ vizTerracePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex =
   # save number of records
   n.records <- x$n
   
+  # number of series
+  n.series <- nrow(x)
+  
   # save normalized Shannon entropy
   H <- x$shannon_entropy
   
@@ -56,18 +59,37 @@ vizTerracePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex =
   # plot style
   tps <- list(superpose.polygon=list(col=cols, lwd=2, lend=2))
   
-  # re-order labels based on sorting of proportions: "hydrologic" ordering
-  hyd.order <- order(rowSums(sweep(x[, -1], 2, STATS=c(-1, 1), FUN = '*')), decreasing = TRUE)
-  
-  # cluster proportions: results are not in "hydrologic" order, but close
-  x.d <- as.hclust(diana(daisy(x[, -1])))
-  # x.d <- as.hclust(agnes(daisy(x[, -1]), method = 'gaverage'))
-  
-  # rotate clustering according to hydrologic ordering
-  x.d.hydro <- dendextend::rotate(x.d, order = x$series[hyd.order]) # dendextend approach
-  
-  # re-order labels levels based on clustering
-  x.long$series <- factor(x.long$series, levels=x.long$series[x.d.hydro$order])
+  ## all of the fancy ordering + dendrogram require > 1 series
+  if(n.series > 1) {
+    # re-order labels based on sorting of proportions: "hydrologic" ordering
+    hyd.order <- order(rowSums(sweep(x[, -1], 2, STATS=c(-1, 1), FUN = '*')), decreasing = TRUE)
+    
+    # cluster proportions: results are not in "hydrologic" order, but close
+    x.d <- as.hclust(diana(daisy(x[, -1])))
+    
+    # rotate clustering according to hydrologic ordering
+    x.d.hydro <- dendextend::rotate(x.d, order = x$series[hyd.order]) # dendextend approach
+    
+    # re-order labels levels based on clustering
+    x.long$series <- factor(x.long$series, levels=x.long$series[x.d.hydro$order])
+    
+    # legend dendrogram
+    leg <- list(
+      right = list(
+        fun = latticeExtra::dendrogramGrob, 
+        args = list(x = as.dendrogram(x.d.hydro), side="right", size=10)
+      )
+    )
+  } else {
+    # singleton
+    x.long$series <- factor(x.long$series) 
+    
+    # no dendrogram legend
+    leg <- list()
+    
+    # simulate output from clustering
+    x.d.hydro <- list(order = 1L)
+  }
   
   # hack to ensure that simpleKey works as expected
   suppressWarnings(trellis.par.set(tps))
@@ -75,7 +97,6 @@ vizTerracePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex =
   # must manually create a key, for some reason auto.key doesn't work with fancy dendrogram
   sk <- simpleKey(space='top', columns=2, text=levels(x.long$terrace_position), rectangles = TRUE, points=FALSE, between.columns=2, between=1, cex=0.75)
   
-  leg <- list(right=list(fun=latticeExtra::dendrogramGrob, args=list(x = as.dendrogram(x.d.hydro), side="right", size=10)))
   
   # a single series can be highlighted via argument 's'
   ## TODO: check for missing / mis-specified series names
@@ -143,6 +164,6 @@ vizTerracePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex =
   pp <- update(pp, par.settings = tps)
   
   # the figure and ordering are returned
-  return(list(fig=pp, order=x.d.hydro$order))
+  return(list(fig = pp, order = x.d.hydro$order))
 }
 

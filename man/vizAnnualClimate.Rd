@@ -28,10 +28,11 @@ A \code{list} with the following elements:
 Annual climate summaries for soil series, based on \code{latticeExtra::segplot}, based on 5th, 25th, 50th, 75th, and 95th percentiles. Input data should be from \code{soilDB::fetchOSD}.
 }
 \details{
-This function was designed for use with \code{soilDB::fetchOSD}. It might be possible to use with other sources of data but your mileage may vary.
+This function was designed for use with \code{soilDB::fetchOSD}. It might be possible to use with other sources of data but your mileage may vary. See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
 }
 \examples{
 
+\donttest{
 if(requireNamespace("curl") &
 curl::has_internet() &
   require(soilDB) & 
@@ -94,6 +95,8 @@ curl::has_internet() &
   
   par(op)
   
+}
+
 }
 
 }

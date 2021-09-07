@@ -106,19 +106,19 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
   d <- data.frame(P = PPT, E = PET)
   
   ## hydromad interface
-  # m <- hydromad::hydromad(d, sma = "bucket", routing = NULL)
-  # m <- update(m, Sb = AWC, fc = fc, S_0 = S_init, a.ss = a.ss, M = 0, etmult = 1, a.ei = 0)
-  # res <- predict(m, return_state = TRUE)
+  m <- hydromad::hydromad(d, sma = "bucket", routing = NULL)
+  m <- update(m, Sb = AWC, fc = 1, S_0 = S_init, a.ss = 0.01, M = 0, etmult = 1, a.ei = 0)
+  res <- predict(m, return_state = TRUE)
   
-  ## custom implementation of "model S2" from Bai et al., 2009
-  # soil moisture accounting "SMA_S2"
-  # routing "R1"
-  # SMA_S2 + R1 
-  #
-  # important change:
-  # ET[t] <- Eintc + min(S[t], (Etrans + Ebare))
-  res <- .monthlyBucket(d, Sb = AWC, S_0 = S_init, fc = 1, a.ss = 0.01, M = 0, etmult = 1, a.ei = 0)
-  
+  # ## custom implementation of "model S2" from Bai et al., 2009
+  # # soil moisture accounting "SMA_S2"
+  # # routing "R1"
+  # # SMA_S2 + R1 
+  # #
+  # # important change:
+  # # ET[t] <- Eintc + min(S[t], (Etrans + Ebare))
+  # res <- .monthlyBucket(d, Sb = AWC, S_0 = S_init, fc = 1, a.ss = 0.01, M = 0, etmult = 1, a.ei = 0)
+  # 
   
   # combine original PPT,PET with results
   res <- data.frame(d, res)

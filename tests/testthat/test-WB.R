@@ -2,8 +2,6 @@ context("leaky bucket models")
 
 ## TODO: verify on paper
 
-# note: monthlyWB() uses an R-based implementation
-
 test_that("thermic / xeric WB is reasonable", {
   
   # AMADOR soil series data

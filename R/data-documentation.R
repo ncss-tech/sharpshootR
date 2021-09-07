@@ -3,6 +3,15 @@
 ## don't forget: @usage data(XXX)
 
 
+
+#' @title Example output from soilDB::fetchOSD()
+#' @description These example data are used to test various functions in this package when network access may be limited.
+#' 
+#' @keywords datasets
+#' @usage data(OSDexamples)
+"OSDexamples"
+
+
 #'
 #' @title Table 5.2 from Hole and Campbell, 1985.
 #' @description An adjacency matrix describing shared soil map boundary segments from the Soil Survey of Shawnee county, KS. This is table 5.2 from Hole and Campbell, 1985.

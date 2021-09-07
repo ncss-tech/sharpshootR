@@ -47,50 +47,14 @@ a \code{data.frame} with the following elements:
 Perform a monthly water balance by "leaky bucket" model, inspired by code from \code{bucket.sim} of \code{hydromad} package, as defined in Bai et al., (2009) (model "SMA_S1"). The plant available water-holding storage (soil thickness * awc) is used as the "bucket capacity". All water in excess of this capacity is lumped into a single "surplus" term.
 }
 \details{
-A number of important assumptions are made by this approach:
+See the \href{http://ncss-tech.github.io/AQP/sharpshootR/monthly-WB.html}{monthly water balance tutorial} for further examples and discussion.
+
+A number of important assumptions are made by this style of water balance modeling:
 \itemize{
 \item the concept of field capacity is built into the specified bucket size
 \item the influence of aquitards or local terrain cannot be integrated into this model
 \item interception is not used in this model
 }
-}
-\examples{
-
-# 4" water storage ~ 100mm
-
-# AWC in mm
-AWC <- 100
-
-# monthly PET and PPT in mm
-PET <- c(0,0,5,80,90,120,130,140,110,90,20,5)
-PPT <- c(0, 150, 200, 120, 20, 0, 0, 0, 10, 20, 30, 60)
-
-# run water balance
-# start with soil AWC "empty"
-(x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0))
-
-# plot the results
-op <- par(no.readonly = TRUE)
-
-par(mar=c(4,4,2,1), bg = 'white')
-plotWB(WB = x.wb)
-
-# compute fraction of AWC filled after the last month of simulation
-(last.S <- x.wb$S[12] / AWC)
-
-# re-run the water balance with this value
-(x.wb <- monthlyWB(AWC, PPT, PET, S_init = last.S))
-
-# interesting...
-par(mar=c(4,4,2,1), bg = 'white')
-plotWB(WB = x.wb)
-
-# note: consider using `rep = 3, keep_last = TRUE` 
-# to "warm-up" the water balance first
-
-par(op)
-
-
 }
 \references{
 Arkley R, Ulrich R. 1962. The use of calculated actual and potential evapotranspiration for estimating potential plant growth. Hilgardia 32(10):443-469.

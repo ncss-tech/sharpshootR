@@ -4,6 +4,9 @@ context("leaky bucket models")
 
 test_that("thermic / xeric WB is reasonable", {
   
+  # requires a non-CRAN package to function
+  skip_on_cran()
+  
   # AMADOR soil series data
   AWC <- 47
   PPT <- c(65, 59, 57, 28, 13, 3, 0, 1, 4, 20, 33, 53)
@@ -31,6 +34,9 @@ test_that("thermic / xeric WB is reasonable", {
 
 test_that("thermic / udic WB is reasonable", {
   
+  # requires a non-CRAN package to function
+  skip_on_cran()
+  
   # LUCY soil series data
   AWC <- 207
   PPT <- c(98, 88, 99, 72, 65, 99, 107, 97, 85, 66, 70, 82)
@@ -54,6 +60,9 @@ test_that("thermic / udic WB is reasonable", {
 
 
 test_that("zero-PET, UDIC", {
+  
+  # requires a non-CRAN package to function
+  skip_on_cran()
   
   # UDIC
   AWC <- 100

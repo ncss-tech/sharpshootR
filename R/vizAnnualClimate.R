@@ -16,7 +16,7 @@
 #' @param s.col color for highlighted soil series
 #' @param ... further arguments passed to `latticeExtra::segplot`
 #' 
-#' @details This function was designed for use with `soilDB::fetchOSD`. It might be possible to use with other sources of data but your mileage may vary.
+#' @details This function was designed for use with `soilDB::fetchOSD`. It might be possible to use with other sources of data but your mileage may vary. See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
 #' 
 #' @author D.E. Beaudette
 #' 
@@ -33,6 +33,7 @@
 #'
 #' @examples
 #' 
+#' \donttest{
 #' if(requireNamespace("curl") &
 #' curl::has_internet() &
 #'   require(soilDB) & 
@@ -97,7 +98,9 @@
 #'   
 #' }
 #' 
-vizAnnualClimate <- function(climate.data, IQR.cex=1, s=NULL, s.col='firebrick', ...) {
+#' }
+#' 
+vizAnnualClimate <- function(climate.data, IQR.cex = 1, s = NULL, s.col = 'firebrick', ...) {
   
   # check for required packages
   if(!requireNamespace('latticeExtra', quietly=TRUE))
@@ -115,18 +118,28 @@ vizAnnualClimate <- function(climate.data, IQR.cex=1, s=NULL, s.col='firebrick',
   # save row names for labeling later
   row.names(climate.data.wide) <- climate.data.wide$series
   
-  # re-order based on divisive hierarchical clustering of medians
-  # keep cluster pkg class for dendrogram + profile sketches
-  # suppressing warnings due to cases where daisy reports: 
-  # "binary variable(s) 4 treated as interval scaled"
-  climate.data.wide.d <- suppressWarnings(diana(daisy(climate.data.wide[, -1], stand = TRUE)))
+  # clustering is only possible with >1 series
+  if(nrow(climate.data.wide) > 1) {
+    # re-order based on divisive hierarchical clustering of medians
+    # keep cluster pkg class for dendrogram + profile sketches
+    # suppressing warnings due to cases where daisy reports: 
+    # "binary variable(s) 4 treated as interval scaled"
+    climate.data.wide.d <- suppressWarnings(diana(daisy(climate.data.wide[, -1], stand = TRUE)))
+    
+    # convert to hclust class for ordering of series in climate summaries
+    climate.data.wide.h <- as.hclust(climate.data.wide.d)
+    climate.data$series <- factor(climate.data$series, levels=climate.data.wide.h$labels[climate.data.wide.h$order])
+    
+    # used for horizontal lines in figure
+    n.series <- length(levels(climate.data$series))
+  } else {
+    # modify / construct objects that would have been created by clustering / ordering
+    climate.data$series <- factor(climate.data$series)
+    climate.data.wide.d <- NULL
+    climate.data.wide.h <- list(labels = climate.data.wide$series)
+    n.series <- 1
+  }
   
-  # convert to hclust class for ordering of series in climate summaries
-  climate.data.wide.h <- as.hclust(climate.data.wide.d)
-  climate.data$series <- factor(climate.data$series, levels=climate.data.wide.h$labels[climate.data.wide.h$order])
-  
-  # used for horizontal lines in figure
-  n.series <- length(levels(climate.data$series))
   
   # get current settings
   tps <- trellis.par.get()
@@ -214,7 +227,7 @@ vizAnnualClimate <- function(climate.data, IQR.cex=1, s=NULL, s.col='firebrick',
   
   
   # return figure, and clustering results
-  return(list(fig=pp, clust=climate.data.wide.d))
+  return(list(fig = pp, clust = climate.data.wide.d))
   
 }
 

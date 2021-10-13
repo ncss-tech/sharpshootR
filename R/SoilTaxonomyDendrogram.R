@@ -80,9 +80,11 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', name.style='right-center'
 	max.dist <- max(s.dist)
 	taxa.lab.y.vect <- c(max.dist / 1.6666666, (max.dist / 1.6666666) + 0.12)
 	
-	# device options are modified locally, reset when done
-	op <- par(no.readonly = TRUE)
-	on.exit(par(op))
+	## 2021-10-12: removing this because we often need to annotate these figures AFTER created
+	##             someday we can investigate how to update `op` with final coordinates
+	## device options are modified locally, reset when done
+	# op <- par(no.readonly = TRUE)
+	# on.exit(par(op))
 	
 	# setup plot and add dendrogram
 	par(mar=c(0,0,0,0))
@@ -111,7 +113,7 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', name.style='right-center'
 	# invisibly return some information form the original objects
 	invisible(
 	  list(
-	    dist=s.dist, 
+	    dist=s.dist,
 	    order=s.hclust$order
 	  )
 	)

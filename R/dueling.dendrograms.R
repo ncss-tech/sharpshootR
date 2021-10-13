@@ -99,6 +99,7 @@ dueling.dendrograms <- function(p.1, p.2, lab.1='D1', lab.2='D2', cex.nodelabels
 	left.right.converstion.order <- right.new_order[match(left.new_order, right.new_order)]
 
 	# setup new plot region
+	# warning: this will reset the device coordinates!
 	op <- par(no.readonly = TRUE)
 	on.exit(par(op))
 	

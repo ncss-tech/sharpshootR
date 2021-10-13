@@ -252,6 +252,7 @@ FFDplot <- function(s, sub.title=NULL) {
   date.seq <- seq.Date(from=as.Date('2011-01-15'), to=as.Date('2011-12-31'), by='1 month')
   
   # device options are modified locally, reset when done
+  # warning: this will reset the device coordinates!
   op <- par(no.readonly = TRUE)
   on.exit(par(op))
   

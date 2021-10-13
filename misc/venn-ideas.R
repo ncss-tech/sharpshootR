@@ -12,7 +12,7 @@ venn(x)
 x <- as.data.frame(matrix(sample(0:1, 1500, replace = TRUE), ncol = 5))
 names(x) <- c('Life', 'Work', 'Hobbies', 'Family', 'Sleep')
 
-venn(x, ellipse = TRUE, zcolor = 'style')
+venn(x, ellipse = TRUE, zcolor = 'style', box = FALSE)
 venn(x, ellipse = FALSE, zcolor = 'style')
 
 venn(5, ilabels = TRUE, zcolor = "style", ellipse = TRUE)

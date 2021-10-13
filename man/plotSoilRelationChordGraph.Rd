@@ -38,14 +38,6 @@ Visualize Soil Relationships via Chord Diagram
 \details{
 This function is experimental. Documentation pending. See \url{http://jokergoo.github.io/circlize/} for ideas.
 }
-\examples{
-\donttest{
-data(amador)
-m <- component.adj.matrix(amador)
-plotSoilRelationChordGraph(m, 'amador')
-}
-
-}
 \author{
 D.E. Beaudette
 }

@@ -1,3 +1,6 @@
+# sharpshootR 1.8.3 (2021-10-13)
+ * `SoilTaxonomyDendrogram()` no longer resetting `par` as it prevents further annotation of the resulting figure
+
 # sharpshootR 1.8.2 (2021-09-07)
  * hydromad issue #188 closed, latest binaries include fix in bucket.c
  * `colorMixtureVenn()` now using `method = 'exact'`

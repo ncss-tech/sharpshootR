@@ -131,6 +131,7 @@ diagnosticPropertyPlot <- function(f, v, k, grid.label='pedon_id', dend.label='p
   n.profiles <- nrow(m)
     
   # device options are modified locally, reset when done
+  # warning: this will reset the device coordinates!
   op <- par(no.readonly = TRUE)
   on.exit(par(op))
   

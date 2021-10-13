@@ -83,6 +83,7 @@ plotProfileDendrogram <- function(x, clust, scaling.factor=0.01, width=0.1, y.of
   # allocate extra space
   if(debug){
     # device options are modified locally, reset when done
+    # warning: this will reset the device coordinates!
     op <- par(no.readonly = TRUE)
     on.exit(par(op))
     

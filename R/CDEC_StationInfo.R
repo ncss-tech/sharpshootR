@@ -85,7 +85,11 @@ CDEC_StationInfo <- function(s) {
         site.comments <- NULL
         # otherwise, there are comments
       } else {
-        names(site.comments) <- c('date', 'comment')
+        if(nrow(site.comments) > 0) {
+          names(site.comments) <- c('date', 'comment')
+        } else {
+          site.comments <- NULL
+        }
       }
       
     } else {

@@ -145,23 +145,37 @@ PCP_plot <- function(x, this.year, this.day=NULL, method='exemplar', q.color='Ro
   # grid
   abline(h=y.grid, v=date.axis$wd, col='lightgray', lty=3)
   
-  # exemplar years based on quantiles
-  # filter cumulative PPT < 0.1
-  # q05
-  lines(cumulative_ppt ~ water_day, data=xx[xx$water_year == exemplar.yrs[1], ], 
-        subset=cumulative_ppt >= 0.1, lwd=1, lty=3, col=q.color, type='l')
-  # q25
-  lines(cumulative_ppt ~ water_day, data=xx[xx$water_year == exemplar.yrs[2], ], 
-        subset=cumulative_ppt >= 0.1, lwd=1, lty=2, col=q.color, type='l')
-  # q50
-  lines(cumulative_ppt ~ water_day, data=xx[xx$water_year == exemplar.yrs[3], ], 
+  
+  # filter trivial rainfall at the start of the year
+  # filter +1 day due to leap year
+  idx <- which(xx$cumulative_ppt >= 0.1 & xx$water_day <= 365, )
+  vars <- c('water_day', 'cumulative_ppt', 'water_year')
+  xx.q <- xx[idx, vars]
+  
+  # exemplar years (percentiles) form boundary of polygons
+  xx.q05 <- xx.q[xx.q$water_year == exemplar.yrs[1], ]
+  xx.q25 <- xx.q[xx.q$water_year == exemplar.yrs[2], ]
+  xx.q50 <- xx.q[xx.q$water_year == exemplar.yrs[3], ]
+  xx.q75 <- xx.q[xx.q$water_year == exemplar.yrs[4], ]
+  xx.q95 <- xx.q[xx.q$water_year == exemplar.yrs[5], ]
+  
+  # q05--q95 polygon
+  p.1.x <- c(xx.q05$water_day, rev(xx.q95$water_day))
+  p.1.y <- c(xx.q05$cumulative_ppt, rev(xx.q95$cumulative_ppt))
+  p.1.col <- rgb(t(col2rgb(q.color)), maxColorValue = 255, alpha = 33)
+  
+  # q25--q95 polygon
+  p.2.x <- c(xx.q25$water_day, rev(xx.q75$water_day))
+  p.2.y <- c(xx.q25$cumulative_ppt, rev(xx.q75$cumulative_ppt))
+  p.2.col <- rgb(t(col2rgb(q.color)), maxColorValue = 255, alpha = 100)
+  
+  # transparency is visual cue
+  polygon(x = p.1.x, y = p.1.y, col = p.1.col, border = q.color)
+  polygon(x = p.2.x, y = p.2.y, col = p.2.col, border = q.color)
+  
+  # # q50
+  lines(cumulative_ppt ~ water_day, data=xx[xx$water_year == exemplar.yrs[3], ],
         subset=cumulative_ppt >= 0.1, lwd=2, lty=1, col=q.color, type='l')
-  # q75
-  lines(cumulative_ppt ~ water_day, data=xx[xx$water_year == exemplar.yrs[4], ], 
-        subset=cumulative_ppt >= 0.1, lwd=1, lty=2, col=q.color, type='l')
-  # q95
-  lines(cumulative_ppt ~ water_day, data=xx[xx$water_year == exemplar.yrs[5], ], 
-        subset=cumulative_ppt >= 0.1, lwd=1, lty=3, col=q.color, type='l')
   
   # current year, non-zero values only
   lines(cumulative_ppt ~ water_day, data=this.year.data, 
@@ -177,7 +191,7 @@ PCP_plot <- function(x, this.year, this.day=NULL, method='exemplar', q.color='Ro
   # text(x = 370, y=e+2, labels = , adj = c(0,0), cex=0.65, font=2)
   
   # add current year's cumulative PPT
-  points(x=mwd, y=mcp, pch=22, bg=c.color)
+  points(x = mwd, y = mcp, pch = 22, bg = c.color)
   
   ## TODO: this threshold and position of bxp works for units of inches but not mm
   # add boxplot of starting water-day where cumulative PPT > 0.1
@@ -213,8 +227,21 @@ PCP_plot <- function(x, this.year, this.day=NULL, method='exemplar', q.color='Ro
     text(x=mwd, y=-2.25, labels = mrd, font=2, cex=0.75, col=c.color)  
   }
   
-  # basic legend
-  legend('top', legend = c('Historic', 'Current'), pt.bg = c(q.color, c.color), pch = 22, bty='n', pt.cex=1.25, cex=0.75, title='Water Day/Year', horiz = TRUE)
+  
+  # re-make inner polygon color for legend
+  p.2.col.leg <- rgb(t(col2rgb(q.color)), maxColorValue = 255, alpha = 150)
+  
+  # legend
+  legend(
+    'top', 
+    legend = c('5th--95th Percentiles', '25th--75th Percentiles', '50th Percentile', sprintf('Current (%s)', this.year)), 
+    pt.bg = c(p.1.col, p.2.col.leg, q.color, c.color), 
+    pch = 22, 
+    pt.cex = 1.25, 
+    cex = 0.75, 
+    ncol = 4, 
+    bg = 'white'
+  )
   
   # TODO: return information used to make figure
 }

@@ -1,4 +1,3 @@
-## TODO: return clustering object instead of cluster$order
 ## TODO: provide examples for adjusting legend size / spacing
 
 #' @title Visual Summary of Hillslope Position
@@ -17,6 +16,12 @@
 #' 
 #' \item{fig}{lattice object (the figure)}
 #' \item{order}{ordering of soil series}
+#' 
+#' #' @return
+#' A `list` with the following elements:
+#'    * `fig`: lattice object (the figure)
+#'    * `order`: 1D ordering from `cluster::diana`
+#'    * `clust`: clustering object returned by `cluster::diana`
 #' 
 #' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
 #' 
@@ -192,7 +197,8 @@ vizHillslopePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex
   # embed styling
   pp <- update(pp, par.settings = tps)
   
-  # the figure and ordering are returned
-  return(list(fig = pp, order = x.d.hydro$order))
+  # figure, ordering, clustering object
+  res <- list(fig = pp, order = x.d.hydro$order, clust = x.d.hydro)
+  return(res)
 }
 

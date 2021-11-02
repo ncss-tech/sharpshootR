@@ -227,7 +227,8 @@ vizAnnualClimate <- function(climate.data, IQR.cex = 1, s = NULL, s.col = 'fireb
   
   
   # return figure, and clustering results
-  return(list(fig = pp, clust = climate.data.wide.d))
+  res <- list(fig = pp, clust = climate.data.wide.d)
+  return(res)
   
 }
 

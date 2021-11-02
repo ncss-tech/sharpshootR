@@ -20,6 +20,14 @@ a \code{list} with the following elements:
 
 \item{fig}{lattice object (the figure)}
 \item{order}{ordering of soil series}
+
+#' @return
+A \code{list} with the following elements:
+\itemize{
+\item \code{fig}: lattice object (the figure)
+\item \code{order}: 1D ordering from \code{cluster::diana}
+\item \code{clust}: clustering object returned by \code{cluster::diana}
+}
 }
 \description{
 A unique display of hillslope position probability.

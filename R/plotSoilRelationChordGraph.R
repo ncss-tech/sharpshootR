@@ -17,8 +17,6 @@
 #' @return nothing, function is called to generate graphical output
 #' @export
 #'
-#' @examples
-
 plotSoilRelationChordGraph <- function(m, s, mult=2, base.color='grey', highlight.colors=c('RoyalBlue', 'DarkOrange', 'DarkGreen'), add.legend=TRUE, ...) {
   
   # must have this package

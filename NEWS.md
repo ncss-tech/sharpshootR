@@ -1,6 +1,7 @@
-# sharpshootR 1.8.3 (2021-10-22)
+# sharpshootR 1.8.3 (2021-11-02)
  * `SoilTaxonomyDendrogram()` no longer resetting `par` as it prevents further annotation of the resulting figure
  * bug fix in `CDEC_StationInfo` related to parsing station comments
+ * `vizHillslopePosition()` now returns clustering object
 
 # sharpshootR 1.8.2 (2021-09-07)
  * hydromad issue #188 closed, latest binaries include fix in bucket.c

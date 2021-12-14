@@ -4,3 +4,4 @@ man/.Rhistory
 *.Rproj
 docs/reference/*.pdf
 tests/testthat/Rplots.pdf
+docs

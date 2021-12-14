@@ -27,7 +27,7 @@ plotAvailWater(
 nothing, function is called to generate graphical output
 }
 \description{
-Generate a simplistic diagram of the various fractions of water held within soil pore-space. Largely inspired by \href{https://www.nature.com/scitable/knowledge/library/soil-water-dynamics-103089121/}{Figure 2 from O'geen (2013)}.
+Generate a simplistic diagram of the various fractions of water held within soil pore-space. Largely inspired by \href{https://www.nature.com/scitable/knowledge/library/soil-water-dynamics-103089121/}{Figure 2 from O'Geen (2013)}.
 }
 \examples{
 
@@ -88,7 +88,6 @@ ORDER BY cokey, hzdept_r ASC;"
     x <- unique(x)
     x <- x[order(x$name), ]
     x$solid <- with(x, 1-sat)
-    
     
     op <- par(no.readonly = TRUE)
     

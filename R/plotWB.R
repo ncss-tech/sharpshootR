@@ -10,7 +10,7 @@
 #' 
 #' @param WB output from `monthlyWB()`
 #' 
-#' @param AWC available water-holding capacity (mm), typically the value used in `monthlyWB()` and stored as an attrbute of `WB`
+#' @param AWC available water-holding capacity (mm), typically the value used in `monthlyWB()` and stored as an attribute of `WB`
 #' 
 #' @param showAWC now deprecated, always 'below'
 #'

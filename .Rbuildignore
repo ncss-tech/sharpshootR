@@ -5,3 +5,5 @@ README.md
 ^\.Rproj\.user$
 ^docs$
 ^misc$
+^_pkgdown\.yml$
+^pkgdown$

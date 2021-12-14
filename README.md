@@ -1,6 +1,7 @@
 [![R build status](https://github.com/ncss-tech/sharpshootR/workflows/R-CMD-check/badge.svg)](https://github.com/ncss-tech/sharpshootR/actions)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/sharpshootR)](https://cran.r-project.org/package=sharpshootR)
 [![Total_Downloads](http://cranlogs.r-pkg.org/badges/grand-total/sharpshootR)](https://cran.r-project.org/package=sharpshootR)
+[![sharpshootR Manual](https://img.shields.io/badge/docs-HTML-informational)](http://ncss-tech.github.io/sharpshootR/)
 
 # sharpshootR
 
@@ -23,7 +24,7 @@ Dylan Beaudette, Jay Skovlin and Stephen Roecker (2021). sharpshootR: A Soil Sur
 
 ## Quick Reference
 
-### Vizualization
+### Visualization
    * [`aggregateColorPlot`](http://ncss-tech.github.io/sharpshootR/docs/reference/aggregateColorPlot.html)
    * [`aspect.plot`](http://ncss-tech.github.io/sharpshootR/docs/reference/aspect.plot.html)
    * [`diagnosticPropertyPlot`](http://ncss-tech.github.io/sharpshootR/docs/reference/diagnosticPropertyPlot.html)

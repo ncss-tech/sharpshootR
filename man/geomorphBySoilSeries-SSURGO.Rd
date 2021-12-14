@@ -19,7 +19,7 @@ geomPosMountainProbability(s, replaceNA=TRUE)
 
 \details{These functions send a query to the \href{http://sdmdataaccess.nrcs.usda.gov}{SDA} webservice. Further information on the SDA webservice and query examples can be found at \url{http://sdmdataaccess.nrcs.usda.gov/QueryHelp.aspx}}
 
-\value{A \code{data.frame} object with rows representing soil series, and columns representing probability estimates of that series occuring at specificed geomorphic positions or associated with a surface shape.}
+\value{A \code{data.frame} object with rows representing soil series, and columns representing probability estimates of that series occuring at specified geomorphic positions or associated with a surface shape.}
 
 \note{Probability values are computed from SSURGO data.}
 

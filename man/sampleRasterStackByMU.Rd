@@ -26,7 +26,7 @@ estimateEffectiveSampleSize=TRUE, polygon.id='pID')
   \item{polygon.id}{Column name containing unique polygon IDs; default: 'pID'; calculated if missing}
 }
 
-\details{This function is used by various NRCS reports that summarize or compare concepts defined by collections of polygons using raster data sampled from within each polygon, at a constant sampling density. Even though the function name includes "rasterSTack", this function doesn't actually operate on a `stack` object as defined in the raster package. The collection of raster data defined in \code{raster.list} do not have to share a common coordinate reference system, grid spacing, or extent. Point samples generated from \code{mu} are automatically converted to the CRS of each raster before extracting values. The extent of each raster in \code{raster.list} must completely contain the extent of \code{mu}.}
+\details{This function is used by various NRCS reports that summarize or compare concepts defined by collections of polygons using raster data sampled from within each polygon, at a constant sampling density. Even though the function name includes "RasterStack", this function doesn't actually operate on a `stack` object as defined in the raster package. The collection of raster data defined in \code{raster.list} do not have to share a common coordinate reference system, grid spacing, or extent. Point samples generated from \code{mu} are automatically converted to the CRS of each raster before extracting values. The extent of each raster in \code{raster.list} must completely contain the extent of \code{mu}.}
 
 \value{A \code{list} containing:
 

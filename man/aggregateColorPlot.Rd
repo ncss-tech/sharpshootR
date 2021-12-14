@@ -86,7 +86,6 @@ if(require(aqp) &
 }
 
 }
-
 }
 \author{
 D.E. Beaudette

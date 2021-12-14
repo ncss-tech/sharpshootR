@@ -6,7 +6,7 @@
 
 #' @title Visual Demonstration of Available Soil Water
 #' 
-#' @description Generate a simplistic diagram of the various fractions of water held within soil pore-space. Largely inspired by \href{https://www.nature.com/scitable/knowledge/library/soil-water-dynamics-103089121/}{Figure 2 from O'geen (2013)}.
+#' @description Generate a simplistic diagram of the various fractions of water held within soil pore-space. Largely inspired by \href{https://www.nature.com/scitable/knowledge/library/soil-water-dynamics-103089121/}{Figure 2 from O'Geen (2013)}.
 #'
 #' @param x a `data.frame` containing sample names and water retention data, see examples below
 #' @param width vertical width of each bar graph
@@ -81,7 +81,6 @@
 #'     x <- unique(x)
 #'     x <- x[order(x$name), ]
 #'     x$solid <- with(x, 1-sat)
-#'     
 #'     
 #'     op <- par(no.readonly = TRUE)
 #'     

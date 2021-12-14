@@ -24,7 +24,7 @@ plotWB(
 \arguments{
 \item{WB}{output from \code{monthlyWB()}}
 
-\item{AWC}{available water-holding capacity (mm), typically the value used in \code{monthlyWB()} and stored as an attrbute of \code{WB}}
+\item{AWC}{available water-holding capacity (mm), typically the value used in \code{monthlyWB()} and stored as an attribute of \code{WB}}
 
 \item{showAWC}{now deprecated, always 'below'}
 

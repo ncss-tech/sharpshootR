@@ -6,7 +6,7 @@
 #'
 #' @param spc a `SoilProfileCollection` object, typically returned by `soilDB::fetchOSD`
 #' @param name column name containing horizon names
-#' @param name.style passed to `aqp::plotSPC` (default: "right-center")
+#' @param name.style passed to `aqp::plotSPC` (default: `"right-center"`)
 #' @param rotationOrder numeric vector with desired ordering of leaves in the dendrogram from left to right, or character vector matching profile IDs
 #' @param max.depth depth at which profiles are truncated for plotting
 #' @param n.depth.ticks suggested number of ticks on the depth axis

@@ -30,7 +30,7 @@ SoilTaxonomyDendrogram(
 
 \item{name}{column name containing horizon names}
 
-\item{name.style}{passed to \code{aqp::plotSPC} (default: "right-center")}
+\item{name.style}{passed to \code{aqp::plotSPC} (default: \code{"right-center"})}
 
 \item{rotationOrder}{numeric vector with desired ordering of leaves in the dendrogram from left to right, or character vector matching profile IDs}
 

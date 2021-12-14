@@ -16,7 +16,7 @@ generateLineHash(x, precision=-1, algo='murmur32')
 
 \value{A vector of unique IDs created from the hash of line segment start and end vertex coordinates. Unique IDs are returned in the order of records of \code{x} and can therefore be saved into a new column of the associated attribute table.}
 
-\note{An error is issued if any non-unique IDs are generated. This could be caused by using coordiantes that do not contain enough precision for unique hashing.}
+\note{An error is issued if any non-unique IDs are generated. This could be caused by using coordinates that do not contain enough precision for unique hashing.}
 
 \author{D.E. Beaudette}
 

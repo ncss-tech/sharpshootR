@@ -44,8 +44,7 @@ plotTransect(
 
 \item{dist.scaling.factor}{scaling factor (divisor) applied to linear distance units, default is conversion from m to km (1000)}
 
-\item{spacing}{profile sketch spacing style: "regular" (profiles aligned to an integer grid) or "re
-lative" (relative distance along transect)}
+\item{spacing}{profile sketch spacing style: "regular" (profiles aligned to an integer grid) or "relative" (relative distance along transect)}
 
 \item{fix.relative.pos}{adjust relative positions in the presence of overlap, \code{FALSE} to suppress, otherwise list of arguments to \code{aqp::fixOverlap}}
 

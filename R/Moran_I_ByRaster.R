@@ -1,15 +1,24 @@
 ##
 ## needs more testing!!!
+## needs documentation
 ##
 
 
 
-
-
 ## TODO: should this account for rho(lag) ?
-# estimation of effective sample size (ESS)
-# (Fortin & Dale 2005, p. 223, Equation 5.15
-# using global Moran's I as 'rho'
+# 
+# (Fortin & Dale 2005, p. 223, Equation 5.15 using global Moran's I as 'rho'
+# 
+#' Estimate Effective Sample Size
+#' 
+#' Estimation of effective sample size (ESS). See Fortin & Dale 2005, p. 223, Equation 5.15 using global Moran's I as 'rho'. 
+#'
+#' @param n sample size
+#' @param rho Global Moran's I
+#' @references Fortin, M.J. and Dale, M.R.T. (2005) Spatial Analysis: A Guide for Ecologists. Cambridge University Press, Cambridge, 1-30.
+#' @return numeric; estimated Effective Sample Size
+#' @author D.E. Beaudette
+#' @export
 ESS_by_Moran_I <- function(n, rho) {
   
   # TODO: what about negative spatial autocorrelation?
@@ -20,20 +29,22 @@ ESS_by_Moran_I <- function(n, rho) {
   return(n_eff)
 }
 
-
-
-
-
-## compute Moran's I using a subset of sample collectioned within the extent of MU
-## this is likely an under-estimate of SA because we are including pixels both inside/outside MU delineations
-##
-# r: single raster layer
-# mu.extent: SpatialPolygons representation of MU polygons BBOX (raster::extent)
-# n: number of regular samples (what is a reasonable value?)
-# k: number of neighbors used for weights matrix
-# do.correlogram: compute correlogram?
-# cor.order: order of correlogram
-# crop: optionally disable cropping of the raster layer
+#' Compute Moran's I for a raster sampled from a mapunit extent
+#' 
+#' Compute Moran's I using a subset of sample collected within the extent of a mapunit. This is likely an under-estimate of SA because we are including pixels both inside/outside MU delineations
+#'
+#' @param r single `RasterLayer`
+#' @param mu.extent `SpatialPolygons` representation of mapunit polygons bounding box (via `raster::extent()`)
+#' @param n number of regular samples (what is a reasonable value?)
+#' @param k number of neighbors used for weights matrix
+#' @param do.correlogram compute correlogram?
+#' @param cor.order order of correlogram
+#' @param crop.raster optionally disable cropping of the raster layer
+#'
+#' @return If `do.correlogram` is `TRUE` a list with estimated Moran's I (`$I`) and the correlogram (`$correlogram`), otherwise the estimated Moran's I value. 
+#' @details This function uses the `spdep::moran.test()` function
+#' @author D.E. Beaudette
+#' @export
 Moran_I_ByRaster <- function(r, mu.extent=NULL, n=NULL, k=NULL, do.correlogram=FALSE, cor.order=5, crop.raster=TRUE) {
   
   if(crop.raster) {

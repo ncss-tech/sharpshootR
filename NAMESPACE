@@ -1,6 +1,6 @@
 # R 3.0 compatibility:
 
-importFrom("grDevices", "colorRampPalette", "grey")
+importFrom("grDevices", "colorRampPalette", "grey", "col2rgb", "rgb")
 
 importFrom("graphics", "abline", "arrows", "axis", "image", "layout",
              "legend", "lines", "mtext", "par", "points", "rect",

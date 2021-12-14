@@ -10,7 +10,7 @@ LL2PLSS(x, y, returnlevel = "I")
 \arguments{
 \item{x}{longitude coordinates}
 
-\item{y}{lattitude coordinates}
+\item{y}{latitude coordinates}
 
 \item{returnlevel}{'S' for "Section" or 'I' for "Intersection" (subsections)}
 }

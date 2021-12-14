@@ -63,8 +63,7 @@ dist.along.grad <- function(coords, var, grad.order, grad.scaled.min, grad.scale
 #' @param grad.axis.title a title for the gradient axis 
 #' 
 #' @param dist.scaling.factor scaling factor (divisor) applied to linear distance units, default is conversion from m to km (1000)
-#' @param spacing profile sketch spacing style: "regular" (profiles aligned to an integer grid) or "re
-#' lative" (relative distance along transect)
+#' @param spacing profile sketch spacing style: "regular" (profiles aligned to an integer grid) or "relative" (relative distance along transect)
 #' 
 #' @param fix.relative.pos adjust relative positions in the presence of overlap, `FALSE` to suppress, otherwise list of arguments to `aqp::fixOverlap`
 #' 

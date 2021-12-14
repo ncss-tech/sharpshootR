@@ -1,15 +1,18 @@
 ## TODO: parallel implementation
 
-# Stability is defined as the width of the 5th-95th percentile range, over n.reps replications of median estimates associated with sampling events. The resulting width is scaled by the population median and returned as a fraction.
-
-
-# m: map unit polygons, must have polygon ID, must be in CRS with units of meters
-# r: raster
-# n.set: set of sampling denisty values to try
-# n.reps: number of replications
-# p.id: polygon ID column name
-
-# result: data.frame with median stability values as percentage of population median, range:{0,1}
+#' Estimate Sampling Stability
+#' 
+#' Stability is defined as the width of the 5th-95th percentile range, over n.reps replications of median estimates associated with sampling events. The resulting width is scaled by the population median and returned as a fraction.
+#' 
+#' @param mu map unit polygons, must have polygon ID, must be in CRS with units of meters
+#' @param r RasterLayer
+#' @param n.set set of sampling density values to try
+#' @param n.reps number of replications
+#' @param p.id polygon ID column name
+#'
+#' @return data.frame with median stability values as percentage of population median, range: `[0,1]`
+#' @author D.E. Beaudette
+#' @export
 samplingStability <- function(mu, r, n.set=c(0.01, 0.1, 0.5, 1, 2), n.reps=10, p.id='pID') {
   
   # summary by quantiles 

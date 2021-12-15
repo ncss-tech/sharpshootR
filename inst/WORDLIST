@@ -12,7 +12,9 @@ CadNSDI
 Cadastral
 DAYMET
 DWR
+ESS
 FFD
+Fortin
 Geomorphic
 Github
 Gower's
@@ -34,6 +36,7 @@ OSDexamples
 PLSS
 POSIXct
 PPT
+RasterLayer
 RasterStack
 Rowman
 SDA
@@ -61,6 +64,7 @@ chroma
 cokey
 compname
 comppct
+correlogram
 cryptographic
 dE
 datetime
@@ -81,11 +85,11 @@ init
 kml
 kmz
 landform
+mapunit
 mish
 mukey
 multinominal
 nd
-pID
 pedon
 phylo
 plssid

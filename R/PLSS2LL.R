@@ -175,7 +175,7 @@ formatPLSS <- function(p, type = 'SN') {
 
 #' @title LL2PLSS
 #' @aliases plssMeridians
-#' @description Uses lattitude and longitude coordinates to return the PLSS section geometry from the BLM PLSS web service.
+#' @description Uses latitude and longitude coordinates to return the PLSS section geometry from the BLM PLSS web service.
 #' @param x longitude coordinates
 #' @param y latitude coordinates
 #' @param returnlevel 'S' for "Section" or 'I' for "Intersection" (subsections)

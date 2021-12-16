@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.8.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.8.4</span>
       </span>
     </div>
 
@@ -29,7 +29,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/ncss-tech/aqp/" class="external-link">
+  <a href="https://github.com/ncss-tech/sharpshootR/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -44,7 +44,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Diagnostic Property Plot (lattice)</h1>
-    <small class="dont-index">Source: <a href="https://github.com/ncss-tech/aqp/blob/HEAD/R/diagnosticPropertyPlot.R" class="external-link"><code>R/diagnosticPropertyPlot.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/ncss-tech/sharpshootR/blob/HEAD/R/diagnosticPropertyPlot.R" class="external-link"><code>R/diagnosticPropertyPlot.R</code></a></small>
     <div class="hidden name"><code>diagnosticPropertyPlot2.Rd</code></div>
     </div>
 
@@ -106,10 +106,10 @@
 <span class="r-in"><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in">  </span>
 <span class="r-in">  <span class="co"># sample data, an SPC</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">gopheridge</span>, package<span class="op">=</span><span class="st">'soilDB'</span><span class="op">)</span></span>
+<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">gopheridge</span>, package <span class="op">=</span> <span class="st">'soilDB'</span><span class="op">)</span></span>
 <span class="r-in">  </span>
 <span class="r-in">  <span class="co"># get depth class</span></span>
-<span class="r-in">  <span class="va">sdc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/getSoilDepthClass.html" class="external-link">getSoilDepthClass</a></span><span class="op">(</span><span class="va">gopheridge</span><span class="op">)</span></span>
+<span class="r-in">  <span class="va">sdc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/getSoilDepthClass.html" class="external-link">getSoilDepthClass</a></span><span class="op">(</span><span class="va">gopheridge</span>, name <span class="op">=</span> <span class="st">'hzname'</span><span class="op">)</span></span>
 <span class="r-in">  <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/site.html" class="external-link">site</a></span><span class="op">(</span><span class="va">gopheridge</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">sdc</span></span>
 <span class="r-in">  </span>
 <span class="r-in">  <span class="co"># diagnostic properties to consider, no need to convert to factors</span></span>
@@ -149,7 +149,7 @@
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Dylan Beaudette, Jay Skovlin, Stephen Roecker.</p>
+  <p></p><p>Developed by Dylan Beaudette, Jay Skovlin, Stephen Roecker, Andrew Brown.</p>
 </div>
 
 <div class="pkgdown">

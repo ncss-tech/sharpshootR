@@ -26,6 +26,10 @@ jobs:
         with:
           use-public-rspm: true
 
+      - name: Install hydromad
+        run: |
+          install.packages('hydromad', repos = "http://hydromad.catchment.org")
+
       - uses: r-lib/actions/setup-r-dependencies@v1
         with:
           extra-packages: pkgdown

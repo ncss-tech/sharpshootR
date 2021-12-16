@@ -1,3 +1,7 @@
+# sharpshootR 1.8.3 (2021-12-16)
+ * water balance functions now depend on hydromad >= 0.9-27
+ * new function `vizSurfaceShape()`
+
 # sharpshootR 1.8.3 (2021-11-02)
  * `SoilTaxonomyDendrogram()` no longer resetting `par` as it prevents further annotation of the resulting figure
  * bug fix in `CDEC_StationInfo` related to parsing station comments

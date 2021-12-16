@@ -1,12 +1,14 @@
 ## TODO: provide examples for adjusting legend size / spacing
 
-#' @title Visual Summary of Hillslope Position
+#' @title Visual Summary of Surface Shape
 #' 
-#' @description A unique display of hillslope position probability.
+#' @description A unique display of surface shape (typically curvature) probability, suitable for across-slope or down-slope shape. Use the `title` argument to make this clear.
 #' 
 #' @param x \code{data.frame} as created by \code{soilDB::fetchOSD(..., extended=TRUE)}, see details
 #' 
 #' @param s an optional soil series name, highlighted in the figure
+#' 
+#' @param title a reasonable title for the figure
 #' 
 #' @param annotations logical, add number of record and normalized Shannon entropy values
 #' 
@@ -40,20 +42,20 @@
 #'   # fetch and convert data into an SPC
 #'   s <- fetchOSD(s.list, extended=TRUE)
 #'   
-#'   res <- vizHillslopePosition(s$hillpos)
+#'   res <- vizSurfaceShape(s$shape_across, title = 'Surface Shape (Across)')
 #'   print(res$fig)
 #'   
 #' }
 #' }
 #' 
-vizHillslopePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#2B83BA", "#ABDDA4", "#FFFFBF", "#FDAE61", "#D7191C")) {
+vizSurfaceShape <- function(x, title = 'Surface Shape', s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#2B83BA", "#FFFFBF", "#D7191C", "#808080", "darkgreen")) {
   
   # check for required packages
   if(!requireNamespace('dendextend', quietly=TRUE) | !requireNamespace('latticeExtra', quietly=TRUE))
     stop('please install the `dendextend` and `latticeExtra` packages', call.=FALSE)
   
   # CRAN CHECK hack
-  hillslope_position <- NULL
+  surface_shape <- NULL
   
   # save row names as they are lost in the distance matrix calc
   row.names(x) <- x$series
@@ -74,18 +76,20 @@ vizHillslopePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex
   ## convert proportions to long format for plotting
   x.long <- melt(x, id.vars = 'series')
   # fix names: second column contains labels
-  names(x.long)[2] <- 'hillslope_position'
+  names(x.long)[2] <- 'surface_shape'
   
   # make some colors, and set style
   # cols <- rev(brewer.pal(5, 'Spectral'))
+  # cols <- c(cols[c(1, 3, 5)], grey(0.5), 'darkgreen')
+  # colorspace::swatchplot(cols)
   
   # setup plot styling
-  tps <- list(superpose.polygon=list(col=cols, lwd=2, lend=2))
+  tps <- list(superpose.polygon = list(col = cols, lwd = 2, lend = 2))
   
   ## all of the fancy ordering + dendrogram require > 1 series
   if(n.series > 1) {
     # re-order labels based on sorting of proportions: "hydrologic" ordering
-    hyd.order <- order(rowSums(sweep(x[, -1], 2, STATS=c(-4, -2, 0.1, 2, 4), FUN = '*')), decreasing = TRUE)
+    hyd.order <- order(rowSums(sweep(x[, -1], 2, STATS = c(-4, 1, 4, 5, 6), FUN = '*')), decreasing = TRUE)
     
     # cluster proportions: results are not in "hydrologic" order, but close
     x.d <- as.hclust(diana(daisy(x[, -1])))
@@ -94,7 +98,7 @@ vizHillslopePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex
     x.d.hydro <- dendextend::rotate(x.d, order = x$series[hyd.order]) # dendextend approach
     
     # re-order labels levels based on clustering
-    x.long$series <- factor(x.long$series, levels=x.long$series[x.d.hydro$order])
+    x.long$series <- factor(x.long$series, levels = x.long$series[x.d.hydro$order])
     
     # dendrogram synced to bars
     leg <- list(
@@ -123,14 +127,15 @@ vizHillslopePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex
   suppressWarnings(trellis.par.set(tps))
   
   # must manually create a key, for some reason auto.key doesn't work with fancy dendrogram
-  sk <- simpleKey(space='top', columns=5, text=levels(x.long$hillslope_position), rectangles = TRUE, points=FALSE, between.columns=2, between=1, cex=0.75)
+  sk <- simpleKey(space='top', columns=5, text=levels(x.long$surface_shape), rectangles = TRUE, points=FALSE, between.columns=2, between=1, cex=0.75)
   
   
   
   # a single series can be highlighted via argument 's'
   ## TODO: check for missing / mis-specified series names
-  pp <- barchart(series ~ value, groups=hillslope_position, data=x.long, horiz=TRUE, stack=TRUE, 
+  pp <- barchart(series ~ value, groups = surface_shape, data=x.long, horiz=TRUE, stack=TRUE, 
                  xlab = 'Proportion', 
+                 main = title,
                  scales = list(cex=1), 
                  key = sk,
                  legend = leg, 

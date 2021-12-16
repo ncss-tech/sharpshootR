@@ -223,10 +223,10 @@ diagnosticPropertyPlot <- function(f, v, k, grid.label='pedon_id', dend.label='p
 #' ) {
 #'   
 #'   # sample data, an SPC
-#'   data(gopheridge, package='soilDB')
+#'   data(gopheridge, package = 'soilDB')
 #'   
 #'   # get depth class
-#'   sdc <- getSoilDepthClass(gopheridge)
+#'   sdc <- getSoilDepthClass(gopheridge, name = 'hzname')
 #'   site(gopheridge) <- sdc
 #'   
 #'   # diagnostic properties to consider, no need to convert to factors

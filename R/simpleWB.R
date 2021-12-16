@@ -31,8 +31,6 @@
 #' 
 ## TODO: investigate realistic a.ss values for various drainage classes
 
-## TODO: double-check specification of `Sb.fc`
-
 ## source:
 # https://github.com/josephguillaume/hydromad/blob/master/R/bucket.R
 # https://github.com/josephguillaume/hydromad/blob/master/src/bucket.c
@@ -42,6 +40,10 @@ simpleWB <- function(PPT, PET, D, thickness, sat, fc, pwp, S_0 = 0.5, a.ss = 0.0
   # sanity check: package requirements
   if(!requireNamespace('hydromad'))
     stop('please install the hydromad package', call. = FALSE)
+  
+  # must have hydromad 0.9-27 or later
+  if(packageVersion('hydromad') < package_version('0.9.27'))
+    stop('please install hydromad version 0.9-27 or later', call. = FALSE)
   
   # awc and fc must be within 0-1
   

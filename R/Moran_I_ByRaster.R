@@ -24,7 +24,7 @@ ESS_by_Moran_I <- function(n, rho) {
   # TODO: what about negative spatial autocorrelation?
   # hack: clamping rho {0,1}
   rho <- ifelse(rho < 0, 0, rho)
-  n_eff <- n * ((1-rho) / (1+rho))
+  n_eff <- n * ((1 - rho) / (1 + rho))
   
   return(n_eff)
 }
@@ -85,10 +85,10 @@ Moran_I_ByRaster <- function(r, mu.extent=NULL, n=NULL, k=NULL, do.correlogram=F
   }
   
   # Moran's I, no need for permutation tests
-  res <- spdep::moran.test(s[[1]], s.listw, rank=TRUE, randomisation = FALSE)
+  res <- spdep::moran.test(s[[1]], s.listw, rank = TRUE, randomisation = FALSE)
   
   if(do.correlogram)
-    return(list(I=res$estimate[1], correlogram=s.sp))
+    return(list(I = res$estimate[1], correlogram = s.sp))
   else
     return(res$estimate[1])
   

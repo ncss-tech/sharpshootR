@@ -1,5 +1,5 @@
 
-## deprecate all of this
+## TODO: remove all of these in the next major release
 
 
 ##

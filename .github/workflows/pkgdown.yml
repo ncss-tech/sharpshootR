@@ -28,7 +28,7 @@ jobs:
 
       - name: Install hydromad
         run: |
-          install.packages('hydromad', repos = "http://hydromad.catchment.org")
+          install.packages('hydromad', repos = c("http://hydromad.catchment.org", getOption("repos")))
         shell: Rscript {0}
         
       - uses: r-lib/actions/setup-r-dependencies@v1

@@ -21,8 +21,6 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@v1
 
       - uses: r-lib/actions/setup-r@v1
-        env:
-          CRAN: c("http://hydromad.catchment.org", "https://cloud.r-project.org")
         with:
           use-public-rspm: true
 
@@ -31,14 +29,14 @@ jobs:
           install.packages('hydromad', repos = c("http://hydromad.catchment.org", getOption("repos")))
         shell: Rscript {0}
         
-      - uses: r-lib/actions/setup-r-dependencies@v1
-        with:
-          extra-packages: pkgdown
-          needs: website
+      #- uses: r-lib/actions/setup-r-dependencies@v1
+      #  with:
+      #    extra-packages: pkgdown
+      #    needs: website
 
       - name: Query dependencies
         run: |
-          install.packages('remotes')
+          install.packages(c('remotes','pkgdown'))
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}

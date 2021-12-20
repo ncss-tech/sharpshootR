@@ -16,10 +16,12 @@ vizGeomorphicComponent(x, s = NULL, annotations = TRUE, annotation.cex = 0.75)
 \item{annotation.cex}{annotation label scaling factor}
 }
 \value{
-a \code{list} with the following elements:
-
-\item{fig}{lattice object (the figure)}
-\item{order}{ordering of soil series}
+A \code{list} with the following elements:
+\itemize{
+\item \code{fig}: lattice object (the figure)
+\item \code{order}: 1D ordering from \code{cluster::diana}
+\item \code{clust}: clustering object returned by \code{cluster::diana}
+}
 }
 \description{
 A unique display of landform position probability.

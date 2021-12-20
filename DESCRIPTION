@@ -31,7 +31,7 @@ Suggests:
     jsonlite,
     dendextend,
     testthat,
-    hydromad,
+    hydromad (>= 0.9.27),
     latticeExtra,
     farver,
     venn,
@@ -45,6 +45,6 @@ Imports: grDevices, graphics, methods, stats, utils, aqp, ape,
   soilDB, igraph, cluster, lattice, vegan, sp, 
   reshape2, Hmisc, scales, circular, RColorBrewer, plyr, 
   digest, e1071, stringi, parallel, curl, grid
-Remotes: JosephGuillaume/hydromad
+Additional_repositories: https://hydromad.github.io
 RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)

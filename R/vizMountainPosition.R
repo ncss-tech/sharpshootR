@@ -25,6 +25,15 @@
 #' 
 vizMountainPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75) {
   
+  # sanity checks on input
+  if(!inherits(x, 'data.frame')) {
+    stop('x must be a data.frame', call. = FALSE)
+  }
+  
+  if(nrow(x) < 1) {
+    stop('x must contain at least 1 row of data', call. = FALSE)
+  }
+  
   # check for required packages
   if(!requireNamespace('dendextend', quietly=TRUE) | !requireNamespace('latticeExtra', quietly=TRUE))
     stop('please install the `dendextend` and `latticeExtra` packages', call.=FALSE)

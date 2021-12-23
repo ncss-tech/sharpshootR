@@ -40,28 +40,6 @@ A unique display of surface shape (typically curvature) probability, suitable fo
 \details{
 See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
 }
-\examples{
-
-\donttest{
-if(requireNamespace("curl") &
-   curl::has_internet() &
-   require(aqp) & 
-   require(soilDB)) {
-  
-  # soils of interest
-  s.list <- c('musick', 'cecil', 'drummer', 'amador', 'pentz', 'reiff', 
-              'san joaquin','montpellier','grangeville','pollasky','ramona')
-  
-  # fetch and convert data into an SPC
-  s <- fetchOSD(s.list, extended=TRUE)
-  
-  res <- vizSurfaceShape(s$shape_across, title = 'Surface Shape (Across)')
-  print(res$fig)
-  
-}
-}
-
-}
 \author{
 D.E. Beaudette
 }

@@ -27,28 +27,18 @@
 #' 
 #' @author D.E. Beaudette
 #' 
-#' @examples 
-#' 
-#' \donttest{
-#' if(requireNamespace("curl") &
-#'    curl::has_internet() &
-#'    require(aqp) & 
-#'    require(soilDB)) {
-#'   
-#'   # soils of interest
-#'   s.list <- c('musick', 'cecil', 'drummer', 'amador', 'pentz', 'reiff', 
-#'               'san joaquin','montpellier','grangeville','pollasky','ramona')
-#'   
-#'   # fetch and convert data into an SPC
-#'   s <- fetchOSD(s.list, extended=TRUE)
-#'   
-#'   res <- vizSurfaceShape(s$shape_across, title = 'Surface Shape (Across)')
-#'   print(res$fig)
-#'   
-#' }
-#' }
 #' 
 vizSurfaceShape <- function(x, title = 'Surface Shape', s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#2B83BA", "#FFFFBF", "#D7191C", "#808080", "darkgreen")) {
+  
+  # sanity checks on input
+  if(!inherits(x, 'data.frame')) {
+    stop('x must be a data.frame', call. = FALSE)
+  }
+  
+  if(nrow(x) < 1) {
+    stop('x must contain at least 1 row of data', call. = FALSE)
+  }
+  
   
   # check for required packages
   if(!requireNamespace('dendextend', quietly=TRUE) | !requireNamespace('latticeExtra', quietly=TRUE))

@@ -1,4 +1,4 @@
-# sharpshootR 1.8.4 (2021-12-16)
+# sharpshootR 1.9 (2021-12-22)
  * CRAN release
  * water balance functions now depend on hydromad >= 0.9-27
  * new function `vizSurfaceShape()`

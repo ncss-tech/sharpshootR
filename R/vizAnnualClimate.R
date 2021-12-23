@@ -102,6 +102,15 @@
 #' 
 vizAnnualClimate <- function(climate.data, IQR.cex = 1, s = NULL, s.col = 'firebrick', ...) {
   
+  # sanity checks on input
+  if(!inherits(climate.data, 'data.frame')) {
+    stop('x must be a data.frame', call. = FALSE)
+  }
+  
+  if(nrow(climate.data) < 1) {
+    stop('x must contain at least 1 row of data', call. = FALSE)
+  }
+  
   # check for required packages
   if(!requireNamespace('latticeExtra', quietly=TRUE))
     stop('please install the `latticeExtra` package', call.=FALSE)

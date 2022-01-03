@@ -4,7 +4,13 @@
 \alias{vizGeomorphicComponent}
 \title{Visual Summary of Hill Landform Positions}
 \usage{
-vizGeomorphicComponent(x, s = NULL, annotations = TRUE, annotation.cex = 0.75)
+vizGeomorphicComponent(
+  x,
+  s = NULL,
+  annotations = TRUE,
+  annotation.cex = 0.75,
+  cols = c("#D53E4F", "#FC8D59", "#FEE08B", "#E6F598", "#99D594", "#3288BD")
+)
 }
 \arguments{
 \item{x}{\code{data.frame} as created by \code{soilDB::fetchOSD(..., extended=TRUE)}, see details}
@@ -14,6 +20,8 @@ vizGeomorphicComponent(x, s = NULL, annotations = TRUE, annotation.cex = 0.75)
 \item{annotations}{logical, add number of record and normalized Shannon entropy values}
 
 \item{annotation.cex}{annotation label scaling factor}
+
+\item{cols}{vector of colors}
 }
 \value{
 A \code{list} with the following elements:

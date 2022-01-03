@@ -12,6 +12,8 @@
 #' 
 #' @param annotation.cex annotation label scaling factor
 #' 
+#' @param cols vector of colors
+#' 
 #' @return
 #' A `list` with the following elements:
 #'    * `fig`: lattice object (the figure)
@@ -23,7 +25,7 @@
 #' @author D.E. Beaudette
 #' 
 #' 
-vizGeomorphicComponent <- function(x, s=NULL, annotations = TRUE, annotation.cex = 0.75) {
+vizGeomorphicComponent <- function(x, s=NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#D53E4F", "#FC8D59", "#FEE08B", "#E6F598", "#99D594", "#3288BD")) {
   
   # sanity checks on input
   if(!inherits(x, 'data.frame')) {
@@ -63,7 +65,7 @@ vizGeomorphicComponent <- function(x, s=NULL, annotations = TRUE, annotation.cex
   names(x.long)[2] <- 'geomcomp'
   
   # make some colors, and set style
-  cols <- brewer.pal(6, 'Spectral')
+  # cols <- brewer.pal(6, 'Spectral')
   tps <- list(superpose.polygon=list(col=cols, lwd=2, lend=2))
   
   ## all of the fancy ordering + dendrogram require > 1 series

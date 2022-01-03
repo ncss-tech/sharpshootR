@@ -1,4 +1,5 @@
 ## TODO: provide examples for adjusting legend size / spacing
+## TODO: consider other colors: https://github.com/BlakeRMills/MetBrewer
 
 #' @title Visual Summary of Hillslope Position
 #' 
@@ -24,27 +25,6 @@
 #' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
 #' 
 #' @author D.E. Beaudette
-#' 
-#' @examples 
-#' 
-#' \donttest{
-#' if(requireNamespace("curl") &
-#'    curl::has_internet() &
-#'    require(aqp) & 
-#'    require(soilDB)) {
-#'   
-#'   # soils of interest
-#'   s.list <- c('musick', 'cecil', 'drummer', 'amador', 'pentz', 'reiff', 
-#'               'san joaquin','montpellier','grangeville','pollasky','ramona')
-#'   
-#'   # fetch and convert data into an SPC
-#'   s <- fetchOSD(s.list, extended=TRUE)
-#'   
-#'   res <- vizHillslopePosition(s$hillpos)
-#'   print(res$fig)
-#'   
-#' }
-#' }
 #' 
 vizHillslopePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#2B83BA", "#ABDDA4", "#FFFFBF", "#FDAE61", "#D7191C")) {
   

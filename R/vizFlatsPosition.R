@@ -1,4 +1,3 @@
-## TODO: return clustering object instead of cluster$order
 ## TODO: provide examples for adjusting legend size / spacing
 ## TODO: still testing "hydrologic" order
 
@@ -14,17 +13,20 @@
 #' 
 #' @param annotation.cex annotation label scaling factor
 #' 
-#' @return a \code{list} with the following elements:
+#' @param cols vector of colors
 #' 
-#' \item{fig}{lattice object (the figure)}
-#' \item{order}{ordering of soil series}
+#' @return
+#' A `list` with the following elements:
+#'    * `fig`: lattice object (the figure)
+#'    * `order`: 1D ordering from `cluster::diana`
+#'    * `clust`: clustering object returned by `cluster::diana`
 #' 
 #' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
 #' 
 #' @author D.E. Beaudette
 #' 
 #' 
-vizFlatsPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75) {
+vizFlatsPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#2B83BA", "#ABDDA4", "#FFFFBF", "#FDAE61", "#D7191C")) {
   
   # sanity checks on input
   if(!inherits(x, 'data.frame')) {
@@ -64,7 +66,7 @@ vizFlatsPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0
   names(x.long)[2] <- 'flats_position'
   
   # make some colors, and set style
-  cols <- rev(brewer.pal(5, 'Spectral'))
+  # cols <- rev(brewer.pal(5, 'Spectral'))
   
   # plot style
   tps <- list(superpose.polygon=list(col=cols, lwd=2, lend=2))
@@ -177,6 +179,6 @@ vizFlatsPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0
   pp <- update(pp, par.settings = tps)
   
   # the figure and ordering are returned
-  return(list(fig = pp, order = x.d.hydro$order))
+  return(list(fig = pp, order = x.d.hydro$order, clust = x.d.hydro))
 }
 

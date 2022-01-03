@@ -4,7 +4,13 @@
 \alias{vizFlatsPosition}
 \title{Visual Summary of Flat Landform Positions}
 \usage{
-vizFlatsPosition(x, s = NULL, annotations = TRUE, annotation.cex = 0.75)
+vizFlatsPosition(
+  x,
+  s = NULL,
+  annotations = TRUE,
+  annotation.cex = 0.75,
+  cols = c("#2B83BA", "#ABDDA4", "#FFFFBF", "#FDAE61", "#D7191C")
+)
 }
 \arguments{
 \item{x}{\code{data.frame} as created by \code{soilDB::fetchOSD(..., extended=TRUE)}, see details}
@@ -14,12 +20,16 @@ vizFlatsPosition(x, s = NULL, annotations = TRUE, annotation.cex = 0.75)
 \item{annotations}{logical, add number of record and normalized Shannon entropy values}
 
 \item{annotation.cex}{annotation label scaling factor}
+
+\item{cols}{vector of colors}
 }
 \value{
-a \code{list} with the following elements:
-
-\item{fig}{lattice object (the figure)}
-\item{order}{ordering of soil series}
+A \code{list} with the following elements:
+\itemize{
+\item \code{fig}: lattice object (the figure)
+\item \code{order}: 1D ordering from \code{cluster::diana}
+\item \code{clust}: clustering object returned by \code{cluster::diana}
+}
 }
 \description{
 A unique display of landform position probability.

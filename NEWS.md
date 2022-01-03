@@ -1,8 +1,8 @@
-# sharpshootR 1.9 (2021-12-22)
+# sharpshootR 1.9 (2022-01-03)
  * CRAN release
  * water balance functions now depend on hydromad >= 0.9-27
  * new function `vizSurfaceShape()`
- * `vizGeomorphicComponent()` now returns clustering object
+ * all `viz` functions return clustering object
 
 # sharpshootR 1.8.3 (2021-11-02)
  * `SoilTaxonomyDendrogram()` no longer resetting `par` as it prevents further annotation of the resulting figure

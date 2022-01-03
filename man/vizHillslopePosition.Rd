@@ -37,28 +37,6 @@ A unique display of hillslope position probability.
 \details{
 See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
 }
-\examples{
-
-\donttest{
-if(requireNamespace("curl") &
-   curl::has_internet() &
-   require(aqp) & 
-   require(soilDB)) {
-  
-  # soils of interest
-  s.list <- c('musick', 'cecil', 'drummer', 'amador', 'pentz', 'reiff', 
-              'san joaquin','montpellier','grangeville','pollasky','ramona')
-  
-  # fetch and convert data into an SPC
-  s <- fetchOSD(s.list, extended=TRUE)
-  
-  res <- vizHillslopePosition(s$hillpos)
-  print(res$fig)
-  
-}
-}
-
-}
 \author{
 D.E. Beaudette
 }

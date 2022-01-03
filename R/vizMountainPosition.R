@@ -13,17 +13,20 @@
 #' 
 #' @param annotation.cex annotation label scaling factor
 #' 
-#' @return a \code{list} with the following elements:
+#' @param cols vector of colors
 #' 
-#' \item{fig}{lattice object (the figure)}
-#' \item{order}{ordering of soil series}
+#' @return
+#' A `list` with the following elements:
+#'    * `fig`: lattice object (the figure)
+#'    * `order`: 1D ordering from `cluster::diana`
+#'    * `clust`: clustering object returned by `cluster::diana`
 #' 
 #' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
 #' 
 #' @author D.E. Beaudette
 #' 
 #' 
-vizMountainPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75) {
+vizMountainPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#D53E4F", "#FC8D59", "#FEE08B", "#E6F598", "#99D594", "#3288BD")) {
   
   # sanity checks on input
   if(!inherits(x, 'data.frame')) {
@@ -69,7 +72,7 @@ vizMountainPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex 
   levels(x.long$mtnpos) <- c('Mountaintop', 'Upper 1/3 Mtn Flank', 'Mountainflank', 'Center 1/3 Mtn Flank', 'Lower 1/3 MtnFlank', 'Mountainbase')
   
   # make some colors, and set style
-  cols <- brewer.pal(6, 'Spectral')
+  # cols <- brewer.pal(6, 'Spectral')
   tps <- list(superpose.polygon=list(col=cols, lwd=2, lend=2))
   
   
@@ -177,6 +180,6 @@ vizMountainPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex 
   pp <- update(pp, par.settings = tps)
   
   # the figure and ordering are returned
-  return(list(fig = pp, order = x.d.hydro$order))
+  return(list(fig = pp, order = x.d.hydro$order, clust = x.d.hydro))
 }
 

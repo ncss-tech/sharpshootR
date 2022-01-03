@@ -90,34 +90,6 @@
     <p>D.E. Beaudette</p>
     </div>
 
-    <div id="ref-examples">
-    <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"curl"</span><span class="op">)</span> <span class="op">&amp;</span></span>
-<span class="r-in">   <span class="fu">curl</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/curl/man/nslookup.html" class="external-link">has_internet</a></span><span class="op">(</span><span class="op">)</span> <span class="op">&amp;</span></span>
-<span class="r-in">   <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ncss-tech/aqp" class="external-link">aqp</a></span><span class="op">)</span> <span class="op">&amp;</span> </span>
-<span class="r-in">   <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="http://ncss-tech.github.io/AQP/" class="external-link">soilDB</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># soils of interest</span></span>
-<span class="r-in">  <span class="va">s.list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'musick'</span>, <span class="st">'cecil'</span>, <span class="st">'drummer'</span>, <span class="st">'amador'</span>, <span class="st">'pentz'</span>, <span class="st">'reiff'</span>, </span>
-<span class="r-in">              <span class="st">'san joaquin'</span>,<span class="st">'montpellier'</span>,<span class="st">'grangeville'</span>,<span class="st">'pollasky'</span>,<span class="st">'ramona'</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># fetch and convert data into an SPC</span></span>
-<span class="r-in">  <span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/soilDB/man/fetchOSD.html" class="external-link">fetchOSD</a></span><span class="op">(</span><span class="va">s.list</span>, extended<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">vizHillslopePosition</span><span class="op">(</span><span class="va">s</span><span class="op">$</span><span class="va">hillpos</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">fig</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Registered S3 method overwritten by 'dendextend':</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   method     from </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   rev.hclust vegan</span>
-<span class="r-plt img"><img src="vizHillslopePosition-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"></span>
-</code></pre></div>
-    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

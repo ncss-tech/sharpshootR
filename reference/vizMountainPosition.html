@@ -53,7 +53,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">vizMountainPosition</span><span class="op">(</span><span class="va">x</span>, s <span class="op">=</span> <span class="cn">NULL</span>, annotations <span class="op">=</span> <span class="cn">TRUE</span>, annotation.cex <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">vizMountainPosition</span><span class="op">(</span>
+  <span class="va">x</span>,
+  s <span class="op">=</span> <span class="cn">NULL</span>,
+  annotations <span class="op">=</span> <span class="cn">TRUE</span>,
+  annotation.cex <span class="op">=</span> <span class="fl">0.75</span>,
+  cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#D53E4F"</span>, <span class="st">"#FC8D59"</span>, <span class="st">"#FEE08B"</span>, <span class="st">"#E6F598"</span>, <span class="st">"#99D594"</span>, <span class="st">"#3288BD"</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -66,15 +72,15 @@
 <dd><p>logical, add number of record and normalized Shannon entropy values</p></dd>
 <dt>annotation.cex</dt>
 <dd><p>annotation label scaling factor</p></dd>
+<dt>cols</dt>
+<dd><p>vector of colors</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a <code>list</code> with the following elements:</p>
-<dl><dt>fig</dt>
-<dd><p>lattice object (the figure)</p></dd>
-<dt>order</dt>
-<dd><p>ordering of soil series</p></dd>
-</dl></div>
+    <p>A <code>list</code> with the following elements:</p><ul><li><p><code>fig</code>: lattice object (the figure)</p></li>
+<li><p><code>order</code>: 1D ordering from <code><a href="https://rdrr.io/pkg/cluster/man/diana.html" class="external-link">cluster::diana</a></code></p></li>
+<li><p><code>clust</code>: clustering object returned by <code><a href="https://rdrr.io/pkg/cluster/man/diana.html" class="external-link">cluster::diana</a></code></p></li>
+</ul></div>
     <div id="details">
     <h2>Details</h2>
     <p>See the <a href="http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html" class="external-link">Soil Series Query Functions</a> tutorial for more information.</p>

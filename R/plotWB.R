@@ -132,9 +132,6 @@ plotWB <- function(WB, AWC = attr(WB, 'AWC'), showAWC = 'below', sw.col = '#377E
   # annotate left-hand axes
   mtext(text = 'Inputs | Outputs | Storage    (mm)', side = 2, line = 2.25, cex=0.85, font=2)
   
-  # annotate AWC
-  mtext(sprintf("AWC: %smm", AWC), side = 3, at = 0, cex = 0.85, font = 3, adj = 0)
-  
   # month axis: no line, just ticks
   axis(side = 1, at = bp, labels = WB$mo, line = 0, tick = TRUE, font = 2, cex = month.cex, col = NA, col.ticks = par('fg'))
   
@@ -166,5 +163,12 @@ plotWB <- function(WB, AWC = attr(WB, 'AWC'), showAWC = 'below', sw.col = '#377E
     xjust = 1, 
     yjust = -0.25
   )
+  
+  # annotate AWC
+  mtext(sprintf("AWC: %s mm", AWC), side = 1,  at = 0, cex = 0.85, adj = 0, line = 2.5)
+  
+  # annotate total deficit
+  sumD <- bquote(sum(Deficit)  ==  .(round(sum(WB$D)))~mm)
+  mtext(sumD, side = 1,  at = max(bp), cex = 0.85,  adj = 1, line = 2.5)
   
 }

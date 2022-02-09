@@ -40,30 +40,67 @@ m <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "No
 ggplot(z, aes(x = month, y = q50, group = variable, color = variable)) +  
   geom_line(show.legend = FALSE, lty = 2, alpha = 1) + 
   expand_limits(y = 0) + 
-  geom_ribbon(aes(ymin = q25, ymax = q75, fill = variable), alpha = 0.25) +
-  coord_polar(theta="x", start = - pi/12 , direction = 1) +
+  geom_ribbon(aes(ymin = q05, ymax = q95, fill = variable), alpha = 0.25) +
+  # coord_polar(theta="x", start = - pi/12 , direction = 1) +
   scale_x_continuous(breaks = 1:12, labels = m) + 
   scale_y_continuous(n.breaks = 10) + 
   scale_fill_manual(values=alpha(cols, 0.25)) +
   scale_color_manual(values=alpha(cols, 0.25)) +
   xlab('') + ylab('') + 
-  ggtitle("Monthly Climate Summaries (PRISM 1981-2010)\n25th-50th-75th Percentiles") +
+  ggtitle("Monthly Climate Summaries (PRISM 1981-2010)\n5th-50th-95th Percentiles") +
   theme_bw() + 
   theme(plot.title = element_text(size = 10)) +
   theme(legend.position="bottom", legend.title = element_blank()) + 
   facet_wrap("series")
 
-ggplot(z, aes(x = month, y = q50, group = series, color = series)) +  
+
+ggplot(z, aes(x = month, y = q50, group = variable, color = variable)) +  
   geom_line(show.legend = FALSE, lty = 2, alpha = 1) + 
   expand_limits(y = 0) + 
-  geom_ribbon(aes(ymin = q25, ymax = q75, fill = series), alpha = 0.25) +
+  geom_ribbon(aes(ymin = q05, ymax = q95, fill = variable), alpha = 0.25) +
   coord_polar(theta="x", start = - pi/12 , direction = 1) +
   scale_x_continuous(breaks = 1:12, labels = m) + 
   scale_y_continuous(n.breaks = 10) + 
   scale_fill_manual(values=alpha(cols, 0.25)) +
   scale_color_manual(values=alpha(cols, 0.25)) +
   xlab('') + ylab('') + 
-  ggtitle("Monthly Climate Summaries (PRISM 1981-2010)\n25th-50th-75th Percentiles") +
+  ggtitle("Monthly Climate Summaries (PRISM 1981-2010)\n5th-50th-95th Percentiles") +
+  theme_bw() + 
+  theme(plot.title = element_text(size = 10)) +
+  theme(legend.position="bottom", legend.title = element_blank()) + 
+  facet_wrap("series")
+
+##
+
+ggplot(z, aes(x = month, y = q50, group = series, color = series)) +  
+  geom_line(show.legend = FALSE, lty = 2, alpha = 1) + 
+  expand_limits(y = 0) + 
+  geom_ribbon(aes(ymin = q05, ymax = q95, fill = series), alpha = 0.25) +
+  # coord_polar(theta="x", start = - pi/12 , direction = 1) +
+  scale_x_continuous(breaks = 1:12, labels = m) + 
+  scale_y_continuous(n.breaks = 10) + 
+  scale_fill_manual(values=alpha(cols, 0.25)) +
+  scale_color_manual(values=alpha(cols, 0.25)) +
+  xlab('') + ylab('') + 
+  ggtitle("Monthly Climate Summaries (PRISM 1981-2010)\n5th-50th-95th Percentiles") +
+  theme_bw() + 
+  theme(plot.title = element_text(size = 10)) +
+  theme(legend.position="bottom", legend.title = element_blank()) +
+  facet_wrap("variable")
+
+
+
+ggplot(z, aes(x = month, y = q50, group = series, color = series)) +  
+  geom_line(show.legend = FALSE, lty = 2, alpha = 1) + 
+  expand_limits(y = 0) + 
+  geom_ribbon(aes(ymin = q05, ymax = q95, fill = series), alpha = 0.25) +
+  coord_polar(theta="x", start = - pi/12 , direction = 1) +
+  scale_x_continuous(breaks = 1:12, labels = m) + 
+  scale_y_continuous(n.breaks = 10) + 
+  scale_fill_manual(values=alpha(cols, 0.25)) +
+  scale_color_manual(values=alpha(cols, 0.25)) +
+  xlab('') + ylab('') + 
+  ggtitle("Monthly Climate Summaries (PRISM 1981-2010)\n5th-50th-95th Percentiles") +
   theme_bw() + 
   theme(plot.title = element_text(size = 10)) +
   theme(legend.position="bottom", legend.title = element_blank()) +
@@ -77,8 +114,7 @@ s <- 'loafercreek'
 x <- fetchOSD(s, extended = TRUE)
 
 # get representative, profile-total AWC from SSURGO
-sql <- sprintf("
-SELECT chorizon.cokey AS cokey, 
+sql <- sprintf("SELECT chorizon.cokey AS cokey, 
 SUM(awc_r * (hzdepb_r - hzdept_r)) AS ws 
 FROM 
 legend JOIN mapunit ON legend.lkey = mapunit.lkey
@@ -129,7 +165,7 @@ ggplot(z, aes(x = month, y = value, group = variable, color = variable)) +
   coord_polar(theta="x", start = - pi/12 , direction = 1) +
   scale_x_continuous(breaks = 1:12, labels = m) +
   scale_y_continuous(n.breaks = 10) + 
-  scale_color_manual(values = cols[c(2, 1, 3)]) +
+  scale_color_manual(values = cols[c(2, 3, 1)]) +
   xlab('') + ylab('') + 
   ggtitle("Monthly Climate Summaries (PRISM 1981-2010)") +
   theme_bw() + 
@@ -250,6 +286,21 @@ ggplot(z.qtiles, aes(x = month, y = q50, group = variable, color = variable)) +
   geom_line(show.legend = FALSE, lty = 2, alpha = 1) + 
   expand_limits(y = min(z.qtiles$q5)) +
   geom_ribbon(aes(ymin = q5, ymax = q95, fill = variable), alpha = 0.25) +
+  # coord_polar(theta="x", start = - pi/12 , direction = 1) +
+  scale_x_continuous(breaks = 1:12, labels = m) +
+  scale_y_continuous(n.breaks = 10) + 
+  scale_fill_manual(values=alpha(cols[c(4, 1, 3, 2)], 0.25)) +
+  scale_color_manual(values=alpha(cols[c(4, 1, 3, 2)], 0.25)) +
+  xlab('') + ylab('') + 
+  ggtitle(title.txt) +
+  theme_bw() + 
+  theme(plot.title = element_text(size = 10)) +
+  theme(legend.position="bottom", legend.title = element_blank())
+
+ggplot(z.qtiles, aes(x = month, y = q50, group = variable, color = variable)) +  
+  geom_line(show.legend = FALSE, lty = 2, alpha = 1) + 
+  expand_limits(y = min(z.qtiles$q5)) +
+  geom_ribbon(aes(ymin = q5, ymax = q95, fill = variable), alpha = 0.25) +
   coord_polar(theta="x", start = - pi/12 , direction = 1) +
   scale_x_continuous(breaks = 1:12, labels = m) +
   scale_y_continuous(n.breaks = 10) + 
@@ -260,6 +311,7 @@ ggplot(z.qtiles, aes(x = month, y = q50, group = variable, color = variable)) +
   theme_bw() + 
   theme(plot.title = element_text(size = 10)) +
   theme(legend.position="bottom", legend.title = element_blank())
+
 
 
 ## what about annual sums?

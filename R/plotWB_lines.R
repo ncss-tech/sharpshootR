@@ -13,6 +13,7 @@
 #' @param interpolator spline or linear interpolation of monthly values, use of `spline` may lead to minor smoothing artifacts in shaded areas
 #' @param spline.method when `interpolator = 'spline'`, argument passed to `splinefun(..., method = spline.method)`
 #' @param month.cex scaling factor for month labels
+#' @param legend.cex scaling factor for legend
 #'
 #' @export
 #' 
@@ -37,7 +38,7 @@
 #' 
 #' }
 #'
-plotWB_lines <- function(WB, cols = c("#759CC9", "#EB6D6E", "#7FC47D"), line.col = 'black', line.lty = c(1, 2, 3), interpolator = c('spline', 'linear'), spline.method = c('natural', 'periodic'), month.cex = 1) {
+plotWB_lines <- function(WB, cols = c("#759CC9", "#EB6D6E", "#7FC47D"), line.col = 'black', line.lty = c(1, 2, 3), interpolator = c('spline', 'linear'), spline.method = c('natural', 'periodic'), month.cex = 1, legend.cex = 0.9) {
   
   ## TODO: better colors
   
@@ -182,10 +183,10 @@ plotWB_lines <- function(WB, cols = c("#759CC9", "#EB6D6E", "#7FC47D"), line.col
   grid()
   
   # shaded area legend
-  legend(x = 0, y = y.range[2], legend=c('Surplus / Recharge', 'Utilization', 'Deficit'), col=c(col.ppt, col.utilization, col.pet), pch=c(15, 15, 15), pt.cex=2, bty='n', horiz = TRUE, xpd = NA, xjust = 0, yjust = -0.25)
+  legend(x = 1, y = y.range[2], legend=c('Surplus / Recharge', 'Utilization', 'Deficit'), col=c(col.ppt, col.utilization, col.pet), pch=c(15, 15, 15), pt.cex=2, bty='n', horiz = TRUE, xpd = NA, xjust = 0, yjust = -0.33, cex = legend.cex)
   
   # line legend
-  legend(x = 12, y = y.range[2], legend = c('PPT', 'PET', 'AET'), col = line.col, lwd = 2, lty = line.lty, bty='n', horiz = TRUE, xpd = NA, xjust = 1, yjust = -0.25)
+  legend(x = 12, y = y.range[2], legend = c('PPT', 'PET', 'AET'), col = line.col, lwd = 2, lty = line.lty, bty='n', horiz = TRUE, xpd = NA, xjust = 1, yjust = -0.33, cex = legend.cex)
   
   # annotate AWC
   AWC <- attr(WB, 'AWC')

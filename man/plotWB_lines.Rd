@@ -11,7 +11,8 @@ plotWB_lines(
   line.lty = c(1, 2, 3),
   interpolator = c("spline", "linear"),
   spline.method = c("natural", "periodic"),
-  month.cex = 1
+  month.cex = 1,
+  legend.cex = 0.9
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ plotWB_lines(
 \item{spline.method}{when \code{interpolator = 'spline'}, argument passed to \code{splinefun(..., method = spline.method)}}
 
 \item{month.cex}{scaling factor for month labels}
+
+\item{legend.cex}{scaling factor for legend}
 }
 \value{
 nothing, function is called to generate graphical output

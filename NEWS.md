@@ -1,3 +1,7 @@
+# sharpshootR 1.9.1 (2022-02-16)
+ * bugfix in `plotWB()` related to figure y-scale range
+ * `plotWB_lines()` gets `legend.cex` and aesthetic adjustments to legend position
+ 
 # sharpshootR 1.9 (2022-01-03)
  * CRAN release
  * water balance functions now depend on hydromad >= 0.9-27

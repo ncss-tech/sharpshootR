@@ -2,6 +2,57 @@ context("leaky bucket models")
 
 ## TODO: verify on paper
 
+
+test_that("Arkley and Ulrich 1962, Table 1", {
+  
+
+  skip(message = "unresolved issues with original method")
+  
+  # requires a non-CRAN package to function
+  skip_on_cran()
+  
+  # 4" AWC (~ 100mm)
+  # inches -> mm
+  AWC <- 4 * 25.4 
+  
+  # monthly values from Table 1
+  # inches -> mm
+  PPT <- c(2.66, 2.76, 2.09, 1.38, 0.54, 0.11 , 0, 0, 0.06, 0.91, 1.50, 3.01) * 25.4
+  PET <- c(0.53, 0.88, 1.55, 2.14, 3.45, 4.58, 5.62, 5.00, 3.86, 2.53, 1.20, 0.53) * 25.4
+  
+  # storage from Table 1 (4" AWC)
+  # inches -> mm
+  S <- c(4.0, 4.0, 4.0, 3.24, 0.33, 0, 0, 0, 0, 0, 0.30, 2.78) * 25.4
+  
+  # AET from Table 1 (4" AWC)
+  # inches -> mm
+  AET <- c(0.53, 0.88, 1.55, 2.14, 3.45, 0.44, 0, 0, 0.06, 0.91, 1.20, 0.53) * 25.4
+  
+  
+  # no model spin-up
+  # start with soil "full"
+  wb <- monthlyWB(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, keep_last = TRUE)
+  
+  ## TODO: why the deviation?
+  ##       must have something to do with PPT at end of month vs. middle?
+  data.frame(Table1 = S, model = wb$S)
+  
+  ## PPT - PET matches values in Table 1 
+  # (PPT - PET) / 25.4
+  
+  ## 11.69" in Table 1 (4" AWC)
+  ## vs. 10.7" here
+  # sum(wb$ET) / 25.4
+  
+  
+  ## TODO: why the deviation?
+  ##       must have something to do with PPT at end of month vs. middle?
+  data.frame(Table1 = AET, model = wb$ET)
+  
+  
+})
+
+
 test_that("thermic / xeric WB is reasonable", {
   
   # requires a non-CRAN package to function

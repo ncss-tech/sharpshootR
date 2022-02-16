@@ -178,7 +178,7 @@ ggplot(z, aes(x = month, y = value, group = variable, color = variable)) +
 ###
 
 
-s <- 'lucy'
+s <- 'yolo'
 x <- fetchOSD(s, extended = TRUE)
 
 # get representative, profile-total AWC from SSURGO
@@ -291,7 +291,7 @@ ggplot(z.qtiles, aes(x = month, y = q50, group = variable, color = variable)) +
   scale_y_continuous(n.breaks = 10) + 
   scale_fill_manual(values=alpha(cols[c(4, 1, 3, 2)], 0.25)) +
   scale_color_manual(values=alpha(cols[c(4, 1, 3, 2)], 0.25)) +
-  xlab('') + ylab('') + 
+  xlab('mm of water') + ylab('mm of water') + 
   ggtitle(title.txt) +
   theme_bw() + 
   theme(plot.title = element_text(size = 10)) +

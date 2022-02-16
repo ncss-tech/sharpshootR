@@ -12,7 +12,6 @@
 #' 
 #' @param AWC available water-holding capacity (mm), typically the value used in `monthlyWB()` and stored as an attribute of `WB`
 #' 
-#' @param showAWC now deprecated, always 'below'
 #'
 #' @param sw.col color for soil water ("storage)
 #' 
@@ -84,7 +83,7 @@
 #' 
 #' }
 #' 
-plotWB <- function(WB, AWC = attr(WB, 'AWC'), showAWC = 'below', sw.col = '#377EB8', surplus.col = '#4DAF4A', et.col = '#E41A1C', deficit.col = '#FF7F00', pch = c('P', 'E'), pt.cex = 0.85, lwd = 2, n.ticks = 8, grid.col = grey(0.65), month.cex = 1, legend.cex = 0.9) {
+plotWB <- function(WB, AWC = attr(WB, 'AWC'), sw.col = '#377EB8', surplus.col = '#4DAF4A', et.col = '#E41A1C', deficit.col = '#FF7F00', pch = c('P', 'E'), pt.cex = 0.85, lwd = 2, n.ticks = 8, grid.col = grey(0.65), month.cex = 1, legend.cex = 0.9) {
   
   # number of time steps, usually months
   n <- nrow(WB)
@@ -92,7 +91,18 @@ plotWB <- function(WB, AWC = attr(WB, 'AWC'), showAWC = 'below', sw.col = '#377E
   ## always plotting "below" c/o J.Skovlin
   ## this method is more intuitive and simpler to maintain
   
-  y.min <- min(c(WB$D, -AWC))
+  # need the most negative value:
+  # when AWC == S: -AWC + Deficit 
+  # else: min(-AWC, D)
+  # 
+  y.min <- min(
+    c(
+      ifelse(WB$S == AWC & WB$D < 0, -AWC + WB$D, -AWC),
+      WB$D
+    )
+  )
+  
+  # which ever is greatest: U (surplus), PPT, PET
   y.max <- max(c(WB$U, WB$PPT, WB$PET))
   
   # specific axis

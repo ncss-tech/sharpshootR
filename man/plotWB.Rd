@@ -7,7 +7,6 @@
 plotWB(
   WB,
   AWC = attr(WB, "AWC"),
-  showAWC = "below",
   sw.col = "#377EB8",
   surplus.col = "#4DAF4A",
   et.col = "#E41A1C",
@@ -25,8 +24,6 @@ plotWB(
 \item{WB}{output from \code{monthlyWB()}}
 
 \item{AWC}{available water-holding capacity (mm), typically the value used in \code{monthlyWB()} and stored as an attribute of \code{WB}}
-
-\item{showAWC}{now deprecated, always 'below'}
 
 \item{sw.col}{color for soil water ("storage)}
 

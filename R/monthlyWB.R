@@ -1,4 +1,71 @@
 
+## TODO: need a monthly + daily WB summary
+
+
+## TODO: this needs information about PWP and SAT
+## TODO: w must be in sync with the water-year if appropriate (e.g. xeric SMR)
+monthlyWB_summary <- function(w) {
+  
+  .months2days <- function(m) {
+    round(m * (365.25 / 12))
+  }
+  
+  .rle_max_true <- function(m) {
+    max(m$lengths[which(m$values)])
+  }
+  
+  
+  ## rough estimate of soil moisture states
+  
+  # dry: storage < 0.1mm
+  dry.rules <- w$S < 0.1
+  # moist: storage >= 0.1mm AND excess < 0.1mm
+  moist.rules <- w$S >= 0.1 & w$U < 0.1
+  # wet: excess >= 0.1m
+  wet.rules <- w$U >= 0.1
+  
+  ## months at given states
+  .dry <- which(dry.rules)
+  .moist <- which(moist.rules)
+  .wet <- which(wet.rules)
+  
+  ## RLE of states
+  .dry_conn <- rle(dry.rules)
+  .moist_conn <- rle(moist.rules)
+  .wet_conn <- rle(wet.rules)
+  
+  ## consecutive summary
+  res.consecutive <- data.frame(
+    dry_con = .months2days(.rle_max_true(.dry_conn)),
+    moist_con = .months2days(.rle_max_true(.moist_conn)),
+    wet_con = .months2days(.rle_max_true(.wet_conn))
+  )
+  
+  ## cumulative summary
+  res.cumulative <- data.frame(
+    dry = .months2days(length(.dry)),
+    moist = .months2days(length(.moist)),
+    wet = .months2days(length(.wet))
+  )
+  
+  ## combine
+  res <- data.frame(
+    res.cumulative, 
+    res.consecutive, 
+    total_deficit = sum(w$D), 
+    total_surplus = sum(w$U), 
+    total_AET = sum(w$ET),
+    annual_AET_PET_ratio = sum(w$ET) / sum(w$PET)
+  )
+  
+  return(res)
+}
+
+
+
+
+
+
 #' @title Monthly Water Balances
 #' 
 #' @description Perform a monthly water balance by "leaky bucket" model, inspired by code from `bucket.sim` of `hydromad` package, as defined in Bai et al., (2009) (model "SMA_S1"). The plant available water-holding storage (soil thickness * awc) is used as the "bucket capacity". All water in excess of this capacity is lumped into a single "surplus" term.

@@ -178,7 +178,7 @@ ggplot(z, aes(x = month, y = value, group = variable, color = variable)) +
 ###
 
 
-s <- 'yolo'
+s <- 'tristan'
 x <- fetchOSD(s, extended = TRUE)
 
 # get representative, profile-total AWC from SSURGO
@@ -262,6 +262,7 @@ z <- lapply(1:n, function(i) {
 }
 
 # extract simulation data
+PET <- sapply(z, '[[', 'PET')
 D <- sapply(z, '[[', 'D')
 S <- sapply(z, '[[', 'S')
 U <- sapply(z, '[[', 'U')
@@ -277,6 +278,8 @@ z.qtiles <- rbind(
 
 # add extra records for coord_polar()
 z.qtiles <- .formatForPolarCoords(z.qtiles, column = 'month')
+
+
 
 
 title.txt <- sprintf("Simple Water Balance %s Series\nSeries Extent (PRISM 1981-2010)\n5th-50th-95th Percentiles (%s Simulations)", toupper(s), n)
@@ -323,5 +326,18 @@ round(quantile(apply(U, 2, sum), probs = c(0.05, 0.25, 0.5, 0.75, 0.95)))
 
 # AET
 round(quantile(apply(ET, 2, sum), probs = c(0.05, 0.25, 0.5, 0.75, 0.95)))
+
+round(quantile(apply(ET, 2, sum) / apply(PET, 2, sum), probs = c(0.05, 0.25, 0.5, 0.75, 0.95)), 3)
+
+
+
+## WB summary metrics
+z.wb.summary <- do.call('rbind', lapply(z, monthlyWB_summary))
+
+hist(z.wb.summary$annual_AET_PET_ratio)
+hist(z.wb.summary$total_deficit)
+
+
+
 
 

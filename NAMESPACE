@@ -22,7 +22,8 @@ importFrom(ape,
        .PlotPhyloEnv,
        as.phylo,
        is.ultrametric,
-       tiplabels
+       tiplabels,
+       rotateConstr
 )
 
 importFrom(aqp,

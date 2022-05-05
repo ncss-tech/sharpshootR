@@ -36,7 +36,7 @@ par(mar=c(0,0,1,1), mfrow=c(2,1))
 SoilTaxonomyDendrogram(s$SPC, width=0.25)
 mtext('default sorting', side = 2, line=-1, font=3, cex=1.25)
 
-SoilTaxonomyDendrogram(s$SPC, rotationOrder = res$order, width=0.25)
+SoilTaxonomyDendrogram(s$SPC, rotationOrder = profile_id(s$SPC)[res$order], width=0.25)
 mtext('approx. catenary sorting', side = 2, line=-1, font=3, cex=1.25)
 
 

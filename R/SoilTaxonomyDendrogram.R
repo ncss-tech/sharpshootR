@@ -1,4 +1,5 @@
 
+## TODO: allow for user-defined clustering functions
 
 #' @title Soil Taxonomy Dendrogram
 #' 
@@ -7,7 +8,7 @@
 #' @param spc a `SoilProfileCollection` object, typically returned by `soilDB::fetchOSD`
 #' @param name column name containing horizon names
 #' @param name.style passed to `aqp::plotSPC` (default: `"right-center"`)
-#' @param rotationOrder numeric vector with desired ordering of leaves in the dendrogram from left to right, or character vector matching profile IDs
+#' @param rotationOrder character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right, ordering is not always possible
 #' @param max.depth depth at which profiles are truncated for plotting
 #' @param n.depth.ticks suggested number of ticks on the depth axis
 #' @param scaling.factor scaling factor used to convert depth units into plotting units
@@ -63,18 +64,23 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', name.style='right-center'
 	s.dist <- daisy(s[, c('soilorder', 'suborder', 'greatgroup', 'subgroup')], metric='gower')
 	s.hclust <- as.hclust(diana(s.dist))
 	
-	if(!missing(rotationOrder)) {
-	  # check for required packages
-	  if(!requireNamespace('dendextend', quietly=TRUE))
-	    stop('please install the `dendextend` packages', call.=FALSE)
-	  
-	  # rotate branches as closely as possible to `rotationOrder`
-	  # sorting ideally results in left -> right orientation
-	  s.hclust <- dendextend::rotate(s.hclust, order = rotationOrder)
-	}
-	
 	# convert to phylo class
 	dend <- as.phylo(s.hclust)
+	
+	## 2022-05-04: switching to ape rotation methods
+	# requires vector of tip labels
+	if(! is.null(rotationOrder)) {
+	  
+	  # check that none are missing
+	  if(all(rotationOrder %in% profile_id(spc)) && length(rotationOrder) == length(spc)) {
+	    # attempt rotation, may not give the exact ordering
+	    dend <- rotateConstr(dend, constraint = rotationOrder) 
+	  } else {
+	    message('`rotationOrder` does not contain a complet set of profile IDs')
+	  }
+	  
+	}
+
 	
 	# determine best-possible locations for taxa names
 	max.dist <- max(s.dist)
@@ -94,7 +100,9 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', name.style='right-center'
 	lastPP <- get("last_plot.phylo", envir = .PlotPhyloEnv)
   
 	# vector of indices for plotting soil profiles below leaves of dendrogram
-	new_order <- s.hclust$order
+	# requires conversion back to hclust
+	# in case `dend` was re-ordered
+	new_order <- as.hclust(dend)$order
 	
 	# plot the profiles, in the ordering defined by the dendrogram
 	# with a couple fudge factors to make them fit
@@ -113,8 +121,8 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', name.style='right-center'
 	# invisibly return some information form the original objects
 	invisible(
 	  list(
-	    dist=s.dist,
-	    order=s.hclust$order
+	    dist = s.dist,
+	    order = new_order
 	  )
 	)
 }

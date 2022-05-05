@@ -136,7 +136,7 @@
 <span class="r-in">  <span class="co"># use some real data from SSURGO</span></span>
 <span class="r-in">  <span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"curl"</span><span class="op">)</span> <span class="op">&amp;</span></span>
 <span class="r-in">     <span class="fu">curl</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/curl/man/nslookup.html" class="external-link">has_internet</a></span><span class="op">(</span><span class="op">)</span> <span class="op">&amp;</span></span>
-<span class="r-in">     <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="http://ncss-tech.github.io/AQP/" class="external-link">soilDB</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in">     <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="http://ncss-tech.github.io/soilDB/" class="external-link">soilDB</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in">    </span>
 <span class="r-in">    <span class="va">q</span> <span class="op">&lt;-</span> <span class="st">"SELECT hzdept_r as hztop, hzdepb_r as hzbottom, </span>
 <span class="r-in">hzname as name, wsatiated_r/100.0 as sat, </span>
@@ -146,7 +146,7 @@
 <span class="r-in">AND wsatiated_r IS NOT NULL </span>
 <span class="r-in">ORDER BY cokey, hzdept_r ASC;"</span></span>
 <span class="r-in">    </span>
-<span class="r-in">    <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/soilDB/man/SDA_query.html" class="external-link">SDA_query</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span></span>
+<span class="r-in">    <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ncss-tech.github.io/soilDB/reference/SDA_query.html" class="external-link">SDA_query</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span></span>
 <span class="r-in">    <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span class="r-in">    <span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">name</span><span class="op">)</span>, <span class="op">]</span></span>
 <span class="r-in">    <span class="va">x</span><span class="op">$</span><span class="va">solid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span><span class="op">-</span><span class="va">sat</span><span class="op">)</span></span>
@@ -177,7 +177,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

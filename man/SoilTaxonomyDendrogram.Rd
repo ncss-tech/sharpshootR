@@ -32,6 +32,7 @@ SoilTaxonomyDendrogram(
 
 \item{name.style}{passed to \code{aqp::plotSPC} (default: \code{"right-center"})}
 
+\item{rotationOrder}{character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right, ordering is not always possible}
 
 \item{max.depth}{depth at which profiles are truncated for plotting}
 

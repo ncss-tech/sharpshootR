@@ -37,7 +37,7 @@ SoilTaxonomyDendrogram(
   hz.distinctness.offset = 'hzd'
 )
 
-mtext('nominal variables', side = 2, line=-1.5, font=3, cex=1.25)
+mtext('nominal', side = 2, line=-1.5, font=3, cex=1.25)
 
 
 
@@ -68,7 +68,7 @@ SoilTaxonomyDendrogram(
 )
 
 
-mtext('ordinal variables', side = 2, line=-1.5, font=3, cex=1.25)
+mtext('ordinal, sorted', side = 2, line=-1.5, font=3, cex=1.25)
 
 
 

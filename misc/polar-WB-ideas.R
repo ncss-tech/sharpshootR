@@ -178,7 +178,7 @@ ggplot(z, aes(x = month, y = value, group = variable, color = variable)) +
 ###
 
 
-s <- 'tristan'
+s <- 'Lucy'
 x <- fetchOSD(s, extended = TRUE)
 
 # get representative, profile-total AWC from SSURGO

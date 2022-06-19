@@ -3,7 +3,7 @@
 
 #' @title Soil Taxonomy Dendrogram
 #' 
-#' @description Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimilarity matrix is computed using Gower's distance metric for nominal-scale variables, based on order, sub order, great group, and subgroup level taxa. See the Details and Examples sections below for more information.
+#' @description Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimilarity matrix is computed using Gower's distance metric for nominal-scale variables, based on order, suborder, greatgroup, and subgroup level taxa. See the Details and Examples sections below for more information.
 #'
 #' @param spc a `SoilProfileCollection` object, typically returned by `soilDB::fetchOSD`
 #' @param name column name containing horizon names
@@ -26,7 +26,7 @@
 #' 
 #' @details This function looks for specific site-level attributes named: `soilorder`, `suborder`, `greatgroup`, and `subgroup`. See `misc/soilTaxonomyDendrogram-examples.R` for some examples.
 #' 
-#' The `rotationOrder` argument uses (requires) the `dendextend::rotate()` function to re-order leaves within the `hclust` representation of the ST hierarchy. Perfect sorting is not always possible.
+#' The `rotationOrder` argument uses (requires) the `ape::rotateConstr()` function to reorder leaves within the `hclust` representation of the ST hierarchy. Perfect sorting is not always possible.
 #'
 #' @return An invisibly-returned list containing:
 #'
@@ -47,7 +47,7 @@
 #' OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center'
 #' )
 #' 
-SoilTaxonomyDendrogram <- function(spc, name='hzname', name.style='right-center', rotationOrder=NULL, max.depth=150, n.depth.ticks=6, scaling.factor=0.015, cex.names=0.75, cex.id=0.75, axis.line.offset=-4, width=0.1, y.offset=0.5, shrink=FALSE, font.id=2, cex.taxon.labels=0.66, dend.color=par('fg'), dend.width=1, ...) {
+SoilTaxonomyDendrogram <- function(spc, name = 'hzname', name.style = 'right-center', rotationOrder = NULL, max.depth = 150, n.depth.ticks = 6, scaling.factor = 0.015, cex.names = 0.75, cex.id = 0.75, axis.line.offset = -4, width = 0.1, y.offset = 0.5, shrink = FALSE, font.id = 2, cex.taxon.labels = 0.66, dend.color = par('fg'), dend.width = 1, ...) {
 	
 	# convert relevant columns into factors
 	spc$soilorder <- factor(spc$soilorder)
@@ -93,8 +93,8 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', name.style='right-center'
 	# on.exit(par(op))
 	
 	# setup plot and add dendrogram
-	par(mar=c(0,0,0,0))
-	plot(dend, cex=0.8, direction='up', y.lim=c(4,0), x.lim=c(0.5, length(spc)+1), show.tip.label=FALSE, edge.color=dend.color, edge.width=dend.width)
+	par(mar = c(0,0,0,0))
+	plot(dend, cex = 0.8, direction = 'up', y.lim = c(4,0), x.lim = c(0.5, length(spc) + 1), show.tip.label = FALSE, edge.color = dend.color, edge.width = dend.width)
 	
 	# get the last plot geometry
 	lastPP <- get("last_plot.phylo", envir = .PlotPhyloEnv)
@@ -106,17 +106,35 @@ SoilTaxonomyDendrogram <- function(spc, name='hzname', name.style='right-center'
 	
 	# plot the profiles, in the ordering defined by the dendrogram
 	# with a couple fudge factors to make them fit
-	plotSPC(spc, name=name, name.style=name.style, plot.order=new_order, max.depth=max.depth, n.depth.ticks=n.depth.ticks, scaling.factor=scaling.factor, cex.names=cex.names, cex.id=cex.id, axis.line.offset=axis.line.offset, width=width, y.offset=max(lastPP$yy) + y.offset, id.style='side', shrink=shrink, font.id=font.id, add=TRUE, ...)
+	plotSPC(spc, 
+	        name = name, 
+	        name.style = name.style, 
+	        plot.order = new_order, 
+	        max.depth = max.depth, 
+	        n.depth.ticks = n.depth.ticks, 
+	        scaling.factor = scaling.factor, 
+	        cex.names = cex.names, 
+	        cex.id = cex.id, 
+	        axis.line.offset = axis.line.offset, 
+	        width = width, 
+	        y.offset = max(lastPP$yy) + y.offset, 
+	        id.style = 'side', 
+	        shrink = shrink, 
+	        font.id = font.id, 
+	        add = TRUE, 
+	        ...
+	)
 	
-	# generate taxonomic labels and their positions under the dendrogram
+	# generate subgroup labels and their positions under the dendrogram
 	lab <- s[new_order, 'subgroup']
 	unique.lab <- unique(lab)
 	group.lengths <- rle(as.numeric(lab))$lengths
 	lab.x.positions <- (cumsum(group.lengths) - (group.lengths / 2)) + 0.5
-	lab.y.positions <- rep(taxa.lab.y.vect, length.out=length(unique.lab))
+	lab.y.positions <- rep(taxa.lab.y.vect, length.out = length(unique.lab))
 	
-	# add labels-- note manual tweaking of y-coordinates
-	text(lab.x.positions, lab.y.positions, unique.lab, cex=cex.taxon.labels, adj=0.5, font=3)
+	# add subgroup labels
+	# note manual tweaking of y-coordinates
+	text(lab.x.positions, lab.y.positions, unique.lab, cex = cex.taxon.labels, adj = 0.5, font = 3)
 	
 	# invisibly return some information form the original objects
 	invisible(

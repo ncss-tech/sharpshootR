@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.10</span>
       </span>
     </div>
 
@@ -76,38 +76,69 @@
     <h2>Arguments</h2>
     <dl><dt>p</dt>
 <dd><p>a vector of aspect angles in degrees, measured clock-wise from North</p></dd>
+
+
 <dt>q</dt>
 <dd><p>a vector of desired quantiles</p></dd>
+
+
 <dt>p.bins</dt>
 <dd><p>number of bins to use for circular histogram</p></dd>
+
+
 <dt>p.bw</dt>
 <dd><p>bandwidth used for circular density estimation</p></dd>
+
+
 <dt>stack</dt>
 <dd><p><code>logical</code>, should the individual points be stacked into <code>p.bins</code> number of bins and plotted</p></dd>
+
+
 <dt>p.axis</dt>
 <dd><p>a sequence of integers (degrees) describing the circular axis</p></dd>
+
+
 <dt>plot.title</dt>
 <dd><p>an informative title</p></dd>
+
+
 <dt>line.col</dt>
 <dd><p>density line color</p></dd>
+
+
 <dt>line.lwd</dt>
 <dd><p>density line width</p></dd>
+
+
 <dt>line.lty</dt>
 <dd><p>density line line style</p></dd>
+
+
 <dt>arrow.col</dt>
 <dd><p>arrow color</p></dd>
+
+
 <dt>arrow.lwd</dt>
 <dd><p>arrow line width</p></dd>
+
+
 <dt>arrow.lty</dt>
 <dd><p>arrow line style</p></dd>
+
+
 <dt>arrow.length</dt>
 <dd><p>arrow head length</p></dd>
+
+
 <dt>...</dt>
 <dd><p>further arguments passed to <code><a href="https://rdrr.io/pkg/circular/man/plot.circular.html" class="external-link">circular::plot.circular</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>invisibly returns circular stats</p>
+    
+
+<p>invisibly returns circular stats</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -138,7 +169,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>        Rayleigh Test of Uniformity </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        General Unimodal Alternative </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Test Statistic:  0.9434 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Test Statistic:  0.9222 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> P-value:  0 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu">aspect.plot</span><span class="op">(</span><span class="va">p.wide</span>, p.bw<span class="op">=</span><span class="fl">10</span>, plot.title<span class="op">=</span><span class="st">'Soil B'</span>, pch<span class="op">=</span><span class="fl">21</span>, col<span class="op">=</span><span class="st">'black'</span>, bg<span class="op">=</span><span class="st">'RoyalBlue'</span><span class="op">)</span></span>
@@ -147,8 +178,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>        Rayleigh Test of Uniformity </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        General Unimodal Alternative </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Test Statistic:  0.2396 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> P-value:  0.24 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Test Statistic:  0.3856 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> P-value:  0.0227 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># reset output device options</span></span>
@@ -163,7 +194,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> Zero = 1.570796 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rotation = clock </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       5%      50%      95% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 276.8260 254.4240 216.7512 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 277.4111 244.6758 217.8566 </span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 </code></pre></div>
@@ -180,7 +211,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

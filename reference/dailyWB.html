@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.10</span>
       </span>
     </div>
 
@@ -66,25 +66,42 @@
 <li><p><code>a.ss</code>: recession coefficients for subsurface flow from saturated zone, should be &gt; 0 (range: 0-1)</p></li>
 <li><p>"id"</p></li>
 </ul></dd>
+
+
 <dt>daily.data</dt>
 <dd><p><code>data.frame</code>, required columns include:</p><ul><li><p><code>date</code>: <code>Date</code> class representation of dates</p></li>
 <li><p><code>PPT</code>: daily total, precipitation in mm</p></li>
 <li><p><code>PET</code>: daily total, potential ET in mm</p></li>
 </ul></dd>
+
+
 <dt>id</dt>
 <dd><p>character, name of column in <code>x</code> that is used to identify records</p></dd>
+
+
 <dt>MS.style</dt>
 <dd><p>moisture state classification style, see <code><a href="estimateSoilMoistureState.html">estimateSoilMoistureState</a></code></p></dd>
+
+
 <dt>S_0</dt>
 <dd><p>fraction of water storage filled at time = 0 (range: 0-1)</p></dd>
+
+
 <dt>M</dt>
 <dd><p>fraction of area covered by deep-rooted vegetation</p></dd>
+
+
 <dt>etmult</dt>
 <dd><p>multiplier for PET</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a <code>data.frame</code></p>
+    
+
+<p>a <code>data.frame</code></p>
+
+
     </div>
     <div id="references">
     <h2>References</h2>
@@ -104,7 +121,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

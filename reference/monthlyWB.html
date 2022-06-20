@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.10</span>
       </span>
     </div>
 
@@ -70,24 +70,44 @@
     <h2>Arguments</h2>
     <dl><dt>AWC</dt>
 <dd><p>available water-holding capacity (mm), typically thickness (mm) * awc (fraction)</p></dd>
+
+
 <dt>PPT</dt>
 <dd><p>time-series of monthly PPT (mm), calendar year ordering</p></dd>
+
+
 <dt>PET</dt>
 <dd><p>time-series of monthly PET (mm), calendar year ordering</p></dd>
+
+
 <dt>S_init</dt>
 <dd><p>initial fraction of <code>AWC</code> filled with water</p></dd>
+
+
 <dt>starting_month</dt>
 <dd><p>starting month index, 1=January, 9=September</p></dd>
+
+
 <dt>rep</dt>
 <dd><p>number of cycles to run water balance</p></dd>
+
+
 <dt>keep_last</dt>
 <dd><p>keep only the last iteration of the water balance</p></dd>
+
+
 <dt>w</dt>
 <dd><p>used for for <code>monthlyWB_summary()</code>: a data.frame, such as result of <code>monthlyWB()</code>;</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a <code>data.frame</code> with the following elements:</p><ul><li><p>PPT: monthly PPT (mm)</p></li>
+    
+
+<p>a <code>data.frame</code> with the following elements:</p>
+
+
+<ul><li><p>PPT: monthly PPT (mm)</p></li>
 <li><p>PET: monthly PET (mm)</p></li>
 <li><p>U: monthly surplus (mm)</p></li>
 <li><p>S: monthly soil moisture storage (mm)</p></li>
@@ -123,7 +143,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

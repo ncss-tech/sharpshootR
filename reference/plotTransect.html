@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.10</span>
       </span>
     </div>
 
@@ -75,36 +75,65 @@
     <h2>Arguments</h2>
     <dl><dt>s</dt>
 <dd><p><code>SoilProfileCollection</code> object</p></dd>
+
+
 <dt>grad.var.name</dt>
 <dd><p>the name of a site-level attribute containing gradient values</p></dd>
+
+
 <dt>grad.var.order</dt>
 <dd><p>optional indexing vector used to override sorting along <code>grad.var.name</code></p></dd>
+
+
 <dt>transect.col</dt>
 <dd><p>color used to plot gradient (transect) values</p></dd>
+
+
 <dt>tick.number</dt>
 <dd><p>number of desired ticks and labels on the gradient axis</p></dd>
+
+
 <dt>y.offset</dt>
 <dd><p>vertical offset used to position profile sketches</p></dd>
+
+
 <dt>scaling.factor</dt>
 <dd><p>scaling factor applied to profile sketches</p></dd>
+
+
 <dt>distance.axis.title</dt>
 <dd><p>a title for the along-transect distances</p></dd>
+
+
 <dt>crs</dt>
 <dd><p>an optional <code>CRS</code> object (sp package) used to convert coordinates into a projected coordinate reference system</p></dd>
+
+
 <dt>grad.axis.title</dt>
 <dd><p>a title for the gradient axis</p></dd>
+
+
 <dt>dist.scaling.factor</dt>
 <dd><p>scaling factor (divisor) applied to linear distance units, default is conversion from m to km (1000)</p></dd>
+
+
 <dt>spacing</dt>
 <dd><p>profile sketch spacing style: "regular" (profiles aligned to an integer grid) or "relative" (relative distance along transect)</p></dd>
+
+
 <dt>fix.relative.pos</dt>
 <dd><p>adjust relative positions in the presence of overlap, <code>FALSE</code> to suppress, otherwise list of arguments to <code><a href="https://rdrr.io/pkg/aqp/man/fixOverlap.html" class="external-link">aqp::fixOverlap</a></code></p></dd>
+
+
 <dt>...</dt>
 <dd><p>further arguments passed to <code><a href="https://rdrr.io/pkg/aqp/man/SoilProfileCollection-plotting-methods.html" class="external-link">aqp::plotSPC</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An invisibly-returned <code>data.frame</code> object:</p><ul><li><p>scaled.grad: scaled gradient values</p></li>
+    
+
+<p>An invisibly-returned <code>data.frame</code> object:</p><ul><li><p>scaled.grad: scaled gradient values</p></li>
 <li><p>scaled.distance: cumulative distance, scaled to the interval of <code>0.5, nrow(coords) + 0.5</code></p></li>
 <li><p>distance: cumulative distance computed along gradient, e.g. transect distance</p></li>
 <li><p>variable: sorted gradient values</p></li>
@@ -213,7 +242,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

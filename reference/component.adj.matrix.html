@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.10</span>
       </span>
     </div>
 
@@ -71,28 +71,49 @@
     <h2>Arguments</h2>
     <dl><dt>d</dt>
 <dd><p><code>data.frame</code>, typically of SSURGO data</p></dd>
+
+
 <dt>mu</dt>
 <dd><p>name of the column containing the map unit ID (typically 'mukey')</p></dd>
+
+
 <dt>co</dt>
 <dd><p>name of the column containing the component ID (typically 'compname')</p></dd>
+
+
 <dt>wt</dt>
 <dd><p>name of the column containing the component weight percent (typically 'comppct_r')</p></dd>
+
+
 <dt>method</dt>
 <dd><p>one of either: <code>community.matrix</code>, or <code>occurrence</code>; see details</p></dd>
+
+
 <dt>standardization</dt>
 <dd><p>community matrix standardization method, passed to <code><a href="https://rdrr.io/pkg/vegan/man/decostand.html" class="external-link">vegan::decostand</a></code></p></dd>
+
+
 <dt>metric</dt>
 <dd><p>community matrix dissimilarity metric, passed to <code><a href="https://rdrr.io/pkg/vegan/man/vegdist.html" class="external-link">vegan::vegdist</a></code></p></dd>
+
+
 <dt>rm.orphans</dt>
 <dd><p><code>logical</code>, should map units with a single component be omitted? (typically yes)</p></dd>
+
+
 <dt>similarity</dt>
 <dd><p>logical, return a similarity matrix? (if <code>FALSE</code>, a distance matrix is returned)</p></dd>
+
+
 <dt>return.comm.matrix</dt>
 <dd><p>logical, return pseudo-community matrix? (if <code>TRUE</code> no adjacency matrix is created)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a similarity matrix / adjacency matrix suitable for use with <code>igraph</code> functions or anything else that can accommodate a <em>similarity</em> matrix.</p>
+    
+
+<p>a similarity matrix / adjacency matrix suitable for use with <code>igraph</code> functions or anything else that can accommodate a <em>similarity</em> matrix.</p>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -126,7 +147,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

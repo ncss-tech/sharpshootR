@@ -3,12 +3,13 @@
 
 #' @title Soil Taxonomy Dendrogram
 #' 
-#' @description Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimilarity matrix is computed using Gower's distance metric for nominal-scale variables, based on order, suborder, greatgroup, and subgroup level taxa. See the Details and Examples sections below for more information.
+#' @description Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimilarity matrix is computed using Gower's distance metric for nominal (`KST.order = FALSE`) or ordinal (`KST.order = TRUE`) scale variables, based on soil order, suborder, greatgroup, and subgroup taxa. See the Details and Examples sections below for more information.
 #'
 #' @param spc a `SoilProfileCollection` object, typically returned by `soilDB::fetchOSD`
+#' @param KST.order logical, encode / cluster taxa via ordinal factors, based on ordering within Keys to Soil Taxonomy
+#' @param rotationOrder character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right; exact ordering is not always possible
 #' @param name column name containing horizon names
-#' @param name.style passed to `aqp::plotSPC` (default: `"right-center"`)
-#' @param rotationOrder character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right, ordering is not always possible
+#' @param name.style passed to `aqp::plotSPC`
 #' @param max.depth depth at which profiles are truncated for plotting
 #' @param n.depth.ticks suggested number of ticks on the depth axis
 #' @param scaling.factor scaling factor used to convert depth units into plotting units
@@ -26,7 +27,7 @@
 #' 
 #' @details This function looks for specific site-level attributes named: `soilorder`, `suborder`, `greatgroup`, and `subgroup`. See `misc/soilTaxonomyDendrogram-examples.R` for some examples.
 #' 
-#' The `rotationOrder` argument uses (requires) the `ape::rotateConstr()` function to reorder leaves within the `hclust` representation of the ST hierarchy. Perfect sorting is not always possible.
+#' The `rotationOrder` argument uses `ape::rotateConstr()` sto reorder leaves within the `hclust` representation of the ST hierarchy. Perfect sorting is not always possible.
 #'
 #' @return An invisibly-returned list containing:
 #'
@@ -42,18 +43,64 @@
 #' # built-in data, same as results from soilDB::fetchOSD()
 #' data("OSDexamples")
 #' 
-#' # use first 8 profiles
+#' # examples using first 8 profiles
+#' 
+#' ## TODO: uncomment once latest SoilTaxonomy is on CRAN
+#' # KST-style ordering
+#' # SoilTaxonomyDendrogram(
+#' # OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
+#' # KST.order = TRUE
+#' # )
+#' 
+#' # classic ordering, based on nominal scale variables (unordered factors)
 #' SoilTaxonomyDendrogram(
-#' OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center'
+#' OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
+#' KST.order = FALSE
 #' )
 #' 
-SoilTaxonomyDendrogram <- function(spc, name = 'hzname', name.style = 'right-center', rotationOrder = NULL, max.depth = 150, n.depth.ticks = 6, scaling.factor = 0.015, cex.names = 0.75, cex.id = 0.75, axis.line.offset = -4, width = 0.1, y.offset = 0.5, shrink = FALSE, font.id = 2, cex.taxon.labels = 0.66, dend.color = par('fg'), dend.width = 1, ...) {
+#' 
+SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, name = 'hzname', name.style = 'center-center', max.depth = 150, n.depth.ticks = 6, scaling.factor = 0.015, cex.names = 0.75, cex.id = 0.75, axis.line.offset = -4, width = 0.1, y.offset = 0.5, shrink = FALSE, font.id = 2, cex.taxon.labels = 0.66, dend.color = par('fg'), dend.width = 1, ...) {
 	
-	# convert relevant columns into factors
-	spc$soilorder <- factor(spc$soilorder)
-	spc$suborder <- factor(spc$suborder)
-	spc$greatgroup <- factor(spc$greatgroup)
-	spc$subgroup <- factor(spc$subgroup)
+  
+  # attempt KST-based ordering:
+  # 1. setup ordinal factors based on order of taxa with each level of ST hierarchy
+  # 2. rotate dendrogram to reflect ordering of subgroups within keys
+  if(KST.order) {
+    
+    # requires SoilTaxonomy >= 0.1.5 (2022-02-15)
+    if(!requireNamespace('SoilTaxonomy', quietly=TRUE)) {
+      stop('please install the `SoilTaxonomy` packages', call.=FALSE)
+    }
+    
+    # CRAN check hack
+    ST_unique_list <- NULL
+      
+    # note: this is incompatible with LazyData: true
+    load(system.file("data/ST_unique_list.rda", package="SoilTaxonomy")[1])
+    
+    # create ordered factors, dropping unused levels
+    spc$soilorder <- droplevels(factor(spc$soilorder, levels = ST_unique_list$order, ordered = TRUE))
+    spc$suborder <- droplevels(factor(spc$suborder, levels = ST_unique_list$suborder, ordered = TRUE))
+    spc$greatgroup <- droplevels(factor(spc$greatgroup, levels = ST_unique_list$greatgroup, ordered = TRUE))
+    spc$subgroup <- droplevels(factor(spc$subgroup, levels = ST_unique_list$subgroup, ordered = TRUE))
+    
+    # rotate as close to KST ordering as possible
+    # but only if there is no user-supplied rotation
+    if(is.null(rotationOrder)) {
+      rotationOrder <- profile_id(spc)[order(spc$subgroup)]
+    }
+    
+    
+  } else {
+    
+    # treat as nominal factors
+    spc$soilorder <- factor(spc$soilorder)
+    spc$suborder <- factor(spc$suborder)
+    spc$greatgroup <- factor(spc$greatgroup)
+    spc$subgroup <- factor(spc$subgroup)
+  }
+  
+	
 	
 	# extract site attributes as data.frame
 	s <- site(spc)
@@ -61,7 +108,9 @@ SoilTaxonomyDendrogram <- function(spc, name = 'hzname', name.style = 'right-cen
 	row.names(s) <- s[[idname(spc)]]
 	
 	# compute distance matrix from first 4 levels of Soil Taxonomy
-	s.dist <- daisy(s[, c('soilorder', 'suborder', 'greatgroup', 'subgroup')], metric='gower')
+	s.dist <- daisy(s[, c('soilorder', 'suborder', 'greatgroup', 'subgroup')], metric = 'gower')
+	
+	# use divisive clustering, all other methods produce less than ideal results 
 	s.hclust <- as.hclust(diana(s.dist))
 	
 	# convert to phylo class

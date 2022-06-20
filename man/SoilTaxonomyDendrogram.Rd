@@ -6,9 +6,10 @@
 \usage{
 SoilTaxonomyDendrogram(
   spc,
-  name = "hzname",
-  name.style = "right-center",
+  KST.order = TRUE,
   rotationOrder = NULL,
+  name = "hzname",
+  name.style = "center-center",
   max.depth = 150,
   n.depth.ticks = 6,
   scaling.factor = 0.015,
@@ -28,11 +29,13 @@ SoilTaxonomyDendrogram(
 \arguments{
 \item{spc}{a \code{SoilProfileCollection} object, typically returned by \code{soilDB::fetchOSD}}
 
+\item{KST.order}{logical, encode / cluster taxa via ordinal factors, based on ordering within Keys to Soil Taxonomy}
+
+\item{rotationOrder}{character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right; exact ordering is not always possible}
+
 \item{name}{column name containing horizon names}
 
-\item{name.style}{passed to \code{aqp::plotSPC} (default: \code{"right-center"})}
-
-\item{rotationOrder}{character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right, ordering is not always possible}
+\item{name.style}{passed to \code{aqp::plotSPC}}
 
 \item{max.depth}{depth at which profiles are truncated for plotting}
 
@@ -70,12 +73,12 @@ An invisibly-returned list containing:
 }
 }
 \description{
-Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimilarity matrix is computed using Gower's distance metric for nominal-scale variables, based on order, sub order, great group, and subgroup level taxa. See the Details and Examples sections below for more information.
+Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimilarity matrix is computed using Gower's distance metric for nominal (\code{KST.order = FALSE}) or ordinal (\code{KST.order = TRUE}) scale variables, based on soil order, suborder, greatgroup, and subgroup taxa. See the Details and Examples sections below for more information.
 }
 \details{
 This function looks for specific site-level attributes named: \code{soilorder}, \code{suborder}, \code{greatgroup}, and \code{subgroup}. See \code{misc/soilTaxonomyDendrogram-examples.R} for some examples.
 
-The \code{rotationOrder} argument uses (requires) the \code{dendextend::rotate()} function to re-order leaves within the \code{hclust} representation of the ST hierarchy. Perfect sorting is not always possible.
+The \code{rotationOrder} argument uses \code{ape::rotateConstr()} sto reorder leaves within the \code{hclust} representation of the ST hierarchy. Perfect sorting is not always possible.
 }
 \examples{
 
@@ -83,9 +86,18 @@ The \code{rotationOrder} argument uses (requires) the \code{dendextend::rotate()
 data("OSDexamples")
 
 # use first 8 profiles
+# KST-style ordering
 SoilTaxonomyDendrogram(
-OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center'
+OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
+KST.order = TRUE
 )
+
+# classic ordering, based on nominal scale variables (unordered factors)
+SoilTaxonomyDendrogram(
+OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
+KST.order = FALSE
+)
+
 
 }
 \author{

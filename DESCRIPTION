@@ -1,9 +1,10 @@
 Package: sharpshootR
 Type: Package
+Encoding: UTF-8
 Title: A Soil Survey Toolkit
 Description: Miscellaneous soil data management, summary, visualization, and conversion utilities to support soil survey.
-Version: 1.9.1
-Date: 2022-02-16
+Version: 1.10
+Date: 2022-06-19
 Authors@R: c(
   person(given="Dylan", family="Beaudette", role = c("cre", "aut"), email = "dylan.beaudette@usda.gov"), 
   person(given="Jay", family="Skovlin", role = c("aut")), 
@@ -39,7 +40,8 @@ Suggests:
     daymetr,
     elevatr,
     Evapotranspiration,
-    zoo
+    zoo,
+    SoilTaxonomy
 Depends: R (>= 3.5.0)
 Imports: grDevices, graphics, methods, stats, utils, aqp, ape, 
   soilDB, igraph, cluster, lattice, vegan, sp, 

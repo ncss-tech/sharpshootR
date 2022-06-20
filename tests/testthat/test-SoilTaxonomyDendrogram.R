@@ -13,7 +13,7 @@ test_that("SoilTaxonomyDendrogram works as expected", {
   s.list <- site(s)$id
   
   # this should run without errors / messages / warnings
-  d <- SoilTaxonomyDendrogram(s, cex.taxon.labels=0.8, width=0.25, y.offset = 0.4)
+  d <- SoilTaxonomyDendrogram(s, cex.taxon.labels=0.8, width=0.25, y.offset = 0.4, KST.order = FALSE)
   
   # profile IDs and Labels in dist matrix should match
   expect_equal(attr(d$dist, 'Labels'), profile_id(s))
@@ -26,3 +26,4 @@ test_that("SoilTaxonomyDendrogram works as expected", {
   expect_true(inherits(d, 'list'))
 })
 
+## TODO: once latest SoilTaxonomy pkg hist CRAN, add another 2 tests for KST.order = TRUE

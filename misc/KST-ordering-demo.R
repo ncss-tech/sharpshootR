@@ -5,7 +5,9 @@ library(SoilTaxonomy)
 
 s <- c('fresno', 'pentz', 'peters', 'amador', 'hanford', 'cecil', 'san joaquin', 'sierra', 'musick', 'capay', 'leon', 'BADGERWASH', 'BROWNE', 'pierre', 'AMBOYCRATER')
 
-x <- fetchOSD(s)
+s <- siblings('sierra')
+
+x <- fetchOSD(c('sierra', s$sib$sibling))
 
 
 # classic results from this function, back 7yrs or so

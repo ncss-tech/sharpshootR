@@ -116,7 +116,7 @@ SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, 
     # rotate as close to KST ordering as possible
     # but only if there is no user-supplied rotation
     if(is.null(rotationOrder)) {
-      rotationOrder <- profile_id(spc)[order(spc$subgroup)]
+      rotationOrder <- profile_id(spc)[order(as.numeric(spc$subgroup))]
     }
     
   } else {

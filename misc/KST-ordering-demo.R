@@ -16,6 +16,7 @@ SoilTaxonomyDendrogram(x, width = 0.3, name.style = 'center-center', KST.order =
 
 
 ## TODO: convert SoilWeb/SDE to use this format
+
 # this is typically what most people will want
 SoilTaxonomyDendrogram(x, width = 0.3, name.style = 'center-center', KST.order = TRUE)
 
@@ -23,3 +24,18 @@ SoilTaxonomyDendrogram(x, width = 0.3, name.style = 'center-center', KST.order =
 # not useful, but interesting demonstration of what is possible
 # rotation according to drainage class / hillslope position would be interesting
 SoilTaxonomyDendrogram(x, width = 0.3, name.style = 'center-center', KST.order = TRUE, rotationOrder = toupper(rev(s)))
+
+
+
+## test fall-back in case of obsolete taxa
+
+x <- fetchOSD(c('inks', 'lucy', 'pardee'))
+
+x$subgroup[1] <- 'ruptic lithic argixerolls'
+
+SoilTaxonomyDendrogram(x, width = 0.3, name.style = 'center-center', KST.order = TRUE, id.style = 'top')
+
+SoilTaxonomyDendrogram(x, width = 0.3, name.style = 'center-center', KST.order = FALSE)
+
+
+

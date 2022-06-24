@@ -1,15 +1,14 @@
 
-## TODO: allow for user-defined clustering functions
-
 #' @title Soil Taxonomy Dendrogram
 #' 
-#' @description Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimilarity matrix is computed using Gower's distance metric for nominal (`KST.order = FALSE`) or ordinal (`KST.order = TRUE`) scale variables, based on soil order, suborder, greatgroup, and subgroup taxa. See the Details and Examples sections below for more information.
+#' @description Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimilarity matrix is computed using Gower's distance metric for nominal (`KST.order = FALSE`) or ordinal (`KST.order = TRUE`) scale variables, based on soil order, suborder, greatgroup, and subgroup taxa.
 #'
 #' @param spc a `SoilProfileCollection` object, typically returned by `soilDB::fetchOSD`
 #' @param KST.order logical, encode / cluster taxa via ordinal factors, based on ordering within Keys to Soil Taxonomy
 #' @param rotationOrder character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right; exact ordering is not always possible
 #' @param name column name containing horizon names
 #' @param name.style passed to `aqp::plotSPC`
+#' @param id.style passed to `aqp::plotSPC`
 #' @param max.depth depth at which profiles are truncated for plotting
 #' @param n.depth.ticks suggested number of ticks on the depth axis
 #' @param scaling.factor scaling factor used to convert depth units into plotting units
@@ -27,12 +26,12 @@
 #' 
 #' @details This function looks for specific site-level attributes named: `soilorder`, `suborder`, `greatgroup`, and `subgroup`. See `misc/soilTaxonomyDendrogram-examples.R` for some examples.
 #' 
-#' The `rotationOrder` argument uses `ape::rotateConstr()` sto reorder leaves within the `hclust` representation of the ST hierarchy. Perfect sorting is not always possible.
+#' The `rotationOrder` argument uses `ape::rotateConstr()` to reorder leaves within the `hclust` representation of the ST hierarchy. Perfect sorting is not always possible.
 #'
 #' @return An invisibly-returned list containing:
 #'
 #'   * `dist`: pair-wise dissimilarity matrix
-#'   * `order`: final ordering of hclust leaves
+#'   * `order`: final ordering of `hclust` leaves
 #'   
 #' @author D.E. Beaudette
 #' 
@@ -59,12 +58,13 @@
 #' )
 #' 
 #' 
-SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, name = 'hzname', name.style = 'center-center', max.depth = 150, n.depth.ticks = 6, scaling.factor = 0.015, cex.names = 0.75, cex.id = 0.75, axis.line.offset = -4, width = 0.1, y.offset = 0.5, shrink = FALSE, font.id = 2, cex.taxon.labels = 0.66, dend.color = par('fg'), dend.width = 1, ...) {
+SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, name = 'hzname', name.style = 'center-center', id.style = 'side', max.depth = max(spc), n.depth.ticks = 6, scaling.factor = 0.015, cex.names = 0.75, cex.id = 0.75, axis.line.offset = -4, width = 0.1, y.offset = 0.5, shrink = FALSE, font.id = 2, cex.taxon.labels = 0.66, dend.color = par('fg'), dend.width = 1, ...) {
 	
   
   # attempt KST-based ordering:
   # 1. setup ordinal factors based on order of taxa with each level of ST hierarchy
   # 2. rotate dendrogram to reflect ordering of subgroups within keys
+  # note: will create NA if obsolete taxa or typos -> test for this 
   if(KST.order) {
     
     # requires SoilTaxonomy >= 0.1.5 (2022-02-15)
@@ -79,17 +79,45 @@ SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, 
     load(system.file("data/ST_unique_list.rda", package="SoilTaxonomy")[1])
     
     # create ordered factors, dropping unused levels
-    spc$soilorder <- droplevels(factor(spc$soilorder, levels = ST_unique_list$order, ordered = TRUE))
-    spc$suborder <- droplevels(factor(spc$suborder, levels = ST_unique_list$suborder, ordered = TRUE))
-    spc$greatgroup <- droplevels(factor(spc$greatgroup, levels = ST_unique_list$greatgroup, ordered = TRUE))
-    spc$subgroup <- droplevels(factor(spc$subgroup, levels = ST_unique_list$subgroup, ordered = TRUE))
+    .soilorder <- droplevels(factor(spc$soilorder, levels = ST_unique_list$order, ordered = TRUE))
+    .suborder <- droplevels(factor(spc$suborder, levels = ST_unique_list$suborder, ordered = TRUE))
+    .greatgroup <- droplevels(factor(spc$greatgroup, levels = ST_unique_list$greatgroup, ordered = TRUE))
+    .subgroup <- droplevels(factor(spc$subgroup, levels = ST_unique_list$subgroup, ordered = TRUE))
+    
+    # check for obsolete taxa / typos
+    # use plain factors
+    if(any(is.na(.soilorder))) {
+      .soilorder <- factor(spc$soilorder)
+      message('obsolete soil order or typo, reverting to regular factors: sorting will not be exact')
+    }
+    
+    if(any(is.na(.suborder))) {
+      .suborder <- factor(spc$suborder)
+      message('obsolete suborder or typo, reverting to regular factors: sorting will not be exact')
+    }
+    
+    if(any(is.na(.greatgroup))) {
+      .greatgroup <- factor(spc$greatgroup)
+      message('obsolete greatgroup or typo, reverting to regular factors: sorting will not be exact')
+    }
+    
+    if(any(is.na(.subgroup))) {
+      .subgroup <- factor(spc$subgroup)
+      message('obsolete subgroup or typo, reverting to regular factors: sorting will not be exact')
+    }
+    
+    # replace original values with ordered factors if possible
+    # falling back to plain factors
+    spc$soilorder <- .soilorder
+    spc$suborder <- .suborder
+    spc$greatgroup <- .greatgroup
+    spc$subgroup <- .subgroup
     
     # rotate as close to KST ordering as possible
     # but only if there is no user-supplied rotation
     if(is.null(rotationOrder)) {
       rotationOrder <- profile_id(spc)[order(spc$subgroup)]
     }
-    
     
   } else {
     
@@ -167,7 +195,7 @@ SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, 
 	        axis.line.offset = axis.line.offset, 
 	        width = width, 
 	        y.offset = max(lastPP$yy) + y.offset, 
-	        id.style = 'side', 
+	        id.style = id.style, 
 	        shrink = shrink, 
 	        font.id = font.id, 
 	        add = TRUE, 

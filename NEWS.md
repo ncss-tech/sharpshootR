@@ -1,4 +1,4 @@
-# sharpshootR 1.10 (2022-06-19)
+# sharpshootR 1.10 (2022-06-23)
  * adding SoilTaxonomy package to suggests, to allow for better encoding of taxa levels by `SoilTaxonomyDendrogram`
  * `SoilTaxonomyDendrogram()` gains argument `KST.order` to adjust encoding / ordering criteria
 

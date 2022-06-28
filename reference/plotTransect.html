@@ -53,22 +53,22 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plotTransect</span><span class="op">(</span>
-  <span class="va">s</span>,
-  <span class="va">grad.var.name</span>,
-  grad.var.order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/aqp/man/site.html" class="external-link">site</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span><span class="op">[[</span><span class="va">grad.var.name</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,
-  transect.col <span class="op">=</span> <span class="st">"RoyalBlue"</span>,
-  tick.number <span class="op">=</span> <span class="fl">7</span>,
-  y.offset <span class="op">=</span> <span class="fl">100</span>,
-  scaling.factor <span class="op">=</span> <span class="fl">0.5</span>,
-  distance.axis.title <span class="op">=</span> <span class="st">"Distance Along Transect (km)"</span>,
-  crs <span class="op">=</span> <span class="cn">NULL</span>,
-  grad.axis.title <span class="op">=</span> <span class="cn">NULL</span>,
-  dist.scaling.factor <span class="op">=</span> <span class="fl">1000</span>,
-  spacing <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"regular"</span>, <span class="st">"relative"</span><span class="op">)</span>,
-  fix.relative.pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>thresh <span class="op">=</span> <span class="fl">0.6</span>, maxIter <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plotTransect</span><span class="op">(</span></span>
+<span>  <span class="va">s</span>,</span>
+<span>  <span class="va">grad.var.name</span>,</span>
+<span>  grad.var.order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/aqp/man/site.html" class="external-link">site</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span><span class="op">[[</span><span class="va">grad.var.name</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>  transect.col <span class="op">=</span> <span class="st">"RoyalBlue"</span>,</span>
+<span>  tick.number <span class="op">=</span> <span class="fl">7</span>,</span>
+<span>  y.offset <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  scaling.factor <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  distance.axis.title <span class="op">=</span> <span class="st">"Distance Along Transect (km)"</span>,</span>
+<span>  crs <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  grad.axis.title <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  dist.scaling.factor <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  spacing <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"regular"</span>, <span class="st">"relative"</span><span class="op">)</span>,</span>
+<span>  fix.relative.pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>thresh <span class="op">=</span> <span class="fl">0.6</span>, maxIter <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -156,65 +156,65 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ncss-tech/aqp" class="external-link">aqp</a></span><span class="op">)</span> <span class="op">&amp;</span> </span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/edzer/sp/" class="external-link">sp</a></span><span class="op">)</span> <span class="op">&amp;</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="http://ncss-tech.github.io/soilDB/" class="external-link">soilDB</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># sample data</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"mineralKing"</span>, package <span class="op">=</span> <span class="st">"soilDB"</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># device options are modified locally, reset when done</span></span>
-<span class="r-in">  <span class="va">op</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>no.readonly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># quick overview</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/groupedProfilePlot.html" class="external-link">groupedProfilePlot</a></span><span class="op">(</span><span class="va">mineralKing</span>, groups<span class="op">=</span><span class="st">'taxonname'</span>, print.id<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># init coords and CRS</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="va">mineralKing</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="op">~</span> <span class="va">x_std</span> <span class="op">+</span> <span class="va">y_std</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/pkg/sp/man/is.projected.html" class="external-link">proj4string</a></span><span class="op">(</span><span class="va">mineralKing</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">'+proj=longlat +datum=NAD83'</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># projected CRS, units of meters</span></span>
-<span class="r-in">  <span class="va">crs.utm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/CRS-class.html" class="external-link">CRS</a></span><span class="op">(</span><span class="st">'+proj=utm +zone=11 +datum=NAD83'</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># adjust margins</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4.5</span>,<span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># standard transect plot, profile sketches arranged along integer sequence</span></span>
-<span class="r-in">  <span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, grad.var.name<span class="op">=</span><span class="st">'elev_field'</span>, crs<span class="op">=</span><span class="va">crs.utm</span>, </span>
-<span class="r-in">               grad.axis.title<span class="op">=</span><span class="st">'Elevation (m)'</span>, label<span class="op">=</span><span class="st">'pedon_id'</span>, name<span class="op">=</span><span class="st">'hzname'</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># default behavior, attempt adjustments to prevent over-plot and preserve relative spacing</span></span>
-<span class="r-in">  <span class="co"># use set.seed() to fix outcome</span></span>
-<span class="r-in">  <span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, grad.var.name<span class="op">=</span><span class="st">'elev_field'</span>, crs<span class="op">=</span><span class="va">crs.utm</span>, </span>
-<span class="r-in">               grad.axis.title<span class="op">=</span><span class="st">'Elevation (m)'</span>, label<span class="op">=</span><span class="st">'pedon_id'</span>, </span>
-<span class="r-in">               name<span class="op">=</span><span class="st">'hzname'</span>, width<span class="op">=</span><span class="fl">0.15</span>, spacing <span class="op">=</span> <span class="st">'relative'</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># attempt relative positioning based on scaled distances, no corrections for overlap</span></span>
-<span class="r-in">  <span class="co"># profiles are clustered in space and therefore over-plot</span></span>
-<span class="r-in">  <span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, grad.var.name<span class="op">=</span><span class="st">'elev_field'</span>, crs<span class="op">=</span><span class="va">crs.utm</span>, </span>
-<span class="r-in">               grad.axis.title<span class="op">=</span><span class="st">'Elevation (m)'</span>, label<span class="op">=</span><span class="st">'pedon_id'</span>, name<span class="op">=</span><span class="st">'hzname'</span>, </span>
-<span class="r-in">               width<span class="op">=</span><span class="fl">0.15</span>, spacing <span class="op">=</span> <span class="st">'relative'</span>, fix.relative.pos <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># customize arguments to aqp::fixOverlap()</span></span>
-<span class="r-in">  <span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, grad.var.name<span class="op">=</span><span class="st">'elev_field'</span>, crs<span class="op">=</span><span class="va">crs.utm</span>, </span>
-<span class="r-in">               grad.axis.title<span class="op">=</span><span class="st">'Elevation (m)'</span>, label<span class="op">=</span><span class="st">'pedon_id'</span>, name<span class="op">=</span><span class="st">'hzname'</span>, </span>
-<span class="r-in">               width<span class="op">=</span><span class="fl">0.15</span>, spacing <span class="op">=</span> <span class="st">'relative'</span>, </span>
-<span class="r-in">               fix.relative.pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>maxIter<span class="op">=</span><span class="fl">6000</span>, adj<span class="op">=</span><span class="fl">0.2</span>, thresh<span class="op">=</span><span class="fl">0.7</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, grad.var.name<span class="op">=</span><span class="st">'elev_field'</span>, crs<span class="op">=</span><span class="va">crs.utm</span>, </span>
-<span class="r-in">               grad.axis.title<span class="op">=</span><span class="st">'Elevation (m)'</span>, label<span class="op">=</span><span class="st">'pedon_id'</span>, name<span class="op">=</span><span class="st">'hzname'</span>, </span>
-<span class="r-in">               width<span class="op">=</span><span class="fl">0.2</span>, spacing <span class="op">=</span> <span class="st">'relative'</span>, </span>
-<span class="r-in">               fix.relative.pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>maxIter<span class="op">=</span><span class="fl">6000</span>, adj<span class="op">=</span><span class="fl">0.2</span>, thresh<span class="op">=</span><span class="fl">0.6</span><span class="op">)</span>,</span>
-<span class="r-in">               name.style <span class="op">=</span> <span class="st">'center-center'</span><span class="op">)</span></span>
-<span class="r-in">               </span>
-<span class="r-in"> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ncss-tech/aqp" class="external-link">aqp</a></span><span class="op">)</span> <span class="op">&amp;</span> </span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/edzer/sp/" class="external-link">sp</a></span><span class="op">)</span> <span class="op">&amp;</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="http://ncss-tech.github.io/soilDB/" class="external-link">soilDB</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># sample data</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"mineralKing"</span>, package <span class="op">=</span> <span class="st">"soilDB"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># device options are modified locally, reset when done</span></span></span>
+<span class="r-in"><span>  <span class="va">op</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>no.readonly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># quick overview</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/groupedProfilePlot.html" class="external-link">groupedProfilePlot</a></span><span class="op">(</span><span class="va">mineralKing</span>, groups<span class="op">=</span><span class="st">'taxonname'</span>, print.id<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># init coords and CRS</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="va">mineralKing</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="op">~</span> <span class="va">x_std</span> <span class="op">+</span> <span class="va">y_std</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/sp/man/is.projected.html" class="external-link">proj4string</a></span><span class="op">(</span><span class="va">mineralKing</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">'+proj=longlat +datum=NAD83'</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># projected CRS, units of meters</span></span></span>
+<span class="r-in"><span>  <span class="va">crs.utm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/CRS-class.html" class="external-link">CRS</a></span><span class="op">(</span><span class="st">'+proj=utm +zone=11 +datum=NAD83'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># adjust margins</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4.5</span>,<span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># standard transect plot, profile sketches arranged along integer sequence</span></span></span>
+<span class="r-in"><span>  <span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, grad.var.name<span class="op">=</span><span class="st">'elev_field'</span>, crs<span class="op">=</span><span class="va">crs.utm</span>, </span></span>
+<span class="r-in"><span>               grad.axis.title<span class="op">=</span><span class="st">'Elevation (m)'</span>, label<span class="op">=</span><span class="st">'pedon_id'</span>, name<span class="op">=</span><span class="st">'hzname'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># default behavior, attempt adjustments to prevent over-plot and preserve relative spacing</span></span></span>
+<span class="r-in"><span>  <span class="co"># use set.seed() to fix outcome</span></span></span>
+<span class="r-in"><span>  <span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, grad.var.name<span class="op">=</span><span class="st">'elev_field'</span>, crs<span class="op">=</span><span class="va">crs.utm</span>, </span></span>
+<span class="r-in"><span>               grad.axis.title<span class="op">=</span><span class="st">'Elevation (m)'</span>, label<span class="op">=</span><span class="st">'pedon_id'</span>, </span></span>
+<span class="r-in"><span>               name<span class="op">=</span><span class="st">'hzname'</span>, width<span class="op">=</span><span class="fl">0.15</span>, spacing <span class="op">=</span> <span class="st">'relative'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># attempt relative positioning based on scaled distances, no corrections for overlap</span></span></span>
+<span class="r-in"><span>  <span class="co"># profiles are clustered in space and therefore over-plot</span></span></span>
+<span class="r-in"><span>  <span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, grad.var.name<span class="op">=</span><span class="st">'elev_field'</span>, crs<span class="op">=</span><span class="va">crs.utm</span>, </span></span>
+<span class="r-in"><span>               grad.axis.title<span class="op">=</span><span class="st">'Elevation (m)'</span>, label<span class="op">=</span><span class="st">'pedon_id'</span>, name<span class="op">=</span><span class="st">'hzname'</span>, </span></span>
+<span class="r-in"><span>               width<span class="op">=</span><span class="fl">0.15</span>, spacing <span class="op">=</span> <span class="st">'relative'</span>, fix.relative.pos <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># customize arguments to aqp::fixOverlap()</span></span></span>
+<span class="r-in"><span>  <span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, grad.var.name<span class="op">=</span><span class="st">'elev_field'</span>, crs<span class="op">=</span><span class="va">crs.utm</span>, </span></span>
+<span class="r-in"><span>               grad.axis.title<span class="op">=</span><span class="st">'Elevation (m)'</span>, label<span class="op">=</span><span class="st">'pedon_id'</span>, name<span class="op">=</span><span class="st">'hzname'</span>, </span></span>
+<span class="r-in"><span>               width<span class="op">=</span><span class="fl">0.15</span>, spacing <span class="op">=</span> <span class="st">'relative'</span>, </span></span>
+<span class="r-in"><span>               fix.relative.pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>maxIter<span class="op">=</span><span class="fl">6000</span>, adj<span class="op">=</span><span class="fl">0.2</span>, thresh<span class="op">=</span><span class="fl">0.7</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, grad.var.name<span class="op">=</span><span class="st">'elev_field'</span>, crs<span class="op">=</span><span class="va">crs.utm</span>, </span></span>
+<span class="r-in"><span>               grad.axis.title<span class="op">=</span><span class="st">'Elevation (m)'</span>, label<span class="op">=</span><span class="st">'pedon_id'</span>, name<span class="op">=</span><span class="st">'hzname'</span>, </span></span>
+<span class="r-in"><span>               width<span class="op">=</span><span class="fl">0.2</span>, spacing <span class="op">=</span> <span class="st">'relative'</span>, </span></span>
+<span class="r-in"><span>               fix.relative.pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>maxIter<span class="op">=</span><span class="fl">6000</span>, adj<span class="op">=</span><span class="fl">0.2</span>, thresh<span class="op">=</span><span class="fl">0.6</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               name.style <span class="op">=</span> <span class="st">'center-center'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>               </span></span>
+<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: sp</span>
 <span class="r-plt img"><img src="plotTransect-1.png" alt="" width="700" height="433"></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 689 iterations</span>
@@ -225,9 +225,9 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 760 iterations</span>
 <span class="r-plt img"><img src="plotTransect-5.png" alt="" width="700" height="433"></span>
 <span class="r-plt img"><img src="plotTransect-6.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

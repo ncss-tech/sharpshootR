@@ -53,13 +53,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plotAvailWater</span><span class="op">(</span>
-  <span class="va">x</span>,
-  width <span class="op">=</span> <span class="fl">0.25</span>,
-  cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html" class="external-link">grey</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span>, <span class="st">"DarkGreen"</span>, <span class="st">"LightBlue"</span>, <span class="st">"RoyalBlue"</span><span class="op">)</span>,
-  name.cex <span class="op">=</span> <span class="fl">0.8</span>,
-  annotate <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plotAvailWater</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  width <span class="op">=</span> <span class="fl">0.25</span>,</span>
+<span>  cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html" class="external-link">grey</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span>, <span class="st">"DarkGreen"</span>, <span class="st">"LightBlue"</span>, <span class="st">"RoyalBlue"</span><span class="op">)</span>,</span>
+<span>  name.cex <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  annotate <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -101,79 +101,79 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># demonstration</span></span>
-<span class="r-in"><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">  name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'loamy sand'</span>, <span class="st">'sandy loam'</span>, <span class="st">'silt loam'</span>, <span class="st">'clay loam'</span><span class="op">)</span>, </span>
-<span class="r-in">  pwp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.18</span>, <span class="fl">0.2</span><span class="op">)</span>, </span>
-<span class="r-in">  fc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.38</span>, <span class="fl">0.35</span><span class="op">)</span>, </span>
-<span class="r-in">  sat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.3</span>, <span class="fl">0.45</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">s</span><span class="op">$</span><span class="va">solid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">s</span>, <span class="fl">1</span><span class="op">-</span><span class="va">sat</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">6</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">plotAvailWater</span><span class="op">(</span><span class="va">s</span>, name.cex<span class="op">=</span><span class="fl">1.25</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># demonstration</span></span></span>
+<span class="r-in"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'loamy sand'</span>, <span class="st">'sandy loam'</span>, <span class="st">'silt loam'</span>, <span class="st">'clay loam'</span><span class="op">)</span>, </span></span>
+<span class="r-in"><span>  pwp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.18</span>, <span class="fl">0.2</span><span class="op">)</span>, </span></span>
+<span class="r-in"><span>  fc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.38</span>, <span class="fl">0.35</span><span class="op">)</span>, </span></span>
+<span class="r-in"><span>  sat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.3</span>, <span class="fl">0.45</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">s</span><span class="op">$</span><span class="va">solid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">s</span>, <span class="fl">1</span><span class="op">-</span><span class="va">sat</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">6</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plotAvailWater</span><span class="op">(</span><span class="va">s</span>, name.cex<span class="op">=</span><span class="fl">1.25</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plotAvailWater-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"aqp"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">    </span>
-<span class="r-in">    <span class="co"># demonstration using idealized AWC by soil texture</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"ROSETTA.centroids"</span>, package <span class="op">=</span> <span class="st">"aqp"</span><span class="op">)</span></span>
-<span class="r-in">    </span>
-<span class="r-in">    <span class="co"># subset columns</span></span>
-<span class="r-in">    <span class="va">x</span> <span class="op">&lt;-</span> <span class="va">ROSETTA.centroids</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'texture'</span>, <span class="st">'pwp'</span>, <span class="st">'fc'</span>, <span class="st">'sat'</span>, <span class="st">'awc'</span><span class="op">)</span><span class="op">]</span></span>
-<span class="r-in">    </span>
-<span class="r-in">    <span class="co"># adjust to expected names / additional data required by plotAvailWater</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">'name'</span></span>
-<span class="r-in">    <span class="va">x</span><span class="op">$</span><span class="va">solid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">-</span> <span class="va">sat</span><span class="op">)</span></span>
-<span class="r-in">    </span>
-<span class="r-in">    <span class="co"># re-order based on approximate AWC</span></span>
-<span class="r-in">    <span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">awc</span><span class="op">)</span>, <span class="op">]</span></span>
-<span class="r-in">    </span>
-<span class="r-in">    <span class="va">op</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>no.readonly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in">    </span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">6.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">    <span class="fu">plotAvailWater</span><span class="op">(</span><span class="va">x</span>, name.cex <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in">    </span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span>
-<span class="r-in">    </span>
-<span class="r-in">  <span class="op">}</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"aqp"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="co"># demonstration using idealized AWC by soil texture</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"ROSETTA.centroids"</span>, package <span class="op">=</span> <span class="st">"aqp"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="co"># subset columns</span></span></span>
+<span class="r-in"><span>    <span class="va">x</span> <span class="op">&lt;-</span> <span class="va">ROSETTA.centroids</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'texture'</span>, <span class="st">'pwp'</span>, <span class="st">'fc'</span>, <span class="st">'sat'</span>, <span class="st">'awc'</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="co"># adjust to expected names / additional data required by plotAvailWater</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">'name'</span></span></span>
+<span class="r-in"><span>    <span class="va">x</span><span class="op">$</span><span class="va">solid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">-</span> <span class="va">sat</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="co"># re-order based on approximate AWC</span></span></span>
+<span class="r-in"><span>    <span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">awc</span><span class="op">)</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="va">op</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>no.readonly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">6.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu">plotAvailWater</span><span class="op">(</span><span class="va">x</span>, name.cex <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
 <span class="r-plt img"><img src="plotAvailWater-2.png" alt="" width="700" height="433"></span>
-<span class="r-in">  </span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># use some real data from SSURGO</span></span>
-<span class="r-in">  <span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"curl"</span><span class="op">)</span> <span class="op">&amp;</span></span>
-<span class="r-in">     <span class="fu">curl</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/curl/man/nslookup.html" class="external-link">has_internet</a></span><span class="op">(</span><span class="op">)</span> <span class="op">&amp;</span></span>
-<span class="r-in">     <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="http://ncss-tech.github.io/soilDB/" class="external-link">soilDB</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">    </span>
-<span class="r-in">    <span class="va">q</span> <span class="op">&lt;-</span> <span class="st">"SELECT hzdept_r as hztop, hzdepb_r as hzbottom, </span>
-<span class="r-in">hzname as name, wsatiated_r/100.0 as sat, </span>
-<span class="r-in">wthirdbar_r/100.0 as fc, wfifteenbar_r/100.0 as pwp, awc_r as awc</span>
-<span class="r-in">FROM chorizon </span>
-<span class="r-in">WHERE cokey IN (SELECT cokey from component where compname = 'dunstone') </span>
-<span class="r-in">AND wsatiated_r IS NOT NULL </span>
-<span class="r-in">ORDER BY cokey, hzdept_r ASC;"</span></span>
-<span class="r-in">    </span>
-<span class="r-in">    <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ncss-tech.github.io/soilDB/reference/SDA_query.html" class="external-link">SDA_query</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span></span>
-<span class="r-in">    <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span class="r-in">    <span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">name</span><span class="op">)</span>, <span class="op">]</span></span>
-<span class="r-in">    <span class="va">x</span><span class="op">$</span><span class="va">solid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span><span class="op">-</span><span class="va">sat</span><span class="op">)</span></span>
-<span class="r-in">    </span>
-<span class="r-in">    <span class="va">op</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>no.readonly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in">    </span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">    <span class="fu">plotAvailWater</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span class="r-in">    </span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">}</span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># use some real data from SSURGO</span></span></span>
+<span class="r-in"><span>  <span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"curl"</span><span class="op">)</span> <span class="op">&amp;</span></span></span>
+<span class="r-in"><span>     <span class="fu">curl</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/curl/man/nslookup.html" class="external-link">has_internet</a></span><span class="op">(</span><span class="op">)</span> <span class="op">&amp;</span></span></span>
+<span class="r-in"><span>     <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="http://ncss-tech.github.io/soilDB/" class="external-link">soilDB</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="va">q</span> <span class="op">&lt;-</span> <span class="st">"SELECT hzdept_r as hztop, hzdepb_r as hzbottom, </span></span></span>
+<span class="r-in"><span><span class="st">hzname as name, wsatiated_r/100.0 as sat, </span></span></span>
+<span class="r-in"><span><span class="st">wthirdbar_r/100.0 as fc, wfifteenbar_r/100.0 as pwp, awc_r as awc</span></span></span>
+<span class="r-in"><span><span class="st">FROM chorizon </span></span></span>
+<span class="r-in"><span><span class="st">WHERE cokey IN (SELECT cokey from component where compname = 'dunstone') </span></span></span>
+<span class="r-in"><span><span class="st">AND wsatiated_r IS NOT NULL </span></span></span>
+<span class="r-in"><span><span class="st">ORDER BY cokey, hzdept_r ASC;"</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ncss-tech.github.io/soilDB/reference/SDA_query.html" class="external-link">SDA_query</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">name</span><span class="op">)</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span>    <span class="va">x</span><span class="op">$</span><span class="va">solid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span><span class="op">-</span><span class="va">sat</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="va">op</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>no.readonly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu">plotAvailWater</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> single result set, returning a data.frame</span>
 <span class="r-plt img"><img src="plotAvailWater-3.png" alt="" width="700" height="433"></span>
-<span class="r-in">  </span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

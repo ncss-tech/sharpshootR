@@ -53,16 +53,16 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plotWB_lines</span><span class="op">(</span>
-  <span class="va">WB</span>,
-  cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#759CC9"</span>, <span class="st">"#EB6D6E"</span>, <span class="st">"#7FC47D"</span><span class="op">)</span>,
-  line.col <span class="op">=</span> <span class="st">"black"</span>,
-  line.lty <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>,
-  interpolator <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"spline"</span>, <span class="st">"linear"</span><span class="op">)</span>,
-  spline.method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"natural"</span>, <span class="st">"periodic"</span><span class="op">)</span>,
-  month.cex <span class="op">=</span> <span class="fl">1</span>,
-  legend.cex <span class="op">=</span> <span class="fl">0.9</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plotWB_lines</span><span class="op">(</span></span>
+<span>  <span class="va">WB</span>,</span>
+<span>  cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#759CC9"</span>, <span class="st">"#EB6D6E"</span>, <span class="st">"#7FC47D"</span><span class="op">)</span>,</span>
+<span>  line.col <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  line.lty <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>  interpolator <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"spline"</span>, <span class="st">"linear"</span><span class="op">)</span>,</span>
+<span>  spline.method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"natural"</span>, <span class="st">"periodic"</span><span class="op">)</span>,</span>
+<span>  month.cex <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  legend.cex <span class="op">=</span> <span class="fl">0.9</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -112,25 +112,25 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">'hydromad'</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## A shallow / droughty soil near Sonora CA </span></span>
-<span class="r-in"><span class="co"># 100mm (4") AWC</span></span>
-<span class="r-in"><span class="va">AWC</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
-<span class="r-in"><span class="va">PPT</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">171</span>, <span class="fl">151</span>, <span class="fl">138</span>, <span class="fl">71</span>, <span class="fl">36</span>, <span class="fl">7</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">11</span>, <span class="fl">48</span>, <span class="fl">102</span>, <span class="fl">145</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">PET</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15.17</span>, <span class="fl">18.26</span>, <span class="fl">30.57</span>, <span class="fl">42.95</span>, <span class="fl">75.37</span>, <span class="fl">108.05</span>, <span class="fl">139.74</span>, <span class="fl">128.9</span>, <span class="fl">93.99</span>, <span class="fl">59.84</span>, <span class="fl">26.95</span>, <span class="fl">14.2</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># calendar-year</span></span>
-<span class="r-in"><span class="co"># three year warm-up</span></span>
-<span class="r-in"><span class="va">x.wb</span> <span class="op">&lt;-</span> <span class="fu"><a href="monthlyWB.html">monthlyWB</a></span><span class="op">(</span><span class="va">AWC</span>, <span class="va">PPT</span>, <span class="va">PET</span>, S_init <span class="op">=</span> <span class="fl">0</span>, starting_month <span class="op">=</span> <span class="fl">1</span>, rep <span class="op">=</span> <span class="fl">3</span>, keep_last <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"> </span>
-<span class="r-in"><span class="co"># plot</span></span>
-<span class="r-in"><span class="fu">plotWB_lines</span><span class="op">(</span><span class="va">x.wb</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">'hydromad'</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## A shallow / droughty soil near Sonora CA </span></span></span>
+<span class="r-in"><span><span class="co"># 100mm (4") AWC</span></span></span>
+<span class="r-in"><span><span class="va">AWC</span> <span class="op">&lt;-</span> <span class="fl">100</span></span></span>
+<span class="r-in"><span><span class="va">PPT</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">171</span>, <span class="fl">151</span>, <span class="fl">138</span>, <span class="fl">71</span>, <span class="fl">36</span>, <span class="fl">7</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">11</span>, <span class="fl">48</span>, <span class="fl">102</span>, <span class="fl">145</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">PET</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15.17</span>, <span class="fl">18.26</span>, <span class="fl">30.57</span>, <span class="fl">42.95</span>, <span class="fl">75.37</span>, <span class="fl">108.05</span>, <span class="fl">139.74</span>, <span class="fl">128.9</span>, <span class="fl">93.99</span>, <span class="fl">59.84</span>, <span class="fl">26.95</span>, <span class="fl">14.2</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># calendar-year</span></span></span>
+<span class="r-in"><span><span class="co"># three year warm-up</span></span></span>
+<span class="r-in"><span><span class="va">x.wb</span> <span class="op">&lt;-</span> <span class="fu"><a href="monthlyWB.html">monthlyWB</a></span><span class="op">(</span><span class="va">AWC</span>, <span class="va">PPT</span>, <span class="va">PET</span>, S_init <span class="op">=</span> <span class="fl">0</span>, starting_month <span class="op">=</span> <span class="fl">1</span>, rep <span class="op">=</span> <span class="fl">3</span>, keep_last <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span> </span></span>
+<span class="r-in"><span><span class="co"># plot</span></span></span>
+<span class="r-in"><span><span class="fu">plotWB_lines</span><span class="op">(</span><span class="va">x.wb</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-plt img"><img src="plotWB_lines-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

@@ -53,7 +53,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">multinominal2logical</span><span class="op">(</span><span class="va">x</span>, <span class="va">v</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">multinominal2logical</span><span class="op">(</span><span class="va">x</span>, <span class="va">v</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -83,36 +83,36 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="http://ncss-tech.github.io/soilDB/" class="external-link">soilDB</a></span><span class="op">)</span> <span class="op">&amp;</span></span>
-<span class="r-in">   <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ncss-tech/aqp" class="external-link">aqp</a></span><span class="op">)</span> <span class="op">&amp;</span></span>
-<span class="r-in">   <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="http://latticeextra.r-forge.r-project.org/" class="external-link">latticeExtra</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># sample data, an SPC</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">loafercreek</span>, package<span class="op">=</span><span class="st">'soilDB'</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># convert to logical matrix</span></span>
-<span class="r-in">  <span class="va">hp</span> <span class="op">&lt;-</span> <span class="fu">multinominal2logical</span><span class="op">(</span><span class="va">loafercreek</span>, <span class="st">'hillslopeprof'</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># join-in to site data</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/site.html" class="external-link">site</a></span><span class="op">(</span><span class="va">loafercreek</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">hp</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># variable names</span></span>
-<span class="r-in">  <span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'lithic.contact'</span>, <span class="st">'paralithic.contact'</span>, </span>
-<span class="r-in">         <span class="st">'argillic.horizon'</span>, <span class="st">'toeslope'</span>, <span class="st">'footslope'</span>, </span>
-<span class="r-in">         <span class="st">'backslope'</span>, <span class="st">'shoulder'</span>, <span class="st">'summit'</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># visualize with some other diagnostic features</span></span>
-<span class="r-in">  <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="diagnosticPropertyPlot.html">diagnosticPropertyPlot</a></span><span class="op">(</span><span class="va">loafercreek</span>, <span class="va">v</span>, k <span class="op">=</span> <span class="fl">5</span>, </span>
-<span class="r-in">                              grid.label <span class="op">=</span> <span class="st">'bedrckkind'</span>, dend.label <span class="op">=</span> <span class="st">'pedon_id'</span><span class="op">)</span>  </span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="http://ncss-tech.github.io/soilDB/" class="external-link">soilDB</a></span><span class="op">)</span> <span class="op">&amp;</span></span></span>
+<span class="r-in"><span>   <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ncss-tech/aqp" class="external-link">aqp</a></span><span class="op">)</span> <span class="op">&amp;</span></span></span>
+<span class="r-in"><span>   <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="http://latticeextra.r-forge.r-project.org/" class="external-link">latticeExtra</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># sample data, an SPC</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">loafercreek</span>, package<span class="op">=</span><span class="st">'soilDB'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># convert to logical matrix</span></span></span>
+<span class="r-in"><span>  <span class="va">hp</span> <span class="op">&lt;-</span> <span class="fu">multinominal2logical</span><span class="op">(</span><span class="va">loafercreek</span>, <span class="st">'hillslopeprof'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># join-in to site data</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/site.html" class="external-link">site</a></span><span class="op">(</span><span class="va">loafercreek</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">hp</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># variable names</span></span></span>
+<span class="r-in"><span>  <span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'lithic.contact'</span>, <span class="st">'paralithic.contact'</span>, </span></span>
+<span class="r-in"><span>         <span class="st">'argillic.horizon'</span>, <span class="st">'toeslope'</span>, <span class="st">'footslope'</span>, </span></span>
+<span class="r-in"><span>         <span class="st">'backslope'</span>, <span class="st">'shoulder'</span>, <span class="st">'summit'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># visualize with some other diagnostic features</span></span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="diagnosticPropertyPlot.html">diagnosticPropertyPlot</a></span><span class="op">(</span><span class="va">loafercreek</span>, <span class="va">v</span>, k <span class="op">=</span> <span class="fl">5</span>, </span></span>
+<span class="r-in"><span>                              grid.label <span class="op">=</span> <span class="st">'bedrckkind'</span>, dend.label <span class="op">=</span> <span class="st">'pedon_id'</span><span class="op">)</span>  </span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-plt img"><img src="multinominal2logical-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

@@ -53,7 +53,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">formatPLSS</span><span class="op">(</span><span class="va">p</span>, type <span class="op">=</span> <span class="st">"SN"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">formatPLSS</span><span class="op">(</span><span class="va">p</span>, type <span class="op">=</span> <span class="st">"SN"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -92,26 +92,26 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># create some data</span></span>
-<span class="r-in"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">  id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,</span>
-<span class="r-in">  qq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SW'</span>, <span class="st">'SW'</span>, <span class="st">'SE'</span><span class="op">)</span>,</span>
-<span class="r-in">  q <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'NE'</span>, <span class="st">'NW'</span>, <span class="st">'SE'</span><span class="op">)</span>,</span>
-<span class="r-in">  s <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">17</span>, <span class="fl">32</span>, <span class="fl">30</span><span class="op">)</span>,</span>
-<span class="r-in">  t <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'T36N'</span>, <span class="st">'T35N'</span>, <span class="st">'T35N'</span><span class="op">)</span>,</span>
-<span class="r-in">  r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'R29W'</span>, <span class="st">'R28W'</span>, <span class="st">'R28W'</span><span class="op">)</span>,</span>
-<span class="r-in">  type <span class="op">=</span> <span class="st">'SN'</span>,</span>
-<span class="r-in">  m <span class="op">=</span> <span class="st">'MT20'</span>,</span>
-<span class="r-in">  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="co"># add column names</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/aqp/man/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'id'</span>, <span class="st">'qq'</span>, <span class="st">'q'</span>, <span class="st">'s'</span>, <span class="st">'t'</span>, <span class="st">'r'</span>, <span class="st">'type'</span>, <span class="st">'m'</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># generate formatted PLSS codes</span></span>
-<span class="r-in"><span class="fu">formatPLSS</span><span class="op">(</span><span class="va">d</span>, type<span class="op">=</span><span class="st">'SN'</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># create some data</span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,</span></span>
+<span class="r-in"><span>  qq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SW'</span>, <span class="st">'SW'</span>, <span class="st">'SE'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  q <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'NE'</span>, <span class="st">'NW'</span>, <span class="st">'SE'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  s <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">17</span>, <span class="fl">32</span>, <span class="fl">30</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  t <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'T36N'</span>, <span class="st">'T35N'</span>, <span class="st">'T35N'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'R29W'</span>, <span class="st">'R28W'</span>, <span class="st">'R28W'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  type <span class="op">=</span> <span class="st">'SN'</span>,</span></span>
+<span class="r-in"><span>  m <span class="op">=</span> <span class="st">'MT20'</span>,</span></span>
+<span class="r-in"><span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># add column names</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'id'</span>, <span class="st">'qq'</span>, <span class="st">'q'</span>, <span class="st">'s'</span>, <span class="st">'t'</span>, <span class="st">'r'</span>, <span class="st">'type'</span>, <span class="st">'m'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># generate formatted PLSS codes</span></span></span>
+<span class="r-in"><span><span class="fu">formatPLSS</span><span class="op">(</span><span class="va">d</span>, type<span class="op">=</span><span class="st">'SN'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "MT200360N0290W0SN170ASWNE" "MT200350N0280W0SN320ASWNW"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3] "MT200350N0280W0SN300ASESE"</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

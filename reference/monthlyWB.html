@@ -53,17 +53,17 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">monthlyWB</span><span class="op">(</span>
-  <span class="va">AWC</span>,
-  <span class="va">PPT</span>,
-  <span class="va">PET</span>,
-  S_init <span class="op">=</span> <span class="va">AWC</span>,
-  starting_month <span class="op">=</span> <span class="fl">1</span>,
-  rep <span class="op">=</span> <span class="fl">1</span>,
-  keep_last <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span>
-
-<span class="fu">monthlyWB_summary</span><span class="op">(</span><span class="va">w</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">monthlyWB</span><span class="op">(</span></span>
+<span>  <span class="va">AWC</span>,</span>
+<span>  <span class="va">PPT</span>,</span>
+<span>  <span class="va">PET</span>,</span>
+<span>  S_init <span class="op">=</span> <span class="va">AWC</span>,</span>
+<span>  starting_month <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  rep <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  keep_last <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">monthlyWB_summary</span><span class="op">(</span><span class="va">w</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -115,8 +115,13 @@
 <li><p>D: monthly deficit (mm)</p></li>
 <li><p>month: month number</p></li>
 <li><p>mo: month label</p></li>
-</ul><p><code>monthlyWB_summary()</code>: a data.frame containing cumulative (<code>dry</code>, <code>moist</code>, <code>wet</code>) and consecutive (<code>dry_con</code>, <code>moist_con</code>, <code>wet_con</code>) number of days dry/moist/wet, total deficit (<code>total_deficit</code>), total surplus (<code>total_surplus</code>), total actual evapotranspiration (<code>total_AET</code>), and annual actual evapotranspiration to potential evapotranspiration ratio (<code>annual_AET_PET_ratio</code>)</p>
-    </div>
+</ul><p><code>monthlyWB_summary()</code>: a <code>data.frame</code> containing:</p><ul><li><p>cumulative (<code>dry</code>, <code>moist</code>, <code>wet</code>) days</p></li>
+<li><p>consecutive (<code>dry_con</code>, <code>moist_con</code>, <code>wet_con</code>) days</p></li>
+<li><p>total deficit (<code>total_deficit</code>) in mm</p></li>
+<li><p>total surplus (<code>total_surplus</code>) in mm</p></li>
+<li><p>total actual evapotranspiration (<code>total_AET</code>) in mm</p></li>
+<li><p>annual actual evapotranspiration to potential evapotranspiration ratio (<code>annual_AET_PET_ratio</code>)</p></li>
+</ul></div>
     <div id="details">
     <h2>Details</h2>
     <p>See the <a href="http://ncss-tech.github.io/AQP/sharpshootR/monthly-WB.html" class="external-link">monthly water balance tutorial</a> for further examples and discussion.</p>

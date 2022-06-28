@@ -66,14 +66,14 @@ VWC &amp;gt; fc AND U (surplus) &amp;gt; 4mm: &quot;wet&quot;
 </ul></div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">estimateSoilMoistureState</span><span class="op">(</span>
-  <span class="va">VWC</span>,
-  <span class="va">U</span>,
-  <span class="va">sat</span>,
-  <span class="va">fc</span>,
-  <span class="va">pwp</span>,
-  style <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/combine-SoilProfileCollection-method.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span>, <span class="st">"newhall"</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">estimateSoilMoistureState</span><span class="op">(</span></span>
+<span>  <span class="va">VWC</span>,</span>
+<span>  <span class="va">U</span>,</span>
+<span>  <span class="va">sat</span>,</span>
+<span>  <span class="va">fc</span>,</span>
+<span>  <span class="va">pwp</span>,</span>
+<span>  style <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span>, <span class="st">"newhall"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -115,31 +115,31 @@ VWC &amp;gt; fc AND U (surplus) &amp;gt; 4mm: &quot;wet&quot;
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># "very moist"</span></span>
-<span class="r-in"><span class="fu">estimateSoilMoistureState</span><span class="op">(</span>VWC <span class="op">=</span> <span class="fl">0.3</span>, U <span class="op">=</span> <span class="fl">0</span>, sat <span class="op">=</span> <span class="fl">0.35</span>, fc <span class="op">=</span> <span class="fl">0.25</span>, pwp <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># "very moist"</span></span></span>
+<span class="r-in"><span><span class="fu">estimateSoilMoistureState</span><span class="op">(</span>VWC <span class="op">=</span> <span class="fl">0.3</span>, U <span class="op">=</span> <span class="fl">0</span>, sat <span class="op">=</span> <span class="fl">0.35</span>, fc <span class="op">=</span> <span class="fl">0.25</span>, pwp <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] very moist</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: very dry &lt; dry &lt; moist &lt; very moist &lt; wet</span>
-<span class="r-in"><span class="fu">estimateSoilMoistureState</span><span class="op">(</span>VWC <span class="op">=</span> <span class="fl">0.3</span>, U <span class="op">=</span> <span class="fl">2</span>, sat <span class="op">=</span> <span class="fl">0.35</span>, fc <span class="op">=</span> <span class="fl">0.25</span>, pwp <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">estimateSoilMoistureState</span><span class="op">(</span>VWC <span class="op">=</span> <span class="fl">0.3</span>, U <span class="op">=</span> <span class="fl">2</span>, sat <span class="op">=</span> <span class="fl">0.35</span>, fc <span class="op">=</span> <span class="fl">0.25</span>, pwp <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] very moist</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: very dry &lt; dry &lt; moist &lt; very moist &lt; wet</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="st">"wet"</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="st">"wet"</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "wet"</span>
-<span class="r-in"><span class="fu">estimateSoilMoistureState</span><span class="op">(</span>VWC <span class="op">=</span> <span class="fl">0.3</span>, U <span class="op">=</span> <span class="fl">5</span>, sat <span class="op">=</span> <span class="fl">0.35</span>, fc <span class="op">=</span> <span class="fl">0.25</span>, pwp <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">estimateSoilMoistureState</span><span class="op">(</span>VWC <span class="op">=</span> <span class="fl">0.3</span>, U <span class="op">=</span> <span class="fl">5</span>, sat <span class="op">=</span> <span class="fl">0.35</span>, fc <span class="op">=</span> <span class="fl">0.25</span>, pwp <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] wet</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: very dry &lt; dry &lt; moist &lt; very moist &lt; wet</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># "very dry"</span></span>
-<span class="r-in"><span class="fu">estimateSoilMoistureState</span><span class="op">(</span>VWC <span class="op">=</span> <span class="fl">0.15</span>, U <span class="op">=</span> <span class="fl">0</span>, sat <span class="op">=</span> <span class="fl">0.35</span>, fc <span class="op">=</span> <span class="fl">0.25</span>, pwp <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># "very dry"</span></span></span>
+<span class="r-in"><span><span class="fu">estimateSoilMoistureState</span><span class="op">(</span>VWC <span class="op">=</span> <span class="fl">0.15</span>, U <span class="op">=</span> <span class="fl">0</span>, sat <span class="op">=</span> <span class="fl">0.35</span>, fc <span class="op">=</span> <span class="fl">0.25</span>, pwp <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] very dry</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: very dry &lt; dry &lt; moist &lt; very moist &lt; wet</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># "dry" </span></span>
-<span class="r-in"><span class="fu">estimateSoilMoistureState</span><span class="op">(</span>VWC <span class="op">=</span> <span class="fl">0.18</span>, U <span class="op">=</span> <span class="fl">0</span>, sat <span class="op">=</span> <span class="fl">0.35</span>, fc <span class="op">=</span> <span class="fl">0.25</span>, pwp <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># "dry" </span></span></span>
+<span class="r-in"><span><span class="fu">estimateSoilMoistureState</span><span class="op">(</span>VWC <span class="op">=</span> <span class="fl">0.18</span>, U <span class="op">=</span> <span class="fl">0</span>, sat <span class="op">=</span> <span class="fl">0.35</span>, fc <span class="op">=</span> <span class="fl">0.25</span>, pwp <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] dry</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: very dry &lt; dry &lt; moist &lt; very moist &lt; wet</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

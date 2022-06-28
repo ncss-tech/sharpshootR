@@ -53,28 +53,28 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">SoilTaxonomyDendrogram</span><span class="op">(</span>
-  <span class="va">spc</span>,
-  KST.order <span class="op">=</span> <span class="cn">TRUE</span>,
-  rotationOrder <span class="op">=</span> <span class="cn">NULL</span>,
-  name <span class="op">=</span> <span class="st">"hzname"</span>,
-  name.style <span class="op">=</span> <span class="st">"center-center"</span>,
-  id.style <span class="op">=</span> <span class="st">"side"</span>,
-  max.depth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">spc</span><span class="op">)</span>,
-  n.depth.ticks <span class="op">=</span> <span class="fl">6</span>,
-  scaling.factor <span class="op">=</span> <span class="fl">0.015</span>,
-  cex.names <span class="op">=</span> <span class="fl">0.75</span>,
-  cex.id <span class="op">=</span> <span class="fl">0.75</span>,
-  axis.line.offset <span class="op">=</span> <span class="op">-</span><span class="fl">4</span>,
-  width <span class="op">=</span> <span class="fl">0.1</span>,
-  y.offset <span class="op">=</span> <span class="fl">0.5</span>,
-  shrink <span class="op">=</span> <span class="cn">FALSE</span>,
-  font.id <span class="op">=</span> <span class="fl">2</span>,
-  cex.taxon.labels <span class="op">=</span> <span class="fl">0.66</span>,
-  dend.color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"fg"</span><span class="op">)</span>,
-  dend.width <span class="op">=</span> <span class="fl">1</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">SoilTaxonomyDendrogram</span><span class="op">(</span></span>
+<span>  <span class="va">spc</span>,</span>
+<span>  KST.order <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  rotationOrder <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  name <span class="op">=</span> <span class="st">"hzname"</span>,</span>
+<span>  name.style <span class="op">=</span> <span class="st">"center-center"</span>,</span>
+<span>  id.style <span class="op">=</span> <span class="st">"side"</span>,</span>
+<span>  max.depth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">spc</span><span class="op">)</span>,</span>
+<span>  n.depth.ticks <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  scaling.factor <span class="op">=</span> <span class="fl">0.015</span>,</span>
+<span>  cex.names <span class="op">=</span> <span class="fl">0.75</span>,</span>
+<span>  cex.id <span class="op">=</span> <span class="fl">0.75</span>,</span>
+<span>  axis.line.offset <span class="op">=</span> <span class="op">-</span><span class="fl">4</span>,</span>
+<span>  width <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  y.offset <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  shrink <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  font.id <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  cex.taxon.labels <span class="op">=</span> <span class="fl">0.66</span>,</span>
+<span>  dend.color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"fg"</span><span class="op">)</span>,</span>
+<span>  dend.width <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -178,27 +178,27 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># built-in data, same as results from soilDB::fetchOSD()</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"OSDexamples"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># examples using first 8 profiles</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## TODO: uncomment once latest SoilTaxonomy is on CRAN</span></span>
-<span class="r-in"><span class="co"># KST-style ordering</span></span>
-<span class="r-in"><span class="co"># SoilTaxonomyDendrogram(</span></span>
-<span class="r-in"><span class="co"># OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',</span></span>
-<span class="r-in"><span class="co"># KST.order = TRUE</span></span>
-<span class="r-in"><span class="co"># )</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># classic ordering, based on nominal scale variables (unordered factors)</span></span>
-<span class="r-in"><span class="fu">SoilTaxonomyDendrogram</span><span class="op">(</span></span>
-<span class="r-in"><span class="va">OSDexamples</span><span class="op">$</span><span class="va">SPC</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span>, <span class="op">]</span>, width <span class="op">=</span> <span class="fl">0.3</span>, name.style <span class="op">=</span> <span class="st">'center-center'</span>,</span>
-<span class="r-in">KST.order <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span class="r-in"><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># built-in data, same as results from soilDB::fetchOSD()</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"OSDexamples"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># examples using first 8 profiles</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## TODO: uncomment once latest SoilTaxonomy is on CRAN</span></span></span>
+<span class="r-in"><span><span class="co"># KST-style ordering</span></span></span>
+<span class="r-in"><span><span class="co"># SoilTaxonomyDendrogram(</span></span></span>
+<span class="r-in"><span><span class="co"># OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',</span></span></span>
+<span class="r-in"><span><span class="co"># KST.order = TRUE</span></span></span>
+<span class="r-in"><span><span class="co"># )</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># classic ordering, based on nominal scale variables (unordered factors)</span></span></span>
+<span class="r-in"><span><span class="fu">SoilTaxonomyDendrogram</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">OSDexamples</span><span class="op">$</span><span class="va">SPC</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span>, <span class="op">]</span>, width <span class="op">=</span> <span class="fl">0.3</span>, name.style <span class="op">=</span> <span class="st">'center-center'</span>,</span></span>
+<span class="r-in"><span>KST.order <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="SoilTaxonomyDendrogram-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

@@ -117,18 +117,41 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
 
 #' @param w used for for `monthlyWB_summary()`: a data.frame, such as result of `monthlyWB()`; 
 #' @rdname monthlyWB
-#' @return `monthlyWB_summary()`: a data.frame containing cumulative (`dry`, `moist`, `wet`) and consecutive (`dry_con`, `moist_con`, `wet_con`) number of days dry/moist/wet, total deficit (`total_deficit`), total surplus (`total_surplus`), total actual evapotranspiration (`total_AET`), and annual actual evapotranspiration to potential evapotranspiration ratio (`annual_AET_PET_ratio`)
+#' @return `monthlyWB_summary()`: a `data.frame` containing:
+#' 
+#'   * cumulative (`dry`, `moist`, `wet`) days 
+#'   * consecutive (`dry_con`, `moist_con`, `wet_con`) days 
+#'   * total deficit (`total_deficit`) in mm
+#'   * total surplus (`total_surplus`) in mm
+#'   * total actual evapotranspiration (`total_AET`) in mm
+#'   * annual actual evapotranspiration to potential evapotranspiration ratio (`annual_AET_PET_ratio`)
 #' 
 #' @export
 monthlyWB_summary <- function(w) {
   
-
+  # convert months -> days
   .months2days <- function(m) {
     round(m * (365.25 / 12))
   }
   
+  # get count of max consecutive days where condition is TRUE
+  # m: RLE object
   .rle_max_true <- function(m) {
-    max(m$lengths[which(m$values)])
+    
+    # index to TRUE condition
+    # may not be present
+    idx <- which(m$values)
+    
+    # if there was a TRUE condition
+    if(length(idx) > 0) {
+      # return max consecutive days
+      res <- max(m$lengths[idx])
+    } else {
+      # otherwise 0 days
+      res <- 0
+    }
+    
+    return(res)
   }
   
   

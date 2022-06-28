@@ -1,5 +1,11 @@
 context("leaky bucket models")
 
+# example WB from tropical climate
+wb.tropical <- structure(
+  list(PPT = c(56.41, 35.04, 49.97, 78, 266.66, 390.97, 304.66, 339.95, 371.03, 239.23, 99.31, 71.14), PET = c(65.7381009906128, 66.7953817708974, 92.0306540584507, 105.299973551709, 111.653291690732, 104.055517872244, 103.722049943755, 102.16665065397, 92.337490005685, 84.7099923120343, 68.9292596916165, 66.7089212706967), U = c(0, 0, 0, 0, 47.27098529304, 286.914482127756, 200.937950056245, 237.78334934603, 278.692509994315, 154.520007687966, 30.3807403083835, 4.43107872930327), S = c(190.671899009387, 158.91651723849, 116.855863180039, 92.2642769837715, 200, 200, 200, 200, 200, 200, 200, 200), ET = c(65.7381009906128, 66.7953817708974, 92.0306540584507, 102.591586196268, 111.653291690732, 104.055517872244, 103.722049943755, 102.16665065397, 92.337490005685, 84.7099923120343, 68.9292596916165, 66.7089212706967), D = c(0, 0, 0, -2.70838735544127, 0, 0, 0, 0, 0, 0, 0, 0), month = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12), mo = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")), row.names = c(NA, -12L), class = "data.frame", AWC = 200
+)
+
+
 ## TODO: verify on paper
 
 
@@ -135,5 +141,27 @@ test_that("zero-PET, UDIC", {
   expect_true(all(wb$PPT == wb$U))
   
 })
+
+
+test_that("water balance summary: zero dry days", {
+  
+  # requires a non-CRAN package to function
+  skip_on_cran()
+  
+  # using example data from tropical environment
+  wbs <- monthlyWB_summary(wb.tropical)
+  
+  # there should be no dry days
+  expect_true(wbs$dry == 0)
+  expect_true(wbs$dry_con == 0)
+  
+  # well defined wet season, state == consecutive state
+  expect_true(wbs$wet == wbs$wet_con)
+  expect_true(wbs$moist == wbs$moist_con)
+  
+})
+
+
+
 
 

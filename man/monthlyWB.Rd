@@ -48,7 +48,15 @@ a \code{data.frame} with the following elements:
 \item{mo: }{month label}
 }
 
-\code{monthlyWB_summary()}: a data.frame containing cumulative (\code{dry}, \code{moist}, \code{wet}) and consecutive (\code{dry_con}, \code{moist_con}, \code{wet_con}) number of days dry/moist/wet, total deficit (\code{total_deficit}), total surplus (\code{total_surplus}), total actual evapotranspiration (\code{total_AET}), and annual actual evapotranspiration to potential evapotranspiration ratio (\code{annual_AET_PET_ratio})
+\code{monthlyWB_summary()}: a \code{data.frame} containing:
+\itemize{
+\item cumulative (\code{dry}, \code{moist}, \code{wet}) days
+\item consecutive (\code{dry_con}, \code{moist_con}, \code{wet_con}) days
+\item total deficit (\code{total_deficit}) in mm
+\item total surplus (\code{total_surplus}) in mm
+\item total actual evapotranspiration (\code{total_AET}) in mm
+\item annual actual evapotranspiration to potential evapotranspiration ratio (\code{annual_AET_PET_ratio})
+}
 }
 \description{
 Perform a monthly water balance by "leaky bucket" model, inspired by code from \code{bucket.sim} of \code{hydromad} package, as defined in Bai et al., (2009) (model "SMA_S1"). The plant available water-holding storage (soil thickness * awc) is used as the "bucket capacity". All water in excess of this capacity is lumped into a single "surplus" term.

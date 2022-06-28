@@ -1,6 +1,7 @@
 # sharpshootR 1.10 (2022-06-23)
  * adding SoilTaxonomy package to suggests, to allow for better encoding of taxa levels by `SoilTaxonomyDendrogram`
  * `SoilTaxonomyDendrogram()` gains argument `KST.order` to adjust encoding / ordering criteria
+ * bug fix in `monthlyWB_summary()` to address warning / `inf` when 0 dry days
 
 # sharpshootR 1.9.1 (2022-02-16)
  * bugfix in `plotWB()` related to figure y-scale range

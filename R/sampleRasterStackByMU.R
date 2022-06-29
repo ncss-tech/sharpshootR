@@ -30,6 +30,7 @@
 #' @param raster.list a `list` containing raster names and paths, see details below
 #' @param pts.per.acre target sampling density in `points per acre`
 #' @param p percentiles for polygon area stats, e.g. `c(0.05, 0.25, 0.5, 0.75, 0.95)`
+#' @param iterations Number of iterations, passed to `constantDensitySampling()`
 #' @param progress logical, print a progress bar while sampling?
 #' @param estimateEffectiveSampleSize estimate an effective sample size via Moran's I?
 #' @param polygon.id Column name containing unique polygon IDs; default: `"pID"`; calculated if missing
@@ -52,6 +53,7 @@ sampleRasterStackByMU <- function(mu,
                                   raster.list,
                                   pts.per.acre,
                                   p = c(0, 0.05, 0.25, 0.5, 0.75, 0.95, 1),
+                                  iterations = 20,
                                   progress = TRUE,
                                   estimateEffectiveSampleSize = TRUE,
                                   polygon.id = "pID") {
@@ -173,7 +175,7 @@ sampleRasterStackByMU <- function(mu,
     
     ## messages are issued when it isn't possibe to place the requested num. samples in a polygon
     # sample each polygon at a constant density
-    suppressMessages(s <- constantDensitySampling(mu.i.sp, n.pts.per.ac=pts.per.acre, min.samples=1, polygon.id, iterations=20))
+    suppressMessages(s <- constantDensitySampling(mu.i.sp, n.pts.per.ac=pts.per.acre, min.samples=1, polygon.id, iterations=iterations))
     
     # keep track of un-sampled polygons
     l.unsampled[[mu.i]] <- setdiff(mu.i.sp$pID, unique(s$pID))

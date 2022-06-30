@@ -156,6 +156,8 @@ plotTransect <- function(s, grad.var.name, grad.var.order = order(site(s)[[grad.
   spacing <- match.arg(spacing)
   
   
+  ## TODO: convert this to sf
+  
   # internal offsets
   
   # optionally convert to planar CRS

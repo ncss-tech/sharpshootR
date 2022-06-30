@@ -3,6 +3,7 @@
 
 #' @title Line / Area Visualization for Monthly Water Balance
 #' 
+#' @description Pending.
 #' 
 #' @author J.M. Skovlin and D.E. Beaudette
 #'

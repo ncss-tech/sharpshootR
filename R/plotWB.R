@@ -23,6 +23,8 @@
 #' 
 #' @param pch plotting character for PPT and PET points (`c('P', 'E')`)
 #' 
+#' @param lty line type for PPT and PET lines (`c(1, 2)`)
+#' 
 #' @param pt.cex character expansion factor for PPT and PET points
 #' 
 #' @param lwd line width for PPT and PET curves
@@ -83,7 +85,7 @@
 #' 
 #' }
 #' 
-plotWB <- function(WB, AWC = attr(WB, 'AWC'), sw.col = '#377EB8', surplus.col = '#4DAF4A', et.col = '#E41A1C', deficit.col = '#FF7F00', pch = c('P', 'E'), pt.cex = 0.85, lwd = 2, n.ticks = 8, grid.col = grey(0.65), month.cex = 1, legend.cex = 0.9) {
+plotWB <- function(WB, AWC = attr(WB, 'AWC'), sw.col = '#377EB8', surplus.col = '#4DAF4A', et.col = '#E41A1C', deficit.col = '#FF7F00', pch = c(16, 15), lty = c(1, 2), pt.cex = 1, lwd = 2, n.ticks = 8, grid.col = grey(0.65), month.cex = 1, legend.cex = 0.9) {
   
   # number of time steps, usually months
   n <- nrow(WB)
@@ -147,25 +149,26 @@ plotWB <- function(WB, AWC = attr(WB, 'AWC'), sw.col = '#377EB8', surplus.col = 
   
   # using a bg-colored plotting symbol to paint behind PPT and PET plotting symbols
   # must be a little smaller than the symbol
-  bg.cex <- strheight(pch[1], font = 2, cex = pt.cex) / 7
+  bg.cex <- strheight('+', cex = pt.cex) / 7
   
   # PPT
-  points(bp, WB$PPT, col=par('bg'), pch = 15, cex = bg.cex)
-  lines(bp, WB$PPT, type='b', col=par('fg'), lwd = lwd, pch = pch[1], cex = pt.cex, font = 2)
+  points(bp, WB$PPT, col=par('bg'), pch = pch[1], cex = bg.cex)
+  lines(bp, WB$PPT, type='b', col = par('fg'), lwd = lwd, pch = pch[1], cex = pt.cex, font = 2, lty = lty[1])
   
   # PET
-  points(bp, WB$PET, col=par('bg'), pch = 15, cex = bg.cex)
-  lines(bp, WB$PET, type='b', col=par('fg'), lwd = lwd, pch = pch[2], cex = pt.cex, font = 2)
+  points(bp, WB$PET, col=par('bg'), pch = pch[2], cex = bg.cex)
+  lines(bp, WB$PET, type='b', col = par('fg'), lwd = lwd, pch = pch[2], cex = pt.cex, font = 2, lty = lty[2])
   
   # legend
   legend(
     x = max(bp), 
     y = y.max, 
     horiz = TRUE, 
-    legend = c('Storage', 'Surplus', 'AET', 'Deficit', 'PPT|PET'), 
+    legend = c('Storage', 'Surplus', 'AET', 'Deficit', 'PPT', 'PET'), 
     col = c(sw.col, surplus.col, et.col, deficit.col, 1, 1), 
-    pch = c(15, 15, 15, 15, NA), 
-    lty = c(NA, NA, NA, NA, 1), 
+    pch = c(15, 15, 15, 15, NA, NA), 
+    lty = c(NA, NA, NA, NA, lty[1], lty[2]), 
+    lwd = c(NA, NA, NA, NA, 2, 2),
     bty='n', 
     pt.cex = 1.5, 
     xpd = NA, 
@@ -174,8 +177,8 @@ plotWB <- function(WB, AWC = attr(WB, 'AWC'), sw.col = '#377EB8', surplus.col = 
     yjust = -0.25
   )
   
-  # annotate AWC
-  mtext(sprintf("AWC: %s mm", AWC), side = 1,  at = 0, cex = 0.85, adj = 0, line = 2.5)
+  # annotate available water storage
+  mtext(sprintf("Storage: %s mm", AWC), side = 1,  at = 0, cex = 0.85, adj = 0, line = 2.5)
   
   # annotate total deficit
   sumD <- bquote(sum(Deficit)  ==  .(round(sum(WB$D)))~mm)

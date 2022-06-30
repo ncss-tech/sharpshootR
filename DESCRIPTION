@@ -4,7 +4,7 @@ Encoding: UTF-8
 Title: A Soil Survey Toolkit
 Description: Miscellaneous soil data management, summary, visualization, and conversion utilities to support soil survey.
 Version: 1.10
-Date: 2022-06-23
+Date: 2022-06-29
 Authors@R: c(
   person(given="Dylan", family="Beaudette", role = c("cre", "aut"), email = "dylan.beaudette@usda.gov"), 
   person(given="Jay", family="Skovlin", role = c("aut")), 
@@ -48,5 +48,5 @@ Imports: grDevices, graphics, methods, stats, utils, aqp, ape,
   reshape2, Hmisc, scales, circular, RColorBrewer, plyr, 
   digest, e1071, stringi, parallel, curl, grid
 Additional_repositories: https://hydromad.github.io
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 Roxygen: list(markdown = TRUE)

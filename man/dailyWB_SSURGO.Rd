@@ -39,7 +39,7 @@ dailyWB_SSURGO(
 \code{data.frame} of daily water balance results
 }
 \description{
-Perform daily water balance modeling using SSURGO and DAYMET
+Pending.
 }
 \references{
 Farmer, D., M. Sivapalan, Farmer, D. (2003). Climate, soil and vegetation controls upon the variability of water balance in temperate and semiarid landscapes: downward approach to water balance analysis. Water Resources Research 39(2), p 1035.

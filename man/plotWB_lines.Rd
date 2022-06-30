@@ -36,7 +36,7 @@ plotWB_lines(
 nothing, function is called to generate graphical output
 }
 \description{
-Line / Area Visualization for Monthly Water Balance
+Pending.
 }
 \examples{
 

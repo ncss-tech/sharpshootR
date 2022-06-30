@@ -42,6 +42,7 @@ SELECT * from SDA_Get_Mukey_from_intersection_with_WktWgs84('", x.wkt, "')
 
 #' @title Perform daily water balance modeling using SSURGO and DAYMET
 #' 
+#' @description Pending.
 #'
 #' @param x `SpatialPoints` object representing a single point
 #' @param cokeys vector of component keys to use

@@ -27,6 +27,7 @@ Suggests:
     rvest,
     xml2,
     rgeos,
+    terra,
     raster,
     httr,
     jsonlite,

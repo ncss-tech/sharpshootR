@@ -11,9 +11,11 @@ plotWB(
   surplus.col = "#4DAF4A",
   et.col = "#E41A1C",
   deficit.col = "#FF7F00",
-  pch = c(16, 15),
-  lty = c(1, 2),
+  pch = c(21, 21),
   pt.cex = 1,
+  pt.col = par("bg"),
+  pt.bg = par("fg"),
+  lty = c(1, 2),
   lwd = 2,
   n.ticks = 8,
   grid.col = grey(0.65),
@@ -34,11 +36,15 @@ plotWB(
 
 \item{deficit.col}{color for deficit}
 
-\item{pch}{plotting character for PPT and PET points (\code{c('P', 'E')})}
-
-\item{lty}{line type for PPT and PET lines (\code{c(1, 2)})}
+\item{pch}{plotting character for PPT and PET points}
 
 \item{pt.cex}{character expansion factor for PPT and PET points}
+
+\item{pt.col}{point symbol color for PPT and PET points}
+
+\item{pt.bg}{point symbol background color for PPT and PET points}
+
+\item{lty}{line type for PPT and PET lines (\code{c(1, 2)})}
 
 \item{lwd}{line width for PPT and PET curves}
 

@@ -21,11 +21,15 @@
 #' 
 #' @param deficit.col color for deficit
 #' 
-#' @param pch plotting character for PPT and PET points (`c('P', 'E')`)
-#' 
-#' @param lty line type for PPT and PET lines (`c(1, 2)`)
+#' @param pch plotting character for PPT and PET points
 #' 
 #' @param pt.cex character expansion factor for PPT and PET points
+#' 
+#' @param pt.col point symbol color for PPT and PET points
+#' 
+#' @param pt.bg point symbol background color for PPT and PET points
+#' 
+#' @param lty line type for PPT and PET lines (`c(1, 2)`)
 #' 
 #' @param lwd line width for PPT and PET curves
 #' 
@@ -85,7 +89,7 @@
 #' 
 #' }
 #' 
-plotWB <- function(WB, AWC = attr(WB, 'AWC'), sw.col = '#377EB8', surplus.col = '#4DAF4A', et.col = '#E41A1C', deficit.col = '#FF7F00', pch = c(16, 15), lty = c(1, 2), pt.cex = 1, lwd = 2, n.ticks = 8, grid.col = grey(0.65), month.cex = 1, legend.cex = 0.9) {
+plotWB <- function(WB, AWC = attr(WB, 'AWC'), sw.col = '#377EB8', surplus.col = '#4DAF4A', et.col = '#E41A1C', deficit.col = '#FF7F00', pch = c(21, 21), pt.cex = 1, pt.col = par('bg'), pt.bg = par('fg'), lty = c(1, 2), lwd = 2, n.ticks = 8, grid.col = grey(0.65), month.cex = 1, legend.cex = 0.9) {
   
   # number of time steps, usually months
   n <- nrow(WB)
@@ -147,21 +151,17 @@ plotWB <- function(WB, AWC = attr(WB, 'AWC'), sw.col = '#377EB8', surplus.col = 
   # month axis: no line, just ticks
   axis(side = 1, at = bp, labels = WB$mo, line = 0, tick = TRUE, font = 2, cex = month.cex, col = NA, col.ticks = par('fg'))
   
-  # using a bg-colored plotting symbol to paint behind PPT and PET plotting symbols
-  # must be a little smaller than the symbol
-  bg.cex <- strheight('+', cex = pt.cex) / 7
-  
   # PPT
-  points(bp, WB$PPT, col=par('bg'), pch = pch[1], cex = bg.cex)
-  lines(bp, WB$PPT, type='b', col = par('fg'), lwd = lwd, pch = pch[1], cex = pt.cex, font = 2, lty = lty[1])
+  lines(bp, WB$PPT, type ='l', col = pt.bg, lwd = lwd, lty = lty[1])
+  points(bp, WB$PPT, col = pt.col, bg = pt.bg, pch = pch[1], cex = pt.cex)
   
   # PET
-  points(bp, WB$PET, col=par('bg'), pch = pch[2], cex = bg.cex)
-  lines(bp, WB$PET, type='b', col = par('fg'), lwd = lwd, pch = pch[2], cex = pt.cex, font = 2, lty = lty[2])
+  lines(bp, WB$PET, type ='l', col = pt.bg, lwd = lwd, lty = lty[2])
+  points(bp, WB$PET, col = pt.col, bg = pt.bg, pch = pch[2], cex = pt.cex)
   
   # legend
   legend(
-    x = max(bp), 
+    x = median(bp), 
     y = y.max, 
     horiz = TRUE, 
     legend = c('Storage', 'Surplus', 'AET', 'Deficit', 'PPT', 'PET'), 
@@ -173,7 +173,7 @@ plotWB <- function(WB, AWC = attr(WB, 'AWC'), sw.col = '#377EB8', surplus.col = 
     pt.cex = 1.5, 
     xpd = NA, 
     cex = legend.cex, 
-    xjust = 1, 
+    xjust = 0.5, 
     yjust = -0.25
   )
   

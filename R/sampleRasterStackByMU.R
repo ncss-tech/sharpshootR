@@ -84,7 +84,7 @@ sampleRasterStackByMU <- function(mu,
   # load pointers to raster data
   raster.list <- rapply(raster.list, how='replace', f=function(i) {
     i <- try(raster::raster(i))
-    if(class(i) == 'try-error')
+    if(inherits(i, 'try-error'))
       stop(paste0('Cannot find raster file: ', i), call. = FALSE)
     else
       return(i)
@@ -107,7 +107,7 @@ sampleRasterStackByMU <- function(mu,
     # attempt reading into memory
     r.mem <- try(raster::readAll(r), silent = TRUE)
     # if successful, return pointer to inMemory version
-    if(class(r.mem) == 'RasterLayer' ) {
+    if(inherits(r.mem, 'RasterLayer')) {
       return(r.mem)
     } else {
       # if not possible, retain the original file-based pointer

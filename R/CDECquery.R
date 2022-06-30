@@ -66,12 +66,12 @@ CDECquery <- function(id, sensor, interval = 'D', start, end) {
   
   ## important!!! the column ordering is not guarunteed to be consistent, API issue?
   # download and convert JSON to data.frame
-  # missing data are encoded via ommission of a data element
+  # missing data are encoded via omission of a data element
   # fromJSON() will automatically convert to NA
   d <- try(jsonlite::fromJSON(u, simplifyDataFrame = TRUE))
   
   # catch errors
-  if(class(d) == 'try-error') {
+  if(inherits(d, 'try-error')) {
     stop(sprintf('invalid URL: %s', u), call.=FALSE)
   }
   

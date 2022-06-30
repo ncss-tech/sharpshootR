@@ -135,7 +135,7 @@ sample.by.poly <- function(p, n.pts.per.ac=1, min.samples=5, sampling.type='regu
     
     # errors: return NULL
     # invalid geometry could be the cause
-    if(class(s.i) == 'try-error') {
+    if(inherits(s.i, 'try-error')) {
       # print error for debugging
       message(paste0('sample.by.poly: ', attr(s.i, 'condition')), call. = FALSE)
       # can't do much else, move on to the next feature

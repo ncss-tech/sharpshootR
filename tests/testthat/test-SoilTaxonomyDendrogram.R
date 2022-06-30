@@ -20,7 +20,7 @@ test_that("KST ordering", {
   expect_equal(attr(d$dist, 'Labels'), profile_id(s))
   
   # hard-coded check on ordering of series, based on clustering of taxa
-  expect_equal(d$order, c(3, 2, 7, 6, 1, 8, 5, 4))
+  expect_equal(d$order, c(7, 4, 8, 5, 3, 2, 1, 6))
   
 })
 
@@ -37,7 +37,7 @@ test_that("KST ordering, obsolete taxa fallback", {
   expect_equal(attr(d$dist, 'Labels'), profile_id(s))
   
   # hard-coded check on ordering of series, based on clustering of taxa
-  expect_equal(d$order, c(8, 5, 4, 1, 2, 3, 6, 7))
+  expect_equal(d$order, c(8, 5, 4, 7, 1, 6, 2, 3))
 })
 
 test_that("regular factors", {

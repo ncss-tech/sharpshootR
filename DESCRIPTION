@@ -26,6 +26,7 @@ Suggests:
     circlize,
     rvest,
     xml2,
+    rgeos,
     terra,
     raster,
     exactextractr,

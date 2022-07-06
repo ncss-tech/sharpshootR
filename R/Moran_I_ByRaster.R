@@ -47,50 +47,49 @@ ESS_by_Moran_I <- function(n, rho) {
 #' @export
 Moran_I_ByRaster <- function(r, mu.extent=NULL, n=NULL, k=NULL, do.correlogram=FALSE, cor.order=5, crop.raster=TRUE) {
   
-  if(crop.raster) {
+  if (crop.raster) {
     ## NOTE: this will include raster "information" between map unit polygons
     # crop to extent of map units
-    mu.extent <- spTransform(mu.extent, CRS(proj4string(r)))
-    r <- raster::crop(r, mu.extent)
+    mu.extent <- terra::project(terra::as.polygons(terra::ext(mu.extent), crs = terra::crs(mu.extent)), terra::crs(r))
+    r <- terra::crop(r, mu.extent)
   }
-  
   
   # setup some sensible defaults
   # sample size for Moran's I:
   # use the number of pixels or 10k which ever is smaller
-  if(is.null(n)) {
-    n <- ifelse(length(r) < 10000, length(r), 10000)
+  if (is.null(n)) {
+    n <- ifelse(terra::ncell(r) < 10000, terra::ncell(r), 10000)
   }
   
   # number of neighbors
   # 5 should be enough
-  if(is.null(k)) {
+  if (is.null(k)) {
     k <- 5
   }
   
   # sample raster and remove NA
-  s <- raster::sampleRegular(r, n, sp=TRUE)
-  s <- s[which(!is.na(s[[1]])), ]
+  s <- terra::spatSample(r, size = n, as.points = TRUE)
+  # s <- s[which(!is.na(s[[1]])), ]
   
   # neighborhood weights
-  s.n <- spdep::knearneigh(s, k=k)
+  s.n <- spdep::knearneigh(as(s, 'Spatial'), k = k)
   s.nb <- spdep::knn2nb(s.n)
   s.listw <- spdep::nb2listw(s.nb)
   
   # I as a function of "lag"
-  if(do.correlogram) {
-    s.sp <- spdep::sp.correlogram(s.nb, s[[1]], order=cor.order, method='I')
+  if (do.correlogram) {
+    s.sp <- spdep::sp.correlogram(s.nb, s[[1]][[1]], order = cor.order, method = 'I')
   } else {
     s.sp <- NULL
   }
   
   # Moran's I, no need for permutation tests
-  res <- spdep::moran.test(s[[1]], s.listw, rank = TRUE, randomisation = FALSE)
+  res <- spdep::moran.test(s[[1]][[1]], s.listw, rank = TRUE, randomisation = FALSE)
   
-  if(do.correlogram)
+  if (do.correlogram)
     return(list(I = res$estimate[1], correlogram = s.sp))
-  else
-    return(res$estimate[1])
+  
+  res$estimate[1]
   
 }
 

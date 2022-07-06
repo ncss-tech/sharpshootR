@@ -60,25 +60,27 @@ sampleRasterStackByMU <- function(mu,
     
   
   # sanity check: package requirements
-  # if (!requireNamespace('rgdal') | !requireNamespace('rgeos') | !requireNamespace('raster') | !requireNamespace('spdep'))
-  #   stop('please install the packages: rgdal, rgeos, raster, spdep', call. = FALSE)
+  if (!requireNamespace('terra'))
+    stop('please install the terra package', call. = FALSE)
+  
+  v.mu <- {if (inherits(mu, 'SpatVector')) mu else terra::vect(mu)}
   
   # enforce projected CRS
-  if (!is.projected(mu))
-    stop('map unit polygons must be in a projected CRS', call.=FALSE)
+  if (terra::is.lonlat(v.mu))
+    stop('map unit polygons must be in a projected CRS', call. = FALSE)
   
   # check polygon ID column, create if missing
   stopifnot(length(polygon.id) == 1)
   stopifnot(is.character(polygon.id))
-  if (!polygon.id %in% colnames(mu)) {
-    mu$pID <- 1:nrow(mu)
+  if (!polygon.id %in% colnames(v.mu)) {
+    v.mu$pID <- 1:nrow(v.mu)
     message("created unique polygon ID `pID`")
   }
   
   # check for invalid geometry
   validity.res <- data.frame(
-      id = mu[[mu.col]],
-      Polygon.Validity = rgeos::gIsValid(mu, byid = TRUE, reason = TRUE),
+      id = v.mu[[mu.col]],
+      Polygon.Validity = terra::is.valid(v.mu),
       stringsAsFactors = FALSE
     )
   
@@ -111,7 +113,6 @@ sampleRasterStackByMU <- function(mu,
   ##
   
   # get MU extent, in original CRS
-  v.mu <- terra::vect(mu)
   e.mu <- terra::as.polygons(terra::ext(v.mu), crs = terra::crs(v.mu))
   
   message('Checking raster/MU extents...')
@@ -122,10 +123,10 @@ sampleRasterStackByMU <- function(mu,
     e.r <- terra::as.polygons(terra::ext(r), crs = terra::crs(r))
 
     # transform MU extent to CRS of current raster
-    e.mu.r <- as(terra::project(e.mu, terra::crs(e.r)), 'Spatial')
+    e.mu.r <- terra::project(e.mu, terra::crs(e.r))
 
     # check for complete containment of MU by current raster
-    return(rgeos::gContainsProperly(as(e.r, 'Spatial'), e.mu.r))
+    return(terra::relate(e.r, e.mu.r, "contains")[1])
   })
   
   if (any(!raster.containment.test))
@@ -158,7 +159,7 @@ sampleRasterStackByMU <- function(mu,
     
     ## messages are issued when it isn't possible to place the requested num. samples in a polygon
     # sample each polygon at a constant density
-    try(suppressMessages({
+    suppressMessages({
       s <- constantDensitySampling(
           mu.i.sp,
           n.pts.per.ac = pts.per.acre,
@@ -166,7 +167,7 @@ sampleRasterStackByMU <- function(mu,
           polygon.id,
           iterations = iterations
         )
-    }))
+    })
     
     # keep track of un-sampled polygons
     l.unsampled[[mu.i]] <- setdiff(mu.i.sp$pID, unique(s$pID))
@@ -190,11 +191,11 @@ sampleRasterStackByMU <- function(mu,
       
       # extract raster data, sample ID, polygon ID to DF
       l.mu[[mu.i]] <- rapply(raster.list, how = 'replace', f = function(r) {
-        cbind(value = terra::extract(r, terra::vect(s))[[2]], data.frame(pID = s$pID, sid = s$sid))
+        cbind(value = terra::extract(r, s)[[2]], data.frame(pID = s$pID, sid = s$sid))
       })
       
       # extract polygon areas as acres
-      a <- sapply(slot(mu.i.sp, 'polygons'), slot, 'area') * 2.47e-4
+      a <- terra::expanse(mu.i.sp) * 2.47e-4
       
       # compute additional summaries
       .quantiles <- quantile(a, probs = p)
@@ -291,7 +292,7 @@ sampleRasterStackByMU <- function(mu,
                       ContainsMU = raster.containment.test)
   
   # join-in Moran's I
-  rs.df <- join(rs.df, MI, by = 'Variable', type = 'left')
+  rs.df <- merge(rs.df, MI, by = 'Variable', all.x = TRUE, sort = FALSE)
   
   # replace missing Moran's I with 0
   # this should only affect categorical / circular variables

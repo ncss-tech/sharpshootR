@@ -17,6 +17,8 @@ test_that("Arkley and Ulrich 1962, Table 1", {
   # requires a non-CRAN package to function
   skip_on_cran()
   
+  skip_if_not_installed("hydromad")
+  
   # 4" AWC (~ 100mm)
   # inches -> mm
   AWC <- 4 * 25.4 
@@ -64,6 +66,8 @@ test_that("thermic / xeric WB is reasonable", {
   # requires a non-CRAN package to function
   skip_on_cran()
   
+  skip_if_not_installed("hydromad")
+  
   # AMADOR soil series data
   AWC <- 47
   PPT <- c(65, 59, 57, 28, 13, 3, 0, 1, 4, 20, 33, 53)
@@ -94,6 +98,8 @@ test_that("thermic / udic WB is reasonable", {
   # requires a non-CRAN package to function
   skip_on_cran()
   
+  skip_if_not_installed("hydromad")
+  
   # LUCY soil series data
   AWC <- 207
   PPT <- c(98, 88, 99, 72, 65, 99, 107, 97, 85, 66, 70, 82)
@@ -121,6 +127,8 @@ test_that("zero-PET, UDIC", {
   # requires a non-CRAN package to function
   skip_on_cran()
   
+  skip_if_not_installed("hydromad")
+  
   # UDIC
   AWC <- 100
   PPT <- c(98, 88, 99, 72, 65, 99, 107, 97, 85, 66, 70, 82)
@@ -147,6 +155,8 @@ test_that("water balance summary: zero dry days", {
   
   # requires a non-CRAN package to function
   skip_on_cran()
+  
+  skip_if_not_installed("hydromad")
   
   # using example data from tropical environment
   wbs <- monthlyWB_summary(wb.tropical)

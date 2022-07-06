@@ -13,6 +13,8 @@ s.list <- site(s)$id
 
 test_that("KST ordering", {
   
+  skip_if_not_installed("SoilTaxonomy", "0.1.5")
+  
   # this should run without errors / messages / warnings
   d <- SoilTaxonomyDendrogram(s, cex.taxon.labels=0.8, width=0.25, y.offset = 0.4, KST.order = TRUE)
   
@@ -25,6 +27,8 @@ test_that("KST ordering", {
 })
 
 test_that("KST ordering, obsolete taxa fallback", {
+  
+  skip_if_not_installed("SoilTaxonomy", "0.1.5")
   
   s$subgroup[1] <- 'funky chunkycrapepts'
   
@@ -41,6 +45,8 @@ test_that("KST ordering, obsolete taxa fallback", {
 })
 
 test_that("regular factors", {
+  
+  skip_if_not_installed("SoilTaxonomy", "0.1.5")
   
   # this should run without errors / messages / warnings
   d <- SoilTaxonomyDendrogram(s, cex.taxon.labels=0.8, width=0.25, y.offset = 0.4, KST.order = FALSE)

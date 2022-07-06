@@ -1,18 +1,24 @@
+#' @export
+#' @rdname sampleRasterStackByMU
 sampleRasterStackByMU2 <- function(mu,
                                   mu.set,
                                   mu.col,
                                   raster.list,
                                   pts.per.acre,
                                   p = c(0, 0.05, 0.25, 0.5, 0.75, 0.95, 1),
-                                  iterations = 20,
+                                  iterations = NULL,
                                   progress = TRUE,
                                   estimateEffectiveSampleSize = TRUE,
-                                  polygon.id = "pID", 
-                                  ...) {
-  
+                                  polygon.id = "pID") {
+  if (!missing(iterations)) {
+    .Deprecated(msg = "`iterations` argument not used by sampleRasterStackByMU2()")
+  }
   # sanity check: package requirements
   if (!requireNamespace('terra'))
     stop('please install the terra package', call. = FALSE)
+  
+  if (!requireNamespace('raster'))
+    stop('please install the raster package', call. = FALSE)
   
   if (inherits(mu, 'SpatVector')) {
     v.mu <- mu
@@ -84,7 +90,7 @@ sampleRasterStackByMU2 <- function(mu,
   res <- rapply(raster.list, how = "list", function(r) {
     res2 <- exactextractr::exact_extract(
       r,
-      sf::st_as_sf(terra::project(v.mu, r)),
+      as(terra::project(v.mu, r), 'Spatial'), # requires raster loaded
       force_df = TRUE,
       include_xy = TRUE,
       include_cols = c(mu.col, polygon.id),
@@ -150,7 +156,7 @@ sampleRasterStackByMU2 <- function(mu,
   }
   
   mu.area <- as.data.frame(do.call('rbind', a.mu))
-  mu.area <- cbind(setNames(data.frame(rownames(mu.area)), mu.col), mu.area)
+  mu.area <- cbind(`colnames<-`(data.frame(rownames(mu.area)), mu.col), mu.area)
   rownames(mu.area) <- NULL
   
   # combine into single object and result

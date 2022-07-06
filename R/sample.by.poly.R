@@ -41,7 +41,7 @@ constantDensitySampling <- function(x, polygon.id='pID', parallel=FALSE, cores=N
 
     # parallel sampling
     # sample and return a list, one element / valid polygon
-    res <- parallel::parLapply(cl = cl, X = x[i,],
+    res <- parallel::parLapply(cl = cl, X = split(x, 1:length(x)),
                                fun = sample.by.poly,
                                n.pts.per.ac = n.pts.per.ac,
                                min.samples = min.samples,

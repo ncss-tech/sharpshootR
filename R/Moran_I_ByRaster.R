@@ -47,10 +47,18 @@ ESS_by_Moran_I <- function(n, rho) {
 #' @export
 Moran_I_ByRaster <- function(r, mu.extent=NULL, n=NULL, k=NULL, do.correlogram=FALSE, cor.order=5, crop.raster=TRUE) {
   
+  if (!requireNamespace("terra"))
+    stop('please install the `terra` package')
+  
+  if (!requireNamespace("spdep"))
+    stop('please install the `spdep` package')
+  
   if (crop.raster) {
     ## NOTE: this will include raster "information" between map unit polygons
     # crop to extent of map units
-    mu.extent <- terra::project(terra::as.polygons(terra::ext(mu.extent), crs = terra::crs(mu.extent)), terra::crs(r))
+    mu.extent <- terra::project(terra::as.polygons(terra::ext(mu.extent), 
+                                                   crs = terra::crs(mu.extent)), 
+                                crs = terra::crs(r))
     r <- terra::crop(r, mu.extent)
   }
   
@@ -67,9 +75,8 @@ Moran_I_ByRaster <- function(r, mu.extent=NULL, n=NULL, k=NULL, do.correlogram=F
     k <- 5
   }
   
-  # sample raster and remove NA
-  s <- terra::spatSample(r, size = n, as.points = TRUE)
-  # s <- s[which(!is.na(s[[1]])), ]
+  # sample raster
+  s <- terra::spatSample(r, size = n, na.rm = TRUE, as.points = TRUE)
   
   # neighborhood weights
   s.n <- spdep::knearneigh(as(s, 'Spatial'), k = k)

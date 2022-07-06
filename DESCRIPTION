@@ -26,9 +26,9 @@ Suggests:
     circlize,
     rvest,
     xml2,
-    rgeos,
     terra,
     raster,
+    exactextractr,
     httr,
     jsonlite,
     dendextend,
@@ -42,7 +42,7 @@ Suggests:
     elevatr,
     Evapotranspiration,
     zoo,
-    SoilTaxonomy
+    SoilTaxonomy (>= 0.1.5)
 Depends: R (>= 3.5.0)
 Imports: grDevices, graphics, methods, stats, utils, aqp, ape, 
   soilDB, igraph, cluster, lattice, vegan, sp, 

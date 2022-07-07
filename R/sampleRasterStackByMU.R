@@ -72,9 +72,10 @@ sampleRasterStackByMU <- function(mu,
   # check polygon ID column, create if missing
   stopifnot(length(polygon.id) == 1)
   stopifnot(is.character(polygon.id))
+  
   if (!polygon.id %in% colnames(v.mu)) {
-    v.mu$pID <- 1:nrow(v.mu)
-    message("created unique polygon ID `pID`")
+    v.mu[[polygon.id]] <- 1:nrow(v.mu)
+    message("created unique polygon ID `", polygon.id, "`")
   }
   
   # check for invalid geometry
@@ -164,7 +165,7 @@ sampleRasterStackByMU <- function(mu,
           mu.i.sp,
           n.pts.per.ac = pts.per.acre,
           min.samples = 1,
-          polygon.id,
+          polygon.id = polygon.id,
           iterations = iterations
         )
     })
@@ -191,7 +192,7 @@ sampleRasterStackByMU <- function(mu,
       
       # extract raster data, sample ID, polygon ID to DF
       l.mu[[mu.i]] <- rapply(raster.list, how = 'replace', f = function(r) {
-        cbind(value = terra::extract(r, s)[[2]], data.frame(pID = s$pID, sid = s$sid))
+        cbind(value = terra::extract(r, terra::project(s, r))[[2]], data.frame(pID = s$pID, sid = s$sid))
       })
       
       # extract polygon areas as acres
@@ -231,24 +232,10 @@ sampleRasterStackByMU <- function(mu,
   
   # assemble MU area stats
   mu.area <- ldply(a.mu)
+  colnames(mu.area)[1] <- mu.col
   
   # iterate over map unit collections of samples
-  # structure looks like this:
-  #  $ 7011:List of 3
-  # ..$ continuous :List of 9
-  # ..$ categorical:List of 3
-  # ..$ circular   :List of 1
-  # $ 5012:List of 3
-  # ..$ continuous :List of 9
-  # ..$ categorical:List of 3
-  # ..$ circular   :List of 1
-  # $ 7085:List of 3
-  # ..$ continuous :List of 9
-  # ..$ categorical:List of 3
-  # ..$ circular   :List of 1
-  
   d.mu <- lapply(l.mu, function(i) {
-    
     # extract each variable type
     # fix names
     # remove NA
@@ -278,6 +265,7 @@ sampleRasterStackByMU <- function(mu,
   
   # assemble into data.frame
   d.mu <- ldply(d.mu)
+  colnames(d.mu)[1] <- mu.col
   
   ## unspool polygon sample IDs when no samples were collected
   unsampled.idx <- unlist(l.unsampled)

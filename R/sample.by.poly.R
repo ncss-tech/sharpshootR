@@ -88,7 +88,7 @@ constantDensitySampling <- function(x, polygon.id='pID', parallel=FALSE, cores=N
   res <- do.call('rbind', res)
   
   # add polygon ID by intersection
-  res[[polygon.id]] <- apply(terra::relate(res, x, "intersects"), MARGIN = 1, which)
+  res[[polygon.id]] <- x[[polygon.id]][[1]][apply(terra::relate(res, x, "intersects"), MARGIN = 1, which)]
 
   return(res)
 }

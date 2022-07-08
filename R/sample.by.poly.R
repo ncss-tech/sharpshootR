@@ -82,10 +82,13 @@ constantDensitySampling <- function(x, polygon.id='pID', parallel=FALSE, cores=N
   }
   
   # if there are no polygons large enough to sample, return NULL
-  if (length(res) < 1)
+  if (length(res) < 1) {
     return(NULL)
-  
-  res <- do.call('rbind', res)
+  } else if (length(res) > 1) { 
+    res <- do.call('rbind', res)
+  } else {
+    res <- res[[1]]
+  }
   
   # add polygon ID by intersection
   res[[polygon.id]] <- x[[polygon.id]][[1]][apply(terra::relate(res, x, "intersects"), MARGIN = 1, which)]

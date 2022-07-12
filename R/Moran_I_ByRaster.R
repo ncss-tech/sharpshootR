@@ -33,8 +33,8 @@ ESS_by_Moran_I <- function(n, rho) {
 #' 
 #' Compute Moran's I using a subset of sample collected within the extent of a mapunit. This is likely an under-estimate of SA because we are including pixels both inside/outside MU delineations
 #'
-#' @param r single `RasterLayer`
-#' @param mu.extent `SpatialPolygons` representation of mapunit polygons bounding box (via `raster::extent()`)
+#' @param r single `SpatRaster`
+#' @param mu.extent `SpatVector` representation of mapunit polygons bounding box (via `terra::ext()`)
 #' @param n number of regular samples (what is a reasonable value?)
 #' @param k number of neighbors used for weights matrix
 #' @param do.correlogram compute correlogram?
@@ -53,12 +53,12 @@ Moran_I_ByRaster <- function(r, mu.extent=NULL, n=NULL, k=NULL, do.correlogram=F
   if (!requireNamespace("spdep"))
     stop('please install the `spdep` package')
   
-  if (crop.raster) {
+  if (crop.raster && !is.null(mu.extent)) {
     ## NOTE: this will include raster "information" between map unit polygons
     # crop to extent of map units
     mu.extent <- terra::project(terra::as.polygons(terra::ext(mu.extent), 
                                                    crs = terra::crs(mu.extent)), 
-                                crs = terra::crs(r))
+                                terra::crs(r))
     r <- terra::crop(r, mu.extent)
   }
   
@@ -76,7 +76,7 @@ Moran_I_ByRaster <- function(r, mu.extent=NULL, n=NULL, k=NULL, do.correlogram=F
   }
   
   # sample raster
-  s <- terra::spatSample(r, size = n, na.rm = TRUE, as.points = TRUE)
+  s <- suppressWarnings(terra::spatSample(r, size = n, na.rm = TRUE, as.points = TRUE))
   
   # neighborhood weights
   s.n <- spdep::knearneigh(as(s, 'Spatial'), k = k)

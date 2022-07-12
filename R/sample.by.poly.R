@@ -59,14 +59,17 @@ constantDensitySampling <- function(x, polygon.id='pID', parallel=FALSE, cores=N
   res <- lapply(
     1:nrow(x),
     FUN = function(i) {
-      sample.by.poly(
+      smp <- sample.by.poly(
         x[i,],
         n.pts.per.ac = n.pts.per.ac,
         min.samples = min.samples,
         sampling.type = sampling.type,
         iterations = iterations,
         p4s = p4s
-      )}
+      )
+      smp$pID <- i
+      smp
+      }
     )
   
   # check for NULL in this list:

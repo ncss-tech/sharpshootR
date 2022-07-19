@@ -194,7 +194,7 @@ sampleRasterStackByMU <- function(mu,
       l.mu[[mu.i]] <- rapply(raster.list, how = 'replace', f = function(r) {
         val <-  try(terra::extract(r, terra::project(s, r))[[2]], silent = TRUE)
         if (inherits(val, 'try-error')) {
-          stop("Failed to extract values from ", paste0(names(r),  collapse = ", "), "\n\n", val[1])
+          stop("Failed to extract values from ", paste0(terra::sources(r),  collapse = ", "), "\n\n", val[1])
         }
         cbind(value = val, data.frame(pID = s$pID, sid = s$sid))
       })

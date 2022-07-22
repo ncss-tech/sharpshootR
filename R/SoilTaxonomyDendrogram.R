@@ -167,7 +167,7 @@ SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, 
 	    # attempt rotation, may not give the exact ordering
 	    dend <- rotateConstr(dend, constraint = rotationOrder) 
 	  } else {
-	    message('`rotationOrder` does not contain a complet set of profile IDs')
+	    message('`rotationOrder` does not contain a complete set of profile IDs')
 	  }
 	  
 	}

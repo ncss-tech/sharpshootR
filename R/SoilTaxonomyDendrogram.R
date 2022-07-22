@@ -6,6 +6,7 @@
 #' @param spc a `SoilProfileCollection` object, typically returned by `soilDB::fetchOSD`
 #' @param KST.order logical, encode / cluster taxa via ordinal factors, based on ordering within Keys to Soil Taxonomy
 #' @param rotationOrder character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right; exact ordering is not always possible
+#' @param level character. one of: `"order"`, `"suborder"`, `"greatgroup"` or `"subgroup"`
 #' @param name column name containing horizon names
 #' @param name.style passed to `aqp::plotSPC`
 #' @param id.style passed to `aqp::plotSPC`
@@ -24,7 +25,7 @@
 #' @param dend.width dendrogram line width
 #' @param ... additional arguments to `aqp::plotSPC`
 #' 
-#' @details This function looks for specific site-level attributes named: `soilorder`, `suborder`, `greatgroup`, and `subgroup`. See `misc/soilTaxonomyDendrogram-examples.R` for some examples.
+#' @details This function looks for specific site-level attributes named: `"soilorder"`, `"suborder"`, `"greatgroup"`, and `"subgroup"`, or their NASIS physical column name analogues `"taxorder"`, `"taxsuborder"`, `"taxgrtgroup"`, and `"taxsubgrp"`. See \url{https://github.com/ncss-tech/sharpshootR/blob/master/misc/soilTaxonomyDendrogram-examples.R} for some examples.
 #' 
 #' The `rotationOrder` argument uses `ape::rotateConstr()` to reorder leaves within the `hclust` representation of the ST hierarchy. Perfect sorting is not always possible.
 #'
@@ -57,7 +58,7 @@
 #' )
 #' 
 #' 
-SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, name = 'hzname', name.style = 'center-center', id.style = 'side', max.depth = max(spc), n.depth.ticks = 6, scaling.factor = 0.015, cex.names = 0.75, cex.id = 0.75, axis.line.offset = -4, width = 0.1, y.offset = 0.5, shrink = FALSE, font.id = 2, cex.taxon.labels = 0.66, dend.color = par('fg'), dend.width = 1, ...) {
+SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, level = c("soilorder", "suborder", "greatgroup", "subgroup"), name = 'hzname', name.style = 'center-center', id.style = 'side', max.depth = max(spc), n.depth.ticks = 6, scaling.factor = 0.015, cex.names = 0.75, cex.id = 0.75, axis.line.offset = -4, width = 0.1, y.offset = 0.5, shrink = FALSE, font.id = 2, cex.taxon.labels = 0.66, dend.color = par('fg'), dend.width = 1, ...) {
 	
   
   # attempt KST-based ordering:
@@ -129,8 +130,8 @@ SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, 
     
     # rotate as close to KST ordering as possible
     # but only if there is no user-supplied rotation
-    if(is.null(rotationOrder)) {
-      rotationOrder <- profile_id(spc)[order(spc$subgroup)]
+    if (is.null(rotationOrder)) {
+      rotationOrder <- profile_id(spc)[order(spc[[level[length(level)]]])]
     }
     
   } else {
@@ -150,7 +151,7 @@ SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, 
 	row.names(s) <- s[[idname(spc)]]
 	
 	# compute distance matrix from first 4 levels of Soil Taxonomy
-	s.dist <- daisy(s[, c('soilorder', 'suborder', 'greatgroup', 'subgroup')], metric = 'gower')
+	s.dist <- daisy(s[, level, drop = FALSE], metric = 'gower')
 	
 	# use divisive clustering, all other methods produce less than ideal results 
 	s.hclust <- as.hclust(diana(s.dist))
@@ -160,10 +161,9 @@ SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, 
 	
 	## 2022-05-04: switching to ape rotation methods
 	# requires vector of tip labels
-	if(! is.null(rotationOrder)) {
-	  
+	if (!is.null(rotationOrder)) {
 	  # check that none are missing
-	  if(all(rotationOrder %in% profile_id(spc)) && length(rotationOrder) == length(spc)) {
+	  if (all(rotationOrder %in% profile_id(spc)) && length(rotationOrder) == length(spc)) {
 	    # attempt rotation, may not give the exact ordering
 	    dend <- rotateConstr(dend, constraint = rotationOrder) 
 	  } else {
@@ -217,7 +217,7 @@ SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, 
 	)
 	
 	# generate subgroup labels and their positions under the dendrogram
-	lab <- s[new_order, 'subgroup']
+	lab <- s[new_order, level[length(level)]]
 	unique.lab <- unique(lab)
 	group.lengths <- rle(as.numeric(lab))$lengths
 	lab.x.positions <- (cumsum(group.lengths) - (group.lengths / 2)) + 0.5

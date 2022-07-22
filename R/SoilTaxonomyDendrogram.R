@@ -44,17 +44,16 @@
 #' 
 #' # examples using first 8 profiles
 #' 
-#' ## TODO: uncomment once latest SoilTaxonomy is on CRAN
 #' # KST-style ordering
-#' # SoilTaxonomyDendrogram(
-#' # OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
-#' # KST.order = TRUE
-#' # )
+#' SoilTaxonomyDendrogram(
+#'   OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
+#'   KST.order = TRUE
+#' )
 #' 
 #' # classic ordering, based on nominal scale variables (unordered factors)
 #' SoilTaxonomyDendrogram(
-#' OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
-#' KST.order = FALSE
+#'   OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
+#'   KST.order = FALSE
 #' )
 #' 
 #' 
@@ -64,44 +63,59 @@ SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, 
   # attempt KST-based ordering:
   # 1. setup ordinal factors based on order of taxa with each level of ST hierarchy
   # 2. rotate dendrogram to reflect ordering of subgroups within keys
-  # note: will create NA if obsolete taxa or typos -> test for this 
-  if(KST.order) {
+  # note: will create NA if obsolete taxa or typos -> test for this
+  if (KST.order) {
+    
     
     # requires SoilTaxonomy >= 0.1.5 (2022-02-15)
-    if(!requireNamespace('SoilTaxonomy', quietly=TRUE)) {
-      stop('please install the `SoilTaxonomy` packages', call.=FALSE)
+    if (!requireNamespace('SoilTaxonomy', quietly = TRUE)) {
+      stop('please install the `SoilTaxonomy` packages', call. = FALSE)
     }
     
-    # CRAN check hack
+    # TODO: a function to set ordered factors in a data.frame-like object should be added to SoilTaxonomy
     ST_unique_list <- NULL
-      
-    # note: this is incompatible with LazyData: true
-    load(system.file("data/ST_unique_list.rda", package="SoilTaxonomy")[1])
     
-    # create ordered factors, dropping unused levels
-    .soilorder <- droplevels(factor(spc$soilorder, levels = ST_unique_list$order, ordered = TRUE))
-    .suborder <- droplevels(factor(spc$suborder, levels = ST_unique_list$suborder, ordered = TRUE))
-    .greatgroup <- droplevels(factor(spc$greatgroup, levels = ST_unique_list$greatgroup, ordered = TRUE))
-    .subgroup <- droplevels(factor(spc$subgroup, levels = ST_unique_list$subgroup, ordered = TRUE))
+    # note: this is incompatible with LazyData: true
+    load(system.file("data/ST_unique_list.rda", package = "SoilTaxonomy")[1])
+    
+    # support for NASIS physical column names (NASIS possibly should be default?)
+    if (is.null(spc$soilorder) & !is.null(spc$taxorder)) {
+      spc$soilorder <- spc$taxorder
+    }
+    if (is.null(spc$suborder) & !is.null(spc$taxsuborder)) {
+      spc$suborder <- spc$taxsuborder
+    }    
+    if (is.null(spc$greatgroup) & !is.null(spc$taxgrtgroup)) {
+      spc$greatgroup <- spc$taxgrtgroup
+    }    
+    if (is.null(spc$subgroup) & !is.null(spc$taxsubgrp)) {
+      spc$subgroup <- spc$taxsubgrp
+    }
+    
+    # create ordered factors, dropping unused levels, ignore case
+    .soilorder <- droplevels(factor(tolower(spc$soilorder), levels = ST_unique_list$order, ordered = TRUE))
+    .suborder <- droplevels(factor(tolower(spc$suborder), levels = ST_unique_list$suborder, ordered = TRUE))
+    .greatgroup <- droplevels(factor(tolower(spc$greatgroup), levels = ST_unique_list$greatgroup, ordered = TRUE))
+    .subgroup <- droplevels(factor(tolower(spc$subgroup), levels = ST_unique_list$subgroup, ordered = TRUE))
     
     # check for obsolete taxa / typos
     # use plain factors
-    if(any(is.na(.soilorder))) {
+    if (any(is.na(.soilorder))) {
       .soilorder <- factor(spc$soilorder)
       message('obsolete soil order or typo, reverting to regular factors: sorting will not be exact')
     }
     
-    if(any(is.na(.suborder))) {
+    if (any(is.na(.suborder))) {
       .suborder <- factor(spc$suborder)
       message('obsolete suborder or typo, reverting to regular factors: sorting will not be exact')
     }
     
-    if(any(is.na(.greatgroup))) {
+    if (any(is.na(.greatgroup))) {
       .greatgroup <- factor(spc$greatgroup)
       message('obsolete greatgroup or typo, reverting to regular factors: sorting will not be exact')
     }
     
-    if(any(is.na(.subgroup))) {
+    if (any(is.na(.subgroup))) {
       .subgroup <- factor(spc$subgroup)
       message('obsolete subgroup or typo, reverting to regular factors: sorting will not be exact')
     }

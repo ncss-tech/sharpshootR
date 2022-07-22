@@ -90,17 +90,16 @@ data("OSDexamples")
 
 # examples using first 8 profiles
 
-## TODO: uncomment once latest SoilTaxonomy is on CRAN
 # KST-style ordering
-# SoilTaxonomyDendrogram(
-# OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
-# KST.order = TRUE
-# )
+SoilTaxonomyDendrogram(
+  OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
+  KST.order = TRUE
+)
 
 # classic ordering, based on nominal scale variables (unordered factors)
 SoilTaxonomyDendrogram(
-OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
-KST.order = FALSE
+  OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
+  KST.order = FALSE
 )
 
 

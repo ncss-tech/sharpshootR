@@ -9,6 +9,7 @@ aggregateColorPlot(
   print.label = TRUE,
   label.font = 1,
   label.cex = 0.65,
+  label.orientation = c("v", "h"),
   buffer.pct = 0.02,
   print.n.hz = FALSE,
   rect.border = "black",
@@ -22,15 +23,17 @@ aggregateColorPlot(
 \arguments{
 \item{x}{a \code{list}, results from \code{aqp::aggregateColor()}}
 
-\item{print.label}{logical, print Munsell color labels inside of rectangles, when they fit}
+\item{print.label}{logical, print Munsell color labels inside of rectangles, only if they fit}
 
 \item{label.font}{font specification for color labels}
 
 \item{label.cex}{font size for color labels}
 
+\item{label.orientation}{label orientation, \code{v} for vertical or \code{h} for horizontal}
+
 \item{buffer.pct}{extra space between labels and color rectangles}
 
-\item{print.n.hz}{optionally print the number of horizons}
+\item{print.n.hz}{optionally print the number of horizons below Munsell color labels}
 
 \item{rect.border}{color for rectangle border}
 
@@ -79,7 +82,12 @@ if(require(aqp) &
   op <- par(no.readonly = TRUE)
   
   par(mar=c(4,4,1,1))
+  
+  # vertical labels, the default
   aggregateColorPlot(a, print.n.hz = TRUE)
+  
+  # horizontal labels
+  aggregateColorPlot(a, print.n.hz = TRUE, label.orientation = 'h')
   
   par(op)
   

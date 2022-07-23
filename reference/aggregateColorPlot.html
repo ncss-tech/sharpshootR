@@ -58,6 +58,7 @@
 <span>  print.label <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  label.font <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  label.cex <span class="op">=</span> <span class="fl">0.65</span>,</span>
+<span>  label.orientation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"v"</span>, <span class="st">"h"</span><span class="op">)</span>,</span>
 <span>  buffer.pct <span class="op">=</span> <span class="fl">0.02</span>,</span>
 <span>  print.n.hz <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  rect.border <span class="op">=</span> <span class="st">"black"</span>,</span>
@@ -76,7 +77,7 @@
 
 
 <dt>print.label</dt>
-<dd><p>logical, print Munsell color labels inside of rectangles, when they fit</p></dd>
+<dd><p>logical, print Munsell color labels inside of rectangles, only if they fit</p></dd>
 
 
 <dt>label.font</dt>
@@ -87,12 +88,16 @@
 <dd><p>font size for color labels</p></dd>
 
 
+<dt>label.orientation</dt>
+<dd><p>label orientation, <code>v</code> for vertical or <code>h</code> for horizontal</p></dd>
+
+
 <dt>buffer.pct</dt>
 <dd><p>extra space between labels and color rectangles</p></dd>
 
 
 <dt>print.n.hz</dt>
-<dd><p>optionally print the number of horizons</p></dd>
+<dd><p>optionally print the number of horizons below Munsell color labels</p></dd>
 
 
 <dt>rect.border</dt>
@@ -161,7 +166,12 @@
 <span class="r-in"><span>  <span class="va">op</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>no.readonly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># vertical labels, the default</span></span></span>
 <span class="r-in"><span>  <span class="fu">aggregateColorPlot</span><span class="op">(</span><span class="va">a</span>, print.n.hz <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># horizontal labels</span></span></span>
+<span class="r-in"><span>  <span class="fu">aggregateColorPlot</span><span class="op">(</span><span class="va">a</span>, print.n.hz <span class="op">=</span> <span class="cn">TRUE</span>, label.orientation <span class="op">=</span> <span class="st">'h'</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  </span></span>
@@ -171,6 +181,7 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: soilDB</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required namespace: gower</span>
 <span class="r-plt img"><img src="aggregateColorPlot-1.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="aggregateColorPlot-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
@@ -187,7 +198,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -35,7 +35,7 @@ SoilTaxonomyDendrogram(
 
 \item{rotationOrder}{character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right; exact ordering is not always possible}
 
-\item{level}{character. one of: \code{"order"}, \code{"suborder"}, \code{"greatgroup"} or \code{"subgroup"}}
+\item{level}{character. one of: \code{"soilorder"}, \code{"suborder"}, \code{"greatgroup"} or \code{"subgroup"}}
 
 \item{name}{column name containing horizon names}
 

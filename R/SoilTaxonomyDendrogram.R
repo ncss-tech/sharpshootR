@@ -153,7 +153,9 @@ SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, 
 	# compute distance matrix from first 4 levels of Soil Taxonomy
 	s.dist <- daisy(s[, level, drop = FALSE], metric = 'gower')
 	
-	# use divisive clustering, all other methods produce less than ideal results 
+	# use divisive clustering (diana; default)
+	# TODO: or agglomerative (cluster::agnes) which may work better with trees with less variation
+	#       i.e. where we know that at the lowest level there should be multiple profiles/group
 	s.hclust <- as.hclust(diana(s.dist))
 	
 	# convert to phylo class

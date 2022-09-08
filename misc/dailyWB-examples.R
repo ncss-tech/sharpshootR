@@ -323,7 +323,7 @@ tapply(mst$Pr, mst$texture, function(i) length(which(i > 0.8)))
 
 
 p <- SpatialPoints(cbind(-120.37673,37.99877), proj4string = CRS('+proj=longlat +datum=WGS84'))
-cokeys <- c('19586277', '19586145', '19586459', '19586251')
+cokeys <- c('22033165')
 
 # investigate source data
 s <- prepare_SSURGO_hydro_data(cokeys = cokeys, max.depth = 50)
@@ -335,6 +335,9 @@ plotSPC(s$SPC, color = 'sat', name.style = 'center-center', plot.depth.axis = FA
 
 # with a.ss = 1, xeric soils are "saturated" too often
 d <- dailyWB_SSURGO(x = p, cokeys = cokeys, modelDepth = 100, bufferRadiusMeters = 1, a.ss = 0.01, MS.style = 'newhall')
+
+d <- dailyWB_SSURGO(x = p, modelDepth = 25, bufferRadiusMeters = 1000, a.ss = 0.01, MS.style = 'default')
+
 
 
 xyplot(VWC ~ as.numeric(doy) | compname, groups = year, data = d, type = 'l', subset = year %in% c('1990', '1991', '1992'), par.settings = tactile.theme(), scales = list(y = list(rot = 0)))

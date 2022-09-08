@@ -114,7 +114,8 @@ s <- 'loafercreek'
 x <- fetchOSD(s, extended = TRUE)
 
 # get representative, profile-total AWC from SSURGO
-sql <- sprintf("SELECT chorizon.cokey AS cokey, 
+sql <- sprintf(
+  "SELECT chorizon.cokey AS cokey, 
 SUM(awc_r * (hzdepb_r - hzdept_r)) AS ws 
 FROM 
 legend JOIN mapunit ON legend.lkey = mapunit.lkey
@@ -182,7 +183,8 @@ s <- 'Lucy'
 x <- fetchOSD(s, extended = TRUE)
 
 # get representative, profile-total AWC from SSURGO
-sql <- sprintf("
+sql <- sprintf(
+  "
 SELECT chorizon.cokey AS cokey, 
 SUM(awc_r * (hzdepb_r - hzdept_r)) AS ws 
 FROM 

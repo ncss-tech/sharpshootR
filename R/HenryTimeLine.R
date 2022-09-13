@@ -21,6 +21,7 @@ HenryTimeLine <- function(sensor_data, ...) {
   
   # hack for R CMD check
   date_time <- NULL
+  .chunk <- NULL
   
   # safely fail when there are no data
   if(!inherits(sensor_data, 'data.frame')) {

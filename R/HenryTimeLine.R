@@ -1,16 +1,17 @@
 
-## TODO: split chunks of non-NA, simple to do but not easily rendered with segplot...
+## TODO: currently relies on daily granularity and pad.missing.days = TRUE
+## TODO: generalize to work with weekly / monthly / etc.
+
 
 #' @title Sensor Data Timeline from Henry Mount Soil and Water DB
 #' 
-#' @description This function generates a simple chart of start/end dates for a set of sensor data returned by \code{soilDB::fetchHenry}.
+#' @description This function generates a simple chart of start/end dates for a set of sensor data returned by `soilDB::fetchHenry()`.
 #' 
-#' @param sensor_data `soiltemp`, `soilVWC`, or related data returned by \code{soilDB::fetchHenry()}
-#' @param ... additional arguments to \code{latticeExtra::segplot}
+#' @param sensor_data `soiltemp`, `soilVWC`, or related data returned by `soilDB::fetchHenry()`
+#' @param ... additional arguments to `latticeExtra::segplot`
 #'
-#' @note This function does not symbolize sections of missing data between the first and last record.
 #'
-#' @return a \code{lattice} graphics object
+#' @return a `lattice` graphics object
 #' 
 #' @author D.E. Beaudette
 #' @export
@@ -23,37 +24,110 @@ HenryTimeLine <- function(sensor_data, ...) {
   # hack for R CMD check
   date_time <- NULL
   
-  # filter NA
-  x.no.na <- na.omit(sensor_data)
+  # safely fail when there are no data
+  if(!inherits(sensor_data, 'data.frame')) {
+    stop('insufficient data', call. = FALSE)
+  }
   
-  # compute date ranges by sensor
-  s <- split(x.no.na, x.no.na$sensor_name)
   
-  # compute start / end dates
+  # add convenience name + depth
+  sensor_data[['.name']] <- sprintf("%s %scm", sensor_data$sensor_name, sensor_data$sensor_depth)
+  
+  # split by sensor ID
+  s <- split(sensor_data, sensor_data$sid)
+  
+  ## NOTE: this requires pad.missing.days = TRUE, only daily data
+  ## TODO: generalize / enhance pad.missing.days routine for other granularity
+  
+  # chunk and compute start / end dates
   x.range <- lapply(s, function(i) {
-    data.frame(
-      sensor_name = i$sensor_name[1],
-      start = as.Date(min(i$date_time)),
-      end = as.Date(max(i$date_time)),
-      stringsAsFactors = FALSE
-    )
+    
+    # find NA: blocks of NA marked with TRUE
+    .na <- is.na(i$sensor_value)
+    na.rle <- rle(.na)
+    
+    # init chunk label
+    i[['.chunk']] <- NA
+    
+    # counters for chunk ID
+    .chunkID <- 1
+    
+    # place holder for previous sequence end
+    .end <- 0
+  
+    for(j in seq_along(na.rle$values)) {
+      # current RLE sequence
+      .length <- na.rle$lengths[j]
+      .value <- na.rle$values[j]
+      
+      # row start
+      .start <- ifelse(j == 1, 1, .end + 1)
+      
+      # row end
+      .end <- .end + .length
+      
+      # compute current row index
+      .rows <- seq(from = .start, to = .end, by = 1)
+      
+      if(!.value) {
+        .value <- sprintf("%04d", .chunkID)
+        # increment chunk ID counter
+        .chunkID <- .chunkID + 1
+      } else {
+        .value <- 'missing'
+      }
+      
+      # assign chunk label
+      i[['.chunk']][.rows] <- .value
+      
+    }
+    
+    
+    # remove missing
+    i <- i[i$.chunk != 'missing', ]
+    
+    # process chunks
+    # summarize start/stop dates of non-NA values
+    .chunks <- split(i, i[['.chunk']])
+    
+    res <- lapply(.chunks, function(k) {
+      data.frame(
+        .name = k$.name[1],
+        .chunk = k$.chunk[1],
+        sid = k$sid[1],
+        sensor_name = k$sensor_name[1],
+        start = as.Date(min(k$date_time, na.rm = TRUE)),
+        end = as.Date(max(k$date_time, na.rm = TRUE))
+      )
+    })
+    
+    # flatten
+    res <- do.call('rbind', res)
+    row.names(res) <- NULL
+    
+    return(res)
   })
   
   # flatten to DF and convert sensor name to factor for convenient plotting
   x.range <- do.call('rbind', x.range)
-  x.range$sensor_name <- factor(x.range$sensor_name)
+  row.names(x.range) <- NULL
+  
+  # init factors for plotting
+  x.range$.name <- factor(x.range$.name)
+  x.range$.chunk <- factor(x.range$.chunk)
   
   # composite plot
   p <- latticeExtra::segplot(
-    sensor_name ~ start + end, data = x.range,
-    groups = 1,
+    .name ~ start + end , data = x.range,
+    groups = .chunk,
     scales = list(alternating = 3, x = list(cex = 0.85, tick.number = 10), y = list(relation = 'free', cex = 0.65, rot = 0)),
     band.height = 0.75,
     xlab = '', ylab = '',
     panel = function(...) {
-      panel.abline(h = 1:length(levels(x.range$sensor_name)), col = 'grey', lty = 3)
+      panel.abline(h = 1:length(levels(x.range$.name)), col = 'grey', lty = 3)
       latticeExtra::panel.segplot(...)
-    }, ...
+    }, 
+    ...
   )
   
   return(p)

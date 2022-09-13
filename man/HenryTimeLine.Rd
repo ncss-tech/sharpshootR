@@ -15,10 +15,7 @@ HenryTimeLine(sensor_data, ...)
 a \code{lattice} graphics object
 }
 \description{
-This function generates a simple chart of start/end dates for a set of sensor data returned by \code{soilDB::fetchHenry}.
-}
-\note{
-This function does not symbolize sections of missing data between the first and last record.
+This function generates a simple chart of start/end dates for non-NA sensor data returned by \code{soilDB::fetchHenry()}. Data are organized according to sensor name + sensor depth.
 }
 \author{
 D.E. Beaudette

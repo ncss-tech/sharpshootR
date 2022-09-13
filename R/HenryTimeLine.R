@@ -1,11 +1,9 @@
 
 ## TODO: currently relies on daily granularity and pad.missing.days = TRUE
-## TODO: generalize to work with weekly / monthly / etc.
-
 
 #' @title Sensor Data Timeline from Henry Mount Soil and Water DB
 #' 
-#' @description This function generates a simple chart of start/end dates for a set of sensor data returned by `soilDB::fetchHenry()`.
+#' @description This function generates a simple chart of start/end dates for non-NA sensor data returned by `soilDB::fetchHenry()`. Data are organized according to sensor name + sensor depth.
 #' 
 #' @param sensor_data `soiltemp`, `soilVWC`, or related data returned by `soilDB::fetchHenry()`
 #' @param ... additional arguments to `latticeExtra::segplot`
@@ -36,8 +34,7 @@ HenryTimeLine <- function(sensor_data, ...) {
   # split by sensor ID
   s <- split(sensor_data, sensor_data$sid)
   
-  ## NOTE: this requires pad.missing.days = TRUE, only daily data
-  ## TODO: generalize / enhance pad.missing.days routine for other granularity
+  ## NOTE: this requires pad.missing.days = TRUE, only daily data until fetchHenry() is updated
   
   # chunk and compute start / end dates
   x.range <- lapply(s, function(i) {

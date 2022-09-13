@@ -16,6 +16,12 @@ HenryTimeLine(x$soilVWC, main='Soil Temperature Records', col='RoyalBlue', borde
 
 
 
+x <- fetchHenry(project = 'CA790', gran = 'month', soiltemp.summaries = FALSE, pad.missing.days = TRUE)
+HenryTimeLine(x$soiltemp, main='Soil Temperature Records', col='RoyalBlue', border = NA)
+
+
+
+
 ## TODO: fix soiltemp.summaries logic when gran != 'day'
 
 w <- fetchHenry(project = 'CA630', gran = 'week', soiltemp.summaries = FALSE)
@@ -24,3 +30,7 @@ x <- fetchHenry(project = 'CA630', gran = 'day', soiltemp.summaries = FALSE, pad
 HenryTimeLine(w$soiltemp, main='Soil Temperature Records', col='RoyalBlue', border = NA)
 
 HenryTimeLine(x$soiltemp, main='Soil Temperature Records', col='RoyalBlue', border = NA)
+
+
+  
+

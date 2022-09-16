@@ -15,7 +15,7 @@ samplingStability(
 \arguments{
 \item{mu}{map unit polygons, must have polygon ID, must be in CRS with units of meters}
 
-\item{r}{RasterLayer}
+\item{r}{SpatRaster}
 
 \item{n.set}{set of sampling density values to try}
 

@@ -58,15 +58,37 @@
 #' )
 #' 
 #' 
-SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, level = c("soilorder", "suborder", "greatgroup", "subgroup"), name = 'hzname', name.style = 'center-center', id.style = 'side', max.depth = max(spc), n.depth.ticks = 6, scaling.factor = 0.015, cex.names = 0.75, cex.id = 0.75, axis.line.offset = -4, width = 0.1, y.offset = 0.5, shrink = FALSE, font.id = 2, cex.taxon.labels = 0.66, dend.color = par('fg'), dend.width = 1, ...) {
+SoilTaxonomyDendrogram <- function(spc, 
+                                   KST.order = TRUE, 
+                                   rotationOrder = NULL, 
+                                   level = c(
+                                     soilorder = "soilorder",
+                                     suborder = "suborder",
+                                     greatgroup = "greatgroup",
+                                     subgroup = "subgroup"
+                                   ),
+                                   name = 'hzname', 
+                                   name.style = 'center-center', 
+                                   id.style = 'side', 
+                                   max.depth = max(spc), 
+                                   n.depth.ticks = 6, 
+                                   scaling.factor = 0.015, 
+                                   cex.names = 0.75, 
+                                   cex.id = 0.75, 
+                                   axis.line.offset = -4, 
+                                   width = 0.1, 
+                                   y.offset = 0.5, 
+                                   shrink = FALSE, 
+                                   font.id = 2, 
+                                   cex.taxon.labels = 0.66, 
+                                   dend.color = par('fg'), 
+                                   dend.width = 1, 
+                                   ...) {
 	
-  
   # attempt KST-based ordering:
   # 1. setup ordinal factors based on order of taxa with each level of ST hierarchy
   # 2. rotate dendrogram to reflect ordering of subgroups within keys
-  # note: will create NA if obsolete taxa or typos -> test for this
   if (KST.order) {
-    
     
     # requires SoilTaxonomy >= 0.1.5 (2022-02-15)
     if (!requireNamespace('SoilTaxonomy', quietly = TRUE)) {
@@ -99,26 +121,25 @@ SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, 
     .greatgroup <- droplevels(factor(tolower(spc$greatgroup), levels = ST_unique_list$greatgroup, ordered = TRUE))
     .subgroup <- droplevels(factor(tolower(spc$subgroup), levels = ST_unique_list$subgroup, ordered = TRUE))
     
-    # check for obsolete taxa / typos
-    # use plain factors
+    # check for NA (obsolete taxa / typos); fall back to nominal factors
     if (any(is.na(.soilorder))) {
       .soilorder <- factor(spc$soilorder)
-      message('obsolete soil order or typo, reverting to regular factors: sorting will not be exact')
+      message('obsolete soil order or typo, reverting to nominal factors')
     }
     
     if (any(is.na(.suborder))) {
       .suborder <- factor(spc$suborder)
-      message('obsolete suborder or typo, reverting to regular factors: sorting will not be exact')
+      message('obsolete suborder or typo, reverting to nominal factors')
     }
     
     if (any(is.na(.greatgroup))) {
       .greatgroup <- factor(spc$greatgroup)
-      message('obsolete greatgroup or typo, reverting to regular factors: sorting will not be exact')
+      message('obsolete greatgroup or typo, reverting to nominal factors')
     }
     
     if (any(is.na(.subgroup))) {
       .subgroup <- factor(spc$subgroup)
-      message('obsolete subgroup or typo, reverting to regular factors: sorting will not be exact')
+      message('obsolete subgroup or typo, reverting to nominal factors')
     }
     
     # replace original values with ordered factors if possible
@@ -135,22 +156,20 @@ SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, 
     }
     
   } else {
-    
-    # treat as nominal factors
-    spc$soilorder <- factor(spc$soilorder)
-    spc$suborder <- factor(spc$suborder)
-    spc$greatgroup <- factor(spc$greatgroup)
-    spc$subgroup <- factor(spc$subgroup)
+    # treat all `level` columns as nominal factors
+    # this is required to ensure columns with n=1 or n=2 levels are not "binary" in clustering algorithms
+    for (l in level) {
+      spc[[l]] <- factor(spc[[l]])
+    }
   }
   
-	
-	
 	# extract site attributes as data.frame
 	s <- site(spc)
+	
 	# copy soil ID to row.names, so that they are preserved in the distance matrix
 	row.names(s) <- s[[idname(spc)]]
 	
-	# compute distance matrix from first 4 levels of Soil Taxonomy
+	# compute distance matrix from specified levels
 	s.dist <- daisy(s[, level, drop = FALSE], metric = 'gower')
 	
 	# use divisive clustering (diana; default)
@@ -171,9 +190,7 @@ SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, 
 	  } else {
 	    message('`rotationOrder` does not contain a complete set of profile IDs')
 	  }
-	  
 	}
-
 	
 	# determine best-possible locations for taxa names
 	max.dist <- max(s.dist)

@@ -6,7 +6,7 @@
 #' @param spc a `SoilProfileCollection` object, typically returned by `soilDB::fetchOSD`
 #' @param KST.order logical, encode / cluster taxa via ordinal factors, based on ordering within Keys to Soil Taxonomy
 #' @param rotationOrder character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right; exact ordering is not always possible
-#' @param level character. one of: `"soilorder"`, `"suborder"`, `"greatgroup"` or `"subgroup"`
+#' @param level character. One or more site-level columns in `spc`. Default: `"soilorder"`, `"suborder"`, `"greatgroup"` and `"subgroup"`
 #' @param name column name containing horizon names
 #' @param name.style passed to `aqp::plotSPC`
 #' @param id.style passed to `aqp::plotSPC`

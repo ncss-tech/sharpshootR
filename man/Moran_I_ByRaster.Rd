@@ -15,9 +15,9 @@ Moran_I_ByRaster(
 )
 }
 \arguments{
-\item{r}{single \code{RasterLayer}}
+\item{r}{single \code{SpatRaster}}
 
-\item{mu.extent}{\code{SpatialPolygons} representation of mapunit polygons bounding box (via \code{raster::extent()})}
+\item{mu.extent}{\code{SpatVector} representation of mapunit polygons bounding box (via \code{terra::ext()})}
 
 \item{n}{number of regular samples (what is a reasonable value?)}
 

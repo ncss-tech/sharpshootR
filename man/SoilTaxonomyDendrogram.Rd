@@ -8,6 +8,8 @@ SoilTaxonomyDendrogram(
   spc,
   KST.order = TRUE,
   rotationOrder = NULL,
+  level = c(soilorder = "soilorder", suborder = "suborder", greatgroup = "greatgroup",
+    subgroup = "subgroup"),
   name = "hzname",
   name.style = "center-center",
   id.style = "side",
@@ -33,6 +35,8 @@ SoilTaxonomyDendrogram(
 \item{KST.order}{logical, encode / cluster taxa via ordinal factors, based on ordering within Keys to Soil Taxonomy}
 
 \item{rotationOrder}{character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right; exact ordering is not always possible}
+
+\item{level}{character. one of: \code{"soilorder"}, \code{"suborder"}, \code{"greatgroup"} or \code{"subgroup"}}
 
 \item{name}{column name containing horizon names}
 
@@ -79,7 +83,7 @@ An invisibly-returned list containing:
 Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimilarity matrix is computed using Gower's distance metric for nominal (\code{KST.order = FALSE}) or ordinal (\code{KST.order = TRUE}) scale variables, based on soil order, suborder, greatgroup, and subgroup taxa.
 }
 \details{
-This function looks for specific site-level attributes named: \code{soilorder}, \code{suborder}, \code{greatgroup}, and \code{subgroup}. See \code{misc/soilTaxonomyDendrogram-examples.R} for some examples.
+This function looks for specific site-level attributes named: \code{"soilorder"}, \code{"suborder"}, \code{"greatgroup"}, and \code{"subgroup"}, or their NASIS physical column name analogues \code{"taxorder"}, \code{"taxsuborder"}, \code{"taxgrtgroup"}, and \code{"taxsubgrp"}. See \url{https://github.com/ncss-tech/sharpshootR/blob/master/misc/soilTaxonomyDendrogram-examples.R} for some examples.
 
 The \code{rotationOrder} argument uses \code{ape::rotateConstr()} to reorder leaves within the \code{hclust} representation of the ST hierarchy. Perfect sorting is not always possible.
 }
@@ -90,17 +94,16 @@ data("OSDexamples")
 
 # examples using first 8 profiles
 
-## TODO: uncomment once latest SoilTaxonomy is on CRAN
 # KST-style ordering
-# SoilTaxonomyDendrogram(
-# OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
-# KST.order = TRUE
-# )
+SoilTaxonomyDendrogram(
+  OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
+  KST.order = TRUE
+)
 
 # classic ordering, based on nominal scale variables (unordered factors)
 SoilTaxonomyDendrogram(
-OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
-KST.order = FALSE
+  OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
+  KST.order = FALSE
 )
 
 

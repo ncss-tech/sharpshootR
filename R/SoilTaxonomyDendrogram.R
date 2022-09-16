@@ -6,6 +6,7 @@
 #' @param spc a `SoilProfileCollection` object, typically returned by `soilDB::fetchOSD`
 #' @param KST.order logical, encode / cluster taxa via ordinal factors, based on ordering within Keys to Soil Taxonomy
 #' @param rotationOrder character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right; exact ordering is not always possible
+#' @param level character. one of: `"soilorder"`, `"suborder"`, `"greatgroup"` or `"subgroup"`
 #' @param name column name containing horizon names
 #' @param name.style passed to `aqp::plotSPC`
 #' @param id.style passed to `aqp::plotSPC`
@@ -24,7 +25,7 @@
 #' @param dend.width dendrogram line width
 #' @param ... additional arguments to `aqp::plotSPC`
 #' 
-#' @details This function looks for specific site-level attributes named: `soilorder`, `suborder`, `greatgroup`, and `subgroup`. See `misc/soilTaxonomyDendrogram-examples.R` for some examples.
+#' @details This function looks for specific site-level attributes named: `"soilorder"`, `"suborder"`, `"greatgroup"`, and `"subgroup"`, or their NASIS physical column name analogues `"taxorder"`, `"taxsuborder"`, `"taxgrtgroup"`, and `"taxsubgrp"`. See \url{https://github.com/ncss-tech/sharpshootR/blob/master/misc/soilTaxonomyDendrogram-examples.R} for some examples.
 #' 
 #' The `rotationOrder` argument uses `ape::rotateConstr()` to reorder leaves within the `hclust` representation of the ST hierarchy. Perfect sorting is not always possible.
 #'
@@ -44,66 +45,101 @@
 #' 
 #' # examples using first 8 profiles
 #' 
-#' ## TODO: uncomment once latest SoilTaxonomy is on CRAN
 #' # KST-style ordering
-#' # SoilTaxonomyDendrogram(
-#' # OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
-#' # KST.order = TRUE
-#' # )
+#' SoilTaxonomyDendrogram(
+#'   OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
+#'   KST.order = TRUE
+#' )
 #' 
 #' # classic ordering, based on nominal scale variables (unordered factors)
 #' SoilTaxonomyDendrogram(
-#' OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
-#' KST.order = FALSE
+#'   OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
+#'   KST.order = FALSE
 #' )
 #' 
 #' 
-SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, name = 'hzname', name.style = 'center-center', id.style = 'side', max.depth = max(spc), n.depth.ticks = 6, scaling.factor = 0.015, cex.names = 0.75, cex.id = 0.75, axis.line.offset = -4, width = 0.1, y.offset = 0.5, shrink = FALSE, font.id = 2, cex.taxon.labels = 0.66, dend.color = par('fg'), dend.width = 1, ...) {
+SoilTaxonomyDendrogram <- function(spc, 
+                                   KST.order = TRUE, 
+                                   rotationOrder = NULL, 
+                                   level = c(
+                                     soilorder = "soilorder",
+                                     suborder = "suborder",
+                                     greatgroup = "greatgroup",
+                                     subgroup = "subgroup"
+                                   ),
+                                   name = 'hzname', 
+                                   name.style = 'center-center', 
+                                   id.style = 'side', 
+                                   max.depth = max(spc), 
+                                   n.depth.ticks = 6, 
+                                   scaling.factor = 0.015, 
+                                   cex.names = 0.75, 
+                                   cex.id = 0.75, 
+                                   axis.line.offset = -4, 
+                                   width = 0.1, 
+                                   y.offset = 0.5, 
+                                   shrink = FALSE, 
+                                   font.id = 2, 
+                                   cex.taxon.labels = 0.66, 
+                                   dend.color = par('fg'), 
+                                   dend.width = 1, 
+                                   ...) {
 	
-  
   # attempt KST-based ordering:
   # 1. setup ordinal factors based on order of taxa with each level of ST hierarchy
   # 2. rotate dendrogram to reflect ordering of subgroups within keys
-  # note: will create NA if obsolete taxa or typos -> test for this 
-  if(KST.order) {
+  if (KST.order) {
     
     # requires SoilTaxonomy >= 0.1.5 (2022-02-15)
-    if(!requireNamespace('SoilTaxonomy', quietly=TRUE)) {
-      stop('please install the `SoilTaxonomy` packages', call.=FALSE)
+    if (!requireNamespace('SoilTaxonomy', quietly = TRUE)) {
+      stop('please install the `SoilTaxonomy` packages', call. = FALSE)
     }
     
-    # CRAN check hack
+    # TODO: a function to set ordered factors in a data.frame-like object should be added to SoilTaxonomy
     ST_unique_list <- NULL
-      
+    
     # note: this is incompatible with LazyData: true
-    load(system.file("data/ST_unique_list.rda", package="SoilTaxonomy")[1])
+    load(system.file("data/ST_unique_list.rda", package = "SoilTaxonomy")[1])
     
-    # create ordered factors, dropping unused levels
-    .soilorder <- droplevels(factor(spc$soilorder, levels = ST_unique_list$order, ordered = TRUE))
-    .suborder <- droplevels(factor(spc$suborder, levels = ST_unique_list$suborder, ordered = TRUE))
-    .greatgroup <- droplevels(factor(spc$greatgroup, levels = ST_unique_list$greatgroup, ordered = TRUE))
-    .subgroup <- droplevels(factor(spc$subgroup, levels = ST_unique_list$subgroup, ordered = TRUE))
+    # support for NASIS physical column names (NASIS possibly should be default?)
+    if (is.null(spc$soilorder) & !is.null(spc$taxorder)) {
+      spc$soilorder <- spc$taxorder
+    }
+    if (is.null(spc$suborder) & !is.null(spc$taxsuborder)) {
+      spc$suborder <- spc$taxsuborder
+    }    
+    if (is.null(spc$greatgroup) & !is.null(spc$taxgrtgroup)) {
+      spc$greatgroup <- spc$taxgrtgroup
+    }    
+    if (is.null(spc$subgroup) & !is.null(spc$taxsubgrp)) {
+      spc$subgroup <- spc$taxsubgrp
+    }
     
-    # check for obsolete taxa / typos
-    # use plain factors
-    if(any(is.na(.soilorder))) {
+    # create ordered factors, dropping unused levels, ignore case
+    .soilorder <- droplevels(factor(tolower(spc$soilorder), levels = ST_unique_list$order, ordered = TRUE))
+    .suborder <- droplevels(factor(tolower(spc$suborder), levels = ST_unique_list$suborder, ordered = TRUE))
+    .greatgroup <- droplevels(factor(tolower(spc$greatgroup), levels = ST_unique_list$greatgroup, ordered = TRUE))
+    .subgroup <- droplevels(factor(tolower(spc$subgroup), levels = ST_unique_list$subgroup, ordered = TRUE))
+    
+    # check for NA (obsolete taxa / typos); fall back to nominal factors
+    if (any(is.na(.soilorder))) {
       .soilorder <- factor(spc$soilorder)
-      message('obsolete soil order or typo, reverting to regular factors: sorting will not be exact')
+      message('obsolete soil order or typo, reverting to nominal factors')
     }
     
-    if(any(is.na(.suborder))) {
+    if (any(is.na(.suborder))) {
       .suborder <- factor(spc$suborder)
-      message('obsolete suborder or typo, reverting to regular factors: sorting will not be exact')
+      message('obsolete suborder or typo, reverting to nominal factors')
     }
     
-    if(any(is.na(.greatgroup))) {
+    if (any(is.na(.greatgroup))) {
       .greatgroup <- factor(spc$greatgroup)
-      message('obsolete greatgroup or typo, reverting to regular factors: sorting will not be exact')
+      message('obsolete greatgroup or typo, reverting to nominal factors')
     }
     
-    if(any(is.na(.subgroup))) {
+    if (any(is.na(.subgroup))) {
       .subgroup <- factor(spc$subgroup)
-      message('obsolete subgroup or typo, reverting to regular factors: sorting will not be exact')
+      message('obsolete subgroup or typo, reverting to nominal factors')
     }
     
     # replace original values with ordered factors if possible
@@ -115,30 +151,30 @@ SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, 
     
     # rotate as close to KST ordering as possible
     # but only if there is no user-supplied rotation
-    if(is.null(rotationOrder)) {
-      rotationOrder <- profile_id(spc)[order(spc$subgroup)]
+    if (is.null(rotationOrder)) {
+      rotationOrder <- profile_id(spc)[order(spc[[level[length(level)]]])]
     }
     
   } else {
-    
-    # treat as nominal factors
-    spc$soilorder <- factor(spc$soilorder)
-    spc$suborder <- factor(spc$suborder)
-    spc$greatgroup <- factor(spc$greatgroup)
-    spc$subgroup <- factor(spc$subgroup)
+    # treat all `level` columns as nominal factors
+    # this is required to ensure columns with n=1 or n=2 levels are not "binary" in clustering algorithms
+    for (l in level) {
+      spc[[l]] <- factor(spc[[l]])
+    }
   }
   
-	
-	
 	# extract site attributes as data.frame
 	s <- site(spc)
+	
 	# copy soil ID to row.names, so that they are preserved in the distance matrix
 	row.names(s) <- s[[idname(spc)]]
 	
-	# compute distance matrix from first 4 levels of Soil Taxonomy
-	s.dist <- daisy(s[, c('soilorder', 'suborder', 'greatgroup', 'subgroup')], metric = 'gower')
+	# compute distance matrix from specified levels
+	s.dist <- daisy(s[, level, drop = FALSE], metric = 'gower')
 	
-	# use divisive clustering, all other methods produce less than ideal results 
+	# use divisive clustering (diana; default)
+	# TODO: or agglomerative (cluster::agnes) which may work better with trees with less variation
+	#       i.e. where we know that at the lowest level there should be multiple profiles/group
 	s.hclust <- as.hclust(diana(s.dist))
 	
 	# convert to phylo class
@@ -146,18 +182,15 @@ SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, 
 	
 	## 2022-05-04: switching to ape rotation methods
 	# requires vector of tip labels
-	if(! is.null(rotationOrder)) {
-	  
+	if (!is.null(rotationOrder)) {
 	  # check that none are missing
-	  if(all(rotationOrder %in% profile_id(spc)) && length(rotationOrder) == length(spc)) {
+	  if (all(rotationOrder %in% profile_id(spc)) && length(rotationOrder) == length(spc)) {
 	    # attempt rotation, may not give the exact ordering
 	    dend <- rotateConstr(dend, constraint = rotationOrder) 
 	  } else {
-	    message('`rotationOrder` does not contain a complet set of profile IDs')
+	    message('`rotationOrder` does not contain a complete set of profile IDs')
 	  }
-	  
 	}
-
 	
 	# determine best-possible locations for taxa names
 	max.dist <- max(s.dist)
@@ -203,7 +236,7 @@ SoilTaxonomyDendrogram <- function(spc, KST.order = TRUE, rotationOrder = NULL, 
 	)
 	
 	# generate subgroup labels and their positions under the dendrogram
-	lab <- s[new_order, 'subgroup']
+	lab <- s[new_order, level[length(level)]]
 	unique.lab <- unique(lab)
 	group.lengths <- rle(as.numeric(lab))$lengths
 	lab.x.positions <- (cumsum(group.lengths) - (group.lengths / 2)) + 0.5

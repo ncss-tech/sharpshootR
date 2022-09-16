@@ -137,7 +137,7 @@
 #' @param endSpringDOY day of year that marks end of "spring" (typically Jan 1 -- June 30)
 #' @param startFallDOY day of year that marks start of "fall" (typically Aug 1 -- Dec 31)
 #' 
-#' @details The default `frostTemp=32` is suitable for use with minimum daily temperatures in degrees Fahrenheit. Use `frostTemp=0` for temperatures in degrees Celsius.
+#' @details The default `frostTemp=32` is suitable for use with minimum daily temperatures in degrees Fahrenheit. Use `frostTemp = 0` for temperatures in degrees Celsius.
 #' 
 #' [FFD tutorial](http://ncss-tech.github.io/AQP/sharpshootR/FFD-estimates.html)
 #' 
@@ -154,16 +154,44 @@
 #' 
 #' # 11 years of data from highland meadows
 #' data('HHM', package = 'sharpshootR')
-#' x.ffd <- FFD(HHM, returnDailyPr = FALSE, frostTemp=32)
+#' x.ffd <- FFD(HHM, returnDailyPr = FALSE, frostTemp = 32)
 #' 
 #' str(x.ffd)
 #' 
 FFD <- function(d, returnDailyPr = TRUE, minDays = 165, frostTemp = 32, endSpringDOY = 182, startFallDOY = 213) {
   
-  ## TODO: replace ddply with split/lapply
-  
   # get frost-free period for over all years
-  ffp <- ddply(d, 'year', .frostFreePeriod, minDays = minDays, frostTemp = frostTemp, endSpringDOY = endSpringDOY, startFallDOY = startFallDOY)
+  d <- split(d, d$year)
+  ffp <- lapply(d, function(i) {
+    
+    # result is NULL if not possible to compute
+    .ffp <- .frostFreePeriod(
+      i, 
+      minDays = minDays, 
+      frostTemp = frostTemp, 
+      endSpringDOY = endSpringDOY, 
+      startFallDOY = startFallDOY
+    )
+    
+    # safely account for years where FFP cannot be computed
+    if(is.null(.ffp)) {
+      # FFP cannot be computed
+      res <- NULL
+    } else {
+      # FFP was computed
+      res <- data.frame(
+        year = i$year[1],
+        .ffp
+      )
+    }
+    
+    return(res)
+  })
+  
+  # flatten
+  ffp <- do.call('rbind', ffp)
+  row.names(ffp) <- NULL
+  
   
   # years of data
   n.yrs <- nrow(ffp)
@@ -242,14 +270,22 @@ FFD <- function(d, returnDailyPr = TRUE, minDays = 165, frostTemp = 32, endSprin
 #' 
 #' FFDplot(x.ffd)
 #' 
-FFDplot <- function(s, sub.title=NULL) {
+FFDplot <- function(s, sub.title = NULL) {
   
+  # sanity check
+  # FFD(returnDailyPr = TRUE, ...): result is a list (required for this function)
+  # FFD(returnDailyPr = FALSE, ...): result is a data.frame
+  if (! inherits(s, 'list')) {
+    stop('must specify `returnDailyPr = TRUE` to FFD()', call. = FALSE)
+  }
+  
+  # expecting a list
   n.yrs <- nrow(s$fm)
   ffd.vals <- unlist(s$summary[, c('ffd.50', 'ffd.80', 'ffd.90')])
   q.spring <- unlist(s$summary[, c('spring.50', 'spring.80', 'spring.90')])
   q.fall <- unlist(s$summary[, c('fall.50', 'fall.80', 'fall.90')])
   prob.seq <- seq(0, 1, by=0.1)
-  date.seq <- seq.Date(from=as.Date('2011-01-15'), to=as.Date('2011-12-31'), by='1 month')
+  date.seq <- seq.Date(from = as.Date('2011-01-15'), to = as.Date('2011-12-31'), by = '1 month')
   
   # device options are modified locally, reset when done
   # warning: this will reset the device coordinates!

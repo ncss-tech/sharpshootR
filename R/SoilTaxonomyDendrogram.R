@@ -7,6 +7,8 @@
 #' @param KST.order logical, encode / cluster taxa via ordinal factors, based on ordering within Keys to Soil Taxonomy
 #' @param rotationOrder character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right; exact ordering is not always possible
 #' @param level character. one of: `"soilorder"`, `"suborder"`, `"greatgroup"` or `"subgroup"`
+#' @param cluster.method Either "divisive" (`cluster::diana()`; default) or "agglomerative" (`cluster::agnes()`)
+#' @param cluster.args Optional: additional arguments for `cluster::diana()` or `cluster::agnes()` cluster methods
 #' @param name column name containing horizon names
 #' @param name.style passed to `aqp::plotSPC`
 #' @param id.style passed to `aqp::plotSPC`
@@ -67,6 +69,8 @@ SoilTaxonomyDendrogram <- function(spc,
                                      greatgroup = "greatgroup",
                                      subgroup = "subgroup"
                                    ),
+                                   cluster.method = c("divisive", "agglomerative"),
+                                   cluster.args = list(),
                                    name = 'hzname', 
                                    name.style = 'center-center', 
                                    id.style = 'side', 
@@ -84,7 +88,10 @@ SoilTaxonomyDendrogram <- function(spc,
                                    dend.color = par('fg'), 
                                    dend.width = 1, 
                                    ...) {
-	
+           
+  # choice of cluster methods: use diana() or agnes()
+  cluster.method <- match.arg(tolower(cluster.method), c("divisive", "agglomerative"))
+  
   # attempt KST-based ordering:
   # 1. setup ordinal factors based on order of taxa with each level of ST hierarchy
   # 2. rotate dendrogram to reflect ordering of subgroups within keys
@@ -92,13 +99,11 @@ SoilTaxonomyDendrogram <- function(spc,
     
     # requires SoilTaxonomy >= 0.1.5 (2022-02-15)
     if (!requireNamespace('SoilTaxonomy', quietly = TRUE)) {
-      stop('please install the `SoilTaxonomy` packages', call. = FALSE)
+      stop('please install the `SoilTaxonomy` package', call. = FALSE)
     }
     
     # TODO: a function to set ordered factors in a data.frame-like object should be added to SoilTaxonomy
     ST_unique_list <- NULL
-    
-    # note: this is incompatible with LazyData: true
     load(system.file("data/ST_unique_list.rda", package = "SoilTaxonomy")[1])
     
     # support for NASIS physical column names (NASIS possibly should be default?)
@@ -143,14 +148,12 @@ SoilTaxonomyDendrogram <- function(spc,
     }
     
     # replace original values with ordered factors if possible
-    # falling back to plain factors
     spc$soilorder <- .soilorder
     spc$suborder <- .suborder
     spc$greatgroup <- .greatgroup
     spc$subgroup <- .subgroup
     
     # rotate as close to KST ordering as possible
-    # but only if there is no user-supplied rotation
     if (is.null(rotationOrder)) {
       rotationOrder <- profile_id(spc)[order(spc[[level[length(level)]]])]
     }
@@ -172,13 +175,16 @@ SoilTaxonomyDendrogram <- function(spc,
 	# compute distance matrix from specified levels
 	s.dist <- daisy(s[, level, drop = FALSE], metric = 'gower')
 	
-	# use divisive clustering (diana; default)
-	# TODO: or agglomerative (cluster::agnes) which may work better with trees with less variation
-	#       i.e. where we know that at the lowest level there should be multiple profiles/group
-	s.hclust <- as.hclust(diana(s.dist))
+	if (cluster.method == "divisive") {
+	  # cluster::diana is the default/"divisive" method
+	  s.clust <- do.call(cluster::diana, c(list(x = s.dist), cluster.args))
+	} else if (cluster.method == "agglomerative") {
+	  # cluster::agnes is the agglomerative method
+	  s.clust <- do.call(cluster::agnes, c(list(x = s.dist), cluster.args))
+	}
 	
 	# convert to phylo class
-	dend <- as.phylo(s.hclust)
+	dend <- as.phylo(as.hclust(s.clust))
 	
 	## 2022-05-04: switching to ape rotation methods
 	# requires vector of tip labels

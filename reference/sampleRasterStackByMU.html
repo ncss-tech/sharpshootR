@@ -44,7 +44,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Sample a Raster Stack</h1>
-    <small class="dont-index">Source: <a href="https://github.com/ncss-tech/sharpshootR/blob/HEAD/R/sampleRasterStackByMU.R" class="external-link"><code>R/sampleRasterStackByMU.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/ncss-tech/sharpshootR/blob/HEAD/R/sampleRasterStackByMU.R" class="external-link"><code>R/sampleRasterStackByMU.R</code></a>, <a href="https://github.com/ncss-tech/sharpshootR/blob/HEAD/R/sampleRasterStackByMU2.R" class="external-link"><code>R/sampleRasterStackByMU2.R</code></a></small>
     <div class="hidden name"><code>sampleRasterStackByMU.Rd</code></div>
     </div>
 
@@ -60,6 +60,20 @@
 <span>  <span class="va">raster.list</span>,</span>
 <span>  <span class="va">pts.per.acre</span>,</span>
 <span>  p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.95</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  iterations <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  progress <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  estimateEffectiveSampleSize <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  polygon.id <span class="op">=</span> <span class="st">"pID"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">sampleRasterStackByMU2</span><span class="op">(</span></span>
+<span>  <span class="va">mu</span>,</span>
+<span>  <span class="va">mu.set</span>,</span>
+<span>  <span class="va">mu.col</span>,</span>
+<span>  <span class="va">raster.list</span>,</span>
+<span>  <span class="va">pts.per.acre</span>,</span>
+<span>  p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.95</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  iterations <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  estimateEffectiveSampleSize <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  polygon.id <span class="op">=</span> <span class="st">"pID"</span></span>
@@ -90,6 +104,10 @@
 
 <dt>p</dt>
 <dd><p>percentiles for polygon area stats, e.g. <code>c(0.05, 0.25, 0.5, 0.75, 0.95)</code></p></dd>
+
+
+<dt>iterations</dt>
+<dd><p>Number of iterations, passed to <code><a href="constantDensitySampling.html">constantDensitySampling()</a></code></p></dd>
 
 
 <dt>progress</dt>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.11</span>
       </span>
     </div>
 
@@ -57,6 +57,8 @@
 <span>  <span class="va">spc</span>,</span>
 <span>  KST.order <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  rotationOrder <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>soilorder <span class="op">=</span> <span class="st">"soilorder"</span>, suborder <span class="op">=</span> <span class="st">"suborder"</span>, greatgroup <span class="op">=</span> <span class="st">"greatgroup"</span>,</span>
+<span>    subgroup <span class="op">=</span> <span class="st">"subgroup"</span><span class="op">)</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"hzname"</span>,</span>
 <span>  name.style <span class="op">=</span> <span class="st">"center-center"</span>,</span>
 <span>  id.style <span class="op">=</span> <span class="st">"side"</span>,</span>
@@ -89,6 +91,10 @@
 
 <dt>rotationOrder</dt>
 <dd><p>character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right; exact ordering is not always possible</p></dd>
+
+
+<dt>level</dt>
+<dd><p>character. one of: <code>"soilorder"</code>, <code>"suborder"</code>, <code>"greatgroup"</code> or <code>"subgroup"</code></p></dd>
 
 
 <dt>name</dt>
@@ -168,7 +174,7 @@
 </ul></div>
     <div id="details">
     <h2>Details</h2>
-    <p>This function looks for specific site-level attributes named: <code>soilorder</code>, <code>suborder</code>, <code>greatgroup</code>, and <code>subgroup</code>. See <code>misc/soilTaxonomyDendrogram-examples.R</code> for some examples.</p>
+    <p>This function looks for specific site-level attributes named: <code>"soilorder"</code>, <code>"suborder"</code>, <code>"greatgroup"</code>, and <code>"subgroup"</code>, or their NASIS physical column name analogues <code>"taxorder"</code>, <code>"taxsuborder"</code>, <code>"taxgrtgroup"</code>, and <code>"taxsubgrp"</code>. See <a href="https://github.com/ncss-tech/sharpshootR/blob/master/misc/soilTaxonomyDendrogram-examples.R" class="external-link">https://github.com/ncss-tech/sharpshootR/blob/master/misc/soilTaxonomyDendrogram-examples.R</a> for some examples.</p>
 <p>The <code>rotationOrder</code> argument uses <code><a href="https://rdrr.io/pkg/ape/man/rotate.html" class="external-link">ape::rotateConstr()</a></code> to reorder leaves within the <code>hclust</code> representation of the ST hierarchy. Perfect sorting is not always possible.</p>
     </div>
     <div id="author">
@@ -184,19 +190,19 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># examples using first 8 profiles</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## TODO: uncomment once latest SoilTaxonomy is on CRAN</span></span></span>
 <span class="r-in"><span><span class="co"># KST-style ordering</span></span></span>
-<span class="r-in"><span><span class="co"># SoilTaxonomyDendrogram(</span></span></span>
-<span class="r-in"><span><span class="co"># OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',</span></span></span>
-<span class="r-in"><span><span class="co"># KST.order = TRUE</span></span></span>
-<span class="r-in"><span><span class="co"># )</span></span></span>
+<span class="r-in"><span><span class="fu">SoilTaxonomyDendrogram</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">OSDexamples</span><span class="op">$</span><span class="va">SPC</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span>, <span class="op">]</span>, width <span class="op">=</span> <span class="fl">0.3</span>, name.style <span class="op">=</span> <span class="st">'center-center'</span>,</span></span>
+<span class="r-in"><span>  KST.order <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="SoilTaxonomyDendrogram-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># classic ordering, based on nominal scale variables (unordered factors)</span></span></span>
 <span class="r-in"><span><span class="fu">SoilTaxonomyDendrogram</span><span class="op">(</span></span></span>
-<span class="r-in"><span><span class="va">OSDexamples</span><span class="op">$</span><span class="va">SPC</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span>, <span class="op">]</span>, width <span class="op">=</span> <span class="fl">0.3</span>, name.style <span class="op">=</span> <span class="st">'center-center'</span>,</span></span>
-<span class="r-in"><span>KST.order <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span>  <span class="va">OSDexamples</span><span class="op">$</span><span class="va">SPC</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span>, <span class="op">]</span>, width <span class="op">=</span> <span class="fl">0.3</span>, name.style <span class="op">=</span> <span class="st">'center-center'</span>,</span></span>
+<span class="r-in"><span>  KST.order <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="SoilTaxonomyDendrogram-1.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="SoilTaxonomyDendrogram-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

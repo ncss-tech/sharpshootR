@@ -74,7 +74,8 @@ deficit value = deficit - storage
 <span>  n.ticks <span class="op">=</span> <span class="fl">8</span>,</span>
 <span>  grid.col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html" class="external-link">grey</a></span><span class="op">(</span><span class="fl">0.65</span><span class="op">)</span>,</span>
 <span>  month.cex <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  legend.cex <span class="op">=</span> <span class="fl">0.9</span></span>
+<span>  legend.cex <span class="op">=</span> <span class="fl">0.9</span>,</span>
+<span>  <span class="va">ylim</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -142,6 +143,10 @@ deficit value = deficit - storage
 
 <dt>legend.cex</dt>
 <dd><p>scaling factor for legend</p></dd>
+
+
+<dt>ylim</dt>
+<dd><p>optional vector of y-axis limits, <code>c(-min, max)</code>, typically used when comparing drastically different water balances in the same figure. Default limits are usually best for a single water balance plot.</p></dd>
 
 </dl></div>
     <div id="value">

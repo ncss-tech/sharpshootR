@@ -60,6 +60,9 @@ vizHillslopePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex
   x$n <- NULL
   x$shannon_entropy <- NULL
   
+  # proportions used for clustering
+  x.prop <- x[, -1]
+  
   ## convert proportions to long format for plotting
   x.long <- melt(x, id.vars = 'series')
   # fix names: second column contains labels
@@ -74,16 +77,56 @@ vizHillslopePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex
   ## all of the fancy ordering + dendrogram require > 1 series
   if(n.series > 1) {
     # re-order labels based on sorting of proportions: "hydrologic" ordering
-    hyd.order <- order(rowSums(sweep(x[, -1], 2, STATS=c(-4, -2, 0.1, 2, 4), FUN = '*')), decreasing = TRUE)
+    hyd.order <- order(
+      rowSums(
+        sweep(x.prop, 2, STATS = c(-4, -2, 0.1, 2, 4), FUN = '*')
+      ), 
+      decreasing = TRUE
+    )
+    
+    
+    ## abstract this into a function that can be run in a while() loop
+    ## after n iterations, keep version with highest score
+    
+    # evaluate number of unique values by column
+    unique.prop.n <- apply(x.prop, 2, function(i) length(unique(i)))
+    
+    # flag those columns that have fewer unique values than half number of series
+    problem.idx <- which(unique.prop.n < n.series / 2)
+    
+    # add some noise to flagged columns
+    # if there are too few unique values
+    if(length(problem.idx) > 0) {
+      
+      message('Too many ties in probability matrix, adding some noise...')
+      
+      # add noise to affected columns
+      for(i in problem.idx) {
+        x.prop[, i] <- jitter(unlist(x.prop[, i]), amount = 0.1)
+      }
+    }
+    
     
     # cluster proportions: results are not in "hydrologic" order, but close
-    x.d <- as.hclust(diana(daisy(x[, -1])))
+    # force interpretation as interval-scale
+    x.d <- as.hclust(
+      diana(
+        daisy(x.prop, type = list(numeric = 1:ncol(x.prop)))
+      )
+    )
     
     # rotate clustering according to hydrologic ordering
-    x.d.hydro <- dendextend::rotate(x.d, order = x$series[hyd.order]) # dendextend approach
+    x.d.hydro <- dendextend::rotate(x.d, order = x$series[hyd.order])
+    
+    ## TODO: consider using ape methods
+    # x.d.hydro <- as.hclust(ape::rotateConstr(as.phylo(x.d), constraint = x$series[hyd.order]))
+    
+    ## TODO: when there are too many ties, iterative optimize this criteria:
+    # did we achieve the desired order?
+    print(table(x$series[hyd.order] == x$series[x.d.hydro$order]))
     
     # re-order labels levels based on clustering
-    x.long$series <- factor(x.long$series, levels=x.long$series[x.d.hydro$order])
+    x.long$series <- factor(x.long$series, levels = x$series[x.d.hydro$order])
     
     # dendrogram synced to bars
     leg <- list(

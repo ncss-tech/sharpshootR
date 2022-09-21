@@ -12,6 +12,7 @@
 #' 
 #' @param AWC available water-holding capacity (mm), typically the value used in `monthlyWB()` and stored as an attribute of `WB`
 #' 
+#' @param ylim optional vector of y-axis limits, `c(-min, max)`, typically used when comparing drastically different water balances in the same figure. Default limits are usually best for a single water balance plot.
 #'
 #' @param sw.col color for soil water ("storage)
 #' 
@@ -89,7 +90,7 @@
 #' 
 #' }
 #' 
-plotWB <- function(WB, AWC = attr(WB, 'AWC'), sw.col = '#377EB8', surplus.col = '#4DAF4A', et.col = '#E41A1C', deficit.col = '#FF7F00', pch = c(21, 21), pt.cex = 1, pt.col = par('bg'), pt.bg = par('fg'), lty = c(1, 2), lwd = 2, n.ticks = 8, grid.col = grey(0.65), month.cex = 1, legend.cex = 0.9) {
+plotWB <- function(WB, AWC = attr(WB, 'AWC'), sw.col = '#377EB8', surplus.col = '#4DAF4A', et.col = '#E41A1C', deficit.col = '#FF7F00', pch = c(21, 21), pt.cex = 1, pt.col = par('bg'), pt.bg = par('fg'), lty = c(1, 2), lwd = 2, n.ticks = 8, grid.col = grey(0.65), month.cex = 1, legend.cex = 0.9, ylim) {
   
   # number of time steps, usually months
   n <- nrow(WB)
@@ -97,19 +98,33 @@ plotWB <- function(WB, AWC = attr(WB, 'AWC'), sw.col = '#377EB8', surplus.col = 
   ## always plotting "below" c/o J.Skovlin
   ## this method is more intuitive and simpler to maintain
   
-  # need the most negative value:
-  # when AWC == S: -AWC + Deficit 
-  # else: min(-AWC, D)
-  # 
-  y.min <- min(
-    c(
-      ifelse(WB$S == AWC & WB$D < 0, -AWC + WB$D, -AWC),
-      WB$D
+  # manual override on y-limits
+  if(!missing(ylim)) {
+    if(inherits(ylim, 'numeric') & length(ylim) == 2) {
+      y.min <- ylim[1]
+      y.max <- ylim[2]
+    } else {
+      stop('If specified, `ylim` must be a 2 element numeric vector', call. = FALSE)
+    }
+    
+  } else {
+    # determine using the source data
+    
+    # need the most negative value:
+    # when AWC == S: -AWC + Deficit 
+    # else: min(-AWC, D)
+    y.min <- min(
+      c(
+        ifelse(WB$S == AWC & WB$D < 0, -AWC + WB$D, -AWC),
+        WB$D
+      )
     )
-  )
+    
+    # which ever is greatest: U (surplus), PPT, PET
+    y.max <- max(c(WB$U, WB$PPT, WB$PET))
+  }
   
-  # which ever is greatest: U (surplus), PPT, PET
-  y.max <- max(c(WB$U, WB$PPT, WB$PET))
+  
   
   # specific axis
   ppt.axis <- pretty(c(0, y.max), n = n.ticks)

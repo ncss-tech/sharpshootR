@@ -20,7 +20,8 @@ plotWB(
   n.ticks = 8,
   grid.col = grey(0.65),
   month.cex = 1,
-  legend.cex = 0.9
+  legend.cex = 0.9,
+  ylim
 )
 }
 \arguments{
@@ -55,6 +56,8 @@ plotWB(
 \item{month.cex}{scaling factor for month labels (x-axis)}
 
 \item{legend.cex}{scaling factor for legend}
+
+\item{ylim}{optional vector of y-axis limits, \code{c(-min, max)}, typically used when comparing drastically different water balances in the same figure. Default limits are usually best for a single water balance plot.}
 }
 \value{
 nothing, function is called to generate graphical output

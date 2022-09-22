@@ -19,6 +19,7 @@ bb <- '-100.5758 47.6062,-100.5758 47.6340,-100.5056 47.6340,-100.5056 47.6062,-
 bb <- '-120.2273 37.9859,-120.2273 38.1158,-119.9467 38.1158,-119.9467 37.9859,-120.2273 37.9859'
 
 
+bb <- '-96.7622 30.8644,-96.7622 30.9351,-96.6218 30.9351,-96.6218 30.8644,-96.7622 30.8644'
 
 
 
@@ -62,12 +63,17 @@ osd <- fetchOSD(unique(s$compname), extended = TRUE)
 str(osd, 1)
 
 
-## convert horizon boundary distinctness -> vertical distance
-# see manual page
-osd$SPC$hzd <- hzDistinctnessCodeToOffset(
-  osd$SPC$distinctness, 
-  codes = c('very abrupt', 'abrubt', 'clear', 'gradual', 'diffuse')
-)
+# the latest soilDB::fetchOSD() will automatically encode horizon distinctness offset
+# backwards compatibility
+if(is.null(osd$SPC$hzd)) {
+  
+  # convert horizon boundary distinctness -> vertical distance
+  osd$SPC$hzd <- hzDistinctnessCodeToOffset(
+    osd$SPC$distinctness, 
+    codes = c('very abrupt', 'abrubt', 'clear', 'gradual', 'diffuse')
+  )
+}
+
 
 
 
@@ -92,43 +98,43 @@ SoilTaxonomyDendrogram(
 
 
 # hillpos geomorphic summary
-o <- reconcileOSDGeomorp(osd, 'hillpos')
+o <- reconcileOSDGeomorph(osd, 'hillpos')
 res <- vizHillslopePosition(o$geom)
 print(res$fig)
 res$score
 
 # 3D geomorphic summary
-o <- reconcileOSDGeomorp(osd, 'geomcomp')
+o <- reconcileOSDGeomorph(osd, 'geomcomp')
 res <- vizGeomorphicComponent(o$geom)
 print(res$fig)
 res$score
 
 # flats geomorphic summary
-o <- reconcileOSDGeomorp(osd, 'flats')
+o <- reconcileOSDGeomorph(osd, 'flats')
 res <- vizFlatsPosition(o$geom)
 print(res$fig)
 res$score
 
 # terrace geomorphic summary
-o <- reconcileOSDGeomorp(osd, 'terrace')
+o <- reconcileOSDGeomorph(osd, 'terrace')
 res <- vizTerracePosition(o$geom)
 print(res$fig)
 res$score
 
 # mountain geomorphic summary
-o <- reconcileOSDGeomorp(osd, 'mtnpos')
+o <- reconcileOSDGeomorph(osd, 'mtnpos')
 res <- vizMountainPosition(o$geom)
 print(res$fig)
 res$score
 
 # shape geomorphic summary
-o <- reconcileOSDGeomorp(osd, 'shape_across')
+o <- reconcileOSDGeomorph(osd, 'shape_across')
 res <- vizSurfaceShape(o$geom, title = 'Shape Across')
 print(res$fig)
 res$score
 
 # shape geomorphic summary
-o <- reconcileOSDGeomorp(osd, 'shape_down')
+o <- reconcileOSDGeomorph(osd, 'shape_down')
 res <- vizSurfaceShape(o$geom, title = 'Shape Down')
 print(res$fig)
 res$score
@@ -142,7 +148,7 @@ res$score
 
 
 ## arrange according to clustering of hillslope position
-o <- reconcileOSDGeomorp(osd, 'hillpos')
+o <- reconcileOSDGeomorph(osd, 'hillpos')
 res <- vizHillslopePosition(o$geom)
 
 par(mar = c(0, 0, 0, 0))
@@ -162,41 +168,9 @@ plotProfileDendrogram(
 )
 
 
-## borrowing ideas from this tutorial:
-## https://ncss-tech.github.io/AQP/soilDB/exploring-geomorph-summary.html
-##
-hp.cols <- RColorBrewer::brewer.pal(n = 5, name = 'Set1')[c(2, 3, 4, 5, 1)]
-
-# re-order hillslope proportions according to clustering
-hp <- o$geom[res$order, ]
-nm <- names(hp[, 2:6])
-
-par(mar = c(0.5, 0, 0, 2))
-layout(matrix(c(1,2)), widths = c(1,1), heights = c(2,1))
-plotProfileDendrogram(o$SPC, res$clust, dend.y.scale = 3, scaling.factor = 0.012, y.offset = 0.2, width = 0.32, name.style = 'center-center', cex.names = 0.7, shrink = TRUE, cex.id = 0.55)
-
-## TODO: encode Shannon entropy: values are computed row-wise, data plotted as columns
-matplot(y = hp[, 2:6], type = 'b', lty = 1, pch = 16, axes = FALSE, col = hp.cols, xlab = '', ylab = '', xlim = c(0.5, length(o$SPC) + 1))
-# grid(nx = 0, ny = NULL)
-axis(side = 4, line = -1, las = 1, cex.axis = 0.7)
-# axis(side = 2, line = -3, las = 1, cex.axis = 0.7)
-legend('topleft', legend = rev(nm), col = rev(hp.cols), pch = 16, bty = 'n', cex = 0.8, pt.cex = 2, horiz = TRUE, inset = c(0.01, 0.01))
-mtext('Probability', side = 2, line = -2, font = 2)
-
-
-## TODO: encode Shannon entropy
-par(mar = c(0.5, 0, 0, 2))
-layout(matrix(c(1,2)), widths = c(1,1), heights = c(2,1))
-plotProfileDendrogram(o$SPC, res$clust, dend.y.scale = 3, scaling.factor = 0.012, y.offset = 0.2, width = 0.32, name.style = 'center-center', cex.names = 0.7, shrink = TRUE, cex.id = 0.55, hz.distinctness.offset = 'hzd')
-
-sp <- c(1.5, rep(1, times = length(o$SPC) - 1))
-barplot(height = t(as.matrix(hp[, 2:6])), beside = FALSE, width = 0.5, space = sp, col = hp.cols,  axes = FALSE, xlab = '', ylab = '', xlim = c(0.5, length(o$SPC) + 1), ylim = c(0, 1.2))
-
-idx <- match(hp$series, profile_id(o$SPC))
-text(x = (1:nrow(hp)) + 0.4, y = 0.5, labels = o$SPC$subgroup[idx], cex = 0.75, srt = 90, font = 2)
-
-legend(x = 0.75, y = 1.2, legend = rev(nm), col = rev(hp.cols), pch = 15, bty = 'n', cex = 0.8, pt.cex = 1.25, horiz = TRUE)
-mtext('Probability', side = 2, line = -2, font = 2)
+par(mar = c(0.5, 0, 0, 2), bg = 'black', fg = 'white')
+plotGeomorphCrossSection(osd, type = 'line')
+plotGeomorphCrossSection(osd, type = 'bar')
 
 
 

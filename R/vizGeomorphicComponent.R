@@ -19,6 +19,7 @@
 #'    * `fig`: lattice object (the figure)
 #'    * `order`: 1D ordering from `cluster::diana`
 #'    * `clust`: clustering object returned by `cluster::diana`
+#'    * `score`: scoring of hydrologic ordering of dendrogram 
 #' 
 #' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
 #' 

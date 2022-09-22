@@ -32,6 +32,7 @@ A \code{list} with the following elements:
 \item \code{fig}: lattice object (the figure)
 \item \code{order}: 1D ordering from \code{cluster::diana}
 \item \code{clust}: clustering object returned by \code{cluster::diana}
+\item \code{score}: scoring of hydrologic ordering of dendrogram
 }
 }
 \description{

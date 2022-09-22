@@ -5,7 +5,7 @@
 #' 
 #' @description A unique display of hillslope position probability.
 #' 
-#' @param x \code{data.frame} as created by \code{soilDB::fetchOSD(..., extended=TRUE)}, see details
+#' @param x `data.frame` as created by `soilDB::fetchOSD(..., extended = TRUE)`
 #' 
 #' @param s an optional soil series name, highlighted in the figure
 #' 
@@ -21,6 +21,7 @@
 #'    * `fig`: lattice object (the figure)
 #'    * `order`: 1D ordering from `cluster::diana`
 #'    * `clust`: clustering object returned by `cluster::diana`
+#'    * `score`: scoring of hydrologic ordering of dendrogram 
 #' 
 #' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
 #' 

@@ -25,16 +25,16 @@
 #' @keywords manip
 #'
 #' @examples
+#' if (requireNamespace("igraph")) {
+#'   # load sample data set
+#'   data(amador)
 #' 
-#' # load sample data set
-#' data(amador)
+#'   # convert into adjacency matrix
+#'   m <- component.adj.matrix(amador)
 #' 
-#' # convert into adjacency matrix
-#' m <- component.adj.matrix(amador)
-#' 
-#' # plot network diagram, with Amador soil highlighted
-#' plotSoilRelationGraph(m, s = 'amador')
-#' 
+#'   # plot network diagram, with Amador soil highlighted
+#'   plotSoilRelationGraph(m, s = 'amador')
+#' }
 component.adj.matrix <-function(d, mu = 'mukey', co = 'compname', wt = 'comppct_r', method = c('community.matrix', 'occurrence'), standardization = 'max', metric = 'jaccard', rm.orphans = TRUE, similarity = TRUE, return.comm.matrix = FALSE) {
 	
   ## TODO: remove .wt hacks

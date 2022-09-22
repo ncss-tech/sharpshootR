@@ -82,67 +82,65 @@ The \code{graph.mode} argument is passed to \code{igraph::graph_from_adjacency_m
 This function is a work in progress, ideas welcome.
 }
 \examples{
+if (requireNamespace("igraph")) {
+  # load sample data set
+  data(amador)
 
-# load sample data set
-data(amador)
+  # create weighted adjacency matrix (see ?component.adj.matrix for details)
+  m <- component.adj.matrix(amador)
 
-# create weighted adjacency matrix (see ?component.adj.matrix for details)
-m <- component.adj.matrix(amador)
+  # plot network diagram, with Amador soil highlighted
+  plotSoilRelationGraph(m, s='amador')
 
-# plot network diagram, with Amador soil highlighted
-plotSoilRelationGraph(m, s='amador')
+  # dendrogram representation
+  plotSoilRelationGraph(m, s='amador', plot.style='dendrogram')
 
-# dendrogram representation
-plotSoilRelationGraph(m, s='amador', plot.style='dendrogram')
+  # compare methods
+  m.o <- component.adj.matrix(amador, method='occurrence')
 
-# compare methods
-m.o <- component.adj.matrix(amador, method='occurrence')
+  op <- par(no.readonly = TRUE)
 
-op <- par(no.readonly = TRUE)
+  par(mfcol=c(1,2))
+  plotSoilRelationGraph(m, s='amador', plot.style='dendrogram')
+  title('community matrix')
+  plotSoilRelationGraph(m.o, s='amador', plot.style='dendrogram')
+  title('occurence')
 
-par(mfcol=c(1,2))
-plotSoilRelationGraph(m, s='amador', plot.style='dendrogram')
-title('community matrix')
-plotSoilRelationGraph(m.o, s='amador', plot.style='dendrogram')
-title('occurence')
+  # investigate max spanning tree
+  plotSoilRelationGraph(m, spanning.tree='max')
 
-# investigate max spanning tree
-plotSoilRelationGraph(m, spanning.tree='max')
+  # investigate max spanning tree + edges with weights > 75-th pctile
+  plotSoilRelationGraph(m, spanning.tree=0.75)
 
-# investigate max spanning tree + edges with weights > 75-th pctile
-plotSoilRelationGraph(m, spanning.tree=0.75)
+  par(op)
 
-par(op)
-
-\donttest{
+  \donttest{
   
-  if(requireNamespace("curl") &
-     curl::has_internet() &
-     require(soilDB)) {
+    if(requireNamespace("curl") &
+       curl::has_internet() &
+       require(soilDB)) {
     
-    # get similar data from soilweb, for the Pardee series
-    s <- 'pardee'
-    d <- siblings(s, component.data = TRUE)
+      # get similar data from soilweb, for the Pardee series
+      s <- 'pardee'
+      d <- siblings(s, component.data = TRUE)
     
-    # normalize component names
-    d$sib.data$compname <- tolower(d$sib.data$compname)
+      # normalize component names
+      d$sib.data$compname <- tolower(d$sib.data$compname)
     
-    # keep only major components
-    d$sib.data <- subset(d$sib.data, subset=compkind == 'Series')
+      # keep only major components
+      d$sib.data <- subset(d$sib.data, subset=compkind == 'Series')
     
-    # build adj. matrix and plot
-    m <- component.adj.matrix(d$sib.data)
-    plotSoilRelationGraph(m, s=s, plot.style='dendrogram')
+      # build adj. matrix and plot
+      m <- component.adj.matrix(d$sib.data)
+      plotSoilRelationGraph(m, s=s, plot.style='dendrogram')
     
-    # alter plotting style, see ?plot.phylo
-    plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='fan')
-    plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='unrooted', use.edge.length=FALSE) 
+      # alter plotting style, see ?plot.phylo
+      plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='fan')
+      plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='unrooted', use.edge.length=FALSE) 
     
+    }
   }
-  
-  
 }
-
 }
 \author{
 D.E. Beaudette

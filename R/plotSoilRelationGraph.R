@@ -70,67 +70,65 @@
 #' @export
 #'
 #' @examples
+#' if (requireNamespace("igraph")) {
+#'   # load sample data set
+#'   data(amador)
 #' 
-#' # load sample data set
-#' data(amador)
+#'   # create weighted adjacency matrix (see ?component.adj.matrix for details)
+#'   m <- component.adj.matrix(amador)
 #' 
-#' # create weighted adjacency matrix (see ?component.adj.matrix for details)
-#' m <- component.adj.matrix(amador)
+#'   # plot network diagram, with Amador soil highlighted
+#'   plotSoilRelationGraph(m, s='amador')
 #' 
-#' # plot network diagram, with Amador soil highlighted
-#' plotSoilRelationGraph(m, s='amador')
+#'   # dendrogram representation
+#'   plotSoilRelationGraph(m, s='amador', plot.style='dendrogram')
 #' 
-#' # dendrogram representation
-#' plotSoilRelationGraph(m, s='amador', plot.style='dendrogram')
+#'   # compare methods
+#'   m.o <- component.adj.matrix(amador, method='occurrence')
 #' 
-#' # compare methods
-#' m.o <- component.adj.matrix(amador, method='occurrence')
+#'   op <- par(no.readonly = TRUE)
 #' 
-#' op <- par(no.readonly = TRUE)
+#'   par(mfcol=c(1,2))
+#'   plotSoilRelationGraph(m, s='amador', plot.style='dendrogram')
+#'   title('community matrix')
+#'   plotSoilRelationGraph(m.o, s='amador', plot.style='dendrogram')
+#'   title('occurence')
 #' 
-#' par(mfcol=c(1,2))
-#' plotSoilRelationGraph(m, s='amador', plot.style='dendrogram')
-#' title('community matrix')
-#' plotSoilRelationGraph(m.o, s='amador', plot.style='dendrogram')
-#' title('occurence')
+#'   # investigate max spanning tree
+#'   plotSoilRelationGraph(m, spanning.tree='max')
 #' 
-#' # investigate max spanning tree
-#' plotSoilRelationGraph(m, spanning.tree='max')
+#'   # investigate max spanning tree + edges with weights > 75-th pctile
+#'   plotSoilRelationGraph(m, spanning.tree=0.75)
 #' 
-#' # investigate max spanning tree + edges with weights > 75-th pctile
-#' plotSoilRelationGraph(m, spanning.tree=0.75)
+#'   par(op)
 #' 
-#' par(op)
-#' 
-#' \donttest{
+#'   \donttest{
 #'   
-#'   if(requireNamespace("curl") &
-#'      curl::has_internet() &
-#'      require(soilDB)) {
+#'     if(requireNamespace("curl") &
+#'        curl::has_internet() &
+#'        require(soilDB)) {
 #'     
-#'     # get similar data from soilweb, for the Pardee series
-#'     s <- 'pardee'
-#'     d <- siblings(s, component.data = TRUE)
+#'       # get similar data from soilweb, for the Pardee series
+#'       s <- 'pardee'
+#'       d <- siblings(s, component.data = TRUE)
 #'     
-#'     # normalize component names
-#'     d$sib.data$compname <- tolower(d$sib.data$compname)
+#'       # normalize component names
+#'       d$sib.data$compname <- tolower(d$sib.data$compname)
 #'     
-#'     # keep only major components
-#'     d$sib.data <- subset(d$sib.data, subset=compkind == 'Series')
+#'       # keep only major components
+#'       d$sib.data <- subset(d$sib.data, subset=compkind == 'Series')
 #'     
-#'     # build adj. matrix and plot
-#'     m <- component.adj.matrix(d$sib.data)
-#'     plotSoilRelationGraph(m, s=s, plot.style='dendrogram')
+#'       # build adj. matrix and plot
+#'       m <- component.adj.matrix(d$sib.data)
+#'       plotSoilRelationGraph(m, s=s, plot.style='dendrogram')
 #'     
-#'     # alter plotting style, see ?plot.phylo
-#'     plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='fan')
-#'     plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='unrooted', use.edge.length=FALSE) 
+#'       # alter plotting style, see ?plot.phylo
+#'       plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='fan')
+#'       plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='unrooted', use.edge.length=FALSE) 
 #'     
+#'     }
 #'   }
-#'   
-#'   
 #' }
-#' 
 plotSoilRelationGraph <- function(m, s='', plot.style = c('network', 'dendrogram'), graph.mode='upper', spanning.tree=NULL, del.edges=NULL, vertex.scaling.method='degree', vertex.scaling.factor=2, edge.scaling.factor=1, vertex.alpha=0.65, edge.transparency=1, edge.col=grey(0.5), edge.highlight.col='royalblue', g.layout=igraph::layout_with_fr, vertex.label.color='black', delete.singletons = FALSE, ...) {
 	
   if (!requireNamespace("igraph")) {

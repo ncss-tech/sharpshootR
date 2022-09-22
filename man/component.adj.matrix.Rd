@@ -45,16 +45,16 @@ a similarity matrix / adjacency matrix suitable for use with \code{igraph} funct
 Create an adjacency matrix from SSURGO component data
 }
 \examples{
+if (requireNamespace("igraph")) {
+  # load sample data set
+  data(amador)
 
-# load sample data set
-data(amador)
+  # convert into adjacency matrix
+  m <- component.adj.matrix(amador)
 
-# convert into adjacency matrix
-m <- component.adj.matrix(amador)
-
-# plot network diagram, with Amador soil highlighted
-plotSoilRelationGraph(m, s = 'amador')
-
+  # plot network diagram, with Amador soil highlighted
+  plotSoilRelationGraph(m, s = 'amador')
+}
 }
 \author{
 D.E. Beaudette

@@ -139,6 +139,9 @@
     <loc>https://ncss-tech.github.io/sharpshootR/reference/plotAvailWater.html</loc>
   </url>
   <url>
+    <loc>https://ncss-tech.github.io/sharpshootR/reference/plotGeomorphCrossSection.html</loc>
+  </url>
+  <url>
     <loc>https://ncss-tech.github.io/sharpshootR/reference/plotProfileDendrogram.html</loc>
   </url>
   <url>
@@ -164,6 +167,9 @@
   </url>
   <url>
     <loc>https://ncss-tech.github.io/sharpshootR/reference/prepare_SSURGO_hydro_data.html</loc>
+  </url>
+  <url>
+    <loc>https://ncss-tech.github.io/sharpshootR/reference/reconcileOSDGeomorph.html</loc>
   </url>
   <url>
     <loc>https://ncss-tech.github.io/sharpshootR/reference/sample.by.poly.html</loc>

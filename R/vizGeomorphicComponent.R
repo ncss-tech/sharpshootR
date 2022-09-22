@@ -65,8 +65,7 @@ vizGeomorphicComponent <- function(x, s = NULL, annotations = TRUE, annotation.c
   names(x.long)[2] <- 'geomcomp'
   
   # make some colors, and set style
-  # cols <- brewer.pal(6, 'Spectral')
-  tps <- list(superpose.polygon=list(col=cols, lwd=2, lend=2))
+  tps <- list(superpose.polygon=list(col = cols, lwd = 2, lend = 2))
   
   ## all of the fancy ordering + dendrogram require > 1 series
   if(n.series > 1) {
@@ -79,8 +78,16 @@ vizGeomorphicComponent <- function(x, s = NULL, annotations = TRUE, annotation.c
     # re-order labels levels based on clustering
     x.long$series <- factor(x.long$series, levels = x$series[x.d.hydro$order])
     
-    # dendrogram legend
-    leg <- list(right=list(fun=latticeExtra::dendrogramGrob, args=list(x = as.dendrogram(x.d.hydro), side="right", size=10)))
+    # dendrogram synced to bars
+    leg <- list(
+      right = list(
+        fun = latticeExtra::dendrogramGrob,
+        args = list(
+          x = as.dendrogram(x.d.hydro), 
+          side = "right", 
+          size = 10)
+      )
+    )
     
   } else {
     # singleton
@@ -169,7 +176,14 @@ vizGeomorphicComponent <- function(x, s = NULL, annotations = TRUE, annotation.c
   # embed styling
   pp <- update(pp, par.settings = tps)
   
-  # the figure and ordering are returned
-  return(list(fig = pp, order = x.d.hydro$order, clust = x.d.hydro, score = .hydScore))
+  # re-pack results
+  res <- list(
+    fig = pp, 
+    order = x.d.hydro$order, 
+    clust = x.d.hydro, 
+    score = .hydScore
+  ) 
+  
+  return(res)
 }
 

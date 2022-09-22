@@ -1,15 +1,18 @@
-
-.iterateHydOrder <- function(x, .maxIter = 101, ...) {
-  # iteratively apply hydrologic ordering, 
-  # until exact ordering of dendrogram is achieve (.hydScore == 1)
-  # or max iterations
+# iteratively apply hydrologic ordering, 
+# until exact ordering of dendrogram is achieve (.hydScore == 1)
+# or max iterations
+# x: geomorphic proportion matrix
+# maxIter: max number of perturbations of geomorphic probability matrix
+.iterateHydOrder <- function(x, .maxIter = 100, ...) {
+  
   .hydScore <- 0.5
   .iter <- 1
   
   # save intermediate steps here, in case we hit .maxIter
   .log <- list()
   
-  while(.hydScore < 0.95) {
+  # target minimum score
+  while(.hydScore < 1) {
     .res <- .hydOrderRotate(x, ...)
     
     # update local vars
@@ -18,9 +21,6 @@
     
     # save iterations, in case we have to select the best out of max iterations
     .log[[.iter]] <- .res
-    
-    # increment counter
-    .iter <- .iter + 1
     
     # failsafe: too many iterations
     if(.iter > .maxIter) {
@@ -32,12 +32,26 @@
       
       break
     }
+    
+    # increment counter
+    .iter <- .iter + 1
   }
   
-  return(list(clust = .clust, score = .hydScore))
+  # most important result is the rotated hclust object
+  # also include final score, number of iterations
+  .res <- list(
+    clust = .clust, 
+    score = .hydScore,
+    niter = .iter
+  ) 
+  
+  return(.res)
 }
 
 
+# x: geomorphic proportion matrix
+# g: geomorphic type
+# j.amount: amount of jittering applied to problematic proportions
 .hydOrderRotate <- function(x, g, j.amount = 0.01) {
   
   # local vars
@@ -48,7 +62,11 @@
   g.stats <- switch(
     g,
     'geomcomp' = c(4, 2, 1, 1, -2, -4),
-    'hillpos'  = c(-4, -2, 0.1, 2, 4)
+    'hillpos'  = c(-4, -2, 0.1, 2, 4),
+    'flats'    = c(-2, 0, 0, 2),
+    'terrace'  = c(-1, 1),
+    'mtnpos'   = c(4, 2, 1, 1, -2, -4),
+    'shape'    = c(-4, 1, 4, 5, 6)
   )
   
   # re-order labels based on sorting of proportions: "hydrologic" ordering
@@ -65,8 +83,8 @@
   # flag those columns that have fewer unique values than half number of series
   problem.idx <- which(unique.prop.n < n.series / 2)
   
-  # add some noise to flagged columns
   # if there are too few unique values
+  # add some noise to flagged columns
   if(length(problem.idx) > 0) {
     
     # add noise to affected columns
@@ -84,20 +102,25 @@
     )
   )
   
-  # rotate clustering according to hydrologic ordering
+  # attempt rotate clustering according to hydrologic ordering
+  # perfect ordering not possible when there are many ties
   x.d.hydro <- dendextend::rotate(x.d, order = x$series[hyd.order])
   
   ## TODO: consider using ape pkg
   # x.d.hydro <- as.hclust(ape::rotateConstr(as.phylo(x.d), constraint = x$series[hyd.order]))
   
   # ordering objective function
-  score <- length(which(x$series[hyd.order] == x$series[x.d.hydro$order])) / n.series
+  score <- length(
+    which(
+      x$series[hyd.order] == x$series[x.d.hydro$order]
+    )
+  ) / n.series
   
-  res <- list(
+  .res <- list(
     clust = x.d.hydro,
     score = score
   )
   
-  return(res)
+  return(.res)
 }
 

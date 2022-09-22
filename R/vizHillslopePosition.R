@@ -88,8 +88,8 @@ vizHillslopePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex
         fun = latticeExtra::dendrogramGrob,
         args = list(
           x = as.dendrogram(x.d.hydro), 
-          side="right", 
-          size=10)
+          side = "right", 
+          size = 10)
       )
     )
     
@@ -179,8 +179,14 @@ vizHillslopePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex
   # embed styling
   pp <- update(pp, par.settings = tps)
   
-  # figure, ordering, clustering object
-  res <- list(fig = pp, order = x.d.hydro$order, clust = x.d.hydro, score = .hydScore)
+  # re-pack results
+  res <- list(
+    fig = pp, 
+    order = x.d.hydro$order, 
+    clust = x.d.hydro, 
+    score = .hydScore
+  ) 
+  
   return(res)
 }
 

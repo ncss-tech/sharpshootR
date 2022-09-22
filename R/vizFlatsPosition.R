@@ -73,25 +73,24 @@ vizFlatsPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0
   
   ## all of the fancy ordering + dendrogram require > 1 series
   if(n.series > 1) {
-    # re-order labels based on sorting of proportions: "hydrologic" ordering
-    hyd.order <- order(rowSums(sweep(x[, -1], 2, STATS=c(-2, 0, 0, 2), FUN = '*')), decreasing = TRUE)
     
-    # cluster proportions: results are not in "hydrologic" order, but close
-    x.d <- as.hclust(diana(daisy(x[, -1])))
-    # x.d <- as.hclust(agnes(daisy(x[, -1]), method = 'gaverage'))
-    
-    # rotate clustering according to hydrologic ordering
-    x.d.hydro <- dendextend::rotate(x.d, order = x$series[hyd.order]) # dendextend approach
+    # iteratively apply hydrologic ordering, 
+    .res <- .iterateHydOrder(x, g = 'flats')
+    x.d.hydro <- .res$clust
+    .hydScore <- .res$score
     
     # re-order labels levels based on clustering
-    x.long$series <- factor(x.long$series, levels=x.long$series[x.d.hydro$order])
+    x.long$series <- factor(x.long$series, levels = x$series[x.d.hydro$order])
     
-    # dendrogram legend
+    # dendrogram synced to bars
     leg <- list(
       right = list(
-        fun = latticeExtra::dendrogramGrob, 
-        args = list(x = as.dendrogram(x.d.hydro), side = "right", size = 10)
-        )
+        fun = latticeExtra::dendrogramGrob,
+        args = list(
+          x = as.dendrogram(x.d.hydro), 
+          side = "right", 
+          size = 10)
+      )
     )
     
   } else {
@@ -103,6 +102,7 @@ vizFlatsPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0
     
     # simulate output from clustering
     x.d.hydro <- list(order = 1L)
+    .hydScore <- NA
   }
   
   # hack to ensure that simpleKey works as expected
@@ -178,7 +178,14 @@ vizFlatsPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0
   # embed styling
   pp <- update(pp, par.settings = tps)
   
-  # the figure and ordering are returned
-  return(list(fig = pp, order = x.d.hydro$order, clust = x.d.hydro))
+  # re-pack results
+  res <- list(
+    fig = pp, 
+    order = x.d.hydro$order, 
+    clust = x.d.hydro, 
+    score = .hydScore
+  ) 
+  
+  return(res)
 }
 

@@ -27,10 +27,10 @@ g <- graph_from_adjacency_matrix(x, mode = 'upper', diag = FALSE, weighted = TRU
 par(mar = c(0,0,0,0))
 plot(g)
 
-plot(g, vertex.size = sqrt(degree(g) * 25), vertex.label.family = 'sans')
+plot(g, vertex.size = sqrt(igraph::degree(g) * 25), vertex.label.family = 'sans')
 
 # find communities
-cm <- cluster_walktrap(g)
+cm <- igraph::cluster_walktrap(g)
 plot(cm, g, vertex.label.family = 'sans')
 
 # rename / save

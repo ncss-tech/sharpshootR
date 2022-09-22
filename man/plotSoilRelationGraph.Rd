@@ -18,7 +18,7 @@ plotSoilRelationGraph(
   edge.transparency = 1,
   edge.col = grey(0.5),
   edge.highlight.col = "royalblue",
-  g.layout = layout_with_fr,
+  g.layout = igraph::layout_with_fr,
   vertex.label.color = "black",
   delete.singletons = FALSE,
   ...
@@ -51,7 +51,7 @@ plotSoilRelationGraph(
 
 \item{edge.highlight.col}{edge color applied to all edges connecting to component named in \code{s}}
 
-\item{g.layout}{an igraph layout function, defaults to \code{layout_with_fr}}
+\item{g.layout}{an igraph layout function, defaults to \code{igraph::layout_with_fr}}
 
 \item{vertex.label.color}{vertex label color}
 
@@ -68,8 +68,8 @@ Plot a component relation graph based on an adjacency or similarity matrix.
 \details{
 Vertex size is based on a normalized index of connectivity:
 \itemize{
-\item "degree" size = \code{sqrt(degree(g)/max(degree(g))) * scaling.factor}
-\item "distance" size =  \code{sqrt(distance(V->s)/max(distance(V->s)))  * scaling.factor}, where distance(V->s) is the distance from all nodes to the named series, \code{s}.
+\item "degree" size = \code{sqrt(igraph::degree(g) / max(igraph::degree(g))) * scaling.factor}
+\item "distance" size = \code{sqrt(igraph::distance(V -> s) / max(igraph::distance(V -> s))) * scaling.factor}, where distance(V->s) is the distance from all nodes to the named series, \code{s}.
 }
 
 Edge width can be optionally scaled by edge weight by specifying an \code{edge.scaling.factor} value. The maximum spanning tree represents a sub-graph where the sum of edge weights are maximized. The minimum spanning tree represents a sub-graph where the sum of edge weights are minimized. The maximum spanning tree is likely a more useful simplification of the full graph, in which only the strongest relationships (e.g. most common co-occurrences) are preserved.

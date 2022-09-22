@@ -32,6 +32,7 @@ Suggests:
     exactextractr,
     httr,
     jsonlite,
+    igraph,
     dendextend,
     testthat,
     hydromad (>= 0.9.27),
@@ -46,7 +47,7 @@ Suggests:
     SoilTaxonomy
 Depends: R (>= 3.5.0)
 Imports: grDevices, graphics, methods, stats, utils, aqp, ape, 
-  soilDB, igraph, cluster, lattice, vegan, sp, 
+  soilDB, cluster, lattice, vegan, sp, 
   reshape2, Hmisc, scales, circular, RColorBrewer, plyr, 
   digest, e1071, stringi, parallel, curl, grid
 Additional_repositories: https://hydromad.github.io

@@ -3,8 +3,12 @@
 polygonAdjacency <- function(x, v='MUSYM', ...) {
   
   # sanity check: package requirements
-  if(!requireNamespace('spdep'))
+  if (!requireNamespace('spdep'))
     stop('please install the `spdep` package', call. = FALSE)
+  
+  if (!requireNamespace("igraph")) {
+    stop("package 'igraph' is required to calculate polygon adjacency", call. = FALSE)
+  }
   
   # compute neighbor list
   nb <- spdep::poly2nb(x, ...)
@@ -18,7 +22,7 @@ polygonAdjacency <- function(x, v='MUSYM', ...) {
   edge.list <- list()
   
   # iterate over polygons
-  for(i in 1:nrow(x)) {
+  for (i in 1:nrow(x)) {
     # get the neighbors for polygon i
     n.idx <- nb[[i]]
     # keep track of the current polygon's attribute and its neighbors'
@@ -32,7 +36,7 @@ polygonAdjacency <- function(x, v='MUSYM', ...) {
     
     # store edge list information
     # if there is no matching neighbor, then pad with NA
-    if(length(this.nb) == 0)
+    if (length(this.nb) == 0)
       this.nb <- NA
     edge.list[[i]] <- cbind(this.attr, this.nb)   
   }
@@ -45,19 +49,19 @@ polygonAdjacency <- function(x, v='MUSYM', ...) {
   edge.list <- na.omit(edge.list)
   
   # init igraph object: note that there will be many duplicate edges
-  g <- graph.edgelist(edge.list, directed=FALSE)
+  g <- igraph::graph.edgelist(edge.list, directed = FALSE)
   
   # keep track of duplicate edges as weight
   # adding 1 to the count of multiples is critical here as some nodes may only touch 1 time
   # ---> log(1) = 0
-  E(g)$weight <- 1 + log(count.multiple(g))
+  igraph::E(g)$weight <- 1 + log(igraph::count.multiple(g))
   
   # remove multiple edges, taking mean of the edge weights
-  g <- simplify(g, remove.multiple = TRUE, remove.loops = TRUE, edge.attr.comb='mean')
+  g <- igraph::simplify(g, remove.multiple = TRUE, remove.loops = TRUE, edge.attr.comb = 'mean')
   
   # save as weighted adjacancy matrix for plotting with sharpshootR functions
-  a <- get.adjacency(g, attr='weight')
+  a <- igraph::get.adjacency(g, attr = 'weight')
   
   # done
-  return(list(commonLines=polys.to.investigate, adjMat=a))
+  return(list(commonLines = polys.to.investigate, adjMat = a))
 }

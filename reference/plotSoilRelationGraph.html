@@ -67,7 +67,7 @@
 <span>  edge.transparency <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  edge.col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html" class="external-link">grey</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span>,</span>
 <span>  edge.highlight.col <span class="op">=</span> <span class="st">"royalblue"</span>,</span>
-<span>  g.layout <span class="op">=</span> <span class="va">layout_with_fr</span>,</span>
+<span>  g.layout <span class="op">=</span> <span class="fu">igraph</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/igraph/man/layout_with_fr.html" class="external-link">layout_with_fr</a></span>,</span>
 <span>  vertex.label.color <span class="op">=</span> <span class="st">"black"</span>,</span>
 <span>  delete.singletons <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -129,7 +129,7 @@
 
 
 <dt>g.layout</dt>
-<dd><p>an igraph layout function, defaults to <code>layout_with_fr</code></p></dd>
+<dd><p>an igraph layout function, defaults to <code><a href="https://rdrr.io/pkg/igraph/man/layout_with_fr.html" class="external-link">igraph::layout_with_fr</a></code></p></dd>
 
 
 <dt>vertex.label.color</dt>
@@ -152,8 +152,8 @@
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>Vertex size is based on a normalized index of connectivity:</p><ul><li><p>"degree" size = <code>sqrt(degree(g)/max(degree(g))) * scaling.factor</code></p></li>
-<li><p>"distance" size =  <code>sqrt(distance(V-&gt;s)/max(distance(V-&gt;s)))  * scaling.factor</code>, where distance(V-&gt;s) is the distance from all nodes to the named series, <code>s</code>.</p></li>
+    <p>Vertex size is based on a normalized index of connectivity:</p><ul><li><p>"degree" size = <code>sqrt(igraph::degree(g) / max(igraph::degree(g))) * scaling.factor</code></p></li>
+<li><p>"distance" size = <code>sqrt(igraph::distance(V -&gt; s) / max(igraph::distance(V -&gt; s))) * scaling.factor</code>, where distance(V-&gt;s) is the distance from all nodes to the named series, <code>s</code>.</p></li>
 </ul><p>Edge width can be optionally scaled by edge weight by specifying an <code>edge.scaling.factor</code> value. The maximum spanning tree represents a sub-graph where the sum of edge weights are maximized. The minimum spanning tree represents a sub-graph where the sum of edge weights are minimized. The maximum spanning tree is likely a more useful simplification of the full graph, in which only the strongest relationships (e.g. most common co-occurrences) are preserved.</p>
 <p>The maximum spanning tree + edges with weights &gt; n-th quantile is an experimental hybrid. The 'backbone' of the graph is created by the maximum spanning tree, and augmented by 'strong' auxiliary edges--defined by a value between 0 and 1.</p>
 <p>The <code>graph.mode</code> argument is passed to <code><a href="https://rdrr.io/pkg/igraph/man/graph_from_adjacency_matrix.html" class="external-link">igraph::graph_from_adjacency_matrix()</a></code> and determines how vertex relationships are coded in the adjacency matrix <code>m</code>. Typically, the default value of 'upper' (the upper triangle of <code>m</code> contains adjacency information) is the desired mode. If <code>m</code> contains directional information, set <code>graph.mode</code> to 'directed'. This has the side-effect of altering the default community detection algorithm from <code><a href="https://rdrr.io/pkg/igraph/man/cluster_fast_greedy.html" class="external-link">igraph::cluster_fast_greedy</a></code> to <code><a href="https://rdrr.io/pkg/igraph/man/cluster_walktrap.html" class="external-link">igraph::cluster_walktrap</a></code>.</p>

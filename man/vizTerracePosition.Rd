@@ -9,7 +9,7 @@ vizTerracePosition(
   s = NULL,
   annotations = TRUE,
   annotation.cex = 0.75,
-  cols = c("#2B83BA", "#ABDDA4", "#FFFFBF", "#FDAE61", "#D7191C")
+  cols = c("#2B83BA", "#FDAE61")
 )
 }
 \arguments{
@@ -29,6 +29,7 @@ A \code{list} with the following elements:
 \item \code{fig}: lattice object (the figure)
 \item \code{order}: 1D ordering from \code{cluster::diana}
 \item \code{clust}: clustering object returned by \code{cluster::diana}
+\item \code{score}: scoring of hydrologic ordering of dendrogram
 }
 }
 \description{

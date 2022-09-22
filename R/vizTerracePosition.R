@@ -19,13 +19,14 @@
 #'    * `fig`: lattice object (the figure)
 #'    * `order`: 1D ordering from `cluster::diana`
 #'    * `clust`: clustering object returned by `cluster::diana`
+#'    * `score`: scoring of hydrologic ordering of dendrogram 
 #' 
 #' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
 #' 
 #' @author D.E. Beaudette
 #' 
 #' 
-vizTerracePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#2B83BA", "#ABDDA4", "#FFFFBF", "#FDAE61", "#D7191C")) {
+vizTerracePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#2B83BA", "#FDAE61")) {
   
   # sanity checks on input
   if(!inherits(x, 'data.frame')) {
@@ -64,33 +65,31 @@ vizTerracePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex =
   # fix names: second column contains labels
   names(x.long)[2] <- 'terrace_position'
   
-  # # make some colors, and set style
-  # cols <- rev(brewer.pal(5, 'Spectral'))
-  
   # plot style
-  tps <- list(superpose.polygon=list(col=cols, lwd=2, lend=2))
+  tps <- list(superpose.polygon = list(col = cols, lwd = 2, lend = 2))
   
   ## all of the fancy ordering + dendrogram require > 1 series
   if(n.series > 1) {
-    # re-order labels based on sorting of proportions: "hydrologic" ordering
-    hyd.order <- order(rowSums(sweep(x[, -1], 2, STATS=c(-1, 1), FUN = '*')), decreasing = TRUE)
     
-    # cluster proportions: results are not in "hydrologic" order, but close
-    x.d <- as.hclust(diana(daisy(x[, -1])))
-    
-    # rotate clustering according to hydrologic ordering
-    x.d.hydro <- dendextend::rotate(x.d, order = x$series[hyd.order]) # dendextend approach
+    # iteratively apply hydrologic ordering, 
+    .res <- .iterateHydOrder(x, g = 'terrace')
+    x.d.hydro <- .res$clust
+    .hydScore <- .res$score
     
     # re-order labels levels based on clustering
-    x.long$series <- factor(x.long$series, levels=x.long$series[x.d.hydro$order])
+    x.long$series <- factor(x.long$series, levels = x$series[x.d.hydro$order])
     
-    # legend dendrogram
+    # dendrogram synced to bars
     leg <- list(
       right = list(
-        fun = latticeExtra::dendrogramGrob, 
-        args = list(x = as.dendrogram(x.d.hydro), side="right", size=10)
+        fun = latticeExtra::dendrogramGrob,
+        args = list(
+          x = as.dendrogram(x.d.hydro), 
+          side = "right", 
+          size = 10)
       )
     )
+    
   } else {
     # singleton
     x.long$series <- factor(x.long$series) 
@@ -100,6 +99,7 @@ vizTerracePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex =
     
     # simulate output from clustering
     x.d.hydro <- list(order = 1L)
+    .hydScore <- NA
   }
   
   # hack to ensure that simpleKey works as expected
@@ -174,7 +174,14 @@ vizTerracePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex =
   # embed styling
   pp <- update(pp, par.settings = tps)
   
-  # the figure and ordering are returned
-  return(list(fig = pp, order = x.d.hydro$order, clust = x.d.hydro))
+  # re-pack results
+  res <- list(
+    fig = pp, 
+    order = x.d.hydro$order, 
+    clust = x.d.hydro, 
+    score = .hydScore
+  ) 
+  
+  return(res)
 }
 

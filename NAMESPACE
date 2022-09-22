@@ -1,11 +1,10 @@
-# R 3.0 compatibility:
 
 importFrom("grDevices", "colorRampPalette", "grey", "col2rgb", "rgb")
 
 importFrom("graphics", "abline", "arrows", "axis", "image", "layout",
              "legend", "lines", "mtext", "par", "points", "rect",
              "segments", "strheight", "strwidth", "text", "grid", "hist", "box", "boxplot", "title",
-           "barplot", "bxp", "contour", "polygon")
+           "barplot", "bxp", "contour", "polygon", "matplot")
 
 importFrom("methods", "as", "slot")
 
@@ -28,6 +27,7 @@ importFrom(ape,
 
 importFrom(aqp,
            plot,
+           hzDistinctnessCodeToOffset,
            fixOverlap,
            idname,
            plotSPC,

@@ -39,7 +39,7 @@ plotProfileDendrogram(
 \item{...}{additional arguments to \code{plotSPC}}
 }
 \value{
-nothing, function is called to generate graphical output
+a \code{data.frame} of IDs and linking structure
 }
 \description{
 Plot soil profiles below a dendrogram

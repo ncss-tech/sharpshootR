@@ -58,7 +58,8 @@
 <span>  s <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  annotations <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  annotation.cex <span class="op">=</span> <span class="fl">0.75</span>,</span>
-<span>  cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#D53E4F"</span>, <span class="st">"#FC8D59"</span>, <span class="st">"#FEE08B"</span>, <span class="st">"#E6F598"</span>, <span class="st">"#99D594"</span>, <span class="st">"#3288BD"</span><span class="op">)</span></span>
+<span>  cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#D53E4F"</span>, <span class="st">"#FC8D59"</span>, <span class="st">"#FEE08B"</span>, <span class="st">"#E6F598"</span>, <span class="st">"#99D594"</span>, <span class="st">"#3288BD"</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -83,6 +84,10 @@
 <dt>cols</dt>
 <dd><p>vector of colors</p></dd>
 
+
+<dt>...</dt>
+<dd><p>additional arguments to <code>[iterateHydOrder]</code>: <code>target = 0.9, maxIter = 20, j.amount = 0.05, verbose = FALSE</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -90,7 +95,7 @@
 
 <p>A <code>list</code> with the following elements:</p><ul><li><p><code>fig</code>: lattice object (the figure)</p></li>
 <li><p><code>order</code>: 1D ordering from <code><a href="https://rdrr.io/pkg/cluster/man/diana.html" class="external-link">cluster::diana</a></code></p></li>
-<li><p><code>clust</code>: clustering object returned by <code><a href="https://rdrr.io/pkg/cluster/man/diana.html" class="external-link">cluster::diana</a></code></p></li>
+<li><p><code>clust</code>: <code>hclust</code> object</p></li>
 <li><p><code>score</code>: scoring of hydrologic ordering of dendrogram</p></li>
 </ul></div>
     <div id="details">

@@ -109,10 +109,16 @@
     <loc>https://ncss-tech.github.io/sharpshootR/reference/huePositionPlot.html</loc>
   </url>
   <url>
+    <loc>https://ncss-tech.github.io/sharpshootR/reference/hydOrder.html</loc>
+  </url>
+  <url>
     <loc>https://ncss-tech.github.io/sharpshootR/reference/index.html</loc>
   </url>
   <url>
     <loc>https://ncss-tech.github.io/sharpshootR/reference/isMineralSoilMaterial.html</loc>
+  </url>
+  <url>
+    <loc>https://ncss-tech.github.io/sharpshootR/reference/iterateHydOrder.html</loc>
   </url>
   <url>
     <loc>https://ncss-tech.github.io/sharpshootR/reference/joinAdjacency.html</loc>

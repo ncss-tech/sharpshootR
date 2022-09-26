@@ -55,7 +55,7 @@
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">reconcileOSDGeomorph</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
-<span>  which <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hillpos"</span>, <span class="st">"geomcomp"</span>, <span class="st">"flats"</span>, <span class="st">"mtnpos"</span>, <span class="st">"terrace"</span>, <span class="st">"shape_across"</span>,</span>
+<span>  selection <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hillpos"</span>, <span class="st">"geomcomp"</span>, <span class="st">"flats"</span>, <span class="st">"mtnpos"</span>, <span class="st">"terrace"</span>, <span class="st">"shape_across"</span>,</span>
 <span>    <span class="st">"shape_down"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -66,7 +66,7 @@
 <dd><p>resulting list from <code>soilDB::fetchOSD(..., extended = TRUE)</code></p></dd>
 
 
-<dt>which</dt>
+<dt>selection</dt>
 <dd><p>character, name of geomorphic proportion table</p></dd>
 
 </dl></div>
@@ -74,7 +74,7 @@
     <h2>Value</h2>
     
 
-<p>a <code>list</code> with subset <code>SoilProfileCollection</code> and <code>data.frame</code> of geomorphic proportions.</p>
+<p>a <code>list</code> with subset <code>SoilProfileCollection</code> and <code>data.frame</code> of geomorphic proportions, <code>selection</code> is preserved as an attribute.</p>
     </div>
     <div id="author">
     <h2>Author</h2>

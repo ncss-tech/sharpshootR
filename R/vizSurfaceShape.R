@@ -16,12 +16,13 @@
 #' 
 #' @param cols vector of colors
 #' 
+#' @param \dots additional arguments to `[iterateHydOrder]`: `target = 0.9, maxIter = 20, j.amount = 0.05, verbose = FALSE`
 #' 
 #' @return
 #' A `list` with the following elements:
 #'    * `fig`: lattice object (the figure)
 #'    * `order`: 1D ordering from `cluster::diana`
-#'    * `clust`: clustering object returned by `cluster::diana`
+#'    * `clust`: `hclust` object
 #'    * `score`: scoring of hydrologic ordering of dendrogram 
 #' 
 #' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
@@ -29,7 +30,7 @@
 #' @author D.E. Beaudette
 #' 
 #' 
-vizSurfaceShape <- function(x, title = 'Surface Shape', s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#2B83BA", "#FFFFBF", "#D7191C", "#808080", "darkgreen")) {
+vizSurfaceShape <- function(x, title = 'Surface Shape', s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#2B83BA", "#FFFFBF", "#D7191C", "#808080", "darkgreen"), ...) {
   
   # sanity checks on input
   if(!inherits(x, 'data.frame')) {
@@ -81,7 +82,7 @@ vizSurfaceShape <- function(x, title = 'Surface Shape', s = NULL, annotations = 
   if(n.series > 1) {
     
     # iteratively apply hydrologic ordering, 
-    .res <- .iterateHydOrder(x, g = 'shape')
+    .res <- iterateHydOrder(x, g = 'shape', ...)
     x.d.hydro <- .res$clust
     .hydScore <- .res$score
     

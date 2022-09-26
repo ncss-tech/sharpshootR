@@ -1,11 +1,10 @@
-## TODO: return clustering object instead of cluster$order
 ## TODO: provide examples for adjusting legend size / spacing
 
 #' @title Visual Summary of Mountain Slope Positions
 #' 
 #' @description A unique display of mountain slope position probability.
 #' 
-#' @param x \code{data.frame} as created by \code{soilDB::fetchOSD(..., extended=TRUE)}, see details
+#' @param x `data.frame` as created by `soilDB::fetchOSD(..., extended=TRUE)`, see details
 #' 
 #' @param s an optional soil series name, highlighted in the figure
 #' 
@@ -15,19 +14,21 @@
 #' 
 #' @param cols vector of colors
 #' 
+#' @param \dots additional arguments to `[iterateHydOrder]`: `target = 0.9, maxIter = 20, j.amount = 0.05, verbose = FALSE`
+#' 
 #' @return
 #' A `list` with the following elements:
 #'    * `fig`: lattice object (the figure)
 #'    * `order`: 1D ordering from `cluster::diana`
-#'    * `clust`: clustering object returned by `cluster::diana`
-#'    * `score`: scoring of hydrologic ordering of dendrogram 
+#'    * `clust`: `hclust` object
+#'    * `score`: scoring of hydrologic ordering of dendrogram (match rate)
 #' 
 #' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
 #' 
 #' @author D.E. Beaudette
 #' 
 #' 
-vizMountainPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#D53E4F", "#FC8D59", "#FEE08B", "#E6F598", "#99D594", "#3288BD")) {
+vizMountainPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#D53E4F", "#FC8D59", "#FEE08B", "#E6F598", "#99D594", "#3288BD"), ...) {
   
   # sanity checks on input
   if(!inherits(x, 'data.frame')) {
@@ -81,7 +82,7 @@ vizMountainPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex 
   if(n.series > 1) {
     
     # iteratively apply hydrologic ordering, 
-    .res <- .iterateHydOrder(x, g = 'mtnpos')
+    .res <- iterateHydOrder(x, g = 'mtnpos', ...)
     x.d.hydro <- .res$clust
     .hydScore <- .res$score
     

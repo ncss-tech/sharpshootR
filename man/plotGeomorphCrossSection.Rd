@@ -8,7 +8,9 @@ plotGeomorphCrossSection(
   x,
   type = c("line", "bar"),
   which = "hillpos",
-  col = c("#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#E41A1C")
+  clust = TRUE,
+  col = c("#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#E41A1C"),
+  ...
 )
 }
 \arguments{
@@ -18,7 +20,11 @@ plotGeomorphCrossSection(
 
 \item{which}{character, select a geomorphic summary. Currently 'hillpos' (2D hillslope position) is the only supported choice.}
 
+\item{clust}{logical, use clustering order of geomorphic proportions or exact hydrologic ordering, see \code{\link[=hydOrder]{hydOrder()}}}
+
 \item{col}{character vector of colors}
+
+\item{\dots}{additional arguments to \code{\link[=vizHillslopePosition]{vizHillslopePosition()}}}
 }
 \description{
 Present a \code{SoilProfileCollection} aligned to a geomorphic summary as cross-section.

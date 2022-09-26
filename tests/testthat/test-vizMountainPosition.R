@@ -22,12 +22,15 @@ test_that("vizMountainPosition works as expected", {
   expect_true(inherits(res, 'list'))
   expect_true(inherits(res$fig, 'trellis'))
   expect_true(inherits(res$order, 'integer'))
+  expect_true(inherits(res$score, 'numeric'))
+  
   
   # try a singleton
-  res <- vizMountainPosition(a[3, ])
+  res <- vizFlatsPosition(a[1, ])
   expect_true(inherits(res, 'list'))
   expect_true(inherits(res$fig, 'trellis'))
   expect_true(inherits(res$order, 'integer'))
+  expect_true(is.na(res$score))
   
 })
 

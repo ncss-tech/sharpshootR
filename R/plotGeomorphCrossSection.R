@@ -1,6 +1,6 @@
 ## TODO 
 # * generalize to other gemorphic summaries
-# * arguments to plotProfileDendrogram
+# * arguments to plotProfileDendrogram as list
 # * encode Shannon entropy: values are computed row-wise, data plotted as columns
 
 
@@ -9,12 +9,14 @@
 #' @param x resulting list from `soilDB::fetchOSD(..., extended = TRUE)`
 #' @param type character, 'line' for line plot or 'bar' for barplot of geomorphic proportions
 #' @param which character, select a geomorphic summary. Currently 'hillpos' (2D hillslope position) is the only supported choice.
+#' @param clust logical, use clustering order of geomorphic proportions or exact hydrologic ordering, see [`hydOrder()`]
 #' @param col character vector of colors
+#' @param \dots additional arguments to [`vizHillslopePosition()`]
 #' 
 #' @author D.E. Beaudette
 #' @export
 #'
-plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), which = 'hillpos', col = c("#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#E41A1C")) {
+plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), which = 'hillpos', clust = TRUE, col = c("#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#E41A1C"), ...) {
   
   # satisfy R CMD check
   series <- NULL
@@ -22,12 +24,6 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), which = 'hillpo
   # sanity checks
   type <- match.arg(type)
   which <- match.arg(which)
-  
-  # reconcile possible missing IDs
-  o <- reconcileOSDGeomorph(x, 'hillpos')
-  
-  # perform clustering, ignore figure
-  res <- vizHillslopePosition(o$geom)
   
   # the latest soilDB::fetchOSD() will automatically encode horizon distinctness offset
   # backwards compatibility
@@ -40,10 +36,28 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), which = 'hillpo
     )
   }
   
+  # reconcile possible missing IDs
+  o <- reconcileOSDGeomorph(x, 'hillpos')
   
-  # re-order geomorphic proportions according to clustering
-  hp <- o$geom[res$order, ]
-  nm <- names(hp[, 2:6])
+  if(clust) {
+    # perform clustering, ignore figure
+    res <- vizHillslopePosition(o$geom, ...)
+  } else {
+    # no clustering, just a plotting index
+    res <- match(hydOrder(o$geom, g = 'hillpos', clust = FALSE), profile_id(o$SPC))
+  }
+  
+  # re-order rows of geomorphic proportion matrix
+  if(clust) {
+    # re-order geomorphic proportions according to clustering
+    hp <- o$geom[res$order, ]
+    nm <- names(hp[, 2:6]) 
+  } else {
+    # re-order geomorphic proportions according to raw hydrologic ordering
+    hp <- o$geom[res, ]
+    nm <- names(hp[, 2:6])
+  }
+  
   
   if(type == 'line') {
     
@@ -54,21 +68,37 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), which = 'hillpo
       heights = c(2,1)
     )
     
-    # dendrogram + profiles
-    plotProfileDendrogram(
-      o$SPC, 
-      clust = res$clust, 
-      dend.y.scale = 3, 
-      scaling.factor = 0.012, 
-      y.offset = 0.2, 
-      width = 0.32, 
-      name.style = 'center-center', 
-      cex.names = 0.7, 
-      shrink = TRUE, 
-      cex.id = 0.55,
-      hz.distinctness.offset = 'hzd'
-    )
+    # top panel
+    if(clust) {
+      # dendrogram + profiles
+      plotProfileDendrogram(
+        o$SPC, 
+        clust = res$clust, 
+        dend.y.scale = 3, 
+        scaling.factor = 0.012, 
+        y.offset = 0.2, 
+        width = 0.32, 
+        name.style = 'center-center', 
+        cex.names = 0.7, 
+        shrink = TRUE, 
+        cex.id = 0.55,
+        hz.distinctness.offset = 'hzd'
+      )
+    } else {
+      # profiles only
+      plotSPC(
+        o$SPC, 
+        plot.order = res,
+        width = 0.32, 
+        name.style = 'center-center', 
+        cex.names = 0.7, 
+        shrink = TRUE, 
+        cex.id = 0.55,
+        hz.distinctness.offset = 'hzd'
+      )
+    }
     
+    # bottom panel
     # arrange geomorphic proportion line plot
     matplot(
       y = hp[, 2:6], 
@@ -87,8 +117,9 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), which = 'hillpo
     
     # legend
     legend('topleft', legend = rev(nm), col = rev(col), pch = 16, bty = 'n', cex = 0.8, pt.cex = 2, horiz = TRUE, inset = c(0.01, 0.01))
-    mtext('Probability', side = 2, line = -2, font = 2)  
+    mtext('Proportion', side = 2, line = -2, font = 2)  
   }
+  
   
   if(type == 'bar') {
     
@@ -99,20 +130,36 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), which = 'hillpo
       heights = c(2,1)
     )
     
-    # dendrogram + profiles
-    plotProfileDendrogram(
-      o$SPC, 
-      clust = res$clust, 
-      dend.y.scale = 3, 
-      scaling.factor = 0.012, 
-      y.offset = 0.2, 
-      width = 0.32, 
-      name.style = 'center-center', 
-      cex.names = 0.7, 
-      shrink = TRUE, 
-      cex.id = 0.55, 
-      hz.distinctness.offset = 'hzd'
-    )
+    # top panel
+    if(clust) {
+      # dendrogram + profiles
+      plotProfileDendrogram(
+        o$SPC, 
+        clust = res$clust, 
+        dend.y.scale = 3, 
+        scaling.factor = 0.012, 
+        y.offset = 0.2, 
+        width = 0.32, 
+        name.style = 'center-center', 
+        cex.names = 0.7, 
+        shrink = TRUE, 
+        cex.id = 0.55, 
+        hz.distinctness.offset = 'hzd'
+      )
+    } else {
+      # profiles only
+      plotSPC(
+        o$SPC, 
+        plot.order = res,
+        width = 0.32, 
+        name.style = 'center-center', 
+        cex.names = 0.7, 
+        shrink = TRUE, 
+        cex.id = 0.55,
+        hz.distinctness.offset = 'hzd'
+      )
+    }
+    
     
     # setup barplot
     sp <- c(1.5, rep(1, times = length(o$SPC) - 1))
@@ -142,7 +189,7 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), which = 'hillpo
     
     # legend
     legend(x = 0.75, y = 1.2, legend = rev(nm), col = rev(col), pch = 15, bty = 'n', cex = 0.8, pt.cex = 1.25, horiz = TRUE)
-    mtext('Probability', side = 2, line = -2, font = 2)
+    mtext('Proportion', side = 2, line = -2, font = 2)
     
   }
   

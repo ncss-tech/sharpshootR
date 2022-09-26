@@ -8,8 +8,8 @@ library(SoilTaxonomy)
 # way too many ties in geomcomp
 bb <- '-97.0983 39.3808,-97.0983 39.4127,-97.0282 39.4127,-97.0282 39.3808,-97.0983 39.3808'
 
-# CA630
-# bb <- '-120.3551 38.0050,-120.3551 38.0375,-120.2850 38.0375,-120.2850 38.0050,-120.3551 38.0050'
+# CA630: yikes
+bb <- '-120.3551 38.0050,-120.3551 38.0375,-120.2850 38.0375,-120.2850 38.0050,-120.3551 38.0050'
 
 # ND: flats and terraces
 bb <- '-100.5758 47.6062,-100.5758 47.6340,-100.5056 47.6340,-100.5056 47.6062,-100.5758 47.6062'
@@ -99,45 +99,39 @@ SoilTaxonomyDendrogram(
 
 # hillpos geomorphic summary
 o <- reconcileOSDGeomorph(osd, 'hillpos')
-res <- vizHillslopePosition(o$geom)
+res <- vizHillslopePosition(o$geom, maxIter = 100, j.amount = 0.05, verbose = TRUE)
 print(res$fig)
-res$score
 
 # 3D geomorphic summary
 o <- reconcileOSDGeomorph(osd, 'geomcomp')
-res <- vizGeomorphicComponent(o$geom)
+res <- vizGeomorphicComponent(o$geom, maxIter = 100, j.amount = 0.05, verbose = TRUE)
 print(res$fig)
-res$score
 
 # flats geomorphic summary
 o <- reconcileOSDGeomorph(osd, 'flats')
-res <- vizFlatsPosition(o$geom)
+res <- vizFlatsPosition(o$geom, maxIter = 100, j.amount = 0.05, verbose = TRUE)
 print(res$fig)
-res$score
 
 # terrace geomorphic summary
 o <- reconcileOSDGeomorph(osd, 'terrace')
-res <- vizTerracePosition(o$geom)
+res <- vizTerracePosition(o$geom, maxIter = 100, j.amount = 0.05, verbose = TRUE)
 print(res$fig)
-res$score
 
 # mountain geomorphic summary
 o <- reconcileOSDGeomorph(osd, 'mtnpos')
 res <- vizMountainPosition(o$geom)
 print(res$fig)
-res$score
 
 # shape geomorphic summary
 o <- reconcileOSDGeomorph(osd, 'shape_across')
-res <- vizSurfaceShape(o$geom, title = 'Shape Across')
+res <- vizSurfaceShape(o$geom, title = 'Shape Across', maxIter = 100, j.amount = 0.05, verbose = TRUE)
 print(res$fig)
-res$score
 
 # shape geomorphic summary
 o <- reconcileOSDGeomorph(osd, 'shape_down')
-res <- vizSurfaceShape(o$geom, title = 'Shape Down')
+res <- vizSurfaceShape(o$geom, title = 'Shape Down', maxIter = 100, j.amount = 0.05, verbose = TRUE)
 print(res$fig)
-res$score
+
 
 
 
@@ -169,8 +163,11 @@ plotProfileDendrogram(
 
 
 par(mar = c(0.5, 0, 0, 2), bg = 'black', fg = 'white')
-plotGeomorphCrossSection(osd, type = 'line')
-plotGeomorphCrossSection(osd, type = 'bar')
+plotGeomorphCrossSection(osd, type = 'line', maxIter = 100, j.amount = 0.05, verbose = TRUE)
+plotGeomorphCrossSection(osd, type = 'bar', maxIter = 100, j.amount = 0.05, verbose = TRUE)
+
+plotGeomorphCrossSection(osd, type = 'line', clust = FALSE)
+plotGeomorphCrossSection(osd, type = 'bar', clust = FALSE)
 
 
 

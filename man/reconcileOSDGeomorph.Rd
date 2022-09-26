@@ -6,17 +6,17 @@
 \usage{
 reconcileOSDGeomorph(
   x,
-  which = c("hillpos", "geomcomp", "flats", "mtnpos", "terrace", "shape_across",
+  selection = c("hillpos", "geomcomp", "flats", "mtnpos", "terrace", "shape_across",
     "shape_down")
 )
 }
 \arguments{
 \item{x}{resulting list from \code{soilDB::fetchOSD(..., extended = TRUE)}}
 
-\item{which}{character, name of geomorphic proportion table}
+\item{selection}{character, name of geomorphic proportion table}
 }
 \value{
-a \code{list} with subset \code{SoilProfileCollection} and \code{data.frame} of geomorphic proportions.
+a \code{list} with subset \code{SoilProfileCollection} and \code{data.frame} of geomorphic proportions, \code{selection} is preserved as an attribute.
 }
 \description{
 This function can assist with linked visualizations that include soil morphology data stored in a \code{SoilProfileCollection} and geomorphic proportions stored in a \code{data.frame}, as returned by \code{soilDB::fetchOSD()}.

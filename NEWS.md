@@ -1,6 +1,7 @@
 # sharpshootR 1.11 (2022-09-26)
  * adding SoilTaxonomy package to suggests, to allow for better encoding of taxa levels by `SoilTaxonomyDendrogram`
  * `SoilTaxonomyDendrogram()` gains argument `KST.order` to adjust encoding / ordering criteria and `level` argument to specify the taxonomic levels to use
+ * `SoilTaxonomyDendrogram()` gains argument `cluster.method` to select `"divisive"` (default) or `"agglomerative"` clustering methods. Additional arguments to `cluster::diana()` and `cluster::agnes()` may be specified with a list supplied as `cluster.args` argument
  * Spatial/raster sampling functions `sampleRasterStackByMU()`, `samplingStability()`, `sample.by.poly()` and `MoranI_By_Raster()` now use terra internally
  * `aspect.plot()` now returns the Rayleigh Uniformity statistic and corresponding p-value as an attribute named `"uniformity"`
  * bug fix in `monthlyWB_summary()` to address warning / `Inf` when 0 dry days

@@ -1,5 +1,5 @@
 ## TODO 
-# * generalize to other gemorphic summaries
+# * generalize to other gemorphic summaries (everything hard-coded for hillslope position)
 # * arguments to plotProfileDendrogram as list
 # * encode Shannon entropy: values are computed row-wise, data plotted as columns
 
@@ -64,6 +64,19 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
     nm <- names(hp[, 2:6])
   }
   
+  
+  ## the resulting figure is kind of confusing, and bar graphs broken
+  ## saving for future ideas, may involve smaller point sizes or something like that for near-zero values
+  
+  # # convert near-zero proportions to NA
+  # for(i in 2:6) {
+  #   idx <- which(hp[, i] < 0.0001)
+  #   if(length(idx) > 0) {
+  #     hp[idx, i] <- NA
+  #   }
+  # }
+    
+    
   
   if(type == 'line') {
     

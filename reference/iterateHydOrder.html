@@ -59,7 +59,8 @@
 <span>  target <span class="op">=</span> <span class="fl">0.9</span>,</span>
 <span>  maxIter <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>  j.amount <span class="op">=</span> <span class="fl">0.05</span>,</span>
-<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  trace <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -88,14 +89,22 @@
 <dt>verbose</dt>
 <dd><p>logical, additional output printed via message</p></dd>
 
+
+<dt>trace</dt>
+<dd><p>logical, additional list of results for each iteration</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
 <p>A <code>list</code> with the following elements:</p><ul><li><p><code>clust</code>: rotated <code>hclust</code> object</p></li>
-<li><p><code>score</code>: scoring of hydrologic ordering of dendrogram (match rate)</p></li>
+<li><p><code>hyd.order</code>: vector of series names, in hydrologic ordering</p></li>
+<li><p><code>clust.hyd.order</code>: vector of series names, after clustering + rotation, approximate hydrologic ordering</p></li>
+<li><p><code>match.rate</code>: fraction of series matching target hydrologic ordering, after clustering + rotation</p></li>
+<li><p><code>obj</code>: objective function value (sum of squared rank differences), used by <code>iterateHydOrder()</code></p></li>
 <li><p><code>niter</code>: number of iterations</p></li>
+<li><p><code>trace</code>: list of results by iteration, only when <code>trace = TRUE</code></p></li>
 </ul></div>
     <div id="details">
     <h2>Details</h2>

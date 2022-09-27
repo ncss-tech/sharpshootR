@@ -53,6 +53,8 @@
 </li>
 <li>
 <code><a href="../reference/SoilTaxonomyDendrogram.html">SoilTaxonomyDendrogram()</a></code> gains argument <code>KST.order</code> to adjust encoding / ordering criteria and <code>level</code> argument to specify the taxonomic levels to use</li>
+<li>
+<code><a href="../reference/SoilTaxonomyDendrogram.html">SoilTaxonomyDendrogram()</a></code> gains argument <code>cluster.method</code> to select <code>"divisive"</code> (default) or <code>"agglomerative"</code> clustering methods. Additional arguments to <code><a href="https://rdrr.io/pkg/cluster/man/diana.html" class="external-link">cluster::diana()</a></code> and <code><a href="https://rdrr.io/pkg/cluster/man/agnes.html" class="external-link">cluster::agnes()</a></code> may be specified with a list supplied as <code>cluster.args</code> argument</li>
 <li>Spatial/raster sampling functions <code><a href="../reference/sampleRasterStackByMU.html">sampleRasterStackByMU()</a></code>, <code><a href="../reference/samplingStability.html">samplingStability()</a></code>, <code><a href="../reference/sample.by.poly.html">sample.by.poly()</a></code> and <code>MoranI_By_Raster()</code> now use terra internally</li>
 <li>
 <code><a href="../reference/aspect.plot.html">aspect.plot()</a></code> now returns the Rayleigh Uniformity statistic and corresponding p-value as an attribute named <code>"uniformity"</code>

@@ -115,6 +115,43 @@
     <p>D.E. Beaudette</p>
     </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># example data, similar to results from soilDB::fetchOSD(..., extended = TRUE)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"OSDexamples"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># single iteration of hydrologic ordering</span></span></span>
+<span class="r-in"><span><span class="va">h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="hydOrder.html">hydOrder</a></span><span class="op">(</span><span class="va">OSDexamples</span><span class="op">$</span><span class="va">hillpos</span>, g <span class="op">=</span> <span class="st">'hillpos'</span>, clust <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># perform several iterations, keep the best one</span></span></span>
+<span class="r-in"><span><span class="va">h2</span> <span class="op">&lt;-</span> <span class="fu">iterateHydOrder</span><span class="op">(</span><span class="va">OSDexamples</span><span class="op">$</span><span class="va">hillpos</span>, <span class="st">'hillpos'</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 17.6% match rate after 20 iterations</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># compare: only slightly better match rate achieved</span></span></span>
+<span class="r-in"><span><span class="va">h1</span><span class="op">$</span><span class="va">match.rate</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1764706</span>
+<span class="r-in"><span><span class="va">h2</span><span class="op">$</span><span class="va">match.rate</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1764706</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># return trace log for eval of objective function</span></span></span>
+<span class="r-in"><span><span class="co"># increase max iterations</span></span></span>
+<span class="r-in"><span><span class="va">h2</span> <span class="op">&lt;-</span> <span class="fu">iterateHydOrder</span><span class="op">(</span><span class="va">OSDexamples</span><span class="op">$</span><span class="va">hillpos</span>, <span class="st">'hillpos'</span>, maxIter <span class="op">=</span> <span class="fl">100</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span>, trace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 17.6% match rate after 100 iterations</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># inspect objective function evolution</span></span></span>
+<span class="r-in"><span><span class="va">tr</span> <span class="op">&lt;-</span> <span class="va">h2</span><span class="op">$</span><span class="va">trace</span></span></span>
+<span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">tr</span>, <span class="st">'[['</span>, <span class="st">'obj'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">obj</span>, type <span class="op">=</span> <span class="st">'b'</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="iterateHydOrder-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="iterateHydOrder-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># in this case the clustering of hillpos proportions has only two possible configurations</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

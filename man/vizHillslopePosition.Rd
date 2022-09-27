@@ -9,11 +9,12 @@ vizHillslopePosition(
   s = NULL,
   annotations = TRUE,
   annotation.cex = 0.75,
-  cols = c("#2B83BA", "#ABDDA4", "#FFFFBF", "#FDAE61", "#D7191C")
+  cols = c("#2B83BA", "#ABDDA4", "#FFFFBF", "#FDAE61", "#D7191C"),
+  ...
 )
 }
 \arguments{
-\item{x}{\code{data.frame} as created by \code{soilDB::fetchOSD(..., extended=TRUE)}, see details}
+\item{x}{\code{data.frame} as created by \code{soilDB::fetchOSD(..., extended = TRUE)}}
 
 \item{s}{an optional soil series name, highlighted in the figure}
 
@@ -22,13 +23,16 @@ vizHillslopePosition(
 \item{annotation.cex}{annotation label scaling factor}
 
 \item{cols}{vector of colors}
+
+\item{\dots}{additional arguments to \verb{[iterateHydOrder]}: \verb{target = 0.9, maxIter = 20, j.amount = 0.05, verbose = FALSE}}
 }
 \value{
 A \code{list} with the following elements:
 \itemize{
 \item \code{fig}: lattice object (the figure)
 \item \code{order}: 1D ordering from \code{cluster::diana}
-\item \code{clust}: clustering object returned by \code{cluster::diana}
+\item \code{clust}: \code{hclust} object
+\item \code{score}: scoring of hydrologic ordering of dendrogram
 }
 }
 \description{

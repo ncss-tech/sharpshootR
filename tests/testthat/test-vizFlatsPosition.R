@@ -22,12 +22,15 @@ test_that("vizFlatsPosition works as expected", {
   expect_true(inherits(res, 'list'))
   expect_true(inherits(res$fig, 'trellis'))
   expect_true(inherits(res$order, 'integer'))
+  expect_true(inherits(res$score, 'numeric'))
+  
   
   # try a singleton
   res <- vizFlatsPosition(a[1, ])
   expect_true(inherits(res, 'list'))
   expect_true(inherits(res$fig, 'trellis'))
   expect_true(inherits(res$order, 'integer'))
+  expect_true(is.na(res$score))
   
 })
 

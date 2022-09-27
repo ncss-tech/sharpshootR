@@ -9,7 +9,8 @@ vizGeomorphicComponent(
   s = NULL,
   annotations = TRUE,
   annotation.cex = 0.75,
-  cols = c("#D53E4F", "#FC8D59", "#FEE08B", "#E6F598", "#99D594", "#3288BD")
+  cols = c("#D53E4F", "#FC8D59", "#FEE08B", "#E6F598", "#99D594", "#3288BD"),
+  ...
 )
 }
 \arguments{
@@ -22,13 +23,16 @@ vizGeomorphicComponent(
 \item{annotation.cex}{annotation label scaling factor}
 
 \item{cols}{vector of colors}
+
+\item{\dots}{additional arguments to \verb{[iterateHydOrder]}: \verb{target = 0.9, maxIter = 20, j.amount = 0.05, verbose = FALSE}}
 }
 \value{
 A \code{list} with the following elements:
 \itemize{
 \item \code{fig}: lattice object (the figure)
 \item \code{order}: 1D ordering from \code{cluster::diana}
-\item \code{clust}: clustering object returned by \code{cluster::diana}
+\item \code{clust}: \code{hclust} object
+\item \code{score}: scoring of hydrologic ordering of dendrogram
 }
 }
 \description{

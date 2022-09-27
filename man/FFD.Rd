@@ -38,7 +38,7 @@ a \code{data.frame} when a \code{returnDailyPr=FALSE}, otherwise a \code{list} w
 Evaluation frost-free days and related metrics from daily climate records.
 }
 \details{
-The default \code{frostTemp=32} is suitable for use with minimum daily temperatures in degrees Fahrenheit. Use \code{frostTemp=0} for temperatures in degrees Celsius.
+The default \code{frostTemp=32} is suitable for use with minimum daily temperatures in degrees Fahrenheit. Use \code{frostTemp = 0} for temperatures in degrees Celsius.
 
 \href{http://ncss-tech.github.io/AQP/sharpshootR/FFD-estimates.html}{FFD tutorial}
 }
@@ -46,7 +46,7 @@ The default \code{frostTemp=32} is suitable for use with minimum daily temperatu
 
 # 11 years of data from highland meadows
 data('HHM', package = 'sharpshootR')
-x.ffd <- FFD(HHM, returnDailyPr = FALSE, frostTemp=32)
+x.ffd <- FFD(HHM, returnDailyPr = FALSE, frostTemp = 32)
 
 str(x.ffd)
 

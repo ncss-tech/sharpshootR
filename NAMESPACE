@@ -1,18 +1,17 @@
-# R 3.0 compatibility:
 
 importFrom("grDevices", "colorRampPalette", "grey", "col2rgb", "rgb")
 
 importFrom("graphics", "abline", "arrows", "axis", "image", "layout",
              "legend", "lines", "mtext", "par", "points", "rect",
              "segments", "strheight", "strwidth", "text", "grid", "hist", "box", "boxplot", "title",
-           "barplot", "bxp", "contour", "polygon")
+           "barplot", "bxp", "contour", "polygon", "matplot")
 
 importFrom("methods", "as", "slot")
 
 importFrom("stats", "as.dendrogram", "as.formula", "as.hclust",
              "complete.cases", "cutree", "density", "lm", "median",
              "na.omit", "predict", "quantile", "dnorm", "sd", "update",
-           "approxfun", "splinefun", "as.ts")
+           "approxfun", "splinefun", "as.ts", "aggregate")
 
 importFrom("utils", "URLencode", "download.file", "read.csv", "setTxtProgressBar", 
            "txtProgressBar", "packageVersion", "combn")
@@ -28,6 +27,7 @@ importFrom(ape,
 
 importFrom(aqp,
            plot,
+           hzDistinctnessCodeToOffset,
            fixOverlap,
            idname,
            plotSPC,
@@ -54,31 +54,6 @@ importFrom(stringi,
   stri_replace_all_fixed,
   stri_sub,
   stri_length
-)
-
-importFrom(igraph,
-  graph.edgelist,
-  delete.vertices,
-  count.multiple,
-  get.adjacency,
-  graph.adjacency,
-  get.edgelist,
-  get.edges,
-  add.edges,
-  simplify,
-  E,
-  'E<-',
-  V,
-  'V<-',
-  degree,
-  minimum.spanning.tree,
-  delete.edges,
-  cluster_walktrap,
-  cluster_fast_greedy,
-  membership,
-  layout_with_fr,
-  plot_dendrogram,
-  plot.igraph
 )
 
 importFrom(cluster,

@@ -26,7 +26,7 @@
 #' 
 #' @keywords hplots
 #' 
-#' @return nothing, function is called to generate graphical output
+#' @return a `data.frame` of IDs and linking structure
 #' @export
 #'
 plotProfileDendrogram <- function(x, clust, scaling.factor=0.01, width=0.1, y.offset=0.1, dend.y.scale= max(clust$height * 2, na.rm=TRUE) , dend.color=par('fg'), dend.width=1, debug=FALSE, ...) {
@@ -106,10 +106,10 @@ plotProfileDendrogram <- function(x, clust, scaling.factor=0.01, width=0.1, y.of
     return(
       invisible(
         data.frame(
-          profileID=x.ids, 
-          clustID=d.ids, 
-          clustID.ordered=d.ids[d.hclust$order],
-          profile.plot.order=link.idx
+          profileID = x.ids, 
+          clustID = d.ids, 
+          clustID.ordered = d.ids[d.hclust$order],
+          profile.plot.order = link.idx
         )
       )
     )

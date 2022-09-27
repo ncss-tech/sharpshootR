@@ -14,18 +14,21 @@
 #' 
 #' @param cols vector of colors
 #' 
+#' @param \dots additional arguments to `[iterateHydOrder]`: `target = 0.9, maxIter = 20, j.amount = 0.05, verbose = FALSE`
+#' 
 #' @return
 #' A `list` with the following elements:
 #'    * `fig`: lattice object (the figure)
 #'    * `order`: 1D ordering from `cluster::diana`
-#'    * `clust`: clustering object returned by `cluster::diana`
+#'    * `clust`: `hclust` object
+#'    * `score`: scoring of hydrologic ordering of dendrogram 
 #' 
 #' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
 #' 
 #' @author D.E. Beaudette
 #' 
 #' 
-vizGeomorphicComponent <- function(x, s=NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#D53E4F", "#FC8D59", "#FEE08B", "#E6F598", "#99D594", "#3288BD")) {
+vizGeomorphicComponent <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#D53E4F", "#FC8D59", "#FEE08B", "#E6F598", "#99D594", "#3288BD"), ...) {
   
   # sanity checks on input
   if(!inherits(x, 'data.frame')) {
@@ -65,25 +68,29 @@ vizGeomorphicComponent <- function(x, s=NULL, annotations = TRUE, annotation.cex
   names(x.long)[2] <- 'geomcomp'
   
   # make some colors, and set style
-  # cols <- brewer.pal(6, 'Spectral')
-  tps <- list(superpose.polygon=list(col=cols, lwd=2, lend=2))
+  tps <- list(superpose.polygon=list(col = cols, lwd = 2, lend = 2))
   
   ## all of the fancy ordering + dendrogram require > 1 series
   if(n.series > 1) {
-    # re-order labels based on sorting of proportions: "hydrologic" ordering
-    hyd.order <- order(rowSums(sweep(x[, -1], 2, STATS=c(4, 2, 1, 1, -2, -4), FUN = '*')), decreasing = TRUE)
     
-    # cluster proportions: results are not in "hydrologic" order, but close
-    x.d <- as.hclust(diana(daisy(x[, -1])))
-    
-    # rotate clustering according to hydrologic ordering
-    x.d.hydro <- dendextend::rotate(x.d, order = x$series[hyd.order]) # dendextend approach
+    # iteratively apply hydrologic ordering, 
+    .res <- iterateHydOrder(x, g = 'geomcomp', ...)
+    x.d.hydro <- .res$clust
+    .hydScore <- .res$score
     
     # re-order labels levels based on clustering
-    x.long$series <- factor(x.long$series, levels=x.long$series[x.d.hydro$order])
+    x.long$series <- factor(x.long$series, levels = x$series[x.d.hydro$order])
     
-    # dendrogram legend
-    leg <- list(right=list(fun=latticeExtra::dendrogramGrob, args=list(x = as.dendrogram(x.d.hydro), side="right", size=10)))
+    # dendrogram synced to bars
+    leg <- list(
+      right = list(
+        fun = latticeExtra::dendrogramGrob,
+        args = list(
+          x = as.dendrogram(x.d.hydro), 
+          side = "right", 
+          size = 10)
+      )
+    )
     
   } else {
     # singleton
@@ -94,6 +101,7 @@ vizGeomorphicComponent <- function(x, s=NULL, annotations = TRUE, annotation.cex
     
     # simulate output from clustering
     x.d.hydro <- list(order = 1L)
+    .hydScore <- NA
   }
   
   # hack to ensure that simpleKey works as expected
@@ -171,7 +179,14 @@ vizGeomorphicComponent <- function(x, s=NULL, annotations = TRUE, annotation.cex
   # embed styling
   pp <- update(pp, par.settings = tps)
   
-  # the figure and ordering are returned
-  return(list(fig = pp, order = x.d.hydro$order, clust = x.d.hydro))
+  # re-pack results
+  res <- list(
+    fig = pp, 
+    order = x.d.hydro$order, 
+    clust = x.d.hydro, 
+    score = .hydScore
+  ) 
+  
+  return(res)
 }
 

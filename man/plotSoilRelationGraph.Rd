@@ -18,7 +18,7 @@ plotSoilRelationGraph(
   edge.transparency = 1,
   edge.col = grey(0.5),
   edge.highlight.col = "royalblue",
-  g.layout = layout_with_fr,
+  g.layout = igraph::layout_with_fr,
   vertex.label.color = "black",
   delete.singletons = FALSE,
   ...
@@ -51,7 +51,7 @@ plotSoilRelationGraph(
 
 \item{edge.highlight.col}{edge color applied to all edges connecting to component named in \code{s}}
 
-\item{g.layout}{an igraph layout function, defaults to \code{layout_with_fr}}
+\item{g.layout}{an igraph layout function, defaults to \code{igraph::layout_with_fr}}
 
 \item{vertex.label.color}{vertex label color}
 
@@ -68,8 +68,8 @@ Plot a component relation graph based on an adjacency or similarity matrix.
 \details{
 Vertex size is based on a normalized index of connectivity:
 \itemize{
-\item "degree" size = \code{sqrt(degree(g)/max(degree(g))) * scaling.factor}
-\item "distance" size =  \code{sqrt(distance(V->s)/max(distance(V->s)))  * scaling.factor}, where distance(V->s) is the distance from all nodes to the named series, \code{s}.
+\item "degree" size = \code{sqrt(igraph::degree(g) / max(igraph::degree(g))) * scaling.factor}
+\item "distance" size = \code{sqrt(igraph::distance(V -> s) / max(igraph::distance(V -> s))) * scaling.factor}, where distance(V->s) is the distance from all nodes to the named series, \code{s}.
 }
 
 Edge width can be optionally scaled by edge weight by specifying an \code{edge.scaling.factor} value. The maximum spanning tree represents a sub-graph where the sum of edge weights are maximized. The minimum spanning tree represents a sub-graph where the sum of edge weights are minimized. The maximum spanning tree is likely a more useful simplification of the full graph, in which only the strongest relationships (e.g. most common co-occurrences) are preserved.
@@ -82,67 +82,65 @@ The \code{graph.mode} argument is passed to \code{igraph::graph_from_adjacency_m
 This function is a work in progress, ideas welcome.
 }
 \examples{
+if (requireNamespace("igraph")) {
+  # load sample data set
+  data(amador)
 
-# load sample data set
-data(amador)
+  # create weighted adjacency matrix (see ?component.adj.matrix for details)
+  m <- component.adj.matrix(amador)
 
-# create weighted adjacency matrix (see ?component.adj.matrix for details)
-m <- component.adj.matrix(amador)
+  # plot network diagram, with Amador soil highlighted
+  plotSoilRelationGraph(m, s='amador')
 
-# plot network diagram, with Amador soil highlighted
-plotSoilRelationGraph(m, s='amador')
+  # dendrogram representation
+  plotSoilRelationGraph(m, s='amador', plot.style='dendrogram')
 
-# dendrogram representation
-plotSoilRelationGraph(m, s='amador', plot.style='dendrogram')
+  # compare methods
+  m.o <- component.adj.matrix(amador, method='occurrence')
 
-# compare methods
-m.o <- component.adj.matrix(amador, method='occurrence')
+  op <- par(no.readonly = TRUE)
 
-op <- par(no.readonly = TRUE)
+  par(mfcol=c(1,2))
+  plotSoilRelationGraph(m, s='amador', plot.style='dendrogram')
+  title('community matrix')
+  plotSoilRelationGraph(m.o, s='amador', plot.style='dendrogram')
+  title('occurence')
 
-par(mfcol=c(1,2))
-plotSoilRelationGraph(m, s='amador', plot.style='dendrogram')
-title('community matrix')
-plotSoilRelationGraph(m.o, s='amador', plot.style='dendrogram')
-title('occurence')
+  # investigate max spanning tree
+  plotSoilRelationGraph(m, spanning.tree='max')
 
-# investigate max spanning tree
-plotSoilRelationGraph(m, spanning.tree='max')
+  # investigate max spanning tree + edges with weights > 75-th pctile
+  plotSoilRelationGraph(m, spanning.tree=0.75)
 
-# investigate max spanning tree + edges with weights > 75-th pctile
-plotSoilRelationGraph(m, spanning.tree=0.75)
+  par(op)
 
-par(op)
-
-\donttest{
+  \donttest{
   
-  if(requireNamespace("curl") &
-     curl::has_internet() &
-     require(soilDB)) {
+    if(requireNamespace("curl") &
+       curl::has_internet() &
+       require(soilDB)) {
     
-    # get similar data from soilweb, for the Pardee series
-    s <- 'pardee'
-    d <- siblings(s, component.data = TRUE)
+      # get similar data from soilweb, for the Pardee series
+      s <- 'pardee'
+      d <- siblings(s, component.data = TRUE)
     
-    # normalize component names
-    d$sib.data$compname <- tolower(d$sib.data$compname)
+      # normalize component names
+      d$sib.data$compname <- tolower(d$sib.data$compname)
     
-    # keep only major components
-    d$sib.data <- subset(d$sib.data, subset=compkind == 'Series')
+      # keep only major components
+      d$sib.data <- subset(d$sib.data, subset=compkind == 'Series')
     
-    # build adj. matrix and plot
-    m <- component.adj.matrix(d$sib.data)
-    plotSoilRelationGraph(m, s=s, plot.style='dendrogram')
+      # build adj. matrix and plot
+      m <- component.adj.matrix(d$sib.data)
+      plotSoilRelationGraph(m, s=s, plot.style='dendrogram')
     
-    # alter plotting style, see ?plot.phylo
-    plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='fan')
-    plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='unrooted', use.edge.length=FALSE) 
+      # alter plotting style, see ?plot.phylo
+      plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='fan')
+      plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='unrooted', use.edge.length=FALSE) 
     
+    }
   }
-  
-  
 }
-
 }
 \author{
 D.E. Beaudette

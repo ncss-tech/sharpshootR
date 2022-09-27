@@ -6,7 +6,7 @@
 #' @param spc a `SoilProfileCollection` object, typically returned by `soilDB::fetchOSD`
 #' @param KST.order logical, encode / cluster taxa via ordinal factors, based on ordering within Keys to Soil Taxonomy
 #' @param rotationOrder character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right; exact ordering is not always possible
-#' @param level character. one of: `"soilorder"`, `"suborder"`, `"greatgroup"` or `"subgroup"`
+#' @param level character. One or more site-level columns in `spc`. Default: `"soilorder"`, `"suborder"`, `"greatgroup"` and `"subgroup"`
 #' @param cluster.method Either "divisive" (`cluster::diana()`; default) or "agglomerative" (`cluster::agnes()`)
 #' @param cluster.args Optional: additional arguments for `cluster::diana()` or `cluster::agnes()` cluster methods
 #' @param name column name containing horizon names

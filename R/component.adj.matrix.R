@@ -25,18 +25,20 @@
 #' @keywords manip
 #'
 #' @examples
+#' if (requireNamespace("igraph")) {
+#'   # load sample data set
+#'   data(amador)
 #' 
-#' # load sample data set
-#' data(amador)
+#'   # convert into adjacency matrix
+#'   m <- component.adj.matrix(amador)
 #' 
-#' # convert into adjacency matrix
-#' m <- component.adj.matrix(amador)
-#' 
-#' # plot network diagram, with Amador soil highlighted
-#' plotSoilRelationGraph(m, s = 'amador')
-#' 
-component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', method = c('community.matrix', 'occurrence'), standardization='max', metric='jaccard', rm.orphans=TRUE, similarity=TRUE, return.comm.matrix=FALSE) {
+#'   # plot network diagram, with Amador soil highlighted
+#'   plotSoilRelationGraph(m, s = 'amador')
+#' }
+component.adj.matrix <-function(d, mu = 'mukey', co = 'compname', wt = 'comppct_r', method = c('community.matrix', 'occurrence'), standardization = 'max', metric = 'jaccard', rm.orphans = TRUE, similarity = TRUE, return.comm.matrix = FALSE) {
 	
+  ## TODO: remove .wt hacks
+  
   # appease R CMD check
   .wt <- NULL
   
@@ -47,13 +49,15 @@ component.adj.matrix <-function(d, mu='mukey', co='compname', wt='comppct_r', me
   d$.wt <- d[[wt]]
   
   # aggregate component percentages when multiple components of the same name are present
-  ## note that we are using weights as moved into the new column '.wt'
-  d <- ddply(d, c(mu, co), summarise, weight=sum(.wt))
+  d <- aggregate(d[[wt]], by = list(d[[mu]], d[[co]]), FUN = sum, na.rm = TRUE)
+  names(d) <- c(mu, co, 'weight')
+  
   # re-order
   d <- d[order(d[[mu]], d[[co]]), ]
   
   # extract a list of component names that occur together
-  l <- dlply(d, mu, function(i) unique(i[[co]]))
+  l <- lapply(split(d, d[[mu]]), function(i) unique(i[[co]]))
+  
   
   # optionally keep map units with only a single component
   if(rm.orphans) {

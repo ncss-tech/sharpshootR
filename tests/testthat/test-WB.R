@@ -88,6 +88,7 @@ test_that("thermic / xeric WB is reasonable", {
   expect_equal(wb$ET[7], 0, tolerance = 0.001)
   
   # total AET
+  skip_if_not_installed("hydromad", "0.9-27")
   expect_equal(round(sum(wb$ET)), 224, tolerance = 0.01)
   
 })

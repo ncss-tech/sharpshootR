@@ -10,6 +10,8 @@ SoilTaxonomyDendrogram(
   rotationOrder = NULL,
   level = c(soilorder = "soilorder", suborder = "suborder", greatgroup = "greatgroup",
     subgroup = "subgroup"),
+  cluster.method = c("divisive", "agglomerative"),
+  cluster.args = list(),
   name = "hzname",
   name.style = "center-center",
   id.style = "side",
@@ -37,6 +39,10 @@ SoilTaxonomyDendrogram(
 \item{rotationOrder}{character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right; exact ordering is not always possible}
 
 \item{level}{character. One or more site-level columns in \code{spc}. Default: \code{"soilorder"}, \code{"suborder"}, \code{"greatgroup"} and \code{"subgroup"}}
+
+\item{cluster.method}{Either "divisive" (\code{cluster::diana()}; default) or "agglomerative" (\code{cluster::agnes()})}
+
+\item{cluster.args}{Optional: additional arguments for \code{cluster::diana()} or \code{cluster::agnes()} cluster methods}
 
 \item{name}{column name containing horizon names}
 

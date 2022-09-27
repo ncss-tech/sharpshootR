@@ -59,6 +59,8 @@
 <span>  rotationOrder <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>soilorder <span class="op">=</span> <span class="st">"soilorder"</span>, suborder <span class="op">=</span> <span class="st">"suborder"</span>, greatgroup <span class="op">=</span> <span class="st">"greatgroup"</span>,</span>
 <span>    subgroup <span class="op">=</span> <span class="st">"subgroup"</span><span class="op">)</span>,</span>
+<span>  cluster.method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"divisive"</span>, <span class="st">"agglomerative"</span><span class="op">)</span>,</span>
+<span>  cluster.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"hzname"</span>,</span>
 <span>  name.style <span class="op">=</span> <span class="st">"center-center"</span>,</span>
 <span>  id.style <span class="op">=</span> <span class="st">"side"</span>,</span>
@@ -95,6 +97,14 @@
 
 <dt>level</dt>
 <dd><p>character. One or more site-level columns in <code>spc</code>. Default: <code>"soilorder"</code>, <code>"suborder"</code>, <code>"greatgroup"</code> and <code>"subgroup"</code></p></dd>
+
+
+<dt>cluster.method</dt>
+<dd><p>Either "divisive" (<code><a href="https://rdrr.io/pkg/cluster/man/diana.html" class="external-link">cluster::diana()</a></code>; default) or "agglomerative" (<code><a href="https://rdrr.io/pkg/cluster/man/agnes.html" class="external-link">cluster::agnes()</a></code>)</p></dd>
+
+
+<dt>cluster.args</dt>
+<dd><p>Optional: additional arguments for <code><a href="https://rdrr.io/pkg/cluster/man/diana.html" class="external-link">cluster::diana()</a></code> or <code><a href="https://rdrr.io/pkg/cluster/man/agnes.html" class="external-link">cluster::agnes()</a></code> cluster methods</p></dd>
 
 
 <dt>name</dt>

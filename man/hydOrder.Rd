@@ -2,7 +2,7 @@
 % Please edit documentation in R/hydOrder.R
 \name{hydOrder}
 \alias{hydOrder}
-\title{Apply Hydrologic Ordering of a Geomorphic Proportion Matrix}
+\title{Hydrologic Ordering of a Geomorphic Proportion Matrix}
 \usage{
 hydOrder(x, g, clust = TRUE, j.amount = 0)
 }
@@ -26,7 +26,26 @@ when \code{clust = FALSE} a vector of series names, in hydrologic ordering, othe
 }
 }
 \description{
-Apply Hydrologic Ordering of a Geomorphic Proportion Matrix
+Hydrologic Ordering of a Geomorphic Proportion Matrix
+}
+\examples{
+
+# example data, similar to results from soilDB::fetchOSD(..., extended = TRUE)
+data("OSDexamples")
+
+# no clustering of the geomorphic proportion matrix
+h <- hydOrder(OSDexamples$hillpos, g = 'hillpos', clust = FALSE)
+
+# compare with original order
+
+data.frame(
+original = OSDexamples$hillpos$series,
+ordered = h
+)
+
+# cluster results
+h <- hydOrder(OSDexamples$hillpos, g = 'hillpos', clust = TRUE)
+str(h)
 }
 \author{
 D.E. Beaudette

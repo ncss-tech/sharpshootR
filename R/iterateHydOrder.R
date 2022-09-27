@@ -12,17 +12,22 @@
 #' @param maxIter integer, maximum number of perturbations of geomorphic probability matrix
 #' @param j.amount numeric, amount of noise applied to rows with too few unique values, passed to `jitter()`
 #' @param verbose logical, additional output printed via message
+#' @param trace logical, additional list of results for each iteration
 #' 
 #' @author D.E. Beaudette
 #'
 #' @return
 #' A `list` with the following elements:
 #'    * `clust`: rotated `hclust` object
-#'    * `score`: scoring of hydrologic ordering of dendrogram (match rate)
+#'    * `hyd.order`: vector of series names, in hydrologic ordering
+#'    * `clust.hyd.order`: vector of series names, after clustering + rotation, approximate hydrologic ordering
+#'    * `match.rate`: fraction of series matching target hydrologic ordering, after clustering + rotation
+#'    * `obj`: objective function value (sum of squared rank differences), used by [`iterateHydOrder()`]
 #'    * `niter`: number of iterations
+#'    * `trace`: list of results by iteration, only when `trace = TRUE`
 #'    
 #' @export
-iterateHydOrder <- function(x, g, target = 0.9, maxIter = 20, j.amount = 0.05, verbose = FALSE) {
+iterateHydOrder <- function(x, g, target = 0.9, maxIter = 20, j.amount = 0.05, verbose = FALSE, trace = FALSE) {
   
   # sanity checks
   stopifnot(g %in% c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape'))
@@ -31,7 +36,10 @@ iterateHydOrder <- function(x, g, target = 0.9, maxIter = 20, j.amount = 0.05, v
   # initial conditions
   .iter <- 1
   .ho <- hydOrder(x, g = g, j.amount = 0)
-  .score <- .ho$match.rate
+  .obj <- .ho$obj
+  .hyd.order <- .ho$hyd.order
+  .clust.hyd.order <- .ho$clust.hyd.order
+  .match.rate <- .ho$match.rate
   .clust <- .ho$clust
   
   # save intermediate steps here, in case we hit maxIter
@@ -39,27 +47,36 @@ iterateHydOrder <- function(x, g, target = 0.9, maxIter = 20, j.amount = 0.05, v
   
   # iterate while less than target score
   # skip if we are already there
-  while(.score < target) {
+  while(.match.rate < target) {
+    
     # try again with jittering
     .ho <- hydOrder(x, g = g, j.amount = j.amount)
     
     # update local vars
-    .score <- .ho$match.rate
+    .obj <- .ho$obj
+    .hyd.order <- .ho$hyd.order
+    .clust.hyd.order <- .ho$clust.hyd.order
+    .match.rate <- .ho$match.rate
     .clust <- .ho$clust
     
     # save iterations, in case we have to select the best out of max iterations
     .log[[.iter]] <- .ho
     
     # failsafe: too many iterations
-    if(.iter > maxIter) {
+    if(.iter >= maxIter) {
       
       # select the configuration with lowest objective function value
       # this is the sum of squared differences in ranks
       .best <- which.min(sapply(.log, '[[', 'obj'))
       
       # best match rate and resulting clustering
-      .score <- .log[[.best]]$match.rate
+      .match.rate <- .log[[.best]]$match.rate
       .clust <- .log[[.best]]$clust
+      
+      # best ordering vectors
+      .obj <- .log[[.best]]$obj
+      .hyd.order <- .log[[.best]]$hyd.order
+      .clust.hyd.order <- .log[[.best]]$clust.hyd.order
       
       # done
       break
@@ -73,13 +90,20 @@ iterateHydOrder <- function(x, g, target = 0.9, maxIter = 20, j.amount = 0.05, v
   # also include final match rate score, number of iterations
   .res <- list(
     clust = .clust, 
-    score = .score,
+    hyd.order = .hyd.order,
+    clust.hyd.order = .clust.hyd.order,
+    match.rate = .match.rate,
+    obj = .obj,
     niter = .iter
   ) 
   
   # debugging
   if(verbose) {
-    message(sprintf('%s%% match rate after %s iterations', round(.score * 100, 1), maxIter))
+    message(sprintf('%s%% match rate after %s iterations', round(.match.rate * 100, 1), .iter))
+  }
+  
+  if(trace) {
+    .res$trace <- .log
   }
   
   return(.res)

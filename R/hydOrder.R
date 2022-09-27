@@ -1,9 +1,6 @@
-# x: geomorphic proportion matrix
-# g: geomorphic type
-# j.amount: amount of jittering applied to problematic proportions 0.05 is about right
 
 
-#' @title Apply Hydrologic Ordering of a Geomorphic Proportion Matrix
+#' @title Hydrologic Ordering of a Geomorphic Proportion Matrix
 #'
 #' @param x x `data.frame`, geomorphic proportion matrix, as created by `soilDB::fetchOSD(..., extended=TRUE)`
 #' @param g character, name of geomorphic summary table, one of: `c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape')`
@@ -21,6 +18,24 @@
 #'    
 #' @export
 #'
+#' @examples 
+#' 
+#' # example data, similar to results from soilDB::fetchOSD(..., extended = TRUE)
+#' data("OSDexamples")
+#' 
+#' # no clustering of the geomorphic proportion matrix
+#' h <- hydOrder(OSDexamples$hillpos, g = 'hillpos', clust = FALSE)
+#' 
+#' # compare with original order
+#' 
+#' data.frame(
+#' original = OSDexamples$hillpos$series,
+#' ordered = h
+#' )
+#' 
+#' # cluster results
+#' h <- hydOrder(OSDexamples$hillpos, g = 'hillpos', clust = TRUE)
+#' str(h)
 hydOrder <- function(x, g, clust = TRUE, j.amount = 0) {
   
   # sanity checks

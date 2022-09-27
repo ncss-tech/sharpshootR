@@ -22,7 +22,7 @@ test_that("vizSurfaceShape works as expected", {
   expect_true(inherits(res, 'list'))
   expect_true(inherits(res$fig, 'trellis'))
   expect_true(inherits(res$order, 'integer'))
-  expect_true(inherits(res$score, 'numeric'))
+  expect_true(inherits(res$match.rate, 'numeric'))
   
   
   # try a singleton
@@ -30,7 +30,7 @@ test_that("vizSurfaceShape works as expected", {
   expect_true(inherits(res, 'list'))
   expect_true(inherits(res$fig, 'trellis'))
   expect_true(inherits(res$order, 'integer'))
-  expect_true(is.na(res$score))
+  expect_true(is.na(res$match.rate))
   
 })
 

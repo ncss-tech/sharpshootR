@@ -8,22 +8,27 @@
 #'
 #' @param x resulting list from `soilDB::fetchOSD(..., extended = TRUE)`
 #' @param type character, 'line' for line plot or 'bar' for barplot of geomorphic proportions
-#' @param which character, select a geomorphic summary. Currently 'hillpos' (2D hillslope position) is the only supported choice.
+#' @param g character, select a geomorphic summary. Currently 'hillpos' (2D hillslope position) is the only supported choice.
 #' @param clust logical, use clustering order of geomorphic proportions or exact hydrologic ordering, see [`hydOrder()`]
 #' @param col character vector of colors
-#' @param \dots additional arguments to [`vizHillslopePosition()`]
+#' @param \dots additional arguments to [`iterateHydOrder()`]
 #' 
 #' @author D.E. Beaudette
 #' @export
 #'
-plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), which = 'hillpos', clust = TRUE, col = c("#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#E41A1C"), ...) {
+plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', clust = TRUE, col = c("#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#E41A1C"), ...) {
   
   # satisfy R CMD check
   series <- NULL
   
   # sanity checks
   type <- match.arg(type)
-  which <- match.arg(which)
+  
+  # eventually others will be supported
+  # stopifnot(g %in% c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape'))
+  
+  # for now, just hillpos
+  stopifnot(g %in% c('hillpos'))
   
   # the latest soilDB::fetchOSD() will automatically encode horizon distinctness offset
   # backwards compatibility
@@ -40,8 +45,9 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), which = 'hillpo
   o <- reconcileOSDGeomorph(x, 'hillpos')
   
   if(clust) {
-    # perform clustering, ignore figure
-    res <- vizHillslopePosition(o$geom, ...)
+    # perform clustering, keep only the hclust object
+    # we later extract ordering vector via res$order
+    res <- iterateHydOrder(o$geom, g = g, ...)$clust
   } else {
     # no clustering, just a plotting index
     res <- match(hydOrder(o$geom, g = 'hillpos', clust = FALSE), profile_id(o$SPC))
@@ -73,7 +79,7 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), which = 'hillpo
       # dendrogram + profiles
       plotProfileDendrogram(
         o$SPC, 
-        clust = res$clust, 
+        clust = res, 
         dend.y.scale = 3, 
         scaling.factor = 0.012, 
         y.offset = 0.2, 
@@ -135,7 +141,7 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), which = 'hillpo
       # dendrogram + profiles
       plotProfileDendrogram(
         o$SPC, 
-        clust = res$clust, 
+        clust = res, 
         dend.y.scale = 3, 
         scaling.factor = 0.012, 
         y.offset = 0.2, 

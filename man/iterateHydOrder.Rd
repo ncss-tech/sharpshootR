@@ -10,7 +10,8 @@ iterateHydOrder(
   target = 0.9,
   maxIter = 20,
   j.amount = 0.05,
-  verbose = FALSE
+  verbose = FALSE,
+  trace = FALSE
 )
 }
 \arguments{
@@ -25,13 +26,19 @@ iterateHydOrder(
 \item{j.amount}{numeric, amount of noise applied to rows with too few unique values, passed to \code{jitter()}}
 
 \item{verbose}{logical, additional output printed via message}
+
+\item{trace}{logical, additional list of results for each iteration}
 }
 \value{
 A \code{list} with the following elements:
 \itemize{
 \item \code{clust}: rotated \code{hclust} object
-\item \code{score}: scoring of hydrologic ordering of dendrogram (match rate)
+\item \code{hyd.order}: vector of series names, in hydrologic ordering
+\item \code{clust.hyd.order}: vector of series names, after clustering + rotation, approximate hydrologic ordering
+\item \code{match.rate}: fraction of series matching target hydrologic ordering, after clustering + rotation
+\item \code{obj}: objective function value (sum of squared rank differences), used by \code{\link[=iterateHydOrder]{iterateHydOrder()}}
 \item \code{niter}: number of iterations
+\item \code{trace}: list of results by iteration, only when \code{trace = TRUE}
 }
 }
 \description{

@@ -22,7 +22,7 @@
 #'    * `fig`: lattice object (the figure)
 #'    * `order`: 1D ordering from `cluster::diana`
 #'    * `clust`: `hclust` object
-#'    * `score`: scoring of hydrologic ordering of dendrogram 
+#'    * `match.rate`: fraction of series matching target hydrologic ordering, after clustering + rotation
 #' 
 #' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
 #' 
@@ -80,7 +80,7 @@ vizFlatsPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0
     # iteratively apply hydrologic ordering, 
     .res <- iterateHydOrder(x, g = 'flats', ...)
     x.d.hydro <- .res$clust
-    .hydScore <- .res$score
+    .match.rate <- .res$match.rate
     
     # re-order labels levels based on clustering
     x.long$series <- factor(x.long$series, levels = x$series[x.d.hydro$order])
@@ -105,7 +105,7 @@ vizFlatsPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0
     
     # simulate output from clustering
     x.d.hydro <- list(order = 1L)
-    .hydScore <- NA
+    .match.rate <- NA
   }
   
   # hack to ensure that simpleKey works as expected
@@ -186,7 +186,7 @@ vizFlatsPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0
     fig = pp, 
     order = x.d.hydro$order, 
     clust = x.d.hydro, 
-    score = .hydScore
+    match.rate = .match.rate
   ) 
   
   return(res)

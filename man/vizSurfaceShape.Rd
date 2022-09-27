@@ -35,7 +35,7 @@ A \code{list} with the following elements:
 \item \code{fig}: lattice object (the figure)
 \item \code{order}: 1D ordering from \code{cluster::diana}
 \item \code{clust}: \code{hclust} object
-\item \code{score}: scoring of hydrologic ordering of dendrogram
+\item \code{match.rate}: fraction of series matching target hydrologic ordering, after clustering + rotation
 }
 }
 \description{

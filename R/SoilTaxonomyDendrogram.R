@@ -198,6 +198,7 @@ SoilTaxonomyDendrogram <- function(spc,
 	  }
 	}
 	
+	## TODO: these estimates work for divisive, need adjustments for agglomerative
 	# determine best-possible locations for taxa names
 	max.dist <- max(s.dist)
 	taxa.lab.y.vect <- c(max.dist / 1.6666666, (max.dist / 1.6666666) + 0.12)

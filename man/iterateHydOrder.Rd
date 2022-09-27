@@ -47,6 +47,35 @@ Iteratively Attempt Hydrologic Ordering of Geomorphic Proportion Matrix
 \details{
 This function is used by the suite of geomorphic proportion visualization functions (\verb{viz*}) to attempt rotation of a dendrogram according to "hydrologic ordering" rules. A perfect rotation is not always possible, and reported as a match rate in the returned \code{score} value
 }
+\examples{
+
+# example data, similar to results from soilDB::fetchOSD(..., extended = TRUE)
+data("OSDexamples")
+
+# single iteration of hydrologic ordering
+h1 <- hydOrder(OSDexamples$hillpos, g = 'hillpos', clust = TRUE)
+
+# perform several iterations, keep the best one
+h2 <- iterateHydOrder(OSDexamples$hillpos, 'hillpos', verbose = TRUE)
+
+# compare: only slightly better match rate achieved
+h1$match.rate
+h2$match.rate
+
+# return trace log for eval of objective function
+# increase max iterations
+h2 <- iterateHydOrder(OSDexamples$hillpos, 'hillpos', maxIter = 100, verbose = TRUE, trace = TRUE)
+
+# inspect objective function evolution
+tr <- h2$trace
+obj <- sapply(tr, '[[', 'obj')
+
+plot(obj, type = 'b')
+hist(obj)
+
+# in this case the clustering of hillpos proportions has only two possible configurations
+
+}
 \author{
 D.E. Beaudette
 }

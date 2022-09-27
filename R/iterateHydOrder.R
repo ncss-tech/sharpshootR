@@ -27,6 +27,36 @@
 #'    * `trace`: list of results by iteration, only when `trace = TRUE`
 #'    
 #' @export
+#' 
+#' @examples 
+#' 
+#' # example data, similar to results from soilDB::fetchOSD(..., extended = TRUE)
+#' data("OSDexamples")
+#' 
+#' # single iteration of hydrologic ordering
+#' h1 <- hydOrder(OSDexamples$hillpos, g = 'hillpos', clust = TRUE)
+#' 
+#' # perform several iterations, keep the best one
+#' h2 <- iterateHydOrder(OSDexamples$hillpos, 'hillpos', verbose = TRUE)
+#' 
+#' # compare: only slightly better match rate achieved
+#' h1$match.rate
+#' h2$match.rate
+#' 
+#' # return trace log for eval of objective function
+#' # increase max iterations
+#' h2 <- iterateHydOrder(OSDexamples$hillpos, 'hillpos', maxIter = 100, verbose = TRUE, trace = TRUE)
+#' 
+#' # inspect objective function evolution
+#' tr <- h2$trace
+#' obj <- sapply(tr, '[[', 'obj')
+#' 
+#' plot(obj, type = 'b')
+#' hist(obj)
+#' 
+#' # in this case the clustering of hillpos proportions has only two possible configurations
+
+#' 
 iterateHydOrder <- function(x, g, target = 0.9, maxIter = 20, j.amount = 0.05, verbose = FALSE, trace = FALSE) {
   
   # sanity checks

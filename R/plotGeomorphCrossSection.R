@@ -1,6 +1,7 @@
 ## TODO 
 # * generalize to other gemorphic summaries (everything hard-coded for hillslope position)
-# * arguments to plotProfileDendrogram as list
+# * arguments to plotProfileDendrogram() and plotSPC() as list with default
+# * merge arguments?
 # * encode Shannon entropy: values are computed row-wise, data plotted as columns
 
 

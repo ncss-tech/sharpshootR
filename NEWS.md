@@ -1,4 +1,4 @@
-# sharpshootR 1.11 (2022-09-26)
+# sharpshootR 1.11 (2022-09-29)
  * adding SoilTaxonomy package to suggests, to allow for better encoding of taxa levels by `SoilTaxonomyDendrogram`
  * `SoilTaxonomyDendrogram()` gains argument `KST.order` to adjust encoding / ordering criteria and `level` argument to specify the taxonomic levels to use
  * `SoilTaxonomyDendrogram()` gains argument `cluster.method` to select `"divisive"` (default) or `"agglomerative"` clustering methods. Additional arguments to `cluster::diana()` and `cluster::agnes()` may be specified with a list supplied as `cluster.args` argument
@@ -11,6 +11,7 @@
  * hydrologic ordering functions now exported: `hydOrder()` and `iterateHydOrder()`
  * new function `plotGeomorphCrossSection()` presents a `SoilProfileCollection` aligned to a geomorphic summary as cross-section
  * new function `reconcileOSDGeomorp()` convenience function for reconciling SPC and geomorphic summary tables as returned by `soilDB::fetchOSD()`
+ * `plotProfileDendrogram()` gains argument for re-ordering dendrogram as close to original profile IDs as possible
 
 # sharpshootR 1.9.1 (2022-02-16)
  * bugfix in `plotWB()` related to figure y-scale range

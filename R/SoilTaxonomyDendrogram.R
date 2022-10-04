@@ -97,12 +97,13 @@ SoilTaxonomyDendrogram <- function(spc,
   # 2. rotate dendrogram to reflect ordering of subgroups within keys
   if (KST.order) {
     
+    ## TODO: require latest once on CRAN 0.2.x
     # requires SoilTaxonomy >= 0.1.5 (2022-02-15)
     if (!requireNamespace('SoilTaxonomy', quietly = TRUE)) {
       stop('please install the `SoilTaxonomy` package', call. = FALSE)
     }
     
-    # TODO: a function to set ordered factors in a data.frame-like object should be added to SoilTaxonomy
+    ## TODO: this is implemented in the development version, wait for CRAN version before using here
     ST_unique_list <- NULL
     load(system.file("data/ST_unique_list.rda", package = "SoilTaxonomy")[1])
     

@@ -13,8 +13,8 @@ s <- aqp::combine(lapply(c('Z', LETTERS[1:5]), random_profile, SPC=TRUE))
 
 test_that("plotProfileDendrogram works as expected", {
   
-  # attempt profile comparison: this won't work, throws an error
-  d <- profile_compare(s, vars=c('p1','p2'), max_d=100, k=0)
+  # suppressing warnings until we switch to NCSP() and aqp 2.0 is on CRAN
+  d <- suppressWarnings(profile_compare(s, vars=c('p1','p2'), max_d=100, k=0))
   dd <- diana(d)
   
   # par(mfrow = c(2,1), mar = c(0,0,0,1))

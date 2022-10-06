@@ -193,7 +193,7 @@ plotWB <- function(WB, AWC = attr(WB, 'AWC'), sw.col = '#377EB8', surplus.col = 
   )
   
   # annotate available water storage
-  mtext(sprintf("Storage: %s mm", AWC), side = 1,  at = 0, cex = 0.85, adj = 0, line = 2.5)
+  mtext(sprintf("Storage: %s mm", round(AWC)), side = 1,  at = 0, cex = 0.85, adj = 0, line = 2.5)
   
   # annotate total deficit
   sumD <- bquote(sum(Deficit)  ==  .(round(sum(WB$D)))~mm)

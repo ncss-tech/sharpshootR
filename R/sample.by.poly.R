@@ -124,8 +124,12 @@ sample.by.poly <- function(p,
   # determine number of points based on requested density
   n.samples <- round(ac.i * n.pts.per.ac)
   
-  # polygon must be at least large enough to support requested number of samples
-  if (n.samples >= min.samples) {
+  # if polygon is too small for given density, request the minimum number of samples
+  if (n.samples < min.samples) {
+    n.samples <- min.samples
+  }
+  
+  if (n.samples > 0) {
     # trap errors caused by bad geometry
     s.i <- try(terra::spatSample(p, size = n.samples, method = sampling.type), silent = TRUE)
     
@@ -143,5 +147,5 @@ sample.by.poly <- function(p,
       terra::crs(s.i) <- p4s
     
     return(s.i)
-  } else return(NULL)
+  } else return(p[0,])
 }

@@ -6,6 +6,11 @@ constantDensitySampling <- function(x, polygon.id='pID', parallel=FALSE, cores=N
     stop('please install the `terra` package', call. = FALSE)
   }
   
+  # attempt conversion to terra object
+  if (!inherits(x, 'SpatVector')) {
+    x <- terra::vect(x)
+  }
+  
   # sanity check: this must be a projected CRS
   if (terra::is.lonlat(x)) {
     stop('input polygons must be in a projected coordinate system with units of meters', call. = FALSE)
@@ -116,6 +121,11 @@ sample.by.poly <- function(p,
   
   if (!requireNamespace("terra")) {
     stop('please install the `terra` package', call. = FALSE)
+  }
+  
+  # attempt conversion to terra object
+  if (!inherits(p, 'SpatVector')) {
+    p <- terra::vect(p)
   }
   
   # convert _projected_ units to acres

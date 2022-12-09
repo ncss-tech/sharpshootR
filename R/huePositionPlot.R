@@ -2,7 +2,7 @@
 
 #' @title Hue Position Chart
 #' 
-#' @description A simple visualization of the hue positions for a given Munsell value/chroma according to \href{https://www.nrcs.usda.gov/wps/portal/nrcs/detail/soils/ref/?cid=nrcs142p2_053569}{Soil Survey Technical Note 2}.
+#' @description A simple visualization of the hue positions for a given Munsell value/chroma according to Soil Survey Technical Note 2.
 #'
 #' @param value a single Munsell value
 #' @param chroma a single Munsell chroma

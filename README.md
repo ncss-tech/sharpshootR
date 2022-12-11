@@ -28,7 +28,6 @@ Dylan Beaudette, Jay Skovlin and Stephen Roecker (2021). sharpshootR: A Soil Sur
    * [`aggregateColorPlot`](http://ncss-tech.github.io/sharpshootR/reference/aggregateColorPlot.html)
    * [`aspect.plot`](http://ncss-tech.github.io/sharpshootR/reference/aspect.plot.html)
    * [`diagnosticPropertyPlot`](http://ncss-tech.github.io/sharpshootR/reference/diagnosticPropertyPlot.html)
-   * [`dueling.dendrograms`](http://ncss-tech.github.io/sharpshootR/reference/dueling.dendrograms.html)
    * [`plotAvailWater`](http://ncss-tech.github.io/sharpshootR/reference/plotAvailWater.html)
    * [`plotProfileDendrogram`](http://ncss-tech.github.io/sharpshootR/reference/plotProfileDendrogram.html)
    * [`plotSoilRelationGraph`](http://ncss-tech.github.io/sharpshootR/reference/plotSoilRelationGraph.html)

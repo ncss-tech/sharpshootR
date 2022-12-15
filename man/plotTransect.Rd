@@ -24,7 +24,7 @@ plotTransect(
 \arguments{
 \item{s}{\code{SoilProfileCollection} object}
 
-\item{xy}{\code{sf} object, defining point coordinates of soil profiles, must be in same order as \code{s}}
+\item{xy}{\code{sf} object, defining point coordinates of soil profiles, must be in same order as \code{s}, must be a projected coordinate reference system (UTM, AEA, etc.)}
 
 \item{grad.var.name}{the name of a site-level attribute containing gradient values}
 

@@ -104,6 +104,7 @@ importFrom(soilDB,
 
 importFrom(sp,
   SpatialPolygons,
+  "proj4string<-",
   proj4string,
   Polygons,
   Polygon

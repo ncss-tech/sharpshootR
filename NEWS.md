@@ -1,4 +1,4 @@
-# sharpshootR 1.13 (2022-12-14)
+# sharpshootR 2.0 (2022-12-15)
  * water balance helper functions converted from sp/rgeos to sf
 
 # sharpshootR 1.12 (2022-12-09)

@@ -17,7 +17,7 @@ dailyWB_SSURGO(
 )
 }
 \arguments{
-\item{x}{\code{SpatialPoints} object representing a single point}
+\item{x}{\code{sf} object representing a single point}
 
 \item{cokeys}{vector of component keys to use}
 

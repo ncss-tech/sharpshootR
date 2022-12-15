@@ -7,7 +7,7 @@
 prepareDailyClimateData(x, start, end, onlyWB = TRUE)
 }
 \arguments{
-\item{x}{\code{SpatialPoints} object representing a single location}
+\item{x}{\code{sf} object representing a single point}
 
 \item{start}{start year (1998)}
 

@@ -3,8 +3,8 @@ Type: Package
 Encoding: UTF-8
 Title: A Soil Survey Toolkit
 Description: Miscellaneous soil data management, summary, visualization, and conversion utilities to support soil survey.
-Version: 1.13
-Date: 2022-12-14
+Version: 2.0
+Date: 2022-12-15
 Authors@R: c(
   person(given="Dylan", family="Beaudette", role = c("cre", "aut"), email = "dylan.beaudette@usda.gov"), 
   person(given="Jay", family="Skovlin", role = c("aut")), 
@@ -21,12 +21,10 @@ URL: https://github.com/ncss-tech/sharpshootR
 BugReports: https://github.com/ncss-tech/sharpshootR/issues
 Suggests: 
     MASS,
-    rgdal,
     spdep,
     circlize,
     rvest,
     xml2,
-    rgeos,
     terra,
     raster,
     exactextractr,

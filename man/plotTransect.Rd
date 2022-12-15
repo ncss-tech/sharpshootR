@@ -6,6 +6,7 @@
 \usage{
 plotTransect(
   s,
+  xy,
   grad.var.name,
   grad.var.order = order(site(s)[[grad.var.name]]),
   transect.col = "RoyalBlue",
@@ -13,7 +14,6 @@ plotTransect(
   y.offset = 100,
   scaling.factor = 0.5,
   distance.axis.title = "Distance Along Transect (km)",
-  crs = NULL,
   grad.axis.title = NULL,
   dist.scaling.factor = 1000,
   spacing = c("regular", "relative"),
@@ -23,6 +23,8 @@ plotTransect(
 }
 \arguments{
 \item{s}{\code{SoilProfileCollection} object}
+
+\item{xy}{\code{sf} object, defining point coordinates of soil profiles, must be in same order as \code{s}}
 
 \item{grad.var.name}{the name of a site-level attribute containing gradient values}
 
@@ -37,8 +39,6 @@ plotTransect(
 \item{scaling.factor}{scaling factor applied to profile sketches}
 
 \item{distance.axis.title}{a title for the along-transect distances}
-
-\item{crs}{an optional \code{CRS} object (sp package) used to convert coordinates into a projected coordinate reference system}
 
 \item{grad.axis.title}{a title for the gradient axis}
 
@@ -76,59 +76,66 @@ This function is very much a work in progress, ideas welcome!
 \donttest{
 
 if(require(aqp) & 
-require(sp) &
+require(sf) &
   require(soilDB)
 ) {
-  
-  # sample data
-  data("mineralKing", package = "soilDB")
-  
-  # device options are modified locally, reset when done
-  op <- par(no.readonly = TRUE)
-  
-  # quick overview
-  par(mar=c(1,1,2,1))
-  groupedProfilePlot(mineralKing, groups='taxonname', print.id=FALSE)
-  
-  # init coords and CRS
-  coordinates(mineralKing) <- ~ x_std + y_std
-  proj4string(mineralKing) <- '+proj=longlat +datum=NAD83'
-  
-  # projected CRS, units of meters
-  crs.utm <- CRS('+proj=utm +zone=11 +datum=NAD83')
-  
-  # adjust margins
-  par(mar=c(4.5,4,4,1))
-  
-  # standard transect plot, profile sketches arranged along integer sequence
-  plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
-               grad.axis.title='Elevation (m)', label='pedon_id', name='hzname')
-  
-  # default behavior, attempt adjustments to prevent over-plot and preserve relative spacing
-  # use set.seed() to fix outcome
-  plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
-               grad.axis.title='Elevation (m)', label='pedon_id', 
-               name='hzname', width=0.15, spacing = 'relative')
-  
-  # attempt relative positioning based on scaled distances, no corrections for overlap
-  # profiles are clustered in space and therefore over-plot
-  plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
-               grad.axis.title='Elevation (m)', label='pedon_id', name='hzname', 
-               width=0.15, spacing = 'relative', fix.relative.pos = FALSE)
-  
-  # customize arguments to aqp::fixOverlap()
-  plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
-               grad.axis.title='Elevation (m)', label='pedon_id', name='hzname', 
-               width=0.15, spacing = 'relative', 
-               fix.relative.pos = list(maxIter=6000, adj=0.2, thresh=0.7))
-  
-  plotTransect(mineralKing, grad.var.name='elev_field', crs=crs.utm, 
-               grad.axis.title='Elevation (m)', label='pedon_id', name='hzname', 
-               width=0.2, spacing = 'relative', 
-               fix.relative.pos = list(maxIter=6000, adj=0.2, thresh=0.6),
-               name.style = 'center-center')
-               
- par(op)
+   
+library(aqp)
+library(soilDB)
+library(sf)
+
+
+# sample data
+data("mineralKing", package = "soilDB")
+
+# device options are modified locally, reset when done
+op <- par(no.readonly = TRUE)
+
+# quick overview
+par(mar=c(1,1,2,1))
+groupedProfilePlot(mineralKing, groups='taxonname', print.id=FALSE)
+
+# setup point locations
+s <- site(mineralKing)
+xy <- st_as_sf(s, coords = c('x_std', 'y_std'))
+st_crs(xy) <- 4326
+
+# convert to suitable projected cRS
+# projected CRS, UTM z11 NAD83 (https://epsg.io/26911)
+xy <- st_transform(xy, 26911) 
+
+# adjust margins
+par(mar = c(4.5, 4, 4, 1))
+
+# standard transect plot, profile sketches arranged along integer sequence
+plotTransect(mineralKing, xy, grad.var.name = 'elev_field',
+             grad.axis.title = 'Elevation (m)', label = 'pedon_id', name = 'hzname')
+
+# default behavior, attempt adjustments to prevent over-plot and preserve relative spacing
+# use set.seed() to fix outcome
+plotTransect(mineralKing, xy, grad.var.name = 'elev_field',
+             grad.axis.title = 'Elevation (m)', label = 'pedon_id',
+             name = 'hzname', width = 0.15, spacing = 'relative')
+
+# attempt relative positioning based on scaled distances, no corrections for overlap
+# profiles are clustered in space and therefore over-plot
+plotTransect(mineralKing, xy, grad.var.name = 'elev_field',
+             grad.axis.title = 'Elevation (m)', label = 'pedon_id', name = 'hzname',
+             width = 0.15, spacing = 'relative', fix.relative.pos = FALSE)
+
+# customize arguments to aqp::fixOverlap()
+plotTransect(mineralKing, xy, grad.var.name = 'elev_field', crs = crs.utm,
+             grad.axis.title = 'Elevation (m)', label = 'pedon_id', name = 'hzname',
+             width = 0.15, spacing = 'relative',
+             fix.relative.pos = list(maxIter=6000, adj=0.2, thresh=0.7))
+
+plotTransect(mineralKing, xy, grad.var.name = 'elev_field', crs = crs.utm,
+             grad.axis.title = 'Elevation (m)', label = 'pedon_id', name = 'hzname',
+             width = 0.2, spacing = 'relative',
+             fix.relative.pos = list(maxIter = 6000, adj = 0.2, thresh = 0.6),
+             name.style = 'center-center')
+
+par(op)
   
 }
 }

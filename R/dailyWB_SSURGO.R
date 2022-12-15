@@ -77,8 +77,7 @@ dailyWB_SSURGO <- function(x, cokeys = NULL, start = 1988, end = 2018, modelDept
   if(!requireNamespace('daymetr', quietly=TRUE) |
      !requireNamespace('elevatr', quietly=TRUE) |
      !requireNamespace('sf', quietly=TRUE) |
-     !requireNamespace('Evapotranspiration', quietly=TRUE) |
-     !requireNamespace('rgeos', quietly=TRUE)
+     !requireNamespace('Evapotranspiration', quietly=TRUE)
   ) {
     stop('this function requires the following packages: daymetr, elevatr, Evapotranspiration', call.=FALSE)
   }

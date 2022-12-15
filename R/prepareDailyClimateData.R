@@ -87,6 +87,7 @@ prepareDailyClimateData <- function(x, start, end, onlyWB = TRUE) {
   if(
     !requireNamespace('elevatr', quietly = TRUE) | 
     !requireNamespace('daymetr', quietly = TRUE) |
+    !requireNamespace('sf', quietly=TRUE) |
     !requireNamespace('Evapotranspiration', quietly = TRUE)
   ) {
     stop('please install the `Evapotranspiration`, `elevatr`, and `daymetr` packages', call. = FALSE)
@@ -105,7 +106,7 @@ prepareDailyClimateData <- function(x, start, end, onlyWB = TRUE) {
   ## TODO: abstract to anything that can give {long,lat}
   ## TODO: iterate over coordinates
   # coordinates for DAYMET
-  coords <- st_coordinates(x)  
+  coords <- sf::st_coordinates(x)  
   
   # DAYMET API
   DM <- suppressMessages(

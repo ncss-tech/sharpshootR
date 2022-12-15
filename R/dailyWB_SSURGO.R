@@ -5,10 +5,10 @@
   
   
   # buffer point (GCS WGS84) before intersection with SSURGO data
-  x.buff <- st_buffer(x, dist = bufferRadiusMeters)
+  x.buff <- sf::st_buffer(x, dist = bufferRadiusMeters)
   
   # simplify, buffer is far too detailed
-  x.buff <- st_simplify(x.buff, dTolerance = 0.2)
+  x.buff <- sf::st_simplify(x.buff, dTolerance = 0.2)
   
   ## TODO: consider using BBOX vs actual buffer
   # st_as_sfc(st_bbox(x))
@@ -17,7 +17,7 @@
   # print(nrow(st_coordinates(x.buff)))
   
   # convert to WKT
-  x.wkt <- st_as_text(st_as_sfc(x.buff))
+  x.wkt <- sf::st_as_text(sf::st_as_sfc(x.buff))
   
   q <- paste0("SELECT mapunit.mukey, cokey, comppct_r, compkind, compname
 FROM 
@@ -76,6 +76,7 @@ dailyWB_SSURGO <- function(x, cokeys = NULL, start = 1988, end = 2018, modelDept
   # required packages
   if(!requireNamespace('daymetr', quietly=TRUE) |
      !requireNamespace('elevatr', quietly=TRUE) |
+     !requireNamespace('sf', quietly=TRUE) |
      !requireNamespace('Evapotranspiration', quietly=TRUE) |
      !requireNamespace('rgeos', quietly=TRUE)
   ) {

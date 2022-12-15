@@ -44,7 +44,8 @@ Suggests:
     elevatr,
     Evapotranspiration,
     zoo,
-    SoilTaxonomy
+    SoilTaxonomy,
+    sf
 Depends: R (>= 3.5.0)
 Imports: grDevices, graphics, methods, stats, utils, aqp, ape, 
   soilDB, cluster, lattice, vegan, sp, 

@@ -49,7 +49,11 @@ prepare_SSURGO_hydro_data <- function(cokeys, max.depth) {
   # get via SDA
   s <- suppressMessages(SDA_query(sql))
   
-  ## TODO account for no / missing data
+  ## account for no / missing data
+  if(is.null(s)) {
+    stop('no data returned', call. = FALSE)
+  }
+  
   
   # init SPC for slab()
   s$cokey <- as.character(s$cokey)

@@ -8,9 +8,6 @@ library(aqp)
 library(soilDB)
 library(sharpshootR)
 
-library(sp)
-library(rgeos)
-
 
 library(pbapply)
 library(reshape2)
@@ -22,13 +19,20 @@ library(RColorBrewer)
 library(viridis)
 
 
-
+library(sf)
 
 
 
 ## simulate NULL PET
+
 # near Sonora, CA
-p <- SpatialPoints(cbind(-120.37673,37.99877), proj4string = CRS('+proj=longlat +datum=WGS84'))
+p <- data.frame(
+  x = -120.37673,
+  y = 37.99877
+)
+p <- st_as_sf(p, coords = c('x', 'y'))
+st_crs(p) <- 4326
+
 daily.data <- prepareDailyClimateData(p, start = 2013, end = 2014, onlyWB = TRUE)
 
 # save PET
@@ -104,7 +108,13 @@ xyplot(
 ## prepare some example data via DAYMET
 
 # near Sonora, CA
-p <- SpatialPoints(cbind(-120.37673,37.99877), proj4string = CRS('+proj=longlat +datum=WGS84'))
+p <- data.frame(
+  x = -120.37673,
+  y = 37.99877
+)
+p <- st_as_sf(p, coords = c('x', 'y'))
+st_crs(p) <- 4326
+
 daily.data <- prepareDailyClimateData(p, start = 2000, end = 2019, onlyWB = TRUE)
 
 head(daily.data)
@@ -322,8 +332,15 @@ tapply(mst$Pr, mst$texture, function(i) length(which(i > 0.8)))
 ##
 
 
-p <- SpatialPoints(cbind(-120.37673,37.99877), proj4string = CRS('+proj=longlat +datum=WGS84'))
-cokeys <- c('22033165')
+# https://casoilresource.lawr.ucdavis.edu/gmap/?loc=43.01942,-82.5909
+p <- data.frame(
+  x = -82.5909,
+  y = 43.01942
+)
+p <- st_as_sf(p, coords = c('x', 'y'))
+st_crs(p) <- 4326
+
+cokeys <- c('22428454')
 
 # investigate source data
 s <- prepare_SSURGO_hydro_data(cokeys = cokeys, max.depth = 50)
@@ -580,6 +597,7 @@ xyplot(Pr ~ as.numeric(doy), groups = compname,
 tapply(mst$Pr, mst$compname, function(i) length(which(i > 0.8)))
 
 
+## TODO convet to sf objects
 
 # lamoni <- SpatialPoints(cbind(-92.37841, 41.40046), proj4string = CRS('+proj=longlat +datum=WGS84'))
 # holland <- SpatialPoints(cbind(-120.29323, 38.01652), proj4string = CRS('+proj=longlat +datum=WGS84'))

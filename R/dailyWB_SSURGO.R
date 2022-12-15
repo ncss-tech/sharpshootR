@@ -4,16 +4,20 @@
 .getSSURGO_at_point <- function(x, bufferRadiusMeters) {
   
   
-  # SSURGO data
-  # transform to planar coordinate system for buffering
-  x.aea <- spTransform(x, CRS('+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=23 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs '))
+  # buffer point (GCS WGS84) before intersection with SSURGO data
+  x.buff <- st_buffer(x, dist = bufferRadiusMeters)
   
-  # buffer
-  x.aea <- rgeos::gBuffer(x.aea, width = bufferRadiusMeters)
-  # transform back to WGS84 GCS
-  x.buff <- spTransform(x.aea, CRS('+proj=longlat +datum=WGS84'))
+  # simplify, buffer is far too detailed
+  x.buff <- st_simplify(x.buff, dTolerance = 0.2)
+  
+  ## TODO: consider using BBOX vs actual buffer
+  # st_as_sfc(st_bbox(x))
+  
+  # debug: complexity of buffer
+  # print(nrow(st_coordinates(x.buff)))
+  
   # convert to WKT
-  x.wkt <- rgeos::writeWKT(x.buff)
+  x.wkt <- st_as_text(st_as_sfc(x.buff))
   
   q <- paste0("SELECT mapunit.mukey, cokey, comppct_r, compkind, compname
 FROM 
@@ -44,7 +48,7 @@ SELECT * from SDA_Get_Mukey_from_intersection_with_WktWgs84('", x.wkt, "')
 #' 
 #' @description Pending.
 #'
-#' @param x `SpatialPoints` object representing a single point
+#' @param x `sf` object representing a single point
 #' @param cokeys vector of component keys to use
 #' @param start starting year (limited to DAYMET holdings)
 #' @param end ending year (limited to DAYMET holdings)
@@ -80,7 +84,7 @@ dailyWB_SSURGO <- function(x, cokeys = NULL, start = 1988, end = 2018, modelDept
   
   ## TODO: relax constraints: other object types / iteration over features
   # sanity checks
-  stopifnot(class(x) == 'SpatialPoints')
+  stopifnot(inherits(x, 'sf'))
   stopifnot(length(x) == 1)
   
   ## TODO: this contains a lot more data than we actually need

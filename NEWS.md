@@ -1,4 +1,8 @@
+# sharpshootR 1.13 (2022-12-14)
+ * water balance helper functions converted from sp/rgeos to sf
+
 # sharpshootR 1.12 (2022-12-09)
+ * CRAN release
  * adding SoilTaxonomy package to suggests, to allow for better encoding of taxa levels by `SoilTaxonomyDendrogram()`
  * `SoilTaxonomyDendrogram()` gains argument `KST.order` to adjust encoding / ordering criteria and `level` argument to specify the taxonomic levels to use
  * `SoilTaxonomyDendrogram()` gains argument `cluster.method` to select `"divisive"` (default) or `"agglomerative"` clustering methods. Additional arguments to `cluster::diana()` and `cluster::agnes()` may be specified with a list supplied as `cluster.args` argument

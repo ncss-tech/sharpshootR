@@ -1,5 +1,6 @@
 # sharpshootR 2.0 (2022-12-15)
- * water balance helper functions converted from sp/rgeos to sf
+ * water balance helper functions converted from `sp`/`rgeos` to `sf`
+ * breaking changes in `plotTransect()`, coordinate are now provided as an additional argument / `sf` object
 
 # sharpshootR 1.12 (2022-12-09)
  * CRAN release

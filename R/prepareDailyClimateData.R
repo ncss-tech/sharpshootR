@@ -73,7 +73,7 @@
 #'   * `daymetr`: DAYMET data at `x` for years `start` through `end`
 #'   * `Evapotranspiration`: Makkink formulation for estimating reference crop evapotranspiration
 #'
-#' @param x  `SpatialPoints` object representing a single location
+#' @param x `sf` object representing a single point
 #' @param start start year (1998)
 #' @param end end year (2018)
 #' @param onlyWB logical, return just those date required by `dailyWB`
@@ -93,7 +93,10 @@ prepareDailyClimateData <- function(x, start, end, onlyWB = TRUE) {
   }
    
   # sanity checks
-  stopifnot(class(x) == 'SpatialPoints')
+  stopifnot(inherits(x, 'sf'))
+  
+  # TODO: eventally vectorize over points
+  # for now, only a single point allowed
   stopifnot(length(x) == 1)
    
   # get elevation
@@ -102,7 +105,7 @@ prepareDailyClimateData <- function(x, start, end, onlyWB = TRUE) {
   ## TODO: abstract to anything that can give {long,lat}
   ## TODO: iterate over coordinates
   # coordinates for DAYMET
-  coords <- coordinates(x)  
+  coords <- st_coordinates(x)  
   
   # DAYMET API
   DM <- suppressMessages(

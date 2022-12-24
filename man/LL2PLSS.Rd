@@ -8,20 +8,20 @@
 LL2PLSS(x, y, returnlevel = c("I", "S"))
 }
 \arguments{
-\item{x}{longitude coordinates}
+\item{x}{longitude coordinates (WGS84)}
 
-\item{y}{latitude coordinates}
+\item{y}{latitude coordinates (WGS84)}
 
 \item{returnlevel}{'S' for "Section" or 'I' for "Intersection" (subsections)}
 }
 \value{
-\code{list} of of PLSS codes and coordinates.
+\code{sf} object with geometry and PLSS definition.
 }
 \description{
 Uses latitude and longitude coordinates to return the PLSS section geometry from the BLM PLSS web service.
 }
 \details{
-This function takes xy coordinates and returns the PLSS section geometry to the quarter-quarter section. \code{returnlevel} options are defaulted to 'I' which returns smallest intersected sectional aliquot geometry, 'S' will return the section geometry of the coordinates. See https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer for details.
+This function accepts geographic coordinates and returns the PLSS fabric geometry to the quarter-quarter section. \code{returnlevel} defaults to 'I' which returns smallest intersected sectional aliquot geometry, 'S' will return the section geometry of the coordinates. See https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer for details.
 }
 \note{
 This function requires the following packages: \code{httr}, \code{jsonlite}, and \code{sp}.

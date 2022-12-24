@@ -50,8 +50,10 @@ test_that("PLSS2LL() works", {
   
   # center of township, center of section
   # center of NE,NW,SE,SW corner of northeast corner
-  expect_equal(PLSS2LL(d), data.frame(
-    id = c("1", "2", "3", "4", "5", "6"),
+  p <- PLSS2LL(d)
+  
+  # expected results
+  .res <- data.frame(
     plssid = c(
       "CA210250S0380E0", 
       "CA210250S0380E0SN110A",
@@ -64,22 +66,14 @@ test_that("PLSS2LL() works", {
             35.7818389778208, 35.7781355594337, 35.7781460719862),
     lon = c(-117.883828112581, -117.857196264745, -117.85049298053, 
             -117.854957052084, -117.850511838394, -117.854968737876)
-  ))
+  )
+  
+  # original PLSS codes, same order
+  expect_equal(p$plssid, .res$plssid)
+  
+  # coordinates
+  expect_equal(p$lon, .res$lon, tolerance = 1e-6)
+  expect_equal(p$lat, .res$lat, tolerance = 1e-6)
+  
 })
 
-# inspect
-# foo <- sf::st_as_sf(PLSS2LL(data.frame(
-#   id = c("1", "2", "3", "4", "5", "6", "7", "8", "9"),
-#   plssid = c(
-#     "CA210250S0380E0", 
-#     "CA210250S0380E0SN010A",
-#     "CA210250S0380E0SN060A",
-#     "CA210250S0380E0SN310A",
-#     "CA210250S0380E0SN360A",
-#     # "CA210250S0380E0SN110ANE", # doesn't work
-#     "CA210250S0380E0SN110ANENE",
-#     "CA210250S0380E0SN110ANWNE",
-#     "CA210250S0380E0SN110ASENE",
-#     "CA210250S0380E0SN110ASWNE"))
-# ), coords=c("lon","lat"), crs=4326)
-# plot(foo$geometry)

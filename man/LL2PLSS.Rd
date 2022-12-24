@@ -5,7 +5,7 @@
 \alias{plssMeridians}
 \title{LL2PLSS}
 \usage{
-LL2PLSS(x, y, returnlevel = "I")
+LL2PLSS(x, y, returnlevel = c("I", "S"))
 }
 \arguments{
 \item{x}{longitude coordinates}

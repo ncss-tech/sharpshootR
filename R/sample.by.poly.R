@@ -1,6 +1,6 @@
 
 
-constantDensitySampling <- function(x, polygon.id='pID', parallel=FALSE, cores=NULL, n.pts.per.ac=1, min.samples=5, sampling.type='regular', iterations=10) {
+constantDensitySampling <- function(x, polygon.id='pID', parallel=FALSE, cores=NULL, n.pts.per.ac=1, min.samples=5, sampling.type='regular') {
   
   if (!requireNamespace("terra")) {
     stop('please install the `terra` package', call. = FALSE)
@@ -51,7 +51,6 @@ constantDensitySampling <- function(x, polygon.id='pID', parallel=FALSE, cores=N
                                n.pts.per.ac = n.pts.per.ac,
                                min.samples = min.samples,
                                sampling.type = sampling.type,
-                               iterations = iterations,
                                p4s = p4s)
 
     # stop nodes
@@ -69,7 +68,6 @@ constantDensitySampling <- function(x, polygon.id='pID', parallel=FALSE, cores=N
         n.pts.per.ac = n.pts.per.ac,
         min.samples = min.samples,
         sampling.type = sampling.type,
-        iterations = iterations,
         p4s = p4s
       )
       smp$pID <- i
@@ -81,7 +79,6 @@ constantDensitySampling <- function(x, polygon.id='pID', parallel=FALSE, cores=N
   # this happens when there aren't enough sample points based on min.samples
   # * cases where it was too difficult to place a point
   # * could be caused by invalid geometry / topological error 
-  #   --> spsample() says: "cannot derive coordinates from non-numeric matrix"
   
   null.items <- which(sapply(res, is.null))
   if (length(null.items) > 0) {
@@ -109,13 +106,11 @@ constantDensitySampling <- function(x, polygon.id='pID', parallel=FALSE, cores=N
 # p: Polygon object
 # n: number of points per acre (results will be close)
 # min.samples: minimum requested samples / polygon
-# iterations: number of sampling "tries"
 # p4s: proj4string assigned to SpatialPoints object
 sample.by.poly <- function(p,
                            n.pts.per.ac = 1,
                            min.samples = 5,
                            sampling.type = 'regular',
-                           iterations = 10,
                            p4s = NULL
 ) {
   

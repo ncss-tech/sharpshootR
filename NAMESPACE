@@ -102,13 +102,6 @@ importFrom(soilDB,
   waterDayYear
 )
 
-importFrom(sp,
-  SpatialPolygons,
-  "proj4string<-",
-  proj4string,
-  Polygons,
-  Polygon
-)
 
 importFrom(reshape2,
   dcast,

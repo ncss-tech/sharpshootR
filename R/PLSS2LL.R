@@ -35,75 +35,75 @@ formatPLSS <- function(p, type = 'SN') {
   # check for required packages
   if(!requireNamespace('stringi', quietly = TRUE))
     stop('please install the `stringi` package', call.=FALSE)
-
+  
   # specify columns
   required_chr <- c("id", "t", "r", "type", "m")
   optional_chr <- c("qq", "q")
   optional_int <- c("s")
-
+  
   if (!inherits(p, 'data.frame') || !all(required_chr %in% colnames(p)))
     stop('p must be a data.frame containing columns: id, t, r, type, m; and optionally: s, qq, q')
-
+  
   if (any(optional_chr %in% colnames(p))) {
     if (!"q" %in% optional_chr)
       stop('p must contain q (quarter section) if it contains qq (quarter-quarter section)')
   }
-
+  
   # handle subclasses of data.frame (e.g. tibble, data.table)
   p <- as.data.frame(p)
-
+  
   # force conversions to appropriate data type
   p[,required_chr] <- lapply(p[,required_chr, drop = FALSE], as.character)
-
+  
   if (sum(optional_chr %in% colnames(p)) > 0) {
     p[,optional_chr] <- lapply(p[,optional_chr, drop = FALSE], as.character)
   }
-
+  
   if (optional_int %in% colnames(p)) {
     p[,optional_int] <- lapply(p[,optional_int, drop = FALSE], as.integer)
   }
-
+  
   # pre-allocate char vector for results
   f <- vector(mode = 'character', length = nrow(p))
-
+  
   # required names and optional section, quarter and quarter-quarter section
   required_names <- required_chr
   optional <- c(optional_int, optional_chr)
   optional_names <- optional[optional %in% colnames(p)]
-
+  
   # identify those that can produce valid PLSS string (assuming need everything down to section number)
   p.good <- complete.cases(p[,required_names])
   p.bad.idx <- which(!p.good)
-
+  
   # calculate expected number of characters
   p.expected.nchar <- .expectedPLSSnchar(p, type = type, optional_names = optional_names)
-
+  
   # expected length is internal, not really necessary to create below warning
   # if (length(p.bad.idx) > 0)
   #   p.expected.nchar[p.bad.idx] <- NA
-
+  
   for (i in 1:nrow(p)) {
     # skip incomplete (NA-containing) rows
     if (!i %in% p.bad.idx) {
       # split Township / Range into elements, case sensitive
       p.t <- stri_match_first_regex(p$t[i], pattern = '([0-9]+)([N|S])')[2:3]
       p.r <- stri_match_first_regex(p$r[i], pattern = '([0-9]+)([E|W])')[2:3]
-
+      
       # pad T/R codes with 0
       p.t[1] <- stri_pad(p.t[1], width = 2, pad = '0')
       p.r[1] <- stri_pad(p.r[1], width = 2, pad = '0')
-
+      
       # add extra '0' between T/R code and direction
       p.t <- paste0(p.t, collapse = '0')
       p.r <- paste0(p.r, collapse = '0')
-
+      
       # add 'SN to section number and pad single digit section numbers
       p.s <- ifelse(is.na(p$s[i]), '', ifelse(p$s[i] > 9, p$s[i], paste0("0", p$s[i])))
-
+      
       # replace NA -> '' IN S, Q and QQ sections
       p.q <- ifelse(is.na(p$q[i]), '', p$q[i])
       p.qq <- ifelse(is.na(p$qq[i]), '', p$qq[i])
-
+      
       # format the first chunk
       f.1 <- ifelse(nchar(p.s) == 0, 
                     paste0(paste0(c(p$m[i], p.t, p.r), collapse="0"), "0"), # no section
@@ -116,7 +116,7 @@ formatPLSS <- function(p, type = 'SN') {
         f.2 <- ""
       }
       f[i] <- paste0(f.1, f.2)
-
+      
       # handle if sections are protracted and unprotracted blocks
       if (type == 'PB') {
         f[i] <- stringi::stri_replace_all_fixed(f[i], 'SN', 'PB')
@@ -165,7 +165,7 @@ formatPLSS <- function(p, type = 'SN') {
   p.expected.nchar <- 25 - ((rowSums(do.call('cbind', lapply(p[, optional_names, drop = FALSE], .hasZeroLen)[optional_names])))*2)
   # note that while it is possible to specify only one of q/qq -- 
   # it does not appear that the API accepts, so we warn accordingly in formatPLSS expected length wont be right
-
+  
   naopt <- which(apply(is.na(p[,optional_names]) | p$type == "PB", 1, function(b) any(b)))
   if (type == 'PB') { # type=PB -5
     p.expected.nchar <- p.expected.nchar - 5
@@ -191,56 +191,77 @@ formatPLSS <- function(p, type = 'SN') {
 #' @export
 #'
 #' 
-LL2PLSS <- function(x, y, returnlevel= 'I') {
-
+LL2PLSS <- function(x, y, returnlevel = c('I', 'S')) {
+  
+  # sanity check
+  returnlevel <- match.arg(returnlevel)
+  
+  # vectorization
   if (length(x) > 1 && length(y) > 1 && length(x) == length(y)) {
-    # vectorization
-    itrres <- lapply(seq_along(x), function(i) .LL2PLSS(x[i], y[i], returnlevel = returnlevel, .polyID = i))
-    out <- list()
-    out$plss <- rep(NA, length(x))
-    geo <- lapply(itrres, function(x) x$geom)
-    geoNA <- !sapply(geo, inherits, what = 'Spatial')
-    if (sum(geoNA) > 0)
-      warning("Dropping NA coordinates from SpatialPolygons result!")
-    out$geom <- do.call('rbind', geo[which(!geoNA)])
-    out$plss <- na.omit(sapply(itrres, function(x) x$plss))
-              # na.omit() gives parity with Spatial result
-              #   attr(foo$plss,"na.action") to get NA's
-    return(out)
+    
+    .res <- lapply(
+      seq_along(x), 
+      function(i) 
+        .LL2PLSS(x[i], y[i], returnlevel = returnlevel)
+    )
+    
+    # flatten list of sf object -> single sf object / multiple features
+    .res <- do.call('rbind', .res)
+  } else {
+    # single point
+    .res <- .LL2PLSS(x, y, returnlevel)  
   }
-
-  .LL2PLSS(x, y, returnlevel)
+  
+  return(.res)  
 }
 
-.LL2PLSS <- function(x, y, returnlevel = "I", .polyID = 1) {
+
+.LL2PLSS <- function(x, y, returnlevel = "I") {
+  
+  # empty result for error condition / no results from API
+  .empty <- sf::st_sfc(sf::st_polygon(list()))
+  .empty <- sf::st_sf(.empty)
+  .empty$plss <- NA
+  
   # use LL2PLSS() for vectorization
   stopifnot(length(x) == 1)
   stopifnot(length(x) == length(y))
-
+  
   # check for required packages
   if(!requireNamespace('httr', quietly = TRUE) | !requireNamespace('jsonlite', quietly = TRUE))
     stop('please install the `httr` and `jsonlite` packages', call.=FALSE)
-
+  
   if(!is.na(x) && !is.na(y)) {
-
+    
     # ensure that x/y have at least 8 decimal places
     x <- sprintf("%.08f", as.numeric(x))
     y <- sprintf("%.08f", as.numeric(y))
-
+    
+    .baseURL <- "https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer/exts/CadastralSpecialServices/GetTRS?lat="
+    
     # composite URL for GET request, result is JSON
-    if(returnlevel == 'S') {
-      u <- paste0("https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer/exts/CadastralSpecialServices/GetTRS?lat=",
-                  y, "&lon=", x, "&units=DD&returnlevel=S&f=pjson")
-    }
-    if (returnlevel == 'I') {
-      u <- paste0("https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer/exts/CadastralSpecialServices/GetTRS?lat=",
-                  y, "&lon=", x, "&units=DD&returnlevel=I&f=pjson")
-    }
-
+    u <- switch(returnlevel,
+                'S' = {
+                  paste0(
+                    .baseURL,
+                    y, "&lon=", 
+                    x, 
+                    "&units=DD&returnlevel=S&f=pjson"
+                  )
+                },
+                'I' = {
+                  paste0(
+                    .baseURL,
+                    y, "&lon=", 
+                    x, 
+                    "&units=DD&returnlevel=I&f=pjson"
+                  )
+                })
+    
     # process GET request
     res <- httr::GET(u)
     httr::stop_for_status(res)
-
+    
     # convert JSON -> list
     res <- jsonlite::fromJSON(httr::content(res, as = 'text'), flatten = TRUE)
     
@@ -250,26 +271,29 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
     # * reversed coordinates in x,y
     # * nothing returned by the API
     if(is.null(res$features$geometry.rings)) {
-      message("invalid geometry specification, check coordinate XY order (longitude: X, latitude: Y)")
+      message("no resulting PLSS spec returned, check coordinate XY order (longitude: X, latitude: Y)")
       # return "NULL" result
-      return(list(geom=SpatialPolygons(list()), plss=NULL))
+      return(.empty)
     }
     
-  # attempt to extract PLSS geometry
-    geom <- SpatialPolygons(list(Polygons(list(Polygon(res$features$geometry.rings[[1]][1,, ])), ID = .polyID)))
+    # SRID
     srid <- res$features$geometry.spatialReference.wkid
-    proj4string(geom) <- paste0('+init=epsg:', srid)
-
-    # attempt to extract PLSS coordinates
-    plss.coords <- res$features$attributes.landdescription
+    
+    # extract PLSS geometry and convert to sf object
+    geom <- sf::st_polygon(x = list(res$features$geometry.rings[[1]][1,, ]))
+    geom <- sf::st_sfc(geom, crs = srid)
+    geom <- sf::st_sf(geom)
+    
+    # store PLSS description in sf object
+    geom$plss <- res$features$attributes.landdescription
+    
   } else {
-    # return NA for NA X/Y input
-    geom <- NA
-    plss.coords <- NA
+    # return empy geometry + attributes
+    geom <- .empty
   }
-
+  
   # consider returning both geom + PLSS code
-  return(list(geom=geom, plss=plss.coords))
+  return(geom)
 }
 
 ## TODO: what should be returned @ reduced precision?
@@ -289,39 +313,36 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
 .PLSS2LL <- function(p) {
   
   # p in a vectorized function is passed as named vector
-  if (is.na(p['plssid'])) {
+  if (is.na(p)) {
     return(NA)
   }
   
-  formatted.plss <- p['plssid']
-
-
-   # composite URL for GET request, result is JSON
+  # composite URL for GET request, result is JSON
   u <-
     paste0(
       'https://gis.blm.gov/arcgis/rest/services/Cadastral/',
       'BLM_Natl_PLSS_CadNSDI/MapServer/exts/CadastralSpecialServices/',
       'GetLatLon?trs=',
-      formatted.plss,
+      p,
       '&f=pjson'
     )
-
+  
   # process GET request
   r <- httr::GET(u)
   httr::stop_for_status(r)
-
+  
   # convert JSON -> list
   r <- jsonlite::fromJSON(httr::content(r, as = 'text'), flatten = TRUE)
-
-  # handling for if no coords returned
+  
+  # handling when no coords returned
   if (inherits(r$coordinates, 'list') &
       length(r$coordinates) == 0) {
-    r <- data.frame(id = p['id'], plssid = formatted.plss, lat = NA, lon = NA)
+    r <- data.frame(plssid = p, lat = NA, lon = NA)
     res <- r
   } else {
     # keep only coordinates
     r <- r$coordinates
-
+    
     if (is.null(r))
       return(NULL)
     
@@ -329,8 +350,7 @@ LL2PLSS <- function(x, y, returnlevel= 'I') {
     # keep the mean coordinates - get to one set of lat/lon coords
     if (nrow(r) >= 0) {
       r <- data.frame(
-        id = p['id'], 
-        plssid = formatted.plss, 
+        plssid = p, 
         t(colMeans(r[, 2:3], na.rm = TRUE))
       )
     }
@@ -358,7 +378,7 @@ PLSS2LL <- function(p, plssid = "plssid") {
   # check for required packages
   if(!requireNamespace('httr', quietly = TRUE) | !requireNamespace('jsonlite', quietly = TRUE))
     stop('please install the `httr` and `jsonlite` packages', call.=FALSE)
-
+  
   # check that p is a data frame
   if (!inherits(p, 'data.frame')) {
     stop('p must be a data frame')
@@ -366,23 +386,23 @@ PLSS2LL <- function(p, plssid = "plssid") {
     # add data.table or other support (by casting all data.frame subclasses to data.frame)
     p <- as.data.frame(p)
   }
-
+  
   if (nrow(p) == 0) {
     stop('p must have more than 0 rows')
   }
-
+  
   # check that p has a plssid column
   if (!(plssid %in% colnames(p))) {
     stop(sprintf("Column %s not found in `p`. Consider using the `formatPLSS` function to generate `p`.", plssid))
   }
-
-  # apply over data frame
-  pres <- apply(p, 1, .PLSS2LL)
   
-  if (length(pres) == 0)
+  # perform lookup one at a time
+  res <- lapply(p[[plssid]], .PLSS2LL)
+  
+  if (length(res) == 0)
     return(NULL)
   
-  res <-  do.call("rbind", pres)
+  res <-  do.call("rbind", res)
   return(res)
 }
 

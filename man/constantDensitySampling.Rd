@@ -5,7 +5,7 @@
 \description{Perform sampling at a constant density over all polygons within a SpatialPolygonsDataFrame object.}
 \usage{
 constantDensitySampling(x, polygon.id='pID', parallel=FALSE, cores=NULL, 
-n.pts.per.ac=1, min.samples=5, sampling.type='regular', iterations=10)
+n.pts.per.ac=1, min.samples=5, sampling.type='regular')
 }
 
 \arguments{
@@ -15,8 +15,7 @@ n.pts.per.ac=1, min.samples=5, sampling.type='regular', iterations=10)
   \item{cores}{number of CPU cores to use for parallel operation}
   \item{n.pts.per.ac}{requested sampling density in points per acre (results will be close)}
   \item{min.samples}{minimum requested number of samples per polygon}
-  \item{sampling.type}{sampling type, see \code{spsample}}
-  \item{iterations}{number of tries that \code{spsample} will attempt}
+  \item{sampling.type}{sampling type}
 }
 
 

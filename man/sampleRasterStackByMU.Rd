@@ -11,7 +11,6 @@ sampleRasterStackByMU(
   raster.list,
   pts.per.acre,
   p = c(0, 0.05, 0.25, 0.5, 0.75, 0.95, 1),
-  iterations = 20,
   progress = TRUE,
   estimateEffectiveSampleSize = TRUE,
   polygon.id = "pID"
@@ -29,8 +28,6 @@ sampleRasterStackByMU(
 \item{pts.per.acre}{target sampling density in \verb{points per acre}}
 
 \item{p}{percentiles for polygon area stats, e.g. \code{c(0.05, 0.25, 0.5, 0.75, 0.95)}}
-
-\item{iterations}{Number of iterations, passed to \code{constantDensitySampling()}}
 
 \item{progress}{logical, print a progress bar while sampling?}
 

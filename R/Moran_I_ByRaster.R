@@ -3,7 +3,7 @@
 ## needs documentation
 ##
 
-
+## TODO: consider terra-native functions
 
 ## TODO: should this account for rho(lag) ?
 # 
@@ -100,60 +100,3 @@ Moran_I_ByRaster <- function(r, mu.extent=NULL, n=NULL, k=NULL, do.correlogram=F
   
 }
 
-
-## this approach doesn't work all that well because map unit delineations cover only a couple PRISM raster cells
-## a reasonable estimate should come from all polygons
-
-# 
-# Moran_I_ByPolygon <- function(r, mu, n=NULL, k=NULL) {
-#   
-#   
-#   .M <- function(s, k) {
-#     
-#     # neighborhood weights
-#     s.n <- spdep::knearneigh(s, k=k)
-#     s.nb <- spdep::knn2nb(s.n)
-#     s.listw <- spdep::nb2listw(s.nb)
-#     
-#     moran.test(s[[1]], s.listw, rank=TRUE, randomisation = FALSE)
-#   }
-#   
-#   for(i in 1:nrow(mu) {
-#     # crop to extent of map units
-#     mu.i <- spTransform(mu[i, ], CRS(proj4string(r)))
-#     r.i <- crop(r, mu.i)
-#     
-#     # mask to MU polygons
-#     r.i <- mask(r.i, spTransform(mu.i, CRS(proj4string(r))))
-#     
-#     
-#     # setup some sensible defaults
-#     # sample size for Moran's I:
-#     # use the number of pixels or 10k which ever is smaller
-#     if(is.null(n)) {
-#       n <- ifelse(length(r) < 10000, length(r), 10000)
-#     }
-#     
-#     # number of neighbors
-#     # 5 should be enough
-#     if(is.null(k)) {
-#       k <- 5
-#     }
-#     
-#     # sample raster and remove NA
-#     s <- sampleRegular(r.i, n, sp=TRUE)
-#     s <- s[which(!is.na(s[[1]])), ]
-#     
-#   }
-#   
-#   
-#     
-#   
-#   
-#   # Moran's I, no need for permutation tests
-#   res <-
-#   
-#   return(res$estimate[1])
-# }
-# 
-# 

@@ -5,6 +5,7 @@
  * breaking changes in `LL2PLSS()`, all return data now packed into `sf` object vs. `list` (sharpshootR <= 1.12)
  * `generateLineHash()` now uses `sf` class LINESTRING features
  * `huePositionPlot()` gains `origin` argument for calculation of dE00 from arbitrary colors specified in CIELAB or Munsell
+ * breaking changes in `joinAdjacency()`, now expects a `data.frame` (or compatible) vs. `SpatialLinesDataFrame`
 
 # sharpshootR 1.12 (2022-12-09)
  * CRAN release

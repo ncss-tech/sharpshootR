@@ -1,11 +1,26 @@
-joinAdjacency <- function(x, vars=c('l_musym', 'r_musym')) {
+#' @title Join Document Adjacency
+#' 
+#' @description Convert a set of line segment "join decisions" into a weighted adjacency matrix describing which map unit symbols touch.
+#'
+#' @param x `data.frame` or similar object, each row represents a single shared edge (typically `sf` LINESTRING feature)
+#' @param vars a vector of two characters naming columns containing "left", and "right" map unit symbols
+#'
+#' @return A weighted adjacency matrix is returned, suitable for plotting directly with `plotSoilRelationGraph()`.
+#' 
+#' @author D.E. Beaudette
+#' 
+#' @seealso [plotSoilRelationGraph()]
+#' 
+#' @export
+#'
+joinAdjacency <- function(x, vars = c('l_musym', 'r_musym')) {
   
   if (!requireNamespace("igraph")) {
     stop("package 'igraph' is required to calculate join adjacency matrix", call. = FALSE)
   }
   
   # extract "left" and "right" map unit symbols, removing missing values
-  d <- slot(x, 'data')[, vars]
+  d <- x[, vars]
   edge.list <- as.matrix(na.omit(d))
   
   # init igraph object: note that there will be many duplicate edges

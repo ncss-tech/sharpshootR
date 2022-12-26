@@ -3,6 +3,8 @@
  * water balance helper functions converted from `sp`/`rgeos` to `sf`
  * breaking changes in `plotTransect()`, coordinate are now provided as an additional argument / `sf` object
  * breaking changes in `LL2PLSS()`, all return data now packed into `sf` object vs. `list` (sharpshootR <= 1.12)
+ * `generateLineHash()` now uses `sf` class LINESTRING features
+ * `huePositionPlot()` gains `origin` argument for calculation of dE00 from arbitrary colors specified in CIELAB or Munsell
 
 # sharpshootR 1.12 (2022-12-09)
  * CRAN release

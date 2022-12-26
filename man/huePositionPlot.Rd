@@ -10,6 +10,8 @@ huePositionPlot(
   chip.cex = 4.5,
   label.cex = 0.75,
   contour.dE00 = FALSE,
+  origin = NULL,
+  origin.cex = 0.75,
   grid.res = 2
 )
 }
@@ -22,7 +24,11 @@ huePositionPlot(
 
 \item{label.cex}{scaling for color chip}
 
-\item{contour.dE00}{logical, add dE00 contours from CIELAB coordinates (L,0,0), L is a constant value determined by \code{value} and \code{chroma}}
+\item{contour.dE00}{logical, add dE00 contours from \code{origin}, imlpicitly \code{TRUE} when \code{origin} is not \code{NULL}}
+
+\item{origin}{point used for distance comparisons can be either single row matrix of CIELAB coordinates, a character vector specifying a Munsell color. By default (\code{NULL}) represents CIELAB coordinates (L,0,0), where L is a constant value determined by \code{value} and \code{chroma}. See examples.}
+
+\item{origin.cex}{scaling for origin point}
 
 \item{grid.res}{grid resolution for contours, units are CIELAB A/B coordinates. Caution, small values result in many pair-wise distances which could take a very long time.}
 }
@@ -42,4 +48,12 @@ huePositionPlot(value = 8, chroma = 8)
 
 huePositionPlot(value = 6, chroma = 6, contour.dE00 = TRUE, grid.res = 2)
 
+shift origin to arbitrary CIELAB coordinates or Munsell color
+huePositionPlot(origin = cbind(40, 5, 15), origin.cex = 0.5)
+
+huePositionPlot(origin = '5G 6/4', origin.cex = 0.5)
+
+huePositionPlot(origin = '10YR 3/4', origin.cex = 0.5)
+
+huePositionPlot(value = 3, chroma = 4, origin = '10YR 3/4', origin.cex = 0.5)
 }

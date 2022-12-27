@@ -1,6 +1,25 @@
 
-# optional arguments are passed to poly2nb
-polygonAdjacency <- function(x, v='MUSYM', ...) {
+
+#' @title Summarize Spatial Adjacency of Polygon Fabric
+#' 
+#' @description This function utilizes the `spdep` and `igraph` packages to evaluate several measures of spatial connectivity.
+#'
+#' @param x `sf` object containing simple polygon features, some of which should share edges
+#' @param v character, name of column in attribute table describing map unit labels
+#' @param ... additional arguments passed to [spdep::poly2nb()]
+#' 
+#' @details Examples are presented in \href{http://ncss-tech.github.io/AQP/sharpshootR/common-soil-lines.html}{this tutorial}.
+#'
+#' @return a `list` containing:
+#' 
+#'  * `commonLines`: an integer vector of feature IDs, describing polygons sharing edges and values of `v` (map unit labels)
+#'  * `adjMat`: weighted adjacency matrix, suitable for visualization with  [plotSoilRelationGraph()]
+#' 
+#' @author D.E. Beaudette
+#' 
+#' @export
+#'
+polygonAdjacency <- function(x, v = 'MUSYM', ...) {
   
   # sanity check: package requirements
   if (!requireNamespace('spdep'))

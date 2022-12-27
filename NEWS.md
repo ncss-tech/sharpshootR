@@ -1,4 +1,4 @@
-# sharpshootR 2.0 (2022-12-24)
+# sharpshootR 2.0 (2022-12-27)
  * all functions depending on `sp` classes or methods have been converted to `sf`
  * water balance helper functions converted from `sp`/`rgeos` to `sf`
  * breaking changes in `plotTransect()`, coordinate are now provided as an additional argument / `sf` object
@@ -6,6 +6,7 @@
  * `generateLineHash()` now uses `sf` class LINESTRING features
  * `huePositionPlot()` gains `origin` argument for calculation of dE00 from arbitrary colors specified in CIELAB or Munsell
  * breaking changes in `joinAdjacency()`, now expects a `data.frame` (or compatible) vs. `SpatialLinesDataFrame`
+ * `polygonAdjacency()` now compatible with `sf` objects
 
 # sharpshootR 1.12 (2022-12-09)
  * CRAN release

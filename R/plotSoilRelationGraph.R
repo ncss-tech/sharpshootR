@@ -129,8 +129,8 @@
 #'     }
 #'   }
 #' }
-plotSoilRelationGraph <- function(m, s='', plot.style = c('network', 'dendrogram'), graph.mode='upper', spanning.tree=NULL, del.edges=NULL, vertex.scaling.method='degree', vertex.scaling.factor=2, edge.scaling.factor=1, vertex.alpha=0.65, edge.transparency=1, edge.col=grey(0.5), edge.highlight.col='royalblue', g.layout=igraph::layout_with_fr, vertex.label.color='black', delete.singletons = FALSE, ...) {
-	
+plotSoilRelationGraph <- function(m, s='', plot.style = c('network', 'dendrogram', 'none'), graph.mode='upper', spanning.tree=NULL, del.edges=NULL, vertex.scaling.method='degree', vertex.scaling.factor=2, edge.scaling.factor=1, vertex.alpha=0.65, edge.transparency=1, edge.col=grey(0.5), edge.highlight.col='royalblue', g.layout=igraph::layout_with_fr, vertex.label.color='black', delete.singletons = FALSE, ...) {
+  
   if (!requireNamespace("igraph")) {
     stop("package 'igraph' is required to plot soil relation graphs", call. = FALSE)
   }
@@ -141,50 +141,50 @@ plotSoilRelationGraph <- function(m, s='', plot.style = c('network', 'dendrogram
   # argument sanity
   plot.style <- match.arg(plot.style)
   
-	# generate graph
+  # generate graph
   g <- igraph::graph.adjacency(adjmatrix = m, mode = graph.mode, weighted = TRUE)
-	
-	## this might have to happen later on, after edge deletion
-	# optionally delete singleton vertices
-	if (delete.singletons) {
-	  g <- igraph::delete.vertices(g, igraph::degree(g) == 0) 
-	}
-	
   
-	### TODO ###
-	## figure out some heuristics for selecting a method: igraph::layout_with_fr is almost always the best one
-	
-	# when there are many clusters, layout_with_lgl doesn't work properly
-	# switch back to layout_with_fr when > 5
-	# g.n.clusters <-  igraph::clusters(g)$no
-	
-	# maybe this can be used as a heuristic as well:
-	# igraph::betweenness(g)
-	
-# 	# select layout if not provided
-# 	if(missing(g.layout)) {
-# 	  if(dim(m)[1] > 20 & g.n.clusters < 5) {
-# 	    g.layout <- igraph::layout_with_lgl
-# 	    message('layout: Large Graph Layout algorithm')
-# 	  }
-# 	  
-# 	  else {
-# 	    g.layout <- igraph::layout_with_fr
-# 	    message('layout: Fruchterman-Reingold algorithm')
-# 	  }
-# 	  
-# 	}
-	### TODO ###
-	
-	weight <- igraph::E(g)$weight
-	
+  ## this might have to happen later on, after edge deletion
+  # optionally delete singleton vertices
+  if (delete.singletons) {
+    g <- igraph::delete.vertices(g, igraph::degree(g) == 0) 
+  }
+  
+  
+  ### TODO ###
+  ## figure out some heuristics for selecting a method: igraph::layout_with_fr is almost always the best one
+  
+  # when there are many clusters, layout_with_lgl doesn't work properly
+  # switch back to layout_with_fr when > 5
+  # g.n.clusters <-  igraph::clusters(g)$no
+  
+  # maybe this can be used as a heuristic as well:
+  # igraph::betweenness(g)
+  
+  # 	# select layout if not provided
+  # 	if(missing(g.layout)) {
+  # 	  if(dim(m)[1] > 20 & g.n.clusters < 5) {
+  # 	    g.layout <- igraph::layout_with_lgl
+  # 	    message('layout: Large Graph Layout algorithm')
+  # 	  }
+  # 	  
+  # 	  else {
+  # 	    g.layout <- igraph::layout_with_fr
+  # 	    message('layout: Fruchterman-Reingold algorithm')
+  # 	  }
+  # 	  
+  # 	}
+  ### TODO ###
+  
+  weight <- igraph::E(g)$weight
+  
   # optionally prune weak edges less than threshold quantile
-	if (!is.null(del.edges)) {
-	  g <-  igraph::delete.edges(g, igraph::E(g)[which(weight < quantile(weight, del.edges, na.rm = TRUE))])
-	}
-	
-	# optionally compute min/max spanning tree
-	if (!is.null(spanning.tree)) {
+  if (!is.null(del.edges)) {
+    g <-  igraph::delete.edges(g, igraph::E(g)[which(weight < quantile(weight, del.edges, na.rm = TRUE))])
+  }
+  
+  # optionally compute min/max spanning tree
+  if (!is.null(spanning.tree)) {
     # min spanning tree: not clear how this is useful
     if (spanning.tree == 'min') {
       g <-  igraph::minimum.spanning.tree(g)
@@ -220,15 +220,15 @@ plotSoilRelationGraph <- function(m, s='', plot.style = c('network', 'dendrogram
     }
   }
   
-	# transfer names
-	igraph::V(g)$label <- igraph::V(g)$name 
+  # transfer names
+  igraph::V(g)$label <- igraph::V(g)$name 
   
-	## adjust size of vertex based on some measure of connectivity
-	
-	# use vertex distance
-	# interpretation is intuitive, but will only work when:
-	# 's' is a valid series name in 'm'
-	# there is no possibility of disconnected vertices (e.g deletion of edges)
+  ## adjust size of vertex based on some measure of connectivity
+  
+  # use vertex distance
+  # interpretation is intuitive, but will only work when:
+  # 's' is a valid series name in 'm'
+  # there is no possibility of disconnected vertices (e.g deletion of edges)
   if (vertex.scaling.method == 'distance' & s != '' & is.null(del.edges)) {
     # use the distance from named series
     vertexSize <- igraph::distances(g, v = igraph::V(g)[name == s], to = igraph::V(g))
@@ -240,82 +240,86 @@ plotSoilRelationGraph <- function(m, s='', plot.style = c('network', 'dendrogram
     vertexSize <- igraph::degree(g)
     igraph::V(g)$size <- sqrt(vertexSize / max(vertexSize)) *  10 * vertex.scaling.factor
   }
-	
+  
   # optionally adjust edge width based on weight
   if (!missing(edge.scaling.factor)) {
     igraph::E(g)$width <- sqrt(igraph::E(g)$weight) * edge.scaling.factor
   }
-	
-	## extract communities
-	# the fast-greedy algorithm is fast, but dosn't work with directed graphs
-	if (graph.mode == 'directed') {
-	  g.com <- igraph::cluster_walktrap(g) ## this works OK with directed graphs
-	} else {
-	  g.com <- igraph::cluster_fast_greedy(g) ## this can crash with some networks
-	}
-	
-	# community metrics
-	g.com.length <- length(g.com)
-	g.com.membership <- igraph::membership(g.com)
   
-	# save membership to original graph
-	# this is based on vertex order
-	igraph::V(g)$cluster <- g.com.membership
-	
-	# colors for communities: choose color palette based on number of communities
-	if (g.com.length <= 9 & g.com.length > 2) {
-	  cols <- brewer.pal(n = g.com.length, name = 'Set1') 
-	} else if (g.com.length < 3) {
-	  cols <- brewer.pal(n = 3, name = 'Set1')
-	} else if (g.com.length > 9) {
-	  cols <- colorRampPalette(brewer.pal(n = 9, name = 'Set1'))(g.com.length)
-	}
-	
-	# set colors based on community membership
-	cols.alpha <- alpha(cols, vertex.alpha)
-	igraph::V(g)$color <- cols.alpha[g.com.membership]
+  ## extract communities
+  # the fast-greedy algorithm is fast, but dosn't work with directed graphs
+  if (graph.mode == 'directed') {
+    g.com <- igraph::cluster_walktrap(g) ## this works OK with directed graphs
+  } else {
+    g.com <- igraph::cluster_fast_greedy(g) ## this can crash with some networks
+  }
+  
+  # community metrics
+  g.com.length <- length(g.com)
+  g.com.membership <- igraph::membership(g.com)
+  
+  # save membership to original graph
+  # this is based on vertex order
+  igraph::V(g)$cluster <- g.com.membership
+  
+  # colors for communities: choose color palette based on number of communities
+  if (g.com.length <= 9 & g.com.length > 2) {
+    cols <- brewer.pal(n = g.com.length, name = 'Set1') 
+  } else if (g.com.length < 3) {
+    cols <- brewer.pal(n = 3, name = 'Set1')
+  } else if (g.com.length > 9) {
+    cols <- colorRampPalette(brewer.pal(n = 9, name = 'Set1'))(g.com.length)
+  }
+  
+  # set colors based on community membership
+  cols.alpha <- alpha(cols, vertex.alpha)
+  igraph::V(g)$color <- cols.alpha[g.com.membership]
   
   # get an index to edges associated with series specified in 's'
   el <- igraph::get.edgelist(g)
-	idx <- unique(c(which(el[, 1] == s), which(el[, 2] == s)))
-	
-	# set default edge color
-	igraph::E(g)$color <- alpha(edge.col, edge.transparency)
-	# set edge colors based on optional series name to highlight
-	igraph::E(g)$color[idx] <- alpha(edge.highlight.col, edge.transparency)
+  idx <- unique(c(which(el[, 1] == s), which(el[, 2] == s)))
+  
+  # set default edge color
+  igraph::E(g)$color <- alpha(edge.col, edge.transparency)
+  # set edge colors based on optional series name to highlight
+  igraph::E(g)$color[idx] <- alpha(edge.highlight.col, edge.transparency)
   
   # previous coloring of edges based on in/out community
   # igraph::E(g)$color <- alpha(c('grey','black')[igraph::crossing(g.com, g)+1], edge.transparency)
   
-	# generate vector of fonts, highlighting main soil
+  # generate vector of fonts, highlighting main soil
   font.vect <- rep(1, times = length(g.com.membership))
-	font.vect[which(names(g.com.membership) == s)] <- 2
-	
-	if (plot.style == 'network') {
-	  # note: seed being reset behind the scenes might be unexpected for users
-		set.seed(1010101) # consistent output
-	  plot(
-	    g,
-	    layout = g.layout,
-	    vertex.label.color = vertex.label.color,
-	    vertex.label.font = font.vect,
-	    ...
-	  )
-	  
-	  # invisibly return the graph
-	  return(invisible(g))
-	} else if (plot.style == 'dendrogram') {
-	  igraph::plot_dendrogram(
-	    g.com,
-	    mode = 'phylo',
-	    label.offset = 0.1,
-	    font = font.vect,
-	    palette = cols,
-	    ...
-	  )
-	  
-	  # invisibly return the community structure
-	  return(invisible(g.com))
-	}
+  font.vect[which(names(g.com.membership) == s)] <- 2
   
+  if (plot.style == 'network') {
+    # note: seed being reset behind the scenes might be unexpected for users
+    set.seed(1010101) # consistent output
+    plot(
+      g,
+      layout = g.layout,
+      vertex.label.color = vertex.label.color,
+      vertex.label.font = font.vect,
+      ...
+    )
+    
+    # invisibly return the graph
+    return(invisible(g))
+  }  
+  
+  if (plot.style == 'dendrogram') {
+    igraph::plot_dendrogram(
+      g.com,
+      mode = 'phylo',
+      label.offset = 0.1,
+      font = font.vect,
+      palette = cols,
+      ...
+    )
+    
+    # invisibly return the community structure
+    return(invisible(g.com))
+  }
+  
+  # other wise, plot nothing and return graph
+  return(g)
 }

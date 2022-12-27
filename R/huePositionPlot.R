@@ -34,7 +34,7 @@
 #' 
 #' huePositionPlot(value = 6, chroma = 6, contour.dE00 = TRUE, grid.res = 2)
 #' 
-#' shift origin to arbitrary CIELAB coordinates or Munsell color
+#' # shift origin to arbitrary CIELAB coordinates or Munsell color
 #' huePositionPlot(origin = cbind(40, 5, 15), origin.cex = 0.5)
 #' 
 #' huePositionPlot(origin = '5G 6/4', origin.cex = 0.5)

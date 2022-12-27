@@ -7,7 +7,7 @@
 plotSoilRelationGraph(
   m,
   s = "",
-  plot.style = c("network", "dendrogram"),
+  plot.style = c("network", "dendrogram", "none"),
   graph.mode = "upper",
   spanning.tree = NULL,
   del.edges = NULL,

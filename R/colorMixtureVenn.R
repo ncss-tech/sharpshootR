@@ -6,7 +6,7 @@
 #' 
 #' @param w vector of proportions, can sum to any number, must be same length as `chips`
 #' 
-#' @param mixingMethod approach used to simulate a mixture: see `aqp::mixMunsell` for details
+#' @param mixingMethod approach used to simulate a mixture: see [aqp::mixMunsell()] for details
 #' 
 #' @param ellipse logical, use alternative ellipse-style (4 or 5 colors only) 
 #' @param labels logical, print mixture labels

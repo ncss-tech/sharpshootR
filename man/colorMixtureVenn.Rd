@@ -19,7 +19,7 @@ colorMixtureVenn(
 
 \item{w}{vector of proportions, can sum to any number, must be same length as \code{chips}}
 
-\item{mixingMethod}{approach used to simulate a mixture: see \code{aqp::mixMunsell} for details}
+\item{mixingMethod}{approach used to simulate a mixture: see \code{\link[aqp:mixMunsell]{aqp::mixMunsell()}} for details}
 
 \item{ellipse}{logical, use alternative ellipse-style (4 or 5 colors only)}
 

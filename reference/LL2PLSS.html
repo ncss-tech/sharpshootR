@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0</span>
       </span>
     </div>
 
@@ -53,17 +53,17 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">LL2PLSS</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, returnlevel <span class="op">=</span> <span class="st">"I"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">LL2PLSS</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, returnlevel <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"I"</span>, <span class="st">"S"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p>longitude coordinates</p></dd>
+<dd><p>longitude coordinates (WGS84)</p></dd>
 
 
 <dt>y</dt>
-<dd><p>latitude coordinates</p></dd>
+<dd><p>latitude coordinates (WGS84)</p></dd>
 
 
 <dt>returnlevel</dt>
@@ -74,11 +74,11 @@
     <h2>Value</h2>
     
 
-<p><code>list</code> of of PLSS codes and coordinates.</p>
+<p><code>sf</code> object with geometry and PLSS definition.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>This function takes xy coordinates and returns the PLSS section geometry to the quarter-quarter section. <code>returnlevel</code> options are defaulted to 'I' which returns smallest intersected sectional aliquot geometry, 'S' will return the section geometry of the coordinates. See https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer for details.</p>
+    <p>This function accepts geographic coordinates and returns the PLSS fabric geometry to the quarter-quarter section. <code>returnlevel</code> defaults to 'I' which returns smallest intersected sectional aliquot geometry, 'S' will return the section geometry of the coordinates. See https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer for details.</p>
     </div>
     <div id="note">
     <h2>Note</h2>
@@ -105,7 +105,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

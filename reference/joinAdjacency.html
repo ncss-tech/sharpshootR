@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0</span>
       </span>
     </div>
 
@@ -44,7 +44,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Join Document Adjacency</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/ncss-tech/sharpshootR/blob/HEAD/R/joinAdjacency.R" class="external-link"><code>R/joinAdjacency.R</code></a></small>
     <div class="hidden name"><code>joinAdjacency.Rd</code></div>
     </div>
 
@@ -59,23 +59,26 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p>a <code>SpatialLinesDataFrame</code> object, with 1 line segment per feature (e.g. simple features)</p></dd>
+<dd><p><code>data.frame</code> or similar object, each row represents a single shared edge (typically <code>sf</code> LINESTRING feature)</p></dd>
 
-  <dt>vars</dt>
+
+<dt>vars</dt>
 <dd><p>a vector of two characters naming columns containing "left", and "right" map unit symbols</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A weighted adjacency matrix is returned, suitable for plotting directly with <code>plotSoilRelationGraph</code>.</p>
+    
+
+<p>A weighted adjacency matrix is returned, suitable for plotting directly with <code><a href="plotSoilRelationGraph.html">plotSoilRelationGraph()</a></code>.</p>
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p><code><a href="plotSoilRelationGraph.html">plotSoilRelationGraph()</a></code></p></div>
     </div>
     <div id="author">
     <h2>Author</h2>
     <p>D.E. Beaudette</p>
-    </div>
-    <div id="see-also">
-    <h2>See also</h2>
-    <div class="dont-index"><p><code><a href="plotSoilRelationGraph.html">plotSoilRelationGraph</a></code></p></div>
     </div>
 
   </div>
@@ -90,7 +93,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

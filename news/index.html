@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0</span>
       </span>
     </div>
 
@@ -48,8 +48,26 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="1.11" id="sharpshootr-111-2022-10-04">sharpshootR 1.11 (2022-10-04)<small>2022-10-04</small><a class="anchor" aria-label="anchor" href="#sharpshootr-111-2022-10-04"></a></h2>
-<ul><li>adding SoilTaxonomy package to suggests, to allow for better encoding of taxa levels by <code><a href="../reference/SoilTaxonomyDendrogram.html">SoilTaxonomyDendrogram()</a></code>
+<h2 class="page-header" data-toc-text="2.0" id="sharpshootr-20-2022-12-27">sharpshootR 2.0 (2022-12-27)<a class="anchor" aria-label="anchor" href="#sharpshootr-20-2022-12-27"></a></h2>
+<ul><li>all functions depending on <code>sp</code> classes or methods have been converted to <code>sf</code>
+</li>
+<li>water balance helper functions converted from <code>sp</code>/<code>rgeos</code> to <code>sf</code>
+</li>
+<li>breaking changes in <code><a href="../reference/plotTransect.html">plotTransect()</a></code>, coordinate are now provided as an additional argument / <code>sf</code> object</li>
+<li>breaking changes in <code><a href="../reference/LL2PLSS.html">LL2PLSS()</a></code>, all return data now packed into <code>sf</code> object vs. <code>list</code> (sharpshootR &lt;= 1.12)</li>
+<li>
+<code><a href="../reference/generateLineHash.html">generateLineHash()</a></code> now uses <code>sf</code> class LINESTRING features</li>
+<li>
+<code><a href="../reference/huePositionPlot.html">huePositionPlot()</a></code> gains <code>origin</code> argument for calculation of dE00 from arbitrary colors specified in CIELAB or Munsell</li>
+<li>breaking changes in <code><a href="../reference/joinAdjacency.html">joinAdjacency()</a></code>, now expects a <code>data.frame</code> (or compatible) vs. <code>SpatialLinesDataFrame</code>
+</li>
+<li>
+<code><a href="../reference/polygonAdjacency.html">polygonAdjacency()</a></code> now compatible with <code>sf</code> objects</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.12" id="sharpshootr-112-2022-12-09">sharpshootR 1.12 (2022-12-09)<small>2022-12-09</small><a class="anchor" aria-label="anchor" href="#sharpshootr-112-2022-12-09"></a></h2>
+<ul><li>CRAN release</li>
+<li>adding SoilTaxonomy package to suggests, to allow for better encoding of taxa levels by <code><a href="../reference/SoilTaxonomyDendrogram.html">SoilTaxonomyDendrogram()</a></code>
 </li>
 <li>
 <code><a href="../reference/SoilTaxonomyDendrogram.html">SoilTaxonomyDendrogram()</a></code> gains argument <code>KST.order</code> to adjust encoding / ordering criteria and <code>level</code> argument to specify the taxonomic levels to use</li>
@@ -68,10 +86,12 @@
 <li>hydrologic ordering functions now exported: <code><a href="../reference/hydOrder.html">hydOrder()</a></code> and <code><a href="../reference/iterateHydOrder.html">iterateHydOrder()</a></code>
 </li>
 <li>new function <code><a href="../reference/plotGeomorphCrossSection.html">plotGeomorphCrossSection()</a></code> presents a <code>SoilProfileCollection</code> aligned to a geomorphic summary as cross-section</li>
-<li>new function <code>reconcileOSDGeomorp()</code> convenience function for reconciling SPC and geomorphic summary tables as returned by <code><a href="https://ncss-tech.github.io/soilDB/reference/fetchOSD.html" class="external-link">soilDB::fetchOSD()</a></code>
+<li>new function <code>reconcileOSDGeomorp()</code> convenience function for reconciling SPC and geomorphic summary tables as returned by <code><a href="http://ncss-tech.github.io/soilDB/reference/fetchOSD.html" class="external-link">soilDB::fetchOSD()</a></code>
 </li>
 <li>
 <code><a href="../reference/plotProfileDendrogram.html">plotProfileDendrogram()</a></code> gains argument for re-ordering dendrogram as close to original profile IDs as possible</li>
+<li>
+<code><a href="../reference/dueling.dendrograms.html">dueling.dendrograms()</a></code> has been deprecated, please use <code><a href="http://talgalili.github.io/dendextend/reference/tanglegram.html" class="external-link">dendextend::tanglegram()</a></code> for similar tasks</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.9.1" id="sharpshootr-191-2022-02-16">sharpshootR 1.9.1 (2022-02-16)<a class="anchor" aria-label="anchor" href="#sharpshootr-191-2022-02-16"></a></h2>
@@ -108,7 +128,8 @@
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.8.1" id="sharpshootr-181-2021-05-03">sharpshootR 1.8.1 (2021-05-03)<small>2021-05-04</small><a class="anchor" aria-label="anchor" href="#sharpshootr-181-2021-05-03"></a></h2>
-<ul><li>using local (modified) copy of leaky-bucket until resolved:<ul><li><a href="https://github.com/ncss-tech/sharpshootR/issues/40" class="external-link uri">https://github.com/ncss-tech/sharpshootR/issues/40</a></li>
+<ul><li>using local (modified) copy of leaky-bucket until resolved:
+<ul><li><a href="https://github.com/ncss-tech/sharpshootR/issues/40" class="external-link uri">https://github.com/ncss-tech/sharpshootR/issues/40</a></li>
 <li><a href="https://github.com/josephguillaume/hydromad/issues/188" class="external-link uri">https://github.com/josephguillaume/hydromad/issues/188</a></li>
 </ul></li>
 <li>bugfixes in <code><a href="../reference/plotWB.html">plotWB()</a></code>
@@ -122,7 +143,8 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.8" id="sharpshootr-18-2021-04-22">sharpshootR 1.8 (2021-04-22)<small>2021-04-24</small><a class="anchor" aria-label="anchor" href="#sharpshootr-18-2021-04-22"></a></h2>
 <ul><li>added <code>simpleWB</code>, <code>dailyWB</code>, and <code>dailyWB_SSURGO</code>
-</li></ul></div>
+</li>
+</ul></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -137,7 +159,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

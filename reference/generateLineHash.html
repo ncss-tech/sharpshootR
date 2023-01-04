@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sharpshootR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0</span>
       </span>
     </div>
 
@@ -44,7 +44,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Generate a unique ID for line segments</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/ncss-tech/sharpshootR/blob/HEAD/R/generateLineHash.R" class="external-link"><code>R/generateLineHash.R</code></a></small>
     <div class="hidden name"><code>generateLineHash.Rd</code></div>
     </div>
 
@@ -53,28 +53,32 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">generateLineHash</span><span class="op">(</span><span class="va">x</span>, precision<span class="op">=</span><span class="op">-</span><span class="fl">1</span>, algo<span class="op">=</span><span class="st">'murmur32'</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">generateLineHash</span><span class="op">(</span><span class="va">x</span>, precision <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, algo <span class="op">=</span> <span class="st">"murmur32"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p>a <code>SpatialLinesDataFrame</code> object, with 1 line segment per feature (e.g. simple features)</p></dd>
+<dd><p>an <code>sf</code> object, with 1 line segment per feature</p></dd>
 
-  <dt>precision</dt>
+
+<dt>precision</dt>
 <dd><p>digits are rounded to this many places to the right (negative) or left (positive) of the decimal place</p></dd>
 
-  <dt>algo</dt>
-<dd><p>hash function algorithm</p></dd>
+
+<dt>algo</dt>
+<dd><p>hash function algorithm, passed to <code><a href="https://rdrr.io/pkg/digest/man/digest.html" class="external-link">digest::digest()</a></code></p></dd>
 
 </dl></div>
-    <div id="details">
-    <h2>Details</h2>
-    <p>The input <code>SpatialLinesDataFrame</code> object must NOT contain multi-part features. The precision specified should be tailored to the coordinate system in use and the snapping tolerance used to create join decision line segments. A <code>precision</code> of 4 is reasonable for geographic coordinates (snapping tolerance of 0.0001 degrees or ~ 10 meters). A <code>precision</code> of -1 (snapping tolerance of 10 meters) is reasonable for projected coordinate systems with units in meters.</p>
-    </div>
     <div id="value">
     <h2>Value</h2>
-    <p>A vector of unique IDs created from the hash of line segment start and end vertex coordinates. Unique IDs are returned in the order of records of <code>x</code> and can therefore be saved into a new column of the associated attribute table.</p>
+    
+
+<p>A vector of unique IDs created from the hash of line segment start and end vertex coordinates. Unique IDs are returned in the order of records of <code>x</code> and can therefore be saved into a new column of the associated attribute table. <code>NA</code> is returned for empty geometries.</p>
+    </div>
+    <div id="details">
+    <h2>Details</h2>
+    <p>The input <code>sf</code> object must NOT contain multi-part features. The precision specified should be tailored to the coordinate system in use and the snapping tolerance used to create join decision line segments. A <code>precision</code> of 4 is reasonable for geographic coordinates (snapping tolerance of 0.0001 degrees or ~ 10 meters). A <code>precision</code> of -1 (snapping tolerance of 10 meters) is reasonable for projected coordinate systems with units in meters.</p>
     </div>
     <div id="note">
     <h2>Note</h2>
@@ -85,6 +89,49 @@
     <p>D.E. Beaudette</p>
     </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"sf"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># 10 random line segments</span></span></span>
+<span class="r-in"><span><span class="co"># shared end vertices</span></span></span>
+<span class="r-in"><span><span class="va">.x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">11</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">.y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">11</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">.x</span>, <span class="va">.y</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># init LINESTRING geometries</span></span></span>
+<span class="r-in"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/aqp/man/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">.idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">i</span>, <span class="va">i</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">geom</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html" class="external-link">st_sfc</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html" class="external-link">st_linestring</a></span><span class="op">(</span><span class="va">m</span><span class="op">[</span><span class="va">.idx</span>, <span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">a</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">st_sf</a></span><span class="op">(</span><span class="va">geom</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># flatten list -&gt; 10 feature sf object</span></span></span>
+<span class="r-in"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="st">'rbind'</span>, <span class="va">a</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># line hashes</span></span></span>
+<span class="r-in"><span><span class="va">a</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="fu">generateLineHash</span><span class="op">(</span><span class="va">a</span>, precision <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># graphical check</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">a</span>, lwd <span class="op">=</span> <span class="fl">2</span>, key.width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/layout.html" class="external-link">lcm</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span>, axes <span class="op">=</span> <span class="cn">TRUE</span>, las <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># simulate empty geometry</span></span></span>
+<span class="r-in"><span><span class="va">a</span><span class="op">$</span><span class="va">geom</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html" class="external-link">st_sfc</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html" class="external-link">st_linestring</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># NA returned for empty geometry</span></span></span>
+<span class="r-in"><span><span class="fu">generateLineHash</span><span class="op">(</span><span class="va">a</span>, precision <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-plt img"><img src="generateLineHash-1.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "a149a7b5" NA         "3aa8ae21" "3cd09317" "4d71a738" "4cfb6777"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "1fa21304" "dcb7a486" "30b1375d" "4e78e7bc"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -97,7 +144,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

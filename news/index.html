@@ -48,7 +48,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="2.0" id="sharpshootr-20-2022-12-27">sharpshootR 2.0 (2022-12-27)<a class="anchor" aria-label="anchor" href="#sharpshootr-20-2022-12-27"></a></h2>
+<h2 class="page-header" data-toc-text="2.0" id="sharpshootr-20-2023-01-04">sharpshootR 2.0 (2023-01-04)<a class="anchor" aria-label="anchor" href="#sharpshootr-20-2023-01-04"></a></h2>
 <ul><li>all functions depending on <code>sp</code> classes or methods have been converted to <code>sf</code>
 </li>
 <li>water balance helper functions converted from <code>sp</code>/<code>rgeos</code> to <code>sf</code>
@@ -63,6 +63,8 @@
 </li>
 <li>
 <code><a href="../reference/polygonAdjacency.html">polygonAdjacency()</a></code> now compatible with <code>sf</code> objects</li>
+<li>
+<code><a href="../reference/sampleRasterStackByMU.html">sampleRasterStackByMU()</a></code> ignores color table and any categories from source file to ensure raw values are extracted (fixes parity with prior {raster}-based behavior) for categorical data</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.12" id="sharpshootr-112-2022-12-09">sharpshootR 1.12 (2022-12-09)<small>2022-12-09</small><a class="anchor" aria-label="anchor" href="#sharpshootr-112-2022-12-09"></a></h2>

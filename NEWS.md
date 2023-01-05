@@ -1,4 +1,4 @@
-# sharpshootR 2.0 (2022-12-27)
+# sharpshootR 2.0 (2023-01-04)
  * all functions depending on `sp` classes or methods have been converted to `sf`
  * water balance helper functions converted from `sp`/`rgeos` to `sf`
  * breaking changes in `plotTransect()`, coordinate are now provided as an additional argument / `sf` object
@@ -7,7 +7,8 @@
  * `huePositionPlot()` gains `origin` argument for calculation of dE00 from arbitrary colors specified in CIELAB or Munsell
  * breaking changes in `joinAdjacency()`, now expects a `data.frame` (or compatible) vs. `SpatialLinesDataFrame`
  * `polygonAdjacency()` now compatible with `sf` objects
-
+ * `sampleRasterStackByMU()` ignores color table and any categories from source file to ensure raw values are extracted (fixes parity with prior {raster}-based behavior) for categorical data
+ 
 # sharpshootR 1.12 (2022-12-09)
  * CRAN release
  * adding SoilTaxonomy package to suggests, to allow for better encoding of taxa levels by `SoilTaxonomyDendrogram()`

@@ -93,7 +93,13 @@ sampleRasterStackByMU <- function(mu,
     i <- try(terra::rast(i))
     if (inherits(i, 'try-error')) {
       stop(paste0('Cannot find raster file: ', i), call. = FALSE)
-    } else return(i)
+    } 
+    
+    # ignore color table if present, and use raw cell values not categories from sidecar file
+    terra::coltab(i) <- NULL
+    levels(i) <- NULL
+    
+    return(i)
   })
   
   ##

@@ -5,6 +5,7 @@
  * breaking changes in `LL2PLSS()`, all return data now packed into `sf` object vs. `list` (sharpshootR <= 1.12)
  * `generateLineHash()` now uses `sf` class LINESTRING features
  * `huePositionPlot()` gains `origin` argument for calculation of dE00 from arbitrary colors specified in CIELAB or Munsell
+ * `huePositionPlot()` now passes arguments to `contour()` via `...`
  * breaking changes in `joinAdjacency()`, now expects a `data.frame` (or compatible) vs. `SpatialLinesDataFrame`
  * `polygonAdjacency()` now compatible with `sf` objects
  * `sampleRasterStackByMU()` ignores color table and any categories from source file to ensure raw values are extracted (fixes parity with prior {raster}-based behavior) for categorical data

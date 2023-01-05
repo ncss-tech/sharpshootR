@@ -12,7 +12,8 @@ huePositionPlot(
   contour.dE00 = FALSE,
   origin = NULL,
   origin.cex = 0.75,
-  grid.res = 2
+  grid.res = 2,
+  ...
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ huePositionPlot(
 \item{origin.cex}{scaling for origin point}
 
 \item{grid.res}{grid resolution for contours, units are CIELAB A/B coordinates. Caution, small values result in many pair-wise distances which could take a very long time.}
+
+\item{...}{additional arguments to \code{\link[=contour]{contour()}}}
 }
 \value{
 nothing, function is called to generate graphical output

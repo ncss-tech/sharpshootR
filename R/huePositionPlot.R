@@ -19,6 +19,8 @@
 #' @param origin.cex scaling for origin point
 #' 
 #' @param grid.res grid resolution for contours, units are CIELAB A/B coordinates. Caution, small values result in many pair-wise distances which could take a very long time.
+#' 
+#' @param ... additional arguments to [contour()]
 #'
 #' @export
 #' 
@@ -43,7 +45,7 @@
 #' 
 #' huePositionPlot(value = 3, chroma = 4, origin = '10YR 3/4', origin.cex = 0.5)
 
-huePositionPlot <- function(value = 6, chroma = 6, chip.cex = 4.5, label.cex = 0.75, contour.dE00 = FALSE, origin = NULL, origin.cex = 0.75, grid.res = 2) {
+huePositionPlot <- function(value = 6, chroma = 6, chip.cex = 4.5, label.cex = 0.75, contour.dE00 = FALSE, origin = NULL, origin.cex = 0.75, grid.res = 2, ...) {
   
   # interpret !NULL origin argument
   if(!is.null(origin)) {
@@ -152,13 +154,6 @@ huePositionPlot <- function(value = 6, chroma = 6, chip.cex = 4.5, label.cex = 0
       byrow = FALSE
     )
     
-    # add contours
-    contour(
-      x = A.seq, 
-      y = B.seq,
-      z = m,
-      add = TRUE
-    )
   }
 
   # color chips
@@ -183,6 +178,17 @@ huePositionPlot <- function(value = 6, chroma = 6, chip.cex = 4.5, label.cex = 0
       labels = .to_label, 
       cex = origin.cex, 
       col = invertLabelColor(.to_hex)
+    )
+  }
+  
+  # overlay contours last, if requested
+  if(contour.dE00) {
+    contour(
+      x = A.seq, 
+      y = B.seq,
+      z = m,
+      add = TRUE,
+      ...
     )
   }
   

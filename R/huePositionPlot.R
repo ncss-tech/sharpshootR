@@ -85,9 +85,10 @@ huePositionPlot <- function(value = 6, chroma = 6, chip.cex = 4.5, label.cex = 0
        data = x, 
        type = 'n', 
        asp = 0.75, 
-       xlab = 'A-coordinate', 
-       ylab = 'B-coordinate', 
+       xlab = '', 
+       ylab = '', 
        main = 'Hue Order per TN #2\nCIELAB Colorspace',
+       col.main = par('fg'),
        axes = FALSE
   )
   
@@ -194,9 +195,10 @@ huePositionPlot <- function(value = 6, chroma = 6, chip.cex = 4.5, label.cex = 0
   
   # axis
   box()
-  axis(side = 1, cex.axis = 0.8)
-  axis(side = 2, cex.axis = 0.8, las = 1)
-  
+  axis(side = 1, cex.axis = 0.8, col.axis = par('fg'), col = par('fg'))
+  axis(side = 2, cex.axis = 0.8, col.axis = par('fg'), col = par('fg'), las = 1)
+  mtext('A-coordinate', side = 1, col = par('fg'), line = 2.5)
+  mtext('B-coordinate', side = 2, col = par('fg'), line = 2.5)
 }
 
 

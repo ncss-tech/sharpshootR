@@ -1,7 +1,18 @@
 
 # cumulative PPT within a single water year
+# values are pre-sorted
 .cumulativePPT <- function(i) {
-  i$cumulative_ppt <- cumsum(ifelse(is.na(i$value), 0, i$value))
+  
+  # replace NA with 0
+  i$value <- ifelse(is.na(i$value), 0, i$value)
+  
+  ## TODO: think about how to represent flashy-ness
+  # use first derivative
+  # i$value <- c(0, diff(i$value))
+  
+  # cumulative PPT
+  i$cumulative_ppt <- cumsum(i$value)
+  
   # number of days in summation
   i$n <- nrow(i)
   
@@ -28,13 +39,14 @@
 .exemplarYears <- function(d) {
   
   # annual PPT by water year
-  ppt.by.wy <- tapply(d$cumulative_ppt, d$water_year, max, na.rm=TRUE)
+  ppt.by.wy <- tapply(d$cumulative_ppt, d$water_year, max, na.rm = TRUE)
+  
   # interesting percentiles of annual PPT
-  ppt.q <- quantile(ppt.by.wy, probs=c(0.05, 0.25, 0.5, 0.75, 0.95), na.rm = TRUE)
+  ppt.q <- quantile(ppt.by.wy, probs = c(0.05, 0.25, 0.5, 0.75, 0.95), na.rm = TRUE)
   
   # find exemplars for select percentiles
   ppt.abs.diff <- abs(outer(ppt.by.wy, ppt.q, FUN = "-"))
-  ppt.closest.yrs <- apply(ppt.abs.diff, 2, which.min)
+  ppt.closest.yrs <- apply(ppt.abs.diff, MARGIN = 2, FUN = which.min)
   
   # this is a named vector of annual PPT (names are water_year)
   exemplar.data <- ppt.by.wy[ppt.closest.yrs]
@@ -46,7 +58,6 @@
 ## TODO: generalize to other sources of data: DAYMET / SCAN / SNOTEL / Henry / etc.
 ## TODO: add percentiles-by-water-day method
 ## TODO: this.year should default to the last year in the series
-## TODO: add a "today" option for specifying a specific date vs. current year
 ## TODO: explain differences between exemplar years and boxplot at current water day -- not the same
 
 
@@ -72,10 +83,13 @@
 #' 
 #' @export
 #'
-PCP_plot <- function(x, this.year, this.day=NULL, method='exemplar', q.color='RoyalBlue', c.color='firebrick', ...) {
+PCP_plot <- function(x, this.year, this.day = NULL, method = 'exemplar', q.color = 'RoyalBlue', c.color = 'firebrick', ...) {
   
   # hack for R CMD check
   cumulative_ppt <- NULL
+  
+  # sanity check
+  method <- match.arg(method)
   
   # water year range
   wy.range <- range(x$water_year)
@@ -101,7 +115,7 @@ PCP_plot <- function(x, this.year, this.day=NULL, method='exemplar', q.color='Ro
   }
   
   
-  ## TODO: remove years with less than 330 (?) days of data
+  ## TODO: warn / remove years with less than 330 (?) days of data
   # tapply(xx$water_day, xx$water_year, length)
   
   
@@ -122,7 +136,9 @@ PCP_plot <- function(x, this.year, this.day=NULL, method='exemplar', q.color='Ro
   this.wd.data.q <- quantile(this.wd.data, probs = c(0.05, 0.25, 0.5, 0.75, 0.95), na.rm = TRUE)
   
   # reasonable axis in "real" dates
-  date.axis <- data.frame(d=seq.Date(from=as.Date('2000-10-01'), to=as.Date('2001-09-30'), by = '2 weeks'))
+  date.axis <- data.frame(
+    d = seq.Date(from = as.Date('2000-10-01'), to = as.Date('2001-09-30'), by = '2 weeks')
+  )
   
   # integrate water year / day
   wyd <- waterDayYear(date.axis$d)
@@ -139,11 +155,11 @@ PCP_plot <- function(x, this.year, this.day=NULL, method='exemplar', q.color='Ro
   xlab.text <- sprintf("Water Years %s - %s", wy.range[1], wy.range[2])
   
   # all data, establish plot area
-  plot(cumulative_ppt ~ water_day, data=xx, col=grey(0.9), type='n', axes=FALSE, xlim=c(-2, 375), ylim=c(-2, max(xx$cumulative_ppt, na.rm = TRUE)), xlab=xlab.text, ... )
+  plot(cumulative_ppt ~ water_day, data = xx, col=grey(0.9), type='n', axes=FALSE, xlim=c(-2, 375), ylim=c(-2, max(xx$cumulative_ppt, na.rm = TRUE)), xlab = xlab.text, ... )
   # plot(cumulative_ppt ~ water_day, data=xx, col=grey(0.9), type='n', axes=FALSE, xlim=c(-5, 370), xlab=xlab.text)
   
   # grid
-  abline(h=y.grid, v=date.axis$wd, col='lightgray', lty=3)
+  abline(h = y.grid, v = date.axis$wd, col = 'lightgray', lty = 3)
   
   
   # filter trivial rainfall at the start of the year
@@ -173,7 +189,7 @@ PCP_plot <- function(x, this.year, this.day=NULL, method='exemplar', q.color='Ro
   polygon(x = p.1.x, y = p.1.y, col = p.1.col, border = q.color)
   polygon(x = p.2.x, y = p.2.y, col = p.2.col, border = q.color)
   
-  # # q50
+  # q50
   lines(cumulative_ppt ~ water_day, data=xx[xx$water_year == exemplar.yrs[3], ],
         subset=cumulative_ppt >= 0.1, lwd=2, lty=1, col=q.color, type='l')
   

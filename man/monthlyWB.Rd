@@ -9,7 +9,7 @@ monthlyWB(
   AWC,
   PPT,
   PET,
-  S_init = AWC,
+  S_init = 1,
   starting_month = 1,
   rep = 1,
   keep_last = FALSE
@@ -24,7 +24,7 @@ monthlyWB_summary(w)
 
 \item{PET}{time-series of monthly PET (mm), calendar year ordering}
 
-\item{S_init}{initial fraction of \code{AWC} filled with water}
+\item{S_init}{initial fraction of \code{AWC} filled with water (values 0-1)}
 
 \item{starting_month}{starting month index, 1=January, 9=September}
 

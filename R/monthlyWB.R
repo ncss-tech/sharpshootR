@@ -1,5 +1,7 @@
 ## TODO: need a monthly + daily WB summary
 
+## TODO: found a bug: https://github.com/josephguillaume/hydromad/issues/190
+
 #' @title Monthly Water Balances
 #' 
 #' @description Perform a monthly water balance by "leaky bucket" model, inspired by code from `bucket.sim` of `hydromad` package, as defined in Bai et al., (2009) (model "SMA_S1"). The plant available water-holding storage (soil thickness * awc) is used as the "bucket capacity". All water in excess of this capacity is lumped into a single "surplus" term.
@@ -17,7 +19,7 @@
 #' 
 #' @param PET time-series of monthly PET (mm), calendar year ordering
 #' 
-#' @param S_init initial fraction of `AWC` filled with water
+#' @param S_init initial fraction of `AWC` filled with water (values 0-1)
 #' 
 #' @param starting_month starting month index, 1=January, 9=September
 #' 
@@ -47,20 +49,20 @@
 #' \item{mo: }{month label}   
 #' }
 #' 
-monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, keep_last = FALSE) {
+monthlyWB <- function(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, keep_last = FALSE) {
   
   # number of time steps in the original series
   n <- length(PPT)
   
   # re-order monthly data according to starting month
   if(starting_month == 1) {
-    idx <- seq(from=starting_month, to=12, by = 1)
+    idx <- seq(from = starting_month, to = 12, by = 1)
   } else {
-    idx <- c(seq(from=starting_month, to=12, by=1), seq(from=1, to=(starting_month - 1), by=1))
+    idx <- c(seq(from = starting_month, to = 12, by = 1), seq(from = 1, to = (starting_month - 1), by = 1))
   }
   
   # replicate as needed
-  idx <- rep(idx, times=rep)
+  idx <- rep(idx, times = rep)
   
   # re-index months as needed
   PPT <- PPT[idx]
@@ -69,8 +71,33 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
   # combine into format suitable for simulation
   d <- data.frame(P = PPT, E = PET)
   
+  # add month index
+  d$month <- idx
+  d$mo <- c('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')[idx]
+  
+  
+  ## crazy idea: spread-out PPT and PET over k bins within a month
+  
+  # dd <- lapply(1:nrow(d), function(i, k = 10) {
+  #   .idx <- rep(i, times = k)
+  #   .dr <- d[.idx, ]
+  #   
+  #   .dr$P <- .dr$P / k
+  #   .dr$E <- .dr$E / k
+  #   
+  #   return(.dr)
+  # }
+  # )
+  # 
+  # dd <- do.call('rbind', dd)
+  
+  
+  
   ## hydromad interface
-  m <- hydromad::hydromad(d, sma = "bucket", routing = NULL)
+  # note that first two columns are P, E
+  # at the monthly time-step: a.ss = 0.01
+  
+  m <- hydromad::hydromad(d[, 1:2], sma = "bucket", routing = NULL)
   m <- update(m, Sb = AWC, fc = 1, S_0 = S_init, a.ss = 0.01, M = 0, etmult = 1, a.ei = 0)
   res <- predict(m, return_state = TRUE)
   
@@ -84,17 +111,39 @@ monthlyWB <- function(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, 
   # res <- .monthlyBucket(d, Sb = AWC, S_0 = S_init, fc = 1, a.ss = 0.01, M = 0, etmult = 1, a.ei = 0)
   # 
   
-  # combine original PPT,PET with results
+  # combine original PPT, PET with results
   res <- data.frame(d, res)
   
   # cleanup names
-  names(res) <- c('PPT', 'PET', 'U', 'S', 'ET')
+  names(res) <- c('PPT', 'PET', 'month', 'mo', 'U', 'S', 'ET')
+  
   # compute deficit: AET - PET
   res$D <- with(res, ET - PET)
   
-  # add month index
-  res$month <- idx
-  res$mo <- c('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')[idx]
+  # re-arrange
+  res <- res[, c('PPT', 'PET', 'U', 'S', 'ET', 'D', 'month', 'mo')]
+  
+  ## flatten k bins / month -> 12 months
+  # s <- split(res, res$month)
+  # lapply(s, function(i, k = 10) {
+  #   
+  #   .res <- data.frame(
+  #     PPT = sum(i$PPT),
+  #     PET = sum(i$PET),
+  #     U = sum(i$U),
+  #     S = i$S[k],
+  #     ET = sum(i$ET),
+  #     D = sum(i$ET - i$PET),
+  #     month = i$month[1],
+  #     mo = i$mo[1]
+  #   )
+  #   
+  #   # .res$D <- .res$ET - .res$PET 
+  #   
+  #   return(.res)
+  # })
+  # 
+  
   
   # optionally keep the last cycle
   if(keep_last) {

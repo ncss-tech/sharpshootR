@@ -63,6 +63,7 @@
 <span>  dend.y.scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">clust</span><span class="op">$</span><span class="va">height</span> <span class="op">*</span> <span class="fl">2</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>  dend.color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"fg"</span><span class="op">)</span>,</span>
 <span>  dend.width <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  dend.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"phylogram"</span>, <span class="st">"cladogram"</span><span class="op">)</span>,</span>
 <span>  debug <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -104,6 +105,10 @@
 
 <dt>dend.width</dt>
 <dd><p>dendrogram line width</p></dd>
+
+
+<dt>dend.type</dt>
+<dd><p>dendrogram type, passed to <code>plot.phylo()</code>, either "phylogram" or "cladogram"</p></dd>
 
 
 <dt>debug</dt>

@@ -28,6 +28,7 @@ SoilTaxonomyDendrogram(
   cex.taxon.labels = 0.66,
   dend.color = par("fg"),
   dend.width = 1,
+  dend.type = c("phylogram", "cladogram"),
   ...
 )
 }
@@ -75,6 +76,8 @@ SoilTaxonomyDendrogram(
 \item{dend.color}{dendrogram line color}
 
 \item{dend.width}{dendrogram line width}
+
+\item{dend.type}{dendrogram type, passed to \code{plot.phylo()}, either "phylogram" or "cladogram"}
 
 \item{...}{additional arguments to \code{aqp::plotSPC}}
 }

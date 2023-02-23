@@ -25,6 +25,7 @@
 #' @param cex.taxon.labels character scaling for taxonomic information
 #' @param dend.color dendrogram line color
 #' @param dend.width dendrogram line width
+#' @param dend.type dendrogram type, passed to `plot.phylo()`, either "phylogram" or "cladogram"
 #' @param ... additional arguments to `aqp::plotSPC`
 #' 
 #' @details This function looks for specific site-level attributes named: `"soilorder"`, `"suborder"`, `"greatgroup"`, and `"subgroup"`, or their NASIS physical column name analogues `"taxorder"`, `"taxsuborder"`, `"taxgrtgroup"`, and `"taxsubgrp"`. See \url{https://github.com/ncss-tech/sharpshootR/blob/master/misc/soilTaxonomyDendrogram-examples.R} for some examples.
@@ -86,11 +87,15 @@ SoilTaxonomyDendrogram <- function(spc,
                                    font.id = 2, 
                                    cex.taxon.labels = 0.66, 
                                    dend.color = par('fg'), 
-                                   dend.width = 1, 
+                                   dend.width = 1,
+                                   dend.type = c("phylogram", "cladogram"),
                                    ...) {
            
   # choice of cluster methods: use diana() or agnes()
   cluster.method <- match.arg(tolower(cluster.method), c("divisive", "agglomerative"))
+  
+  # dendrogram type, passed to plot.phylo
+  dend.type <- match.arg(tolower(dend.type), c("phylogram", "cladogram"), several.ok = FALSE)
   
   # attempt KST-based ordering:
   # 1. setup ordinal factors based on order of taxa with each level of ST hierarchy
@@ -212,7 +217,7 @@ SoilTaxonomyDendrogram <- function(spc,
 	
 	# setup plot and add dendrogram
 	par(mar = c(0,0,0,0))
-	plot(dend, cex = 0.8, direction = 'up', y.lim = c(4,0), x.lim = c(0.5, length(spc) + 1), show.tip.label = FALSE, edge.color = dend.color, edge.width = dend.width)
+	plot(dend, cex = 0.8, direction = 'up', y.lim = c(4,0), x.lim = c(0.5, length(spc) + 1), show.tip.label = FALSE, edge.color = dend.color, edge.width = dend.width, type = dend.type)
 	
 	# get the last plot geometry
 	lastPP <- get("last_plot.phylo", envir = .PlotPhyloEnv)

@@ -14,6 +14,7 @@ plotProfileDendrogram(
   dend.y.scale = max(clust$height * 2, na.rm = TRUE),
   dend.color = par("fg"),
   dend.width = 1,
+  dend.type = c("phylogram", "cladogram"),
   debug = FALSE,
   ...
 )
@@ -36,6 +37,8 @@ plotProfileDendrogram(
 \item{dend.color}{dendrogram line color}
 
 \item{dend.width}{dendrogram line width}
+
+\item{dend.type}{dendrogram type, passed to \code{plot.phylo()}, either "phylogram" or "cladogram"}
 
 \item{debug}{logical,optionally print debugging data}
 

@@ -15,6 +15,7 @@
 #' @param dend.y.scale extent of y-axis (may have to tinker with this)
 #' @param dend.color dendrogram line color
 #' @param dend.width dendrogram line width
+#' @param dend.type dendrogram type, passed to `plot.phylo()`, either "phylogram" or "cladogram"
 #' @param debug logical,optionally print debugging data
 #' @param ... additional arguments to `plotSPC`
 #' 
@@ -28,7 +29,10 @@
 #' @return a `data.frame` of IDs and linking structure
 #' @export
 #'
-plotProfileDendrogram <- function(x, clust, rotateToProfileID = FALSE, scaling.factor = 0.01, width = 0.1, y.offset = 0.1, dend.y.scale = max(clust$height * 2, na.rm = TRUE), dend.color = par('fg'), dend.width = 1, debug = FALSE, ...) {
+plotProfileDendrogram <- function(x, clust, rotateToProfileID = FALSE, scaling.factor = 0.01, width = 0.1, y.offset = 0.1, dend.y.scale = max(clust$height * 2, na.rm = TRUE), dend.color = par('fg'), dend.width = 1, dend.type = c("phylogram", "cladogram"), debug = FALSE, ...) {
+  
+  # limit dendrogram types
+  dend.type <- match.arg(tolower(dend.type), c("phylogram", "cladogram"), several.ok = FALSE)
   
   # sanity check: must be either agnes or diana object
   if(! inherits(clust, c('agnes', 'diana', 'hclust')))
@@ -105,7 +109,7 @@ plotProfileDendrogram <- function(x, clust, rotateToProfileID = FALSE, scaling.f
   dend <- as.phylo(d.hclust)
   
   # setup plot and add dendrogram
-  plot(dend, cex=0.8, direction='up', y.lim=c(dend.y.scale, 0), x.lim=c(0.5, length(x)+1), show.tip.label=(debug), edge.color=dend.color, edge.width=dend.width)
+  plot(dend, cex = 0.8, direction = 'up', y.lim = c(dend.y.scale, 0), x.lim = c(0.5, length(x)+1), show.tip.label = (debug), edge.color = dend.color, edge.width = dend.width, type = dend.type)
   
   # get the last plot geometry
   lastPP <- get("last_plot.phylo", envir = .PlotPhyloEnv)

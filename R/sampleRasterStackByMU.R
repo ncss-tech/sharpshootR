@@ -272,6 +272,10 @@ sampleRasterStackByMU <- function(mu,
   
   # assemble into data.frame
   d.mu <- ldply(d.mu)
+  if (length(l.mu) == 1) {
+    d.mu <- data.frame(.id = as.character(mu.set), 
+                       d.mu, stringsAsFactors = FALSE)
+  }
   colnames(d.mu)[1] <- mu.col
   
   ## unspool polygon sample IDs when no samples were collected

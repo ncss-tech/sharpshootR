@@ -25,26 +25,7 @@ geomPosMountainProbability(s, replaceNA=TRUE)
 
 \author{D.E. Beaudette}
 
-\examples{
-\donttest{
 
-if(requireNamespace("curl") &
-   curl::has_internet() &
-   require(soilDB)) {
-  
-  # soil series of interest
-s <- c('amador', 'peters', 'pentz', 'inks', 'auburn', 'dunstone', 'argonaut')
-
-# generate hillslope probability table
-hillslopeProbability(s)
-
-# generate surface 2D shape probability table
-surfaceShapeProbability(s)
-  
-}
-
-}
-}
 
 \keyword{manip}
 

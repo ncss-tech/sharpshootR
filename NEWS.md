@@ -1,4 +1,4 @@
-# sharpshootR 2.0 (2023-01-04)
+# sharpshootR 2.0 (2023-03-09)
  * all functions depending on `sp` classes or methods have been converted to `sf`
  * water balance helper functions converted from `sp`/`rgeos` to `sf`
  * breaking changes in `plotTransect()`, coordinate are now provided as an additional argument / `sf` object

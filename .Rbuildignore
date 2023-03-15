@@ -8,3 +8,4 @@ README.md
 ^_pkgdown\.yml$
 ^pkgdown$
 ^\.github$
+^CRAN-SUBMISSION$

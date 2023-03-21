@@ -1,4 +1,4 @@
-# sharpshootR 2.1 (2023-03-15)
+# sharpshootR 2.1 (2023-03-21)
  * CRAN release
  * all functions depending on `sp` classes or methods have been converted to `sf`
  * water balance helper functions converted from `sp`/`rgeos` to `sf`

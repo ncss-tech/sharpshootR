@@ -96,9 +96,9 @@ prepareDailyClimateData <- function(x, start, end, onlyWB = TRUE) {
   # sanity checks
   stopifnot(inherits(x, 'sf'))
   
-  # TODO: eventally vectorize over points
+  # TODO: eventually vectorize over points
   # for now, only a single point allowed
-  stopifnot(length(x) == 1)
+  stopifnot(nrow(x) == 1)
    
   # get elevation
   e <- suppressMessages(elevatr::get_elev_point(locations = x)$elevation)

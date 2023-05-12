@@ -11,7 +11,28 @@
 #' @return a `list` containing:
 #'    * `SPC`: `SoilProfileCollection`
 #'    * `agg`: aggregate representation of hydraulic parameters, by cokey
-#'    
+#' 
+#' The following soil hydraulic properties are included:
+#'  
+#'   |variable      |description                                                   |
+#'   |:-------------|:-------------------------------------------------------------|
+#'   |cokey         |component key                                                 |
+#'   |hzname        |horizon name                                                  |
+#'   |hz_top        |horizon top depth (cm)                                        |
+#'   |hz_bottom     |horizon bottom depth (cm)                                     |
+#'   |thick         |horizon thickness (cm)                                        |
+#'   |sat           |VWC at saturation (cm/cm)                                     |
+#'   |fc            |VWC at field capacity or 1/3rd bar tension (cm/cm)            |
+#'   |pwp           |VWC at permanent wilting point or 15 bar tension (cm/cm)      |
+#'   |awc           |total sand content (<2mm fraction, mass %)                    |
+#'   |sand          |total silt content (<2mm fraction, mass %)                    |
+#'   |silt          |total clay content (<2mm fraction, mass %)                    |
+#'   |clay          |total sand content (<2mm fraction, mass %)                    |
+#'   |dbthirdbar    |bulk density at 1/3 bar tension (g/cm^3)                      |
+#'   |ksat          |Ksat (um/second)                                              |
+#'   |soil_fraction |volume fraction of soil (1 - coarse fragment volume fraction) |
+#' 
+#'     
 #' @export
 #'
 #' 

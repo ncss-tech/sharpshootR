@@ -17,6 +17,25 @@ a \code{list} containing:
 \item \code{SPC}: \code{SoilProfileCollection}
 \item \code{agg}: aggregate representation of hydraulic parameters, by cokey
 }
+
+The following soil hydraulic properties are included:\tabular{ll}{
+   variable \tab description \cr
+   cokey \tab component key \cr
+   hzname \tab horizon name \cr
+   hz_top \tab horizon top depth (cm) \cr
+   hz_bottom \tab horizon bottom depth (cm) \cr
+   thick \tab horizon thickness (cm) \cr
+   sat \tab VWC at saturation (cm/cm) \cr
+   fc \tab VWC at field capacity or 1/3rd bar tension (cm/cm) \cr
+   pwp \tab VWC at permanent wilting point or 15 bar tension (cm/cm) \cr
+   awc \tab total sand content (<2mm fraction, mass \%) \cr
+   sand \tab total silt content (<2mm fraction, mass \%) \cr
+   silt \tab total clay content (<2mm fraction, mass \%) \cr
+   clay \tab total sand content (<2mm fraction, mass \%) \cr
+   dbthirdbar \tab bulk density at 1/3 bar tension (g/cm^3) \cr
+   ksat \tab Ksat (um/second) \cr
+   soil_fraction \tab volume fraction of soil (1 - coarse fragment volume fraction) \cr
+}
 }
 \description{
 Get and prepare basic soil hydraulic parameters from SSURGO via SDA

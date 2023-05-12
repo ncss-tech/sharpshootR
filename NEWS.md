@@ -1,3 +1,6 @@
+# sharpshootR 2.2 (2023-05-12)
+ * added a few more soil hydraulic properties to `prepare_SSURGO_hydro_data()` 
+
 # sharpshootR 2.1 (2023-03-21)
  * CRAN release
  * all functions depending on `sp` classes or methods have been converted to `sf`

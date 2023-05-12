@@ -30,6 +30,11 @@ prepare_SSURGO_hydro_data <- function(cokeys, max.depth) {
                  wthirdbar_r / 100.0 AS fc,
                  wfifteenbar_r / 100.0 as pwp,
                  awc_r as awc,
+                 sandtotal_r as sand,
+                 silttotal_r as silt,
+                 claytotal_r as clay,
+                 dbthirdbar_r as dbthirdbar,
+                 ksat_r as ksat,
                  -- catch strange cases where soil_fraction is NULL
                  COALESCE(soil_fraction, 1) as soil_fraction
                  FROM component 

@@ -1,7 +1,5 @@
 ## TODO 
 # * generalize to other gemorphic summaries (everything hard-coded for hillslope position)
-# * arguments to plotProfileDendrogram() and plotSPC() as list with default
-# * merge arguments?
 # * encode Shannon entropy: values are computed row-wise, data plotted as columns
 
 
@@ -10,9 +8,13 @@
 #' @param x resulting list from `soilDB::fetchOSD(..., extended = TRUE)`
 #' @param type character, 'line' for line plot or 'bar' for barplot of geomorphic proportions
 #' @param g character, select a geomorphic summary. Currently 'hillpos' (2D hillslope position) is the only supported choice.
-#' @param clust logical, use clustering order of geomorphic proportions or exact hydrologic ordering, see [`hydOrder()`]
+#' @param clust logical, use clustering order of geomorphic proportions (`TRUE`) or exact hydrologic ordering (`FALSE`), see [`hydOrder()`]
 #' @param col character vector of colors
 #' @param \dots additional arguments to [`iterateHydOrder()`]
+#' 
+#' @details Additional arguments to [aqp::plotSPC()] can be provided using `options(.aqp.plotSPC.args = list(...))`. For example, adjustments to maximum depth and profile width can be set via: `options(.aqp.plotSPC.args = list(max.depth = 150, width = 0.35)`. Default arguments can be reset with `options(.aqp.plotSPC.args = NULL`).
+#' 
+#' When `clust = TRUE`, especially for `SoilProfileCollections` with a wide range in depth, it may be necessary to adjust the `scaling.factor` argument to [aqp::plotSPC()] via: `options(.aqp.plotSPC.args = list(scaling.factor = 0.01))`. Larger values will increase the height of profile sketches.
 #' 
 #' @author D.E. Beaudette
 #' @export
@@ -21,6 +23,10 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
   
   # satisfy R CMD check
   series <- NULL
+  
+  # get arguments to plotSPC set via options
+  # override this function's default values with these values
+  .opArgs <- getOption(".aqp.plotSPC.args", default = list())
   
   # sanity checks
   type <- match.arg(type)
@@ -95,13 +101,13 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
         o$SPC, 
         clust = res, 
         dend.y.scale = 3, 
-        scaling.factor = 0.012, 
-        y.offset = 0.2, 
-        width = 0.32, 
-        name.style = 'center-center', 
-        cex.names = 0.7, 
-        shrink = TRUE, 
-        cex.id = 0.55,
+        scaling.factor = ifelse(!is.null(.opArgs$scaling.factor), .opArgs$scaling.factor, 0.01), 
+        y.offset = ifelse(!is.null(.opArgs$y.offset), .opArgs$y.offset, 0.2),
+        width = ifelse(!is.null(.opArgs$width), .opArgs$width, 0.32), 
+        name.style = ifelse(!is.null(.opArgs$name.style), .opArgs$name.style, 'center-center'), 
+        cex.names = ifelse(!is.null(.opArgs$cex.names), .opArgs$cex.names, 0.7), 
+        shrink = ifelse(!is.null(.opArgs$shrink), .opArgs$shrink, TRUE), 
+        cex.id = ifelse(!is.null(.opArgs$cex.id), .opArgs$cex.id, 0.55),
         hz.distinctness.offset = 'hzd'
       )
     } else {
@@ -109,11 +115,11 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
       plotSPC(
         o$SPC, 
         plot.order = res,
-        width = 0.32, 
-        name.style = 'center-center', 
-        cex.names = 0.7, 
-        shrink = TRUE, 
-        cex.id = 0.55,
+        width = ifelse(!is.null(.opArgs$width), .opArgs$width, 0.32), 
+        name.style = ifelse(!is.null(.opArgs$name.style), .opArgs$name.style, 'center-center'), 
+        cex.names = ifelse(!is.null(.opArgs$cex.names), .opArgs$cex.names, 0.7), 
+        shrink = ifelse(!is.null(.opArgs$shrink), .opArgs$shrink, TRUE), 
+        cex.id = ifelse(!is.null(.opArgs$cex.id), .opArgs$cex.id, 0.55),
         hz.distinctness.offset = 'hzd'
       )
     }
@@ -157,13 +163,13 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
         o$SPC, 
         clust = res, 
         dend.y.scale = 3, 
-        scaling.factor = 0.012, 
-        y.offset = 0.2, 
-        width = 0.32, 
-        name.style = 'center-center', 
-        cex.names = 0.7, 
-        shrink = TRUE, 
-        cex.id = 0.55, 
+        scaling.factor = ifelse(!is.null(.opArgs$scaling.factor), .opArgs$scaling.factor, 0.01), 
+        y.offset = ifelse(!is.null(.opArgs$y.offset), .opArgs$y.offset, 0.2),
+        width = ifelse(!is.null(.opArgs$width), .opArgs$width, 0.32), 
+        name.style = ifelse(!is.null(.opArgs$name.style), .opArgs$name.style, 'center-center'), 
+        cex.names = ifelse(!is.null(.opArgs$cex.names), .opArgs$cex.names, 0.7), 
+        shrink = ifelse(!is.null(.opArgs$shrink), .opArgs$shrink, TRUE), 
+        cex.id = ifelse(!is.null(.opArgs$cex.id), .opArgs$cex.id, 0.55),
         hz.distinctness.offset = 'hzd'
       )
     } else {
@@ -171,11 +177,11 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
       plotSPC(
         o$SPC, 
         plot.order = res,
-        width = 0.32, 
-        name.style = 'center-center', 
-        cex.names = 0.7, 
-        shrink = TRUE, 
-        cex.id = 0.55,
+        width = ifelse(!is.null(.opArgs$width), .opArgs$width, 0.32), 
+        name.style = ifelse(!is.null(.opArgs$name.style), .opArgs$name.style, 'center-center'), 
+        cex.names = ifelse(!is.null(.opArgs$cex.names), .opArgs$cex.names, 0.7), 
+        shrink = ifelse(!is.null(.opArgs$shrink), .opArgs$shrink, TRUE), 
+        cex.id = ifelse(!is.null(.opArgs$cex.id), .opArgs$cex.id, 0.55),
         hz.distinctness.offset = 'hzd'
       )
     }
@@ -213,6 +219,11 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
     
   }
   
+  # cleanup
+  on.exit({
+    # reset original plotSPC options
+    options(.aqp.plotSPC.args = .opArgs)
+  })
   
 }
 

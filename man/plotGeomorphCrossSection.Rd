@@ -20,7 +20,7 @@ plotGeomorphCrossSection(
 
 \item{g}{character, select a geomorphic summary. Currently 'hillpos' (2D hillslope position) is the only supported choice.}
 
-\item{clust}{logical, use clustering order of geomorphic proportions or exact hydrologic ordering, see \code{\link[=hydOrder]{hydOrder()}}}
+\item{clust}{logical, use clustering order of geomorphic proportions (\code{TRUE}) or exact hydrologic ordering (\code{FALSE}), see \code{\link[=hydOrder]{hydOrder()}}}
 
 \item{col}{character vector of colors}
 
@@ -28,6 +28,11 @@ plotGeomorphCrossSection(
 }
 \description{
 Present a \code{SoilProfileCollection} aligned to a geomorphic summary as cross-section.
+}
+\details{
+Additional arguments to \code{\link[aqp:SoilProfileCollection-plotting-methods]{aqp::plotSPC()}} can be provided using \code{options(.aqp.plotSPC.args = list(...))}. For example, adjustments to maximum depth and profile width can be set via: \verb{options(.aqp.plotSPC.args = list(max.depth = 150, width = 0.35)}. Default arguments can be reset with \verb{options(.aqp.plotSPC.args = NULL}).
+
+When \code{clust = TRUE}, especially for \code{SoilProfileCollections} with a wide range in depth, it may be necessary to adjust the \code{scaling.factor} argument to \code{\link[aqp:SoilProfileCollection-plotting-methods]{aqp::plotSPC()}} via: \code{options(.aqp.plotSPC.args = list(scaling.factor = 0.01))}. Larger values will increase the height of profile sketches.
 }
 \author{
 D.E. Beaudette

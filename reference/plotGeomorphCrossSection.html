@@ -78,7 +78,7 @@
 
 
 <dt>clust</dt>
-<dd><p>logical, use clustering order of geomorphic proportions or exact hydrologic ordering, see <code><a href="hydOrder.html">hydOrder()</a></code></p></dd>
+<dd><p>logical, use clustering order of geomorphic proportions (<code>TRUE</code>) or exact hydrologic ordering (<code>FALSE</code>), see <code><a href="hydOrder.html">hydOrder()</a></code></p></dd>
 
 
 <dt>col</dt>
@@ -89,6 +89,11 @@
 <dd><p>additional arguments to <code><a href="iterateHydOrder.html">iterateHydOrder()</a></code></p></dd>
 
 </dl></div>
+    <div id="details">
+    <h2>Details</h2>
+    <p>Additional arguments to <code><a href="https://rdrr.io/pkg/aqp/man/SoilProfileCollection-plotting-methods.html" class="external-link">aqp::plotSPC()</a></code> can be provided using <code>options(.aqp.plotSPC.args = list(...))</code>. For example, adjustments to maximum depth and profile width can be set via: <code>options(.aqp.plotSPC.args = list(max.depth = 150, width = 0.35)</code>. Default arguments can be reset with <code>options(.aqp.plotSPC.args = NULL</code>).</p>
+<p>When <code>clust = TRUE</code>, especially for <code>SoilProfileCollections</code> with a wide range in depth, it may be necessary to adjust the <code>scaling.factor</code> argument to <code><a href="https://rdrr.io/pkg/aqp/man/SoilProfileCollection-plotting-methods.html" class="external-link">aqp::plotSPC()</a></code> via: <code>options(.aqp.plotSPC.args = list(scaling.factor = 0.01))</code>. Larger values will increase the height of profile sketches.</p>
+    </div>
     <div id="author">
     <h2>Author</h2>
     <p>D.E. Beaudette</p>

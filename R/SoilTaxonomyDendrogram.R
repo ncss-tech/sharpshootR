@@ -227,12 +227,19 @@ SoilTaxonomyDendrogram <- function(spc,
 	# in case `dend` was re-ordered
 	new_order <- as.hclust(dend)$order
 	
+	## TODO: allow most plotSPC arguments to be set by options
+	# get arguments to plotSPC set via options
+	# override this function's default values with these values
+	# .opArgs <- getOption(".aqp.plotSPC.args", default = list())
+	
 	# plot the profiles, in the ordering defined by the dendrogram
 	# with a couple fudge factors to make them fit
-	plotSPC(spc, 
+	plotSPC(spc,
+	        add = TRUE,
+	        y.offset = max(lastPP$yy) + y.offset, 
+	        plot.order = new_order, 
 	        name = name, 
 	        name.style = name.style, 
-	        plot.order = new_order, 
 	        max.depth = max.depth, 
 	        n.depth.ticks = n.depth.ticks, 
 	        scaling.factor = scaling.factor, 
@@ -240,11 +247,9 @@ SoilTaxonomyDendrogram <- function(spc,
 	        cex.id = cex.id, 
 	        axis.line.offset = axis.line.offset, 
 	        width = width, 
-	        y.offset = max(lastPP$yy) + y.offset, 
 	        id.style = id.style, 
 	        shrink = shrink, 
 	        font.id = font.id, 
-	        add = TRUE, 
 	        ...
 	)
 	

@@ -80,7 +80,7 @@ SoilTaxonomyDendrogram <- function(spc,
                                    cex.names = 0.75, 
                                    cex.id = 0.75, 
                                    axis.line.offset = -4, 
-                                   width = 0.1, 
+                                   width = 0.25, 
                                    y.offset = 0.5, 
                                    shrink = FALSE, 
                                    font.id = 2, 
@@ -215,8 +215,8 @@ SoilTaxonomyDendrogram <- function(spc,
 	# on.exit(par(op))
 	
 	# setup plot and add dendrogram
-	par(mar = c(0,0,0,0))
-	plot(dend, cex = 0.8, direction = 'up', y.lim = c(4,0), x.lim = c(0.5, length(spc) + 1), show.tip.label = FALSE, edge.color = dend.color, edge.width = dend.width, type = dend.type)
+  	par(mar = c(0,0,0,0))
+  	plot(dend, cex = 0.8, direction = 'up', y.lim = c(4,0), x.lim = c(0.5, length(spc) + 1), show.tip.label = FALSE, edge.color = dend.color, edge.width = dend.width, type = dend.type)
 	
 	# get the last plot geometry
 	lastPP <- get("last_plot.phylo", envir = .PlotPhyloEnv)
@@ -239,7 +239,6 @@ SoilTaxonomyDendrogram <- function(spc,
 	        plot.order = new_order, 
 	        name = name, 
 	        name.style = name.style, 
-	        max.depth = max.depth, 
 	        n.depth.ticks = n.depth.ticks, 
 	        scaling.factor = scaling.factor, 
 	        cex.names = cex.names, 

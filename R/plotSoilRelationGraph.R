@@ -124,7 +124,8 @@
 #'     
 #'       # alter plotting style, see ?plot.phylo
 #'       plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='fan')
-#'       plotSoilRelationGraph(m, s=s, plot.style='dendrogram', type='unrooted', use.edge.length=FALSE) 
+#'       plotSoilRelationGraph(m, s=s, plot.style='dendrogram', 
+#'                             type='unrooted', use.edge.length=FALSE) 
 #'     
 #'     }
 #'   }

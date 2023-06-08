@@ -34,11 +34,13 @@ This function is mainly for educational purposes.
 }
 
 \examples{
-x <- rnorm(100)
-percentileDemo(x)
-
-x <- rlnorm(100)
-percentileDemo(x)
+if (requireNamespace("Hmisc")) {
+  x <- rnorm(100)
+  percentileDemo(x)
+  
+  x <- rlnorm(100)
+  percentileDemo(x)
+}
 }
 
 \keyword{hplots}

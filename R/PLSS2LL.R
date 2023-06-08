@@ -112,7 +112,8 @@ formatPLSS <- function(p, type = 'SN') {
       # format the (optional) Q and QQ sections
       f.2 <- paste0(p.qq, p.q)
       if (nchar(f.2) != 4) {
-        message("Dropping quarter and quarter-quarter sections due to bad formatting: ", f.2)
+        if (!is.na(f.2) && nchar(f.2) != 0)
+          message("Dropping quarter and quarter-quarter sections due to bad formatting: ", f.2)
         f.2 <- ""
       }
       f[i] <- paste0(f.1, f.2)

@@ -28,7 +28,7 @@ SoilTaxonomyDendrogram(
   dend.color = par("fg"),
   dend.width = 1,
   dend.type = c("phylogram", "cladogram"),
-  max.depth = ifelse(is.infinite(aqp::max(spc)), 200, aqp::max(spc)),
+  max.depth = ifelse(is.infinite(max(spc)), 200, max(spc)),
   ...
 )
 }

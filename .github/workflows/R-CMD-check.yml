@@ -54,7 +54,7 @@ jobs:
           
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck, hydromad=?ignore
+          extra-packages: any::rcmdcheck, hydromad=?ignore, Hmisc=?ignore-before-r=4.1.0
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2

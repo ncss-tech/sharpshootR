@@ -15,13 +15,12 @@ SoilTaxonomyDendrogram(
   name = "hzname",
   name.style = "center-center",
   id.style = "side",
-  max.depth = max(spc),
   n.depth.ticks = 6,
   scaling.factor = 0.015,
   cex.names = 0.75,
   cex.id = 0.75,
   axis.line.offset = -4,
-  width = 0.1,
+  width = 0.25,
   y.offset = 0.5,
   shrink = FALSE,
   font.id = 2,
@@ -29,6 +28,7 @@ SoilTaxonomyDendrogram(
   dend.color = par("fg"),
   dend.width = 1,
   dend.type = c("phylogram", "cladogram"),
+  max.depth = ifelse(is.infinite(aqp::max(spc)), 200, aqp::max(spc)),
   ...
 )
 }
@@ -50,8 +50,6 @@ SoilTaxonomyDendrogram(
 \item{name.style}{passed to \code{aqp::plotSPC}}
 
 \item{id.style}{passed to \code{aqp::plotSPC}}
-
-\item{max.depth}{depth at which profiles are truncated for plotting}
 
 \item{n.depth.ticks}{suggested number of ticks on the depth axis}
 
@@ -78,6 +76,8 @@ SoilTaxonomyDendrogram(
 \item{dend.width}{dendrogram line width}
 
 \item{dend.type}{dendrogram type, passed to \code{plot.phylo()}, either "phylogram" or "cladogram"}
+
+\item{max.depth}{depth at which profiles are truncated for plotting}
 
 \item{...}{additional arguments to \code{aqp::plotSPC}}
 }

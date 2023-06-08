@@ -88,6 +88,7 @@ SoilTaxonomyDendrogram <- function(spc,
                                    dend.color = par('fg'), 
                                    dend.width = 1,
                                    dend.type = c("phylogram", "cladogram"),
+                                   max.depth = ifelse(is.infinite(aqp::max(spc)), 200, aqp::max(spc)),
                                    ...) {
            
   # choice of cluster methods: use diana() or agnes()

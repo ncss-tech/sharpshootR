@@ -64,13 +64,12 @@
 <span>  name <span class="op">=</span> <span class="st">"hzname"</span>,</span>
 <span>  name.style <span class="op">=</span> <span class="st">"center-center"</span>,</span>
 <span>  id.style <span class="op">=</span> <span class="st">"side"</span>,</span>
-<span>  max.depth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">spc</span><span class="op">)</span>,</span>
 <span>  n.depth.ticks <span class="op">=</span> <span class="fl">6</span>,</span>
 <span>  scaling.factor <span class="op">=</span> <span class="fl">0.015</span>,</span>
 <span>  cex.names <span class="op">=</span> <span class="fl">0.75</span>,</span>
 <span>  cex.id <span class="op">=</span> <span class="fl">0.75</span>,</span>
 <span>  axis.line.offset <span class="op">=</span> <span class="op">-</span><span class="fl">4</span>,</span>
-<span>  width <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  width <span class="op">=</span> <span class="fl">0.25</span>,</span>
 <span>  y.offset <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  shrink <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  font.id <span class="op">=</span> <span class="fl">2</span>,</span>
@@ -78,6 +77,7 @@
 <span>  dend.color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"fg"</span><span class="op">)</span>,</span>
 <span>  dend.width <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  dend.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"phylogram"</span>, <span class="st">"cladogram"</span><span class="op">)</span>,</span>
+<span>  max.depth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/is.finite.html" class="external-link">is.infinite</a></span><span class="op">(</span><span class="fu">aqp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/aqp/man/max.html" class="external-link">max</a></span><span class="op">(</span><span class="va">spc</span><span class="op">)</span><span class="op">)</span>, <span class="fl">200</span>, <span class="fu">aqp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/aqp/man/max.html" class="external-link">max</a></span><span class="op">(</span><span class="va">spc</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -118,10 +118,6 @@
 
 <dt>id.style</dt>
 <dd><p>passed to <code><a href="https://rdrr.io/pkg/aqp/man/SoilProfileCollection-plotting-methods.html" class="external-link">aqp::plotSPC</a></code></p></dd>
-
-
-<dt>max.depth</dt>
-<dd><p>depth at which profiles are truncated for plotting</p></dd>
 
 
 <dt>n.depth.ticks</dt>
@@ -174,6 +170,10 @@
 
 <dt>dend.type</dt>
 <dd><p>dendrogram type, passed to <code>plot.phylo()</code>, either "phylogram" or "cladogram"</p></dd>
+
+
+<dt>max.depth</dt>
+<dd><p>depth at which profiles are truncated for plotting</p></dd>
 
 
 <dt>...</dt>

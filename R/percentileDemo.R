@@ -2,6 +2,8 @@
 
 percentileDemo <- function(x, labels.signif=3, pctile.color='RoyalBlue', mean.color='Orange', range.color='DarkRed', hist.breaks=30, boxp=FALSE, ...) {
   
+  stopifnot(requireNamespace("Hmisc"))
+  
   # convenient summary of vector x, can contain NA
   .summary <- function(x, pr=c(0.05, 0.1, 0.5, 0.9, 0.95)) {
     n <- length(na.omit(x))

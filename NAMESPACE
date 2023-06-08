@@ -107,16 +107,6 @@ importFrom(reshape2,
   dcast,
   melt
 )
-
-importFrom(Hmisc, 
-  hdquantile,
-	wtd.mean, 
-  wtd.var, 
-  wtd.quantile, 
-  wtd.rank, 
-  wtd.table,
-  binconf				 
-)
 	
 importFrom(scales, 
   alpha,

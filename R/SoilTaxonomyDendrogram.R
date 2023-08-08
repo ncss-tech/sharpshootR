@@ -1,3 +1,5 @@
+## TODO: update depth axis argument to 
+
 
 #' @title Soil Taxonomy Dendrogram
 #' 
@@ -17,7 +19,6 @@
 #' @param scaling.factor scaling factor used to convert depth units into plotting units
 #' @param cex.names character scaling for horizon names
 #' @param cex.id character scaling for profile IDs
-#' @param axis.line.offset horizontal offset for depth axis
 #' @param width width of profiles
 #' @param y.offset vertical offset between dendrogram and profiles
 #' @param shrink logical, should long horizon names be shrunk by 80% ?
@@ -51,13 +52,13 @@
 #' # KST-style ordering
 #' SoilTaxonomyDendrogram(
 #'   OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
-#'   KST.order = TRUE
+#'   KST.order = TRUE, axis.line.offset = -4, scaling.factor = 0.014
 #' )
 #' 
 #' # classic ordering, based on nominal scale variables (unordered factors)
 #' SoilTaxonomyDendrogram(
 #'   OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
-#'   KST.order = FALSE
+#'   KST.order = FALSE, axis.line.offset = -4, scaling.factor = 0.014
 #' )
 #' 
 #' 
@@ -79,7 +80,6 @@ SoilTaxonomyDendrogram <- function(spc,
                                    scaling.factor = 0.015, 
                                    cex.names = 0.75, 
                                    cex.id = 0.75, 
-                                   axis.line.offset = -4, 
                                    width = 0.25, 
                                    y.offset = 0.5, 
                                    shrink = FALSE, 
@@ -244,7 +244,6 @@ SoilTaxonomyDendrogram <- function(spc,
 	        scaling.factor = scaling.factor, 
 	        cex.names = cex.names, 
 	        cex.id = cex.id, 
-	        axis.line.offset = axis.line.offset, 
 	        width = width, 
 	        id.style = id.style, 
 	        shrink = shrink, 

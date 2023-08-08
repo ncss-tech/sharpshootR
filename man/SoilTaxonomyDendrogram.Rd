@@ -19,7 +19,6 @@ SoilTaxonomyDendrogram(
   scaling.factor = 0.015,
   cex.names = 0.75,
   cex.id = 0.75,
-  axis.line.offset = -4,
   width = 0.25,
   y.offset = 0.5,
   shrink = FALSE,
@@ -58,8 +57,6 @@ SoilTaxonomyDendrogram(
 \item{cex.names}{character scaling for horizon names}
 
 \item{cex.id}{character scaling for profile IDs}
-
-\item{axis.line.offset}{horizontal offset for depth axis}
 
 \item{width}{width of profiles}
 
@@ -106,13 +103,13 @@ data("OSDexamples")
 # KST-style ordering
 SoilTaxonomyDendrogram(
   OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
-  KST.order = TRUE
+  KST.order = TRUE, axis.line.offset = -4, scaling.factor = 0.014
 )
 
 # classic ordering, based on nominal scale variables (unordered factors)
 SoilTaxonomyDendrogram(
   OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
-  KST.order = FALSE
+  KST.order = FALSE, axis.line.offset = -4, scaling.factor = 0.014
 )
 
 

@@ -68,7 +68,6 @@
 <span>  scaling.factor <span class="op">=</span> <span class="fl">0.015</span>,</span>
 <span>  cex.names <span class="op">=</span> <span class="fl">0.75</span>,</span>
 <span>  cex.id <span class="op">=</span> <span class="fl">0.75</span>,</span>
-<span>  axis.line.offset <span class="op">=</span> <span class="op">-</span><span class="fl">4</span>,</span>
 <span>  width <span class="op">=</span> <span class="fl">0.25</span>,</span>
 <span>  y.offset <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  shrink <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -134,10 +133,6 @@
 
 <dt>cex.id</dt>
 <dd><p>character scaling for profile IDs</p></dd>
-
-
-<dt>axis.line.offset</dt>
-<dd><p>horizontal offset for depth axis</p></dd>
 
 
 <dt>width</dt>
@@ -208,14 +203,14 @@
 <span class="r-in"><span><span class="co"># KST-style ordering</span></span></span>
 <span class="r-in"><span><span class="fu">SoilTaxonomyDendrogram</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">OSDexamples</span><span class="op">$</span><span class="va">SPC</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span>, <span class="op">]</span>, width <span class="op">=</span> <span class="fl">0.3</span>, name.style <span class="op">=</span> <span class="st">'center-center'</span>,</span></span>
-<span class="r-in"><span>  KST.order <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  KST.order <span class="op">=</span> <span class="cn">TRUE</span>, axis.line.offset <span class="op">=</span> <span class="op">-</span><span class="fl">4</span>, scaling.factor <span class="op">=</span> <span class="fl">0.014</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="SoilTaxonomyDendrogram-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># classic ordering, based on nominal scale variables (unordered factors)</span></span></span>
 <span class="r-in"><span><span class="fu">SoilTaxonomyDendrogram</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">OSDexamples</span><span class="op">$</span><span class="va">SPC</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span>, <span class="op">]</span>, width <span class="op">=</span> <span class="fl">0.3</span>, name.style <span class="op">=</span> <span class="st">'center-center'</span>,</span></span>
-<span class="r-in"><span>  KST.order <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span>  KST.order <span class="op">=</span> <span class="cn">FALSE</span>, axis.line.offset <span class="op">=</span> <span class="op">-</span><span class="fl">4</span>, scaling.factor <span class="op">=</span> <span class="fl">0.014</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="SoilTaxonomyDendrogram-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>

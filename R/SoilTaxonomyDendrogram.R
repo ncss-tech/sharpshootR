@@ -1,4 +1,5 @@
-## TODO: update depth axis argument to 
+## TODO: update depth axis argument to aqp 2.0 style once on CRAN
+## TODO: adapt to use plotSPC options
 
 
 #' @title Soil Taxonomy Dendrogram
@@ -22,8 +23,9 @@
 #' @param width width of profiles
 #' @param y.offset vertical offset between dendrogram and profiles
 #' @param shrink logical, should long horizon names be shrunk by 80% ?
-#' @param font.id font style applied to profile id, default is 2 (bold)
-#' @param cex.taxon.labels character scaling for taxonomic information
+#' @param font.id integer, font style applied to profile id, default is 2 (bold)
+#' @param cex.taxon.labels numeric, character scaling for taxonomic information
+#' @param font.taxon.labels integer, font style applied to taxa labels, default is 3 (italic)
 #' @param dend.color dendrogram line color
 #' @param dend.width dendrogram line width
 #' @param dend.type dendrogram type, passed to `plot.phylo()`, either "phylogram" or "cladogram"
@@ -55,12 +57,27 @@
 #'   KST.order = TRUE, axis.line.offset = -4, scaling.factor = 0.014
 #' )
 #' 
-#' # classic ordering, based on nominal scale variables (unordered factors)
+#' # classic ordering, based on nominal scale variables (un-ordered factors)
 #' SoilTaxonomyDendrogram(
 #'   OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
 #'   KST.order = FALSE, axis.line.offset = -4, scaling.factor = 0.014
 #' )
 #' 
+#' # adjust taxon label font and font size
+#' SoilTaxonomyDendrogram(
+#'   OSDexamples$SPC[1:15, ], width = 0.3, name.style = 'center-center',
+#'   KST.order = FALSE, axis.line.offset = -4, scaling.factor = 0.014,
+#'   font.taxon.labels = 2, cex.taxon.labels = 0.55
+#' )
+#' 
+#' # cladogram vs. dendrogram
+#' # truncate profiles at 150cm
+#' SoilTaxonomyDendrogram(
+#'   OSDexamples$SPC[1:16, ], width = 0.3, name.style = 'center-center',
+#'   KST.order = TRUE, axis.line.offset = -4, scaling.factor = 0.02,
+#'   font.taxon.labels = 1, cex.taxon.labels = 0.55,
+#'   dend.type = 'cladogram', max.depth = 150
+#' )
 #' 
 SoilTaxonomyDendrogram <- function(spc, 
                                    KST.order = TRUE, 
@@ -84,7 +101,8 @@ SoilTaxonomyDendrogram <- function(spc,
                                    y.offset = 0.5, 
                                    shrink = FALSE, 
                                    font.id = 2, 
-                                   cex.taxon.labels = 0.66, 
+                                   cex.taxon.labels = 0.66,
+                                   font.taxon.labels = 3, 
                                    dend.color = par('fg'), 
                                    dend.width = 1,
                                    dend.type = c("phylogram", "cladogram"),
@@ -247,7 +265,8 @@ SoilTaxonomyDendrogram <- function(spc,
 	        width = width, 
 	        id.style = id.style, 
 	        shrink = shrink, 
-	        font.id = font.id, 
+	        font.id = font.id,
+	        max.depth = max.depth,
 	        ...
 	)
 	
@@ -260,7 +279,7 @@ SoilTaxonomyDendrogram <- function(spc,
 	
 	# add subgroup labels
 	# note manual tweaking of y-coordinates
-	text(lab.x.positions, lab.y.positions, unique.lab, cex = cex.taxon.labels, adj = 0.5, font = 3)
+	text(lab.x.positions, lab.y.positions, unique.lab, cex = cex.taxon.labels, adj = 0.5, font = font.taxon.labels)
 	
 	# invisibly return some information form the original objects
 	invisible(

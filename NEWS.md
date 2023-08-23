@@ -1,7 +1,8 @@
-# sharpshootR 2.2 (2023-08-08)
+# sharpshootR 2.2 (2023-08-23)
  * added a few more soil hydraulic properties to `prepare_SSURGO_hydro_data()`
  * `plotGeomorphCrossSection()` now respects `aqp::plotSPC()` arguments via `options(.aqp.plotSPC.args = list(...))`
  * removing some hard-coded arguments passed through to `aqp::plotSPC()`
+ * 
 
 # sharpshootR 2.1 (2023-03-21)
  * CRAN release

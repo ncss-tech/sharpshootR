@@ -73,6 +73,7 @@
 <span>  shrink <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  font.id <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  cex.taxon.labels <span class="op">=</span> <span class="fl">0.66</span>,</span>
+<span>  font.taxon.labels <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  dend.color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"fg"</span><span class="op">)</span>,</span>
 <span>  dend.width <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  dend.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"phylogram"</span>, <span class="st">"cladogram"</span><span class="op">)</span>,</span>
@@ -148,11 +149,15 @@
 
 
 <dt>font.id</dt>
-<dd><p>font style applied to profile id, default is 2 (bold)</p></dd>
+<dd><p>integer, font style applied to profile id, default is 2 (bold)</p></dd>
 
 
 <dt>cex.taxon.labels</dt>
-<dd><p>character scaling for taxonomic information</p></dd>
+<dd><p>numeric, character scaling for taxonomic information</p></dd>
+
+
+<dt>font.taxon.labels</dt>
+<dd><p>integer, font style applied to taxa labels, default is 3 (italic)</p></dd>
 
 
 <dt>dend.color</dt>
@@ -207,13 +212,30 @@
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="SoilTaxonomyDendrogram-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># classic ordering, based on nominal scale variables (unordered factors)</span></span></span>
+<span class="r-in"><span><span class="co"># classic ordering, based on nominal scale variables (un-ordered factors)</span></span></span>
 <span class="r-in"><span><span class="fu">SoilTaxonomyDendrogram</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">OSDexamples</span><span class="op">$</span><span class="va">SPC</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span>, <span class="op">]</span>, width <span class="op">=</span> <span class="fl">0.3</span>, name.style <span class="op">=</span> <span class="st">'center-center'</span>,</span></span>
 <span class="r-in"><span>  KST.order <span class="op">=</span> <span class="cn">FALSE</span>, axis.line.offset <span class="op">=</span> <span class="op">-</span><span class="fl">4</span>, scaling.factor <span class="op">=</span> <span class="fl">0.014</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="SoilTaxonomyDendrogram-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># adjust taxon label font and font size</span></span></span>
+<span class="r-in"><span><span class="fu">SoilTaxonomyDendrogram</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">OSDexamples</span><span class="op">$</span><span class="va">SPC</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, <span class="op">]</span>, width <span class="op">=</span> <span class="fl">0.3</span>, name.style <span class="op">=</span> <span class="st">'center-center'</span>,</span></span>
+<span class="r-in"><span>  KST.order <span class="op">=</span> <span class="cn">FALSE</span>, axis.line.offset <span class="op">=</span> <span class="op">-</span><span class="fl">4</span>, scaling.factor <span class="op">=</span> <span class="fl">0.014</span>,</span></span>
+<span class="r-in"><span>  font.taxon.labels <span class="op">=</span> <span class="fl">2</span>, cex.taxon.labels <span class="op">=</span> <span class="fl">0.55</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="SoilTaxonomyDendrogram-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># cladogram vs. dendrogram</span></span></span>
+<span class="r-in"><span><span class="co"># truncate profiles at 150cm</span></span></span>
+<span class="r-in"><span><span class="fu">SoilTaxonomyDendrogram</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">OSDexamples</span><span class="op">$</span><span class="va">SPC</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">16</span>, <span class="op">]</span>, width <span class="op">=</span> <span class="fl">0.3</span>, name.style <span class="op">=</span> <span class="st">'center-center'</span>,</span></span>
+<span class="r-in"><span>  KST.order <span class="op">=</span> <span class="cn">TRUE</span>, axis.line.offset <span class="op">=</span> <span class="op">-</span><span class="fl">4</span>, scaling.factor <span class="op">=</span> <span class="fl">0.02</span>,</span></span>
+<span class="r-in"><span>  font.taxon.labels <span class="op">=</span> <span class="fl">1</span>, cex.taxon.labels <span class="op">=</span> <span class="fl">0.55</span>,</span></span>
+<span class="r-in"><span>  dend.type <span class="op">=</span> <span class="st">'cladogram'</span>, max.depth <span class="op">=</span> <span class="fl">150</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="SoilTaxonomyDendrogram-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

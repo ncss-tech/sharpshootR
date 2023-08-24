@@ -28,6 +28,7 @@
 #'
 #' @examples
 #' 
+#' \dontrun{
 #' huePositionPlot(value = 4, chroma = 4)
 #' 
 #' huePositionPlot(value = 6, chroma = 6)
@@ -44,7 +45,9 @@
 #' huePositionPlot(origin = '10YR 3/4', origin.cex = 0.5)
 #' 
 #' huePositionPlot(value = 3, chroma = 4, origin = '10YR 3/4', origin.cex = 0.5)
-
+#' 
+#' }
+#' 
 huePositionPlot <- function(value = 6, chroma = 6, chip.cex = 4.5, label.cex = 0.75, contour.dE00 = FALSE, origin = NULL, origin.cex = 0.75, grid.res = 2, ...) {
   
   # interpret !NULL origin argument

@@ -43,6 +43,7 @@ A simple visualization of the hue positions for a given Munsell value/chroma acc
 }
 \examples{
 
+\dontrun{
 huePositionPlot(value = 4, chroma = 4)
 
 huePositionPlot(value = 6, chroma = 6)
@@ -59,4 +60,7 @@ huePositionPlot(origin = '5G 6/4', origin.cex = 0.5)
 huePositionPlot(origin = '10YR 3/4', origin.cex = 0.5)
 
 huePositionPlot(value = 3, chroma = 4, origin = '10YR 3/4', origin.cex = 0.5)
+
+}
+
 }

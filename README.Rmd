@@ -40,7 +40,12 @@ remotes::install_github("ncss-tech/sharpshootR", dependencies=FALSE, upgrade=FAL
 
 ### Install Suggested Packages
 ```{r eval = FALSE}
-p <- c("MASS", "spdep", "circlize", "rvest", "xml2", "terra", "raster", "exactextractr", "httr", "jsonlite", "igraph", "dendextend", "testthat", "hydromad", "latticeExtra", "farver", "venn", "gower", "daymetr", "elevatr", "Evapotranspiration", "zoo", "SoilTaxonomy", "sf", "Hmisc")
+p <- c("MASS", "spdep", "circlize", "rvest", "xml2", "terra", 
+       "raster", "exactextractr", "httr", "jsonlite", "igraph", 
+       "dendextend", "testthat", "hydromad", "latticeExtra", 
+       "farver", "venn", "gower", "daymetr", "elevatr", 
+       "Evapotranspiration", "zoo", "SoilTaxonomy", "sf", "Hmisc"
+)
 
 install.packages(p)
 ```

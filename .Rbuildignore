@@ -5,8 +5,10 @@ README.md
 ^\.Rproj\.user$
 ^docs$
 ^misc$
-^_pkgdown\.yml$
-^pkgdown$
 ^\.github$
+^CITATION\.cff$
+^README\.Rmd$
+^man/figures$
+^revdep$
 ^CRAN-SUBMISSION$
 ^cran-comments\.md$

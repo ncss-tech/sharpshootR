@@ -12,7 +12,7 @@ venn(7, ellipse = TRUE, zcolor = cols, opacity = 0.5)
 cols <- rainbow(4)
 venn(4, ellipse = TRUE, zcolor = cols, opacity = 0.5)
 
-m <- rgb2munsell(t(col2rgb(cols)) / 255)
+m <- col2Munsell(t(col2rgb(cols)))
 m$m <- sprintf("%s %s/%s", m$hue, m$value, m$chroma)
 
 colorMixtureVenn(m$m, ellipse = TRUE, mixingMethod = 'estimate')

@@ -44,7 +44,8 @@ Suggests:
     zoo,
     SoilTaxonomy,
     sf,
-    Hmisc
+    Hmisc,
+    knitr
 Depends: R (>= 3.5.0)
 Imports: grDevices, graphics, methods, stats, utils, aqp, ape, 
   soilDB, cluster, lattice, vegan,
@@ -53,3 +54,4 @@ Imports: grDevices, graphics, methods, stats, utils, aqp, ape,
 Additional_repositories: https://hydromad.github.io
 RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr

@@ -120,13 +120,11 @@ SoilTaxonomyDendrogram <- function(spc,
   # 2. rotate dendrogram to reflect ordering of subgroups within keys
   if (KST.order) {
     
-    ## TODO: require latest once on CRAN 0.2.x
     # requires SoilTaxonomy >= 0.1.5 (2022-02-15)
     if (!requireNamespace('SoilTaxonomy', quietly = TRUE)) {
       stop('please install the `SoilTaxonomy` package', call. = FALSE)
     }
     
-    ## TODO: this is implemented in the development version, wait for CRAN version before using here
     ST_unique_list <- NULL
     load(system.file("data/ST_unique_list.rda", package = "SoilTaxonomy")[1])
     
@@ -152,22 +150,22 @@ SoilTaxonomyDendrogram <- function(spc,
     
     # check for NA (obsolete taxa / typos); fall back to nominal factors
     if (any(is.na(.soilorder))) {
-      .soilorder <- factor(spc$soilorder)
+      .soilorder <- factor(spc$soilorder, ordered = FALSE)
       message('obsolete soil order or typo, reverting to nominal factors')
     }
     
     if (any(is.na(.suborder))) {
-      .suborder <- factor(spc$suborder)
+      .suborder <- factor(spc$suborder, ordered = FALSE)
       message('obsolete suborder or typo, reverting to nominal factors')
     }
     
     if (any(is.na(.greatgroup))) {
-      .greatgroup <- factor(spc$greatgroup)
+      .greatgroup <- factor(spc$greatgroup, ordered = FALSE)
       message('obsolete greatgroup or typo, reverting to nominal factors')
     }
     
     if (any(is.na(.subgroup))) {
-      .subgroup <- factor(spc$subgroup)
+      .subgroup <- factor(spc$subgroup, ordered = FALSE)
       message('obsolete subgroup or typo, reverting to nominal factors')
     }
     

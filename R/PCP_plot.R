@@ -60,6 +60,7 @@
 ## TODO: this.year should default to the last year in the series
 ## TODO: explain differences between exemplar years and boxplot at current water day -- not the same
 
+## TODO: remove current WY from exemplars if not at the end of the year
 
 #' @title Percentiles of Cumulative Precipitation
 #' 

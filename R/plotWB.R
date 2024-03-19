@@ -158,13 +158,13 @@ plotWB <- function(WB, AWC = attr(WB, 'AWC'), sw.col = '#377EB8', surplus.col = 
   # left-hand axes
   combined.at <- c(-pet.axis, ppt.axis)
   combined.lab <- c(pet.axis, ppt.axis)
-  axis(side = 2, las=1, at = combined.at, labels = combined.lab, cex.axis=0.85, line=-0.5)
+  axis(side = 2, las = 1, at = combined.at, labels = combined.lab, cex.axis = 0.85, line = -0.5)
   
   # annotate left-hand axes
-  mtext(text = 'Inputs | Outputs | Storage    (mm)', side = 2, line = 2.25, cex=0.85, font=2)
+  mtext(text = 'Inputs | Outputs | Storage    (mm)', side = 2, line = 2.25, cex = 0.85, font = 2)
   
   # month axis: no line, just ticks
-  axis(side = 1, at = bp, labels = WB$mo, line = 0, tick = TRUE, font = 2, cex = month.cex, col = NA, col.ticks = par('fg'))
+  axis(side = 1, at = bp, labels = WB$mo, line = 0, tick = TRUE, font = 2, cex.axis = month.cex, col = NA, col.ticks = par('fg'))
   
   # PPT
   lines(bp, WB$PPT, type ='l', col = pt.bg, lwd = lwd, lty = lty[1])

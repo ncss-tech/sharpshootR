@@ -8,6 +8,7 @@ wb.tropical <- structure(
 
 ## TODO: verify on paper
 
+## TODO: discrepancy likely has something to do with a declining availability function
 
 test_that("Arkley and Ulrich 1962, Table 1", {
   
@@ -39,11 +40,13 @@ test_that("Arkley and Ulrich 1962, Table 1", {
   
   # no model spin-up
   # start with soil "full"
-  wb <- monthlyWB(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 1, keep_last = TRUE)
+  wb <- monthlyWB(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 3, keep_last = TRUE, distribute = FALSE)
   
   ## TODO: why the deviation?
   ##       must have something to do with PPT at end of month vs. middle?
   data.frame(Table1 = S, model = wb$S)
+  
+  sum((S - wb$S)^2)
   
   ## PPT - PET matches values in Table 1 
   # (PPT - PET) / 25.4
@@ -56,6 +59,10 @@ test_that("Arkley and Ulrich 1962, Table 1", {
   ## TODO: why the deviation?
   ##       must have something to do with PPT at end of month vs. middle?
   data.frame(Table1 = AET, model = wb$ET)
+  
+  sum((AET - wb$ET)^2)
+  
+  
   
   
 })

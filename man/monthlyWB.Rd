@@ -12,25 +12,38 @@ monthlyWB(
   S_init = 1,
   starting_month = 1,
   rep = 1,
-  keep_last = FALSE
+  keep_last = FALSE,
+  distribute = FALSE,
+  method = c("equal", "random"),
+  k = 10
 )
 
 monthlyWB_summary(w)
 }
 \arguments{
-\item{AWC}{available water-holding capacity (mm), typically thickness (mm) * awc (fraction)}
+\item{AWC}{numeric, available water-holding capacity (mm), typically thickness (mm) * awc (fraction)}
 
-\item{PPT}{time-series of monthly PPT (mm), calendar year ordering}
+\item{PPT}{numeric, time-series of monthly PPT (mm), calendar year ordering}
 
-\item{PET}{time-series of monthly PET (mm), calendar year ordering}
+\item{PET}{numeric, time-series of monthly PET (mm), calendar year ordering}
 
-\item{S_init}{initial fraction of \code{AWC} filled with water (values 0-1)}
+\item{S_init}{numeric, initial fraction of \code{AWC} filled with water (values 0-1)}
 
-\item{starting_month}{starting month index, 1=January, 9=September}
+\item{starting_month}{integer, starting month index, 1=January, 9=September}
 
-\item{rep}{number of cycles to run water balance}
+\item{rep}{integer, number of cycles to run water balance}
 
-\item{keep_last}{keep only the last iteration of the water balance}
+\item{keep_last}{logical, keep only the last iteration of the water balance}
+
+\item{distribute}{logical, distribute monthly data into \code{k} divisions within each month}
+
+\item{method}{method for distributing PPT and PET into \code{k} divisions:
+\itemize{
+\item 'equal' divides PPT and PET into \code{k} equal amounts
+\item 'random' divides PPT and PET into random proportions generated via multinominal simulation
+}}
+
+\item{k}{integer, number of divisions}
 
 \item{w}{used for for \code{monthlyWB_summary()}: a data.frame, such as result of \code{monthlyWB()};}
 }

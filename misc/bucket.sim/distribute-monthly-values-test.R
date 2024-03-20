@@ -31,7 +31,7 @@ PET <- c(0, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20)
 
 ## Coweeta
 S_0 <- 1
-AWC <- 35
+AWC <- 75
 PPT <- c(200, 200, 183, 159, 158, 164, 140, 139, 173, 140, 204, 194)
 PET <- c(4, 9, 27, 52, 83, 111, 125, 116, 83, 50, 23, 8)
 
@@ -57,6 +57,15 @@ plotWB(w1, legend.cex = 0.7, month.cex = 0.8) ; title('Monthly Totals', cex.main
 plotWB(w2, legend.cex = 0.7, month.cex = 0.8) ; title('Distributed', cex.main = 1)
 
 
+knitr::kable(
+  lattice::make.groups(
+    monthly = monthlyWB_summary(w1),
+    distributed = monthlyWB_summary(w2)
+  ), digits = 0
+)
+
+
+
 
 par(mfrow = c(1, 3))
 
@@ -72,6 +81,7 @@ plotWB_lines(w3)
 
 
 ## water year check
+library(soilDB)
 
 s <- 'amador'
 x <- fetchOSD(s, extended = TRUE)
@@ -118,7 +128,12 @@ par(mfrow = c(1, 2), mar = c(4, 3.5, 3, 2))
 plotWB(w1, legend.cex = 0.7, month.cex = 0.8) ; title('Monthly Totals', cex.main = 1)
 plotWB(w2, legend.cex = 0.7, month.cex = 0.8) ; title('Distributed', cex.main = 1)
 
-
+knitr::kable(
+  lattice::make.groups(
+    monthly = monthlyWB_summary(w1),
+    distributed = monthlyWB_summary(w2)
+  ), digits = 0
+)
 
 
 

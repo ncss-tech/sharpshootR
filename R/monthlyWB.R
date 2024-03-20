@@ -1,6 +1,11 @@
 ## TODO: need a monthly + daily WB summary
 
-## TODO: found a bug: https://github.com/josephguillaume/hydromad/issues/190
+## TODO: maybe not a bug: https://github.com/josephguillaume/hydromad/issues/190
+
+## TODO: document asymptotic behavior with distribute = TRUE, and k -> 100
+
+## TODO: allow specification of M argument to bucket.sim
+
 
 #' @title Monthly Water Balances
 #' 
@@ -13,19 +18,27 @@
 #'    * the influence of aquitards or local terrain cannot be integrated into this model
 #'    * interception is not used in this model
 #' 
-#' @param AWC available water-holding capacity (mm), typically thickness (mm) * awc (fraction)
+#' @param AWC numeric, available water-holding capacity (mm), typically thickness (mm) * awc (fraction)
 #' 
-#' @param PPT time-series of monthly PPT (mm), calendar year ordering
+#' @param PPT numeric, time-series of monthly PPT (mm), calendar year ordering
 #' 
-#' @param PET time-series of monthly PET (mm), calendar year ordering
+#' @param PET numeric, time-series of monthly PET (mm), calendar year ordering
 #' 
-#' @param S_init initial fraction of `AWC` filled with water (values 0-1)
+#' @param S_init numeric, initial fraction of `AWC` filled with water (values 0-1)
 #' 
-#' @param starting_month starting month index, 1=January, 9=September
+#' @param starting_month integer, starting month index, 1=January, 9=September
 #' 
-#' @param rep number of cycles to run water balance
+#' @param rep integer, number of cycles to run water balance
 #' 
-#' @param keep_last keep only the last iteration of the water balance
+#' @param keep_last logical, keep only the last iteration of the water balance
+#' 
+#' @param distribute logical, distribute monthly data into `k` divisions within each month
+#' 
+#' @param method method for distributing PPT and PET into `k` divisions:
+#'   * 'equal' divides PPT and PET into `k` equal amounts
+#'   * 'random' divides PPT and PET into random proportions generated via multinominal simulation
+#' 
+#' @param k integer, number of divisions
 #' 
 #' 
 #' @references 
@@ -49,7 +62,10 @@
 #' \item{mo: }{month label}   
 #' }
 #' 
-monthlyWB <- function(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, keep_last = FALSE) {
+monthlyWB <- function(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, keep_last = FALSE, distribute = FALSE, method = c('equal', 'random'), k = 10) {
+  
+  # sanity check
+  method <- match.arg(method)
   
   # number of time steps in the original series
   n <- length(PPT)
@@ -69,33 +85,72 @@ monthlyWB <- function(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, ke
   PET <- PET[idx]
   
   # combine into format suitable for simulation
-  d <- data.frame(P = PPT, E = PET)
+  # .sim keeps track of cycle
+  d <- data.frame(P = PPT, E = PET, .sim = rep(1:rep, each = 12))
   
   # add month index
   d$month <- idx
-  d$mo <- c('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')[idx]
+  .months <- c('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')
+  d$mo <- .months[idx]
   
+  # convert to factor for proper sorting by split(), later when `distribute = TRUE`
+  d$mo <- factor(d$mo, levels = .months[idx][1:12])
   
-  ## crazy idea: spread-out PPT and PET over k bins within a month
-  
-  # dd <- lapply(1:nrow(d), function(i, k = 10) {
-  #   .idx <- rep(i, times = k)
-  #   .dr <- d[.idx, ]
-  #   
-  #   .dr$P <- .dr$P / k
-  #   .dr$E <- .dr$E / k
-  #   
-  #   return(.dr)
-  # }
-  # )
-  # 
-  # dd <- do.call('rbind', dd)
+  # optionally spread-out PPT and PET over k bins within a month
+  if(distribute) {
+    dd <- lapply(1:nrow(d), function(i, .k = k) {
+      
+      # replicate original data
+      .idx <- rep(i, times = .k)
+      .dr <- d[.idx, ]
+      
+      # evenly distribute PPT and PET over k bins
+      if(method == 'equal') {
+        .dr$P <- .dr$P / .k
+        .dr$E <- .dr$E / .k
+      }
+      
+      # multinominal simulation of proportions across k bins
+      if(method == 'random') {
+        
+        ## TODO: this can lead to some unexpected results
+        ##       --> double-check proportions
+        
+        # simulate k-proportions with equal probability
+        
+        # PPT
+        P.prop <- as.vector(rmultinom(n = 1, size = .k, prob = rep(1, times = .k)))
+        P.prop <- P.prop / sum(P.prop)
+        .dr$P <- P.prop * .dr$P[1]
+        
+        # PET
+        E.prop <- as.vector(rmultinom(n = 1, size = .k, prob = rep(1, times = .k)))
+        E.prop <- E.prop / sum(E.prop)
+        .dr$E <- E.prop * .dr$E[1]
+      }
+      
+      ## TODO: additional method using constant +/- fuzz
+      
+      
+      # keep track of simulation cycle
+      .dr$.sim <- .dr$.sim[1]
+      
+      return(.dr)
+    }
+    )
+    
+    d <- do.call('rbind', dd)
+    
+  }
   
   
   
   ## hydromad interface
   # note that first two columns are P, E
+  
+  ## TODO: check these assumptions:
   # at the monthly time-step: a.ss = 0.01
+  # at the monthly time-step: M = 0
   
   m <- hydromad::hydromad(d[, 1:2], sma = "bucket", routing = NULL)
   m <- update(m, Sb = AWC, fc = 1, S_0 = S_init, a.ss = 0.01, M = 0, etmult = 1, a.ei = 0)
@@ -115,40 +170,57 @@ monthlyWB <- function(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, ke
   res <- data.frame(d, res)
   
   # cleanup names
-  names(res) <- c('PPT', 'PET', 'month', 'mo', 'U', 'S', 'ET')
+  names(res) <- c('PPT', 'PET', '.sim', 'month', 'mo', 'U', 'S', 'ET')
   
   # compute deficit: AET - PET
   res$D <- with(res, ET - PET)
   
   # re-arrange
-  res <- res[, c('PPT', 'PET', 'U', 'S', 'ET', 'D', 'month', 'mo')]
+  res <- res[, c('PPT', 'PET', 'U', 'S', 'ET', 'D', 'month', 'mo', '.sim')]
   
-  ## flatten k bins / month -> 12 months
-  # s <- split(res, res$month)
-  # lapply(s, function(i, k = 10) {
-  #   
-  #   .res <- data.frame(
-  #     PPT = sum(i$PPT),
-  #     PET = sum(i$PET),
-  #     U = sum(i$U),
-  #     S = i$S[k],
-  #     ET = sum(i$ET),
-  #     D = sum(i$ET - i$PET),
-  #     month = i$month[1],
-  #     mo = i$mo[1]
-  #   )
-  #   
-  #   # .res$D <- .res$ET - .res$PET 
-  #   
-  #   return(.res)
-  # })
-  # 
+  if(distribute) {
+    # flatten n simulations * k bins per month -> 12 months / simulation
+    # names and ordering as: sim.month
+    s <- split(res, list(res$.sim, res$mo), lex.order = TRUE)
+    
+    s <- lapply(s, function(i, .k = k) {
+      
+      # re-assemble into data.frame
+      .res <- data.frame(
+        # total PPT, PET, U
+        PPT = sum(i$PPT),
+        PET = sum(i$PET),
+        U = sum(i$U),
+        # final storage value
+        S = i$S[.k],
+        # total AET
+        ET = sum(i$ET),
+        # compute D last
+        D = 0,
+        # these are constant, keep first
+        month = i$month[1],
+        mo = i$mo[1],
+        .sim = i$.sim[1]
+      )
+      
+      return(.res)
+    })
+    
+    res <- do.call('rbind', s)
+    
+    ## TODO: investigate deficit beyond AWC in some cases
+    
+    # compute Deficit after summing PPT and ET separately 
+    # deficit is a negative value
+    res$D <- res$ET - res$PET
+  }
   
   
-  # optionally keep the last cycle
+  # optionally keep the last simulation cycle
+  .last <- max(res$.sim)
   if(keep_last) {
-    keep.idx <- seq(from = nrow(res) - (n-1), to = nrow(res), by = 1)
-    res <- res[keep.idx, ]
+    # keep.idx <- seq(from = nrow(res) - (n-1), to = nrow(res), by = 1)
+    res <- res[which(res$.sim == .last), ]
   }
   
   # reset row names
@@ -161,7 +233,7 @@ monthlyWB <- function(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, ke
   return(res)
 }
 
-## TODO: this needs information about PWP and SAT
+## TODO: this needs information about PWP, FC, and SAT
 ## TODO: w must be in sync with the water-year if appropriate (e.g. xeric SMR)
 
 #' @param w used for for `monthlyWB_summary()`: a data.frame, such as result of `monthlyWB()`; 

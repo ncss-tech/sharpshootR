@@ -70,7 +70,10 @@
 <span>  S_init <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  starting_month <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  rep <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  keep_last <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  keep_last <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  distribute <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"equal"</span>, <span class="st">"random"</span><span class="op">)</span>,</span>
+<span>  k <span class="op">=</span> <span class="fl">10</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">monthlyWB_summary</span><span class="op">(</span><span class="va">w</span><span class="op">)</span></span></code></pre></div>
@@ -79,31 +82,45 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>AWC</dt>
-<dd><p>available water-holding capacity (mm), typically thickness (mm) * awc (fraction)</p></dd>
+<dd><p>numeric, available water-holding capacity (mm), typically thickness (mm) * awc (fraction)</p></dd>
 
 
 <dt>PPT</dt>
-<dd><p>time-series of monthly PPT (mm), calendar year ordering</p></dd>
+<dd><p>numeric, time-series of monthly PPT (mm), calendar year ordering</p></dd>
 
 
 <dt>PET</dt>
-<dd><p>time-series of monthly PET (mm), calendar year ordering</p></dd>
+<dd><p>numeric, time-series of monthly PET (mm), calendar year ordering</p></dd>
 
 
 <dt>S_init</dt>
-<dd><p>initial fraction of <code>AWC</code> filled with water (values 0-1)</p></dd>
+<dd><p>numeric, initial fraction of <code>AWC</code> filled with water (values 0-1)</p></dd>
 
 
 <dt>starting_month</dt>
-<dd><p>starting month index, 1=January, 9=September</p></dd>
+<dd><p>integer, starting month index, 1=January, 9=September</p></dd>
 
 
 <dt>rep</dt>
-<dd><p>number of cycles to run water balance</p></dd>
+<dd><p>integer, number of cycles to run water balance</p></dd>
 
 
 <dt>keep_last</dt>
-<dd><p>keep only the last iteration of the water balance</p></dd>
+<dd><p>logical, keep only the last iteration of the water balance</p></dd>
+
+
+<dt>distribute</dt>
+<dd><p>logical, distribute monthly data into <code>k</code> divisions within each month</p></dd>
+
+
+<dt>method</dt>
+<dd><p>method for distributing PPT and PET into <code>k</code> divisions:</p><ul><li><p>'equal' divides PPT and PET into <code>k</code> equal amounts</p></li>
+<li><p>'random' divides PPT and PET into random proportions generated via multinominal simulation</p></li>
+</ul></dd>
+
+
+<dt>k</dt>
+<dd><p>integer, number of divisions</p></dd>
 
 
 <dt>w</dt>

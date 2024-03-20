@@ -16,41 +16,48 @@ library(soilDB)
 
 ## original test case, MORLEY series
 
-s <- 'morley'
-x <- fetchOSD(s, extended = TRUE)
+# s <- 'morley'
+# x <- fetchOSD(s, extended = TRUE)
+# 
+# # get representative, profile-total AWC from SSURGO
+# sql <- sprintf("
+# SELECT chorizon.cokey AS cokey, 
+# SUM(awc_r * (hzdepb_r - hzdept_r)) AS ws 
+# FROM 
+# legend JOIN mapunit ON legend.lkey = mapunit.lkey
+# JOIN component ON mapunit.mukey = component.mukey
+# JOIN chorizon ON component.cokey = chorizon.cokey 
+# WHERE compname = '%s'
+# AND areasymbol != 'US'
+# GROUP BY chorizon.cokey;", s
+# )
+# 
+# # get via SDA
+# res <- SDA_query(sql)
+# 
+# # median AWC in mm
+# # over all components correlated to named series 
+# AWC <- round(median(res$ws, na.rm = TRUE) * 10)
+# 
+# # monthly climate data from series summary
+# PPT <- x$climate.monthly$q50[x$climate.monthly$variable == 'Precipitation (mm)']
+# PET <- x$climate.monthly$q50[x$climate.monthly$variable == 'Potential ET (mm)']
 
-# get representative, profile-total AWC from SSURGO
-sql <- sprintf("
-SELECT chorizon.cokey AS cokey, 
-SUM(awc_r * (hzdepb_r - hzdept_r)) AS ws 
-FROM 
-legend JOIN mapunit ON legend.lkey = mapunit.lkey
-JOIN component ON mapunit.mukey = component.mukey
-JOIN chorizon ON component.cokey = chorizon.cokey 
-WHERE compname = '%s'
-AND areasymbol != 'US'
-GROUP BY chorizon.cokey;", s
-)
-
-# get via SDA
-res <- SDA_query(sql)
-
-# median AWC in mm
-# over all components correlated to named series 
-AWC <- round(median(res$ws, na.rm = TRUE) * 10)
-
-# monthly climate data from series summary
-PPT <- x$climate.monthly$q50[x$climate.monthly$variable == 'Precipitation (mm)']
-PET <- x$climate.monthly$q50[x$climate.monthly$variable == 'Potential ET (mm)']
 
 S_0 <- 1
+AWC <- 198
+PPT <- c(56, 50, 65, 87, 104, 101, 98, 91, 81, 74, 78, 67)
+PET <- c(0, 0, 9, 43, 85, 125, 140, 124, 85, 44, 14, 0)
 
+w1 <- monthlyWB(AWC = AWC, PPT = PPT, PET = PET, S_init = S_0, rep = 1, keep_last = TRUE, distribute = FALSE)
+w2 <- monthlyWB(AWC = AWC, PPT = PPT, PET = PET, S_init = S_0, rep = 1, keep_last = TRUE, distribute = TRUE)
 
-w <- monthlyWB(AWC = AWC, PPT = PPT, PET = PET, S_init = S_0, rep = 1, keep_last = TRUE, distribute = FALSE)
-plotWB(w)
+attr(w1, 'mass.balance')
+attr(w2, 'mass.balance')
 
-attr(w, 'mass.balance')
-
+par(mfrow = c(1, 2), mar = c(4, 3.5, 3, 2))
+plotWB(w1, legend.cex = 0.7, month.cex = 0.8) ; title('Monthly Totals', cex.main = 1)
+plotWB(w2, legend.cex = 0.7, month.cex = 0.8) ; title('Distributed', cex.main = 1)
 
 
 

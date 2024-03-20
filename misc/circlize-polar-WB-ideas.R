@@ -4,6 +4,8 @@ library(circlize)
 # BiocManager::install("ComplexHeatmap")
 library(ComplexHeatmap)
 library(grid)
+library(soilDB)
+library(aqp)
 
 
 s <- c('zook', 'pierre', 'lucy', 'redding')
@@ -20,6 +22,8 @@ n <- length(u)
 s <- split(xx, xx$month)
 
 ll <- levels(xx$month)
+
+m <- c('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')
 
 circos.clear()
 circos.par('clock.wise' = TRUE, 'start.degree' = 90, 'gap.degree' = 6, 'points.overflow.warning' = FALSE)

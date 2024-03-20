@@ -35,22 +35,23 @@ AWC <- 75
 PPT <- c(200, 200, 183, 159, 158, 164, 140, 139, 173, 140, 204, 194)
 PET <- c(4, 9, 27, 52, 83, 111, 125, 116, 83, 50, 23, 8)
 
-# S_0 <- 1
-# AWC <- 100
-# PPT <- c(200, 200, 183, 159, 158, 164, 140, 139, 173, 140, 204, 194)
-# PET <- c(4, 9, 27, 52, 83, 111, 125, 116, 83, 50, 23, 8)
-
-
+# LUCY soil series data
+S_0 <- 0
+AWC <- 207
+PPT <- c(98, 88, 99, 72, 65, 99, 107, 97, 85, 66, 70, 82)
+PET <- c(12, 18, 40, 65, 113, 151, 171, 157, 115, 66, 33, 15)
 
 
 
 
 w1 <- monthlyWB(AWC = AWC, PPT = PPT, PET = PET, S_init = S_0, rep = 3, keep_last = TRUE, distribute = FALSE)
+attr(w1, 'mass.balance')
 
 w2 <- monthlyWB(AWC = AWC, PPT = PPT, PET = PET, S_init = S_0, rep = 3, keep_last = TRUE, distribute = TRUE, k = 10, method = 'equal')
+attr(w2, 'mass.balance')
 
 w3 <- monthlyWB(AWC = AWC, PPT = PPT, PET = PET, S_init = S_0, rep = 3, keep_last = TRUE, distribute = TRUE, k = 10, method = 'random')
-
+attr(w3, 'mass.balance')
 
 par(mfrow = c(1, 2), mar = c(4, 3.5, 3, 2))
 plotWB(w1, legend.cex = 0.7, month.cex = 0.8) ; title('Monthly Totals', cex.main = 1)
@@ -69,9 +70,10 @@ knitr::kable(
 
 par(mfrow = c(1, 3))
 
-plotWB(w1)
-plotWB(w2)
-plotWB(w3)
+plotWB(w1, legend.cex = 0.7, month.cex = 0.8) ; title('Monthly Totals', cex.main = 1)
+plotWB(w2, legend.cex = 0.7, month.cex = 0.8) ; title('Distributed', cex.main = 1)
+plotWB(w3, legend.cex = 0.7, month.cex = 0.8) ; title('Distributed / Random', cex.main = 1)
+
 
 plotWB_lines(w1)
 plotWB_lines(w2)

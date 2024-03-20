@@ -1,6 +1,7 @@
 # sharpshootR 2.2 (2024-03-19)
  * major updates to `monthlyWB()`:
-   - 
+   - mass balance check, reporting, and messages when not closed
+   - new arguments which enable / modify the distribution of PPT and PET within k-bins / month 
  * bug fix in `plotWB()`
  * added a few more soil hydraulic properties to `prepare_SSURGO_hydro_data()`
  * `plotGeomorphCrossSection()` now respects `aqp::plotSPC()` arguments via `options(.aqp.plotSPC.args = list(...))`

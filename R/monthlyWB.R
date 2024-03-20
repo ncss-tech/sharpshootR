@@ -1,4 +1,3 @@
-## TODO: need a monthly + daily WB summary
 
 ## TODO: maybe not a bug: https://github.com/josephguillaume/hydromad/issues/190
 
@@ -111,10 +110,8 @@ monthlyWB <- function(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, ke
       }
       
       # multinominal simulation of proportions across k bins
+      # maybe more variability than expected...
       if(method == 'random') {
-        
-        ## TODO: this can lead to some unexpected results
-        ##       --> double-check proportions
         
         # simulate k-proportions with equal probability
         
@@ -208,18 +205,44 @@ monthlyWB <- function(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, ke
     
     res <- do.call('rbind', s)
     
-    ## TODO: investigate deficit beyond AWC in some cases
-    
     # compute Deficit after summing PPT and ET separately 
     # deficit is a negative value
     res$D <- res$ET - res$PET
   }
   
   
+  # check overall water balance for missing mass
+  # rounding to 0.01 mm should be sufficient precision
+  #
+  # P = U + ET + dS
+  # for all time steps: .in = .out + dS
+  # final mass balance: sum(.in - (.out + .dS))
+  
+  # PPT
+  .in <- res$PPT
+  
+  # AET + U
+  .out <- res$ET + res$U
+  
+  # dS
+  # more complicated than seems, when S_init < 1
+  # S at time 0 = AWC * S_init 
+  .dS <- diff(c(AWC * S_init, res$S))
+  
+  # mass balance
+  .mb <- sum(.in - (.out + .dS))
+  
+  # save for later use
+  attr(res, 'mass.balance') <- round(.mb, 0.01)
+  
+  ## TODO: think about what an error in the mass balance means...
+  if(abs(.mb) > 5) {
+    message('Mass balance not closed')
+  }
+  
   # optionally keep the last simulation cycle
   .last <- max(res$.sim)
   if(keep_last) {
-    # keep.idx <- seq(from = nrow(res) - (n-1), to = nrow(res), by = 1)
     res <- res[which(res$.sim == .last), ]
   }
   

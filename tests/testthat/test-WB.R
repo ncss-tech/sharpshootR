@@ -40,7 +40,10 @@ test_that("Arkley and Ulrich 1962, Table 1", {
   
   # no model spin-up
   # start with soil "full"
-  wb <- monthlyWB(AWC, PPT, PET, S_init = AWC, starting_month = 1, rep = 3, keep_last = TRUE, distribute = FALSE)
+  wb <- monthlyWB(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, distribute = FALSE)
+  
+  # attr(wb, 'mass.balance')
+  # plotWB(wb)
   
   ## TODO: why the deviation?
   ##       must have something to do with PPT at end of month vs. middle?
@@ -62,9 +65,6 @@ test_that("Arkley and Ulrich 1962, Table 1", {
   
   sum((AET - wb$ET)^2)
   
-  
-  
-  
 })
 
 
@@ -82,6 +82,9 @@ test_that("thermic / xeric WB is reasonable", {
   
   # no model spin-up
   wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 1, rep = 1, keep_last = TRUE)
+  
+  # check mass balance
+  expect_true(attr(wb, 'mass.balance') == 0)
   
   # output structure
   expect_true(inherits(wb, 'data.frame'))
@@ -114,7 +117,10 @@ test_that("thermic / udic WB is reasonable", {
   PET <- c(12, 18, 40, 65, 113, 151, 171, 157, 115, 66, 33, 15)
   
   # no model spin-up
-  wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 1, rep = 1, keep_last = TRUE)
+  wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 1, rep = 1, keep_last = TRUE, distribute = FALSE)
+  
+  # check mass balance
+  expect_true(attr(wb, 'mass.balance') == 0)
   
   # output structure
   expect_true(inherits(wb, 'data.frame'))
@@ -145,6 +151,9 @@ test_that("zero-PET, UDIC", {
   # no model spin-up
   wb <- monthlyWB(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, keep_last = TRUE)
   
+  # check mass balance
+  expect_true(attr(wb, 'mass.balance') == 0)
+  
   # output structure
   expect_true(inherits(wb, 'data.frame'))
   expect_true(nrow(wb) == 12)
@@ -159,6 +168,8 @@ test_that("zero-PET, UDIC", {
 })
 
 
+
+## TODO: update this
 test_that("water balance summary: zero dry days", {
   
   # requires a non-CRAN package to function

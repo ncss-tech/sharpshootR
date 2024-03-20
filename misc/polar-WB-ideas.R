@@ -141,7 +141,7 @@ PET <- x$climate.monthly$q50[x$climate.monthly$variable == 'Potential ET (mm)']
 # 3 warm-up cycles
 # keep last iteration
 # calendar year
-x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 1, rep = 3, keep_last = TRUE)
+x.wb <- monthlyWB(AWC, PPT, PET, S_init = 0, starting_month = 1, rep = 3, keep_last = TRUE, distribute = TRUE)
 
 # tighter margins
 par(mar=c(4,4,3,1), bg = 'white')
@@ -157,7 +157,7 @@ title(sprintf('Monthly Water Balance: %s Series', toupper(s)), line = 2)
 
 z <- .formatForPolarCoords(x.wb, column = 'month')
 
-z <- reshape2::melt(z, id.vars = c('month'), measure.vars = c('PPT', 'PET', 'D'))
+z <- reshape2::melt(z, id.vars = c('month'), measure.vars = c('PPT', 'PET', 'ET', 'D'))
 
 
 ggplot(z, aes(x = month, y = value, group = variable, color = variable)) +  
@@ -166,7 +166,7 @@ ggplot(z, aes(x = month, y = value, group = variable, color = variable)) +
   coord_polar(theta="x", start = - pi/12 , direction = 1) +
   scale_x_continuous(breaks = 1:12, labels = m) +
   scale_y_continuous(n.breaks = 10) + 
-  scale_color_manual(values = cols[c(2, 3, 1)]) +
+  scale_color_manual(values = cols[c(4, 2, 3, 1)]) +
   xlab('') + ylab('') + 
   ggtitle("Monthly Climate Summaries (PRISM 1981-2010)") +
   theme_bw() + 
@@ -179,7 +179,7 @@ ggplot(z, aes(x = month, y = value, group = variable, color = variable)) +
 ###
 
 
-s <- 'Lucy'
+s <- 'Pierre'
 x <- fetchOSD(s, extended = TRUE)
 
 # get representative, profile-total AWC from SSURGO
@@ -248,7 +248,7 @@ z <- lapply(1:n, function(i) {
   .pet <- sapply(pet.sim, '[', i)
   
   # 3 warm-up cycles
-  .wb <- monthlyWB(.awc, .ppt, .pet, S_init = 0, starting_month = 1, rep = 3, keep_last = TRUE)
+  .wb <- monthlyWB(.awc, .ppt, .pet, S_init = 0, starting_month = 1, rep = 3, keep_last = TRUE, distribute = TRUE)
   
   return(.wb)
 })

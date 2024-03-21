@@ -57,10 +57,16 @@ attr(w2, 'mass.balance')
 w3 <- monthlyWB(AWC = AWC, PPT = PPT, PET = PET, S_init = S_0, rep = 3, keep_last = TRUE, distribute = TRUE, k = 10, method = 'random')
 attr(w3, 'mass.balance')
 
+w4 <- monthlyWB(AWC = AWC, PPT = PPT, PET = PET, S_init = S_0, rep = 3, keep_last = TRUE, distribute = TRUE, k = 10, method = 'gaussian')
+attr(w3, 'mass.balance')
+
+
 par(mfrow = c(1, 2), mar = c(4, 3.5, 3, 2))
 plotWB(w1, legend.cex = 0.7, month.cex = 0.8) ; title('Monthly Totals', cex.main = 1)
 plotWB(w2, legend.cex = 0.7, month.cex = 0.8) ; title('Distributed', cex.main = 1)
 
+plotWB(w2, legend.cex = 0.7, month.cex = 0.8) ; title('Equally Distributed', cex.main = 1)
+plotWB(w4, legend.cex = 0.7, month.cex = 0.8) ; title('Gaussian', cex.main = 1)
 
 
 

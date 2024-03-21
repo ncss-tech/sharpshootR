@@ -14,7 +14,7 @@ monthlyWB(
   rep = 1,
   keep_last = FALSE,
   distribute = FALSE,
-  method = c("equal", "random"),
+  method = c("equal", "random", "gaussian"),
   k = 10
 )
 
@@ -41,6 +41,7 @@ monthlyWB_summary(w)
 \itemize{
 \item 'equal' divides PPT and PET into \code{k} equal amounts
 \item 'random' divides PPT and PET into random proportions generated via multinominal simulation
+\item 'gaussian' divides PPT and PET according to a bell-shaped curve centered in the middle of each month
 }}
 
 \item{k}{integer, number of divisions}

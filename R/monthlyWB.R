@@ -36,6 +36,7 @@
 #' @param method method for distributing PPT and PET into `k` divisions:
 #'   * 'equal' divides PPT and PET into `k` equal amounts
 #'   * 'random' divides PPT and PET into random proportions generated via multinominal simulation
+#'   * 'gaussian' divides PPT and PET according to a bell-shaped curve centered in the middle of each month
 #' 
 #' @param k integer, number of divisions
 #' 
@@ -97,9 +98,12 @@ monthlyWB <- function(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, ke
   
   # optionally spread-out PPT and PET over k bins within a month
   if(distribute) {
+    # rows represent months
+    # there may be more than one simulation cycle
+    # i: current cycle/month
     dd <- lapply(1:nrow(d), function(i, .k = k) {
       
-      # replicate original data
+      # replicate row `i` within original data
       .idx <- rep(i, times = .k)
       .dr <- d[.idx, ]
       
@@ -127,7 +131,7 @@ monthlyWB <- function(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, ke
         .dr$E <- E.prop * .dr$E[1]
       }
       
-      ## TODO: finish this
+      # distribute total PPT and PET following a Gaussian curve, centered at mean(1:k)
       if(method == 'gaussian') {
         
         # use Gaussian proportions, peaking at center of k-bins
@@ -136,14 +140,15 @@ monthlyWB <- function(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, ke
         .p <- dnorm(k.s, mean = mean(k.s), sd = .k/5)
         .p <- .p / sum(.p)
         
-        # PPT
+        # distribute PPT
+        # all the same until overwritten
         .dr$P <- .p * .dr$P[1]
         
-        # PET
+        # distribute PET
+        # all the same until overwritten
         .dr$E <- .p * .dr$E[1]
       }
       
-      # plot(.dr$E)
       
       ## TODO: additional method using constant +/- fuzz
       

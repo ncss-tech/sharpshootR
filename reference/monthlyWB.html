@@ -72,7 +72,7 @@
 <span>  rep <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  keep_last <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  distribute <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"equal"</span>, <span class="st">"random"</span><span class="op">)</span>,</span>
+<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"equal"</span>, <span class="st">"random"</span>, <span class="st">"gaussian"</span><span class="op">)</span>,</span>
 <span>  k <span class="op">=</span> <span class="fl">10</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -116,6 +116,7 @@
 <dt>method</dt>
 <dd><p>method for distributing PPT and PET into <code>k</code> divisions:</p><ul><li><p>'equal' divides PPT and PET into <code>k</code> equal amounts</p></li>
 <li><p>'random' divides PPT and PET into random proportions generated via multinominal simulation</p></li>
+<li><p>'gaussian' divides PPT and PET according to a bell-shaped curve centered in the middle of each month</p></li>
 </ul></dd>
 
 

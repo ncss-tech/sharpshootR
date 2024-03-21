@@ -61,7 +61,7 @@
 #' \item{mo: }{month label}   
 #' }
 #' 
-monthlyWB <- function(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, keep_last = FALSE, distribute = FALSE, method = c('equal', 'random'), k = 10) {
+monthlyWB <- function(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, keep_last = FALSE, distribute = FALSE, method = c('equal', 'random', 'gaussian'), k = 10) {
   
   # sanity check
   method <- match.arg(method)
@@ -114,17 +114,36 @@ monthlyWB <- function(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, ke
       if(method == 'random') {
         
         # simulate k-proportions with equal probability
+        .p <- rep(1, times = .k)
         
         # PPT
-        P.prop <- as.vector(rmultinom(n = 1, size = .k, prob = rep(1, times = .k)))
+        P.prop <- as.vector(rmultinom(n = 1, size = .k, prob = .p))
         P.prop <- P.prop / sum(P.prop)
         .dr$P <- P.prop * .dr$P[1]
         
         # PET
-        E.prop <- as.vector(rmultinom(n = 1, size = .k, prob = rep(1, times = .k)))
+        E.prop <- as.vector(rmultinom(n = 1, size = .k, prob = .p))
         E.prop <- E.prop / sum(E.prop)
         .dr$E <- E.prop * .dr$E[1]
       }
+      
+      ## TODO: finish this
+      if(method == 'gaussian') {
+        
+        # use Gaussian proportions, peaking at center of k-bins
+        # adjust steepness of peak with `sd` argument
+        k.s <- 1:.k
+        .p <- dnorm(k.s, mean = mean(k.s), sd = .k/5)
+        .p <- .p / sum(.p)
+        
+        # PPT
+        .dr$P <- .p * .dr$P[1]
+        
+        # PET
+        .dr$E <- .p * .dr$E[1]
+      }
+      
+      # plot(.dr$E)
       
       ## TODO: additional method using constant +/- fuzz
       

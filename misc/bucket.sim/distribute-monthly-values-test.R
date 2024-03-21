@@ -41,7 +41,11 @@ AWC <- 207
 PPT <- c(98, 88, 99, 72, 65, 99, 107, 97, 85, 66, 70, 82)
 PET <- c(12, 18, 40, 65, 113, 151, 171, 157, 115, 66, 33, 15)
 
-
+# LUCY soil series data, constant PPT
+# S_0 <- 0
+# AWC <- 207
+# PPT <- rep(60, times = 12)
+# PET <- c(12, 18, 40, 65, 113, 151, 171, 157, 115, 66, 33, 15)
 
 
 w1 <- monthlyWB(AWC = AWC, PPT = PPT, PET = PET, S_init = S_0, rep = 3, keep_last = TRUE, distribute = FALSE)
@@ -56,6 +60,9 @@ attr(w3, 'mass.balance')
 par(mfrow = c(1, 2), mar = c(4, 3.5, 3, 2))
 plotWB(w1, legend.cex = 0.7, month.cex = 0.8) ; title('Monthly Totals', cex.main = 1)
 plotWB(w2, legend.cex = 0.7, month.cex = 0.8) ; title('Distributed', cex.main = 1)
+
+
+
 
 
 knitr::kable(

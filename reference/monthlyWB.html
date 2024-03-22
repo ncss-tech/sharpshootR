@@ -74,9 +74,7 @@
 <span>  distribute <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"equal"</span>, <span class="st">"random"</span>, <span class="st">"gaussian"</span><span class="op">)</span>,</span>
 <span>  k <span class="op">=</span> <span class="fl">10</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">monthlyWB_summary</span><span class="op">(</span><span class="va">w</span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -123,10 +121,6 @@
 <dt>k</dt>
 <dd><p>integer, number of divisions</p></dd>
 
-
-<dt>w</dt>
-<dd><p>used for for <code>monthlyWB_summary()</code>: a data.frame, such as result of <code>monthlyWB()</code>;</p></dd>
-
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -143,12 +137,6 @@
 <li><p>D: monthly deficit (mm)</p></li>
 <li><p>month: month number</p></li>
 <li><p>mo: month label</p></li>
-</ul><p><code>monthlyWB_summary()</code>: a <code>data.frame</code> containing:</p><ul><li><p>cumulative (<code>dry</code>, <code>moist</code>, <code>wet</code>) days</p></li>
-<li><p>consecutive (<code>dry_con</code>, <code>moist_con</code>, <code>wet_con</code>) days</p></li>
-<li><p>total deficit (<code>total_deficit</code>) in mm</p></li>
-<li><p>total surplus (<code>total_surplus</code>) in mm</p></li>
-<li><p>total actual evapotranspiration (<code>total_AET</code>) in mm</p></li>
-<li><p>annual actual evapotranspiration to potential evapotranspiration ratio (<code>annual_AET_PET_ratio</code>)</p></li>
 </ul></div>
     <div id="details">
     <h2>Details</h2>

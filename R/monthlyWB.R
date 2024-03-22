@@ -1,10 +1,9 @@
 
-## TODO: maybe not a bug: https://github.com/josephguillaume/hydromad/issues/190
-
 ## TODO: document asymptotic behavior with distribute = TRUE, and k -> 100
 
 ## TODO: allow specification of M argument to bucket.sim
 
+## TODO: allow specification of field capacity
 
 #' @title Monthly Water Balances
 #' 
@@ -280,92 +279,4 @@ monthlyWB <- function(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, ke
   return(res)
 }
 
-## TODO: this needs information about PWP, FC, and SAT
-## TODO: w must be in sync with the water-year if appropriate (e.g. xeric SMR)
-
-#' @param w used for for `monthlyWB_summary()`: a data.frame, such as result of `monthlyWB()`; 
-#' @rdname monthlyWB
-#' @return `monthlyWB_summary()`: a `data.frame` containing:
-#' 
-#'   * cumulative (`dry`, `moist`, `wet`) days 
-#'   * consecutive (`dry_con`, `moist_con`, `wet_con`) days 
-#'   * total deficit (`total_deficit`) in mm
-#'   * total surplus (`total_surplus`) in mm
-#'   * total actual evapotranspiration (`total_AET`) in mm
-#'   * annual actual evapotranspiration to potential evapotranspiration ratio (`annual_AET_PET_ratio`)
-#' 
-#' @export
-monthlyWB_summary <- function(w) {
-  
-  # convert months -> days
-  .months2days <- function(m) {
-    round(m * (365.25 / 12))
-  }
-  
-  # get count of max consecutive days where condition is TRUE
-  # m: RLE object
-  .rle_max_true <- function(m) {
-    
-    # index to TRUE condition
-    # may not be present
-    idx <- which(m$values)
-    
-    # if there was a TRUE condition
-    if(length(idx) > 0) {
-      # return max consecutive days
-      res <- max(m$lengths[idx])
-    } else {
-      # otherwise 0 days
-      res <- 0
-    }
-    
-    return(res)
-  }
-  
-  
-  ## rough estimate of soil moisture states
-  
-  # dry: storage < 0.1mm
-  dry.rules <- w$S < 0.1
-  # moist: storage >= 0.1mm AND excess < 0.1mm
-  moist.rules <- w$S >= 0.1 & w$U < 0.1
-  # wet: excess >= 0.1m
-  wet.rules <- w$U >= 0.1
-  
-  ## months at given states
-  .dry <- which(dry.rules)
-  .moist <- which(moist.rules)
-  .wet <- which(wet.rules)
-  
-  ## RLE of states
-  .dry_conn <- rle(dry.rules)
-  .moist_conn <- rle(moist.rules)
-  .wet_conn <- rle(wet.rules)
-  
-  ## consecutive summary
-  res.consecutive <- data.frame(
-    dry_con = .months2days(.rle_max_true(.dry_conn)),
-    moist_con = .months2days(.rle_max_true(.moist_conn)),
-    wet_con = .months2days(.rle_max_true(.wet_conn))
-  )
-  
-  ## cumulative summary
-  res.cumulative <- data.frame(
-    dry = .months2days(length(.dry)),
-    moist = .months2days(length(.moist)),
-    wet = .months2days(length(.wet))
-  )
-  
-  ## combine
-  res <- data.frame(
-    res.cumulative, 
-    res.consecutive, 
-    total_deficit = sum(w$D), 
-    total_surplus = sum(w$U), 
-    total_AET = sum(w$ET),
-    annual_AET_PET_ratio = sum(w$ET) / sum(w$PET)
-  )
-  
-  return(res)
-}
 

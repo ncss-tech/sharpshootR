@@ -2,7 +2,6 @@
 % Please edit documentation in R/monthlyWB.R
 \name{monthlyWB}
 \alias{monthlyWB}
-\alias{monthlyWB_summary}
 \title{Monthly Water Balances}
 \usage{
 monthlyWB(
@@ -17,8 +16,6 @@ monthlyWB(
   method = c("equal", "random", "gaussian"),
   k = 10
 )
-
-monthlyWB_summary(w)
 }
 \arguments{
 \item{AWC}{numeric, available water-holding capacity (mm), typically thickness (mm) * awc (fraction)}
@@ -45,8 +42,6 @@ monthlyWB_summary(w)
 }}
 
 \item{k}{integer, number of divisions}
-
-\item{w}{used for for \code{monthlyWB_summary()}: a data.frame, such as result of \code{monthlyWB()};}
 }
 \value{
 a \code{data.frame} with the following elements:
@@ -60,16 +55,6 @@ a \code{data.frame} with the following elements:
 \item{D: }{monthly deficit (mm)}
 \item{month: }{month number}
 \item{mo: }{month label}
-}
-
-\code{monthlyWB_summary()}: a \code{data.frame} containing:
-\itemize{
-\item cumulative (\code{dry}, \code{moist}, \code{wet}) days
-\item consecutive (\code{dry_con}, \code{moist_con}, \code{wet_con}) days
-\item total deficit (\code{total_deficit}) in mm
-\item total surplus (\code{total_surplus}) in mm
-\item total actual evapotranspiration (\code{total_AET}) in mm
-\item annual actual evapotranspiration to potential evapotranspiration ratio (\code{annual_AET_PET_ratio})
 }
 }
 \description{

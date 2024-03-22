@@ -331,22 +331,21 @@ tapply(mst$Pr, mst$texture, function(i) length(which(i > 0.8)))
 ## use SSURGO data
 ##
 
-
-# https://casoilresource.lawr.ucdavis.edu/gmap/?loc=43.01942,-82.5909
+# https://casoilresource.lawr.ucdavis.edu/gmap/?loc=37.96166,-120.39402
 p <- data.frame(
-  x = -82.5909,
-  y = 43.01942
+  x = -120.39402,
+  y = 37.96166
 )
 p <- st_as_sf(p, coords = c('x', 'y'))
 st_crs(p) <- 4326
 
-cokeys <- c('22428454')
+cokeys <- c('24067477', '24067475')
 
 # investigate source data
 s <- prepare_SSURGO_hydro_data(cokeys = cokeys, max.depth = 50)
 
 par(mar = c(0, 0, 3, 0))
-plotSPC(s$SPC, color = 'sat', name.style = 'center-center', plot.depth.axis = FALSE, label = 'compname', hz.depths = TRUE, cex.names = 0.8)
+plotSPC(s$SPC, color = 'sat', name.style = 'center-center', depth.axis = FALSE, label = 'compname', hz.depths = TRUE, cex.names = 0.8)
 
 ## moisture state proportions still aren't quite right... need to compare with real data
 
@@ -638,3 +637,4 @@ tapply(mst$Pr, mst$compname, function(i) length(which(i > 0.8)))
 # 
 # levels(d$series)
 # 
+

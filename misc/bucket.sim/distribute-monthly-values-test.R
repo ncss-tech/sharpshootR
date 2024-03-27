@@ -22,7 +22,7 @@ PET <- c(0, 0, 0, 0, 120, 120, 60, 0, 0, 0, 0, 0)
 
 
 ## huge pulse of rain, and deficit beyond AWC? 
-## results seem wrong
+
 S_0 <- 1
 AWC <- 100
 PPT <- c(20, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0)

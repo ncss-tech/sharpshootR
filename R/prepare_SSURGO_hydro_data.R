@@ -45,7 +45,7 @@ prepare_SSURGO_hydro_data <- function(cokeys, max.depth) {
   
   # assemble SDA query
   sql <- sprintf("
-                 SELECT chorizon.cokey, compname, drainagecl, hzname, hzdept_r AS hz_top, hzdepb_r AS hz_bottom,
+                 SELECT chorizon.cokey, compname, comppct_r, majcompflag, drainagecl, hzname, hzdept_r AS hz_top, hzdepb_r AS hz_bottom,
                  (hzdepb_r - hzdept_r) AS thick,
                  wsatiated_r / 100.0 AS sat,
                  wthirdbar_r / 100.0 AS fc,
@@ -84,10 +84,17 @@ prepare_SSURGO_hydro_data <- function(cokeys, max.depth) {
   # init SPC for slab()
   s$cokey <- as.character(s$cokey)
   depths(s) <- cokey ~ hz_top + hz_bottom
-  site(s) <- ~ compname + drainagecl
+  site(s) <- ~ compname + comppct_r + majcompflag + drainagecl
+  hzdesgnname(s) <- 'hzname'
   
   # weighted mean
-  agg.soil.data <- slab(s, cokey ~ sat + fc + pwp + awc + soil_fraction, slab.structure = c(0, max.depth), slab.fun = mean, na.rm = TRUE)
+  agg.soil.data <- slab(
+    s, 
+    fm = cokey ~ sat + fc + pwp + awc + soil_fraction, 
+    slab.structure = c(0, max.depth), 
+    slab.fun = mean, 
+    na.rm = TRUE
+  )
   
   # retaining only wt.mean
   # using reshape2
@@ -107,7 +114,7 @@ prepare_SSURGO_hydro_data <- function(cokeys, max.depth) {
   
   # corrected depth = max.depth * contributing_fraction (from slab) * soil_fraction (rock frag adjust)
   agg.soil.data.wide$corrected_depth <- with(agg.soil.data.wide,
-                                               soil_fraction * contributing_fraction * max.depth
+                                             soil_fraction * contributing_fraction * max.depth
   )
   
   # package and return

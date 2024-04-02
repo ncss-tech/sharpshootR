@@ -1,4 +1,4 @@
-# sharpshootR 2.2 (2024-03-19)
+# sharpshootR 2.2 (2024-03-26)
  * major updates to `monthlyWB()`:
    - mass balance check, reporting, and messages when not closed
    - new arguments which enable / modify the distribution of PPT and PET within k-bins / month 
@@ -7,6 +7,7 @@
  * `plotGeomorphCrossSection()` now respects `aqp::plotSPC()` arguments via `options(.aqp.plotSPC.args = list(...))`
  * removing some hard-coded arguments passed through to `aqp::plotSPC()`
  * `SoilTaxonomyDendrogram()` gains argument to adjust taxon label font
+ * minor updates to `prepare_SSURGO_hydro_data()`
 
 # sharpshootR 2.1 (2023-03-21)
  * CRAN release

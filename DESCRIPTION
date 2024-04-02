@@ -52,6 +52,6 @@ Imports: grDevices, graphics, methods, stats, utils, aqp, ape,
   reshape2, scales, circular, RColorBrewer, plyr, 
   digest, e1071, stringi, parallel, curl, grid
 Additional_repositories: https://hydromad.github.io
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr

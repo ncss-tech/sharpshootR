@@ -1,4 +1,5 @@
 # sharpshootR 2.2 (2024-03-26)
+ * `prepare_SSURGO_hydro_data()` now returns more soil property data
  * major updates to `monthlyWB()`:
    - mass balance check, reporting, and messages when not closed
    - new arguments which enable / modify the distribution of PPT and PET within k-bins / month 

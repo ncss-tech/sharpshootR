@@ -26,7 +26,8 @@ The following soil hydraulic properties are included:\tabular{ll}{
    hz_bottom \tab horizon bottom depth (cm) \cr
    thick \tab horizon thickness (cm) \cr
    sat \tab VWC at saturation (cm/cm) \cr
-   fc \tab VWC at field capacity or 1/3rd bar tension (cm/cm) \cr
+   fc \tab VWC at field capacity defined by 1/3rd bar tension (cm/cm) \cr
+   fc_tenthbar \tab VWC at field capacity defined by 1/3rd bar tension (cm/cm) \cr
    pwp \tab VWC at permanent wilting point or 15 bar tension (cm/cm) \cr
    awc \tab total sand content (<2mm fraction, mass \%) \cr
    sand \tab total silt content (<2mm fraction, mass \%) \cr

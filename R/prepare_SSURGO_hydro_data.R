@@ -22,7 +22,8 @@
 #'   |hz_bottom     |horizon bottom depth (cm)                                     |
 #'   |thick         |horizon thickness (cm)                                        |
 #'   |sat           |VWC at saturation (cm/cm)                                     |
-#'   |fc            |VWC at field capacity or 1/3rd bar tension (cm/cm)            |
+#'   |fc            |VWC at field capacity defined by 1/3rd bar tension (cm/cm)    |
+#'   |fc_tenthbar   |VWC at field capacity defined by 1/3rd bar tension (cm/cm)    |
 #'   |pwp           |VWC at permanent wilting point or 15 bar tension (cm/cm)      |
 #'   |awc           |total sand content (<2mm fraction, mass %)                    |
 #'   |sand          |total silt content (<2mm fraction, mass %)                    |
@@ -49,6 +50,7 @@ prepare_SSURGO_hydro_data <- function(cokeys, max.depth) {
                  (hzdepb_r - hzdept_r) AS thick,
                  wsatiated_r / 100.0 AS sat,
                  wthirdbar_r / 100.0 AS fc,
+                 wtenthbar_r / 100.0 AS fc_tenthbar,
                  wfifteenbar_r / 100.0 as pwp,
                  awc_r as awc,
                  sandtotal_r as sand,

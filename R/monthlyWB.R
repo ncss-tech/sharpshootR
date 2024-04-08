@@ -50,16 +50,14 @@
 #' 
 #' @return a `data.frame` with the following elements:
 #' 
-#' \itemize{
-#' \item{PPT: }{monthly PPT (mm)}
-#' \item{PET: }{monthly PET (mm)}
-#' \item{U: }{monthly surplus (mm)}
-#' \item{S: }{monthly soil moisture storage (mm)}
-#' \item{ET: }{monthly AET (mm)}
-#' \item{D: }{monthly deficit (mm)}
-#' \item{month: }{month number}
-#' \item{mo: }{month label}   
-#' }
+#'  * PPT: monthly PPT (mm)
+#'  * PET: monthly PET (mm)
+#'  * U:   monthly surplus (mm)
+#'  * S:   monthly soil moisture storage (mm)
+#'  * ET:  monthly AET (mm)
+#'  * D:   monthly deficit (mm)
+#'  * month: month number
+#'  * mo:  month label 
 #' 
 monthlyWB <- function(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, keep_last = FALSE, distribute = FALSE, method = c('equal', 'random', 'gaussian'), k = 10) {
   

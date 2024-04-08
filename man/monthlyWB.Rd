@@ -45,16 +45,15 @@ monthlyWB(
 }
 \value{
 a \code{data.frame} with the following elements:
-
 \itemize{
-\item{PPT: }{monthly PPT (mm)}
-\item{PET: }{monthly PET (mm)}
-\item{U: }{monthly surplus (mm)}
-\item{S: }{monthly soil moisture storage (mm)}
-\item{ET: }{monthly AET (mm)}
-\item{D: }{monthly deficit (mm)}
-\item{month: }{month number}
-\item{mo: }{month label}
+\item PPT: monthly PPT (mm)
+\item PET: monthly PET (mm)
+\item U:   monthly surplus (mm)
+\item S:   monthly soil moisture storage (mm)
+\item ET:  monthly AET (mm)
+\item D:   monthly deficit (mm)
+\item month: month number
+\item mo:  month label
 }
 }
 \description{

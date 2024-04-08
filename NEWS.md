@@ -1,14 +1,18 @@
-# sharpshootR 2.2 (2024-03-26)
+# sharpshootR 2.3 (2024-04-08)
+ * CRAN release
  * `prepare_SSURGO_hydro_data()` now returns more soil property data
  * major updates to `monthlyWB()`:
    - mass balance check, reporting, and messages when not closed
    - new arguments which enable / modify the distribution of PPT and PET within k-bins / month 
  * bug fix in `plotWB()`
+ * minor updates to `prepare_SSURGO_hydro_data()`
+
+# sharpshootR 2.2 (2024-08-24)
+ * CRAN release
  * added a few more soil hydraulic properties to `prepare_SSURGO_hydro_data()`
  * `plotGeomorphCrossSection()` now respects `aqp::plotSPC()` arguments via `options(.aqp.plotSPC.args = list(...))`
  * removing some hard-coded arguments passed through to `aqp::plotSPC()`
  * `SoilTaxonomyDendrogram()` gains argument to adjust taxon label font
- * minor updates to `prepare_SSURGO_hydro_data()`
 
 # sharpshootR 2.1 (2023-03-21)
  * CRAN release

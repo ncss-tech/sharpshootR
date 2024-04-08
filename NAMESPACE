@@ -40,7 +40,9 @@ importFrom(aqp,
            'depths<-',
            'site<-',
            slab,
-           shannonEntropy
+           shannonEntropy,
+           hzdesgnname,
+           'hzdesgnname<-'
 )
 
 importFrom(curl,

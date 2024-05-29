@@ -6,6 +6,8 @@ data(amador)
 ## tests
 
 test_that("component.adj.matrix works as expected", {
+
+  skip_if_not_installed("vegan")
   
   # both methods
   m.cm <- component.adj.matrix(amador, method = 'community.matrix')

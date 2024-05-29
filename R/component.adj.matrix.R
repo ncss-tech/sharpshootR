@@ -102,13 +102,19 @@ component.adj.matrix <-function(d, mu = 'mukey', co = 'compname', wt = 'comppct_
   # default method, based on ideas from ecological community matrix analysis
   if(method == 'community.matrix') {
     
-    # sanity checks
-    if(is.null(wt))
-      stop('must supply a column name containing weights')
+    # this requires the vegan package
+    if(!requireNamespace('vegan')) {
+      stop('please install the vegan package', call. = FALSE)
+    }
     
+    # sanity checks
+    if(is.null(wt)) {
+      stop('must supply a column name containing weights')
+    }
+      
     # reshape to component x mukey community matrix
     fm <- as.formula(paste(co, ' ~ ', mu, sep=''))
-    d.wide <- dcast(d, fm, value.var='weight', fill=0)
+    d.wide <- dcast(d, fm, value.var ='weight', fill = 0)
     
     # convert into community matrix by moving first column -> row.names
     d.mat <- as.matrix(d.wide[, -1])
@@ -124,9 +130,9 @@ component.adj.matrix <-function(d, mu = 'mukey', co = 'compname', wt = 'comppct_
     # convert community matrix into dissimilarity matrix
     # optional standardization
     if(standardization != 'none')
-      d.mat <- decostand(d.mat, method=standardization)
+      d.mat <- vegan::decostand(d.mat, method = standardization)
     # distance matrix
-    m <- vegdist(d.mat, method=metric)
+    m <- vegan::vegdist(d.mat, method = metric)
     
     # convert to similarity matrix: S = max(D) - D [Kaufman & Rousseeuw]
     if(similarity == TRUE) {

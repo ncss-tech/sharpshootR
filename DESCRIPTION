@@ -45,10 +45,11 @@ Suggests:
     SoilTaxonomy,
     sf,
     Hmisc,
-    knitr
+    knitr,
+    vegan
 Depends: R (>= 3.5.0)
 Imports: grDevices, graphics, methods, stats, utils, aqp, ape, 
-  soilDB, cluster, lattice, vegan,
+  soilDB, cluster, lattice,
   reshape2, scales, circular, RColorBrewer, plyr, 
   digest, e1071, stringi, parallel, curl, grid
 Additional_repositories: https://hydromad.github.io

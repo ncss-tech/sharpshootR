@@ -93,11 +93,6 @@ importFrom(e1071,
   skewness
 )
 
-importFrom(vegan,
-  decostand,
-  vegdist
-)
-
 importFrom(soilDB,
   format_SQL_in_statement,
   SDA_query,

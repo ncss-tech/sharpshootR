@@ -38,8 +38,10 @@
 dailyWB <- function(x, daily.data, id, MS.style = 'default', S_0 = 0.5, M = 0, etmult = 1) {
   
   # sanity check: package requirements
-  if(!requireNamespace('hydromad'))
+  if(!requireNamespace('hydromad')) {
     stop('please install the hydromad package', call. = FALSE)
+  }
+    
   
   # sanity checks
   stopifnot(inherits(x, 'data.frame'))

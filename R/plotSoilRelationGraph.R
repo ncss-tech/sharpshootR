@@ -70,7 +70,7 @@
 #' @export
 #'
 #' @examples
-#' if (requireNamespace("igraph")) {
+#' if (requireNamespace("igraph") && requireNamespace("vegan")) {
 #'   # load sample data set
 #'   data(amador)
 #' 

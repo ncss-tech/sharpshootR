@@ -82,7 +82,7 @@ The \code{graph.mode} argument is passed to \code{igraph::graph_from_adjacency_m
 This function is a work in progress, ideas welcome.
 }
 \examples{
-if (requireNamespace("igraph")) {
+if (requireNamespace("igraph") && requireNamespace("vegan")) {
   # load sample data set
   data(amador)
 

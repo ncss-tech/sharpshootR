@@ -45,7 +45,7 @@ a similarity matrix / adjacency matrix suitable for use with \code{igraph} funct
 Create an adjacency matrix from SSURGO component data
 }
 \examples{
-if (requireNamespace("igraph")) {
+if (requireNamespace("igraph") && requireNamespace("vegan")) {
   # load sample data set
   data(amador)
 

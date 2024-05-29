@@ -45,6 +45,7 @@ Suggests:
     sf,
     Hmisc,
     knitr,
+    rmarkdown,
     vegan
 Depends: R (>= 3.5.0)
 Imports: grDevices, graphics, methods, stats, utils, aqp, ape, 

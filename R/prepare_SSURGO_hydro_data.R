@@ -30,6 +30,7 @@
 #'   |silt          |total clay content (<2mm fraction, mass %)                    |
 #'   |clay          |total sand content (<2mm fraction, mass %)                    |
 #'   |dbthirdbar    |bulk density at 1/3 bar tension (g/cm^3)                      |
+#'   |dbovendry     |bulk density oven-dry basis (g/cm^3)                          |
 #'   |ksat          |Ksat (um/second)                                              |
 #'   |soil_fraction |volume fraction of soil (1 - coarse fragment volume fraction) |
 #' 
@@ -51,15 +52,16 @@ prepare_SSURGO_hydro_data <- function(cokeys, max.depth) {
                  wsatiated_r / 100.0 AS sat,
                  wthirdbar_r / 100.0 AS fc,
                  wtenthbar_r / 100.0 AS fc_tenthbar,
-                 wfifteenbar_r / 100.0 as pwp,
-                 awc_r as awc,
-                 sandtotal_r as sand,
-                 silttotal_r as silt,
-                 claytotal_r as clay,
-                 dbthirdbar_r as dbthirdbar,
-                 ksat_r as ksat,
-                 -- catch strange cases where soil_fraction is NULL
-                 COALESCE(soil_fraction, 1) as soil_fraction
+                 wfifteenbar_r / 100.0 AS pwp,
+                 awc_r AS awc,
+                 sandtotal_r AS sand,
+                 silttotal_r AS silt,
+                 claytotal_r AS clay,
+                 dbthirdbar_r AS dbthirdbar,
+                 dbovendry_r AS dbovendry,
+                 ksat_r AS ksat,
+                 -- catch strange cases where soil_fraction IS NULL
+                 COALESCE(soil_fraction, 1) AS soil_fraction
                  FROM component 
                  JOIN chorizon ON component.cokey = chorizon.cokey
                  -- soil_fraction = 100 pct - (rock fragment volume pct)

@@ -34,6 +34,7 @@ The following soil hydraulic properties are included:\tabular{ll}{
    silt \tab total clay content (<2mm fraction, mass \%) \cr
    clay \tab total sand content (<2mm fraction, mass \%) \cr
    dbthirdbar \tab bulk density at 1/3 bar tension (g/cm^3) \cr
+   dbovendry \tab bulk density oven-dry basis (g/cm^3) \cr
    ksat \tab Ksat (um/second) \cr
    soil_fraction \tab volume fraction of soil (1 - coarse fragment volume fraction) \cr
 }

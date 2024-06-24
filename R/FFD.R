@@ -114,7 +114,12 @@
     return(NULL)
   
   # get the last spring and first fall frost DOY
-  fl <- .findFirstLastFrostDOY(v, frostTemp = frostTemp, endSpringDOY = endSpringDOY, startFallDOY = startFallDOY)
+  fl <- .findFirstLastFrostDOY(
+    v, 
+    frostTemp = frostTemp, 
+    endSpringDOY = endSpringDOY, 
+    startFallDOY = startFallDOY
+  )
   
   return(fl) 
 }
@@ -141,7 +146,7 @@
 #' 
 #' [FFD tutorial](http://ncss-tech.github.io/AQP/sharpshootR/FFD-estimates.html)
 #' 
-#' @return a `data.frame` when a `returnDailyPr=FALSE`, otherwise a `list` with the following elements:
+#' @return a `data.frame` when a `returnDailyPr = FALSE`, otherwise a `list` with the following elements:
 #'   * summary: FFD summary statistics as a `data.frame`
 #'   * fm: frost matrix
 #'   * Pr.frost: Pr(frost|day): daily probability of frost

@@ -27,7 +27,7 @@ FFD(
 \item{startFallDOY}{day of year that marks start of "fall" (typically Aug 1 -- Dec 31)}
 }
 \value{
-a \code{data.frame} when a \code{returnDailyPr=FALSE}, otherwise a \code{list} with the following elements:
+a \code{data.frame} when a \code{returnDailyPr = FALSE}, otherwise a \code{list} with the following elements:
 \itemize{
 \item summary: FFD summary statistics as a \code{data.frame}
 \item fm: frost matrix

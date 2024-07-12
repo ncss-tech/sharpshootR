@@ -110,6 +110,10 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
         cex.id = ifelse(!is.null(.opArgs$cex.id), .opArgs$cex.id, 0.55),
         hz.distinctness.offset = 'hzd'
       )
+      
+      # appropriate xlim for plotting region setup by plotProfileDendrogram()
+      x.lim <- c(0.5, length(o$SPC) + 1)
+      
     } else {
       # profiles only
       plotSPC(
@@ -122,6 +126,18 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
         cex.id = ifelse(!is.null(.opArgs$cex.id), .opArgs$cex.id, 0.55),
         hz.distinctness.offset = 'hzd'
       )
+      
+      # get plotting details from aqp environment
+      lsp <- get('last_spc_plot', envir = aqp.env)
+      x.lim <- lsp$xlim
+      
+      
+      ## TODO: temporary fix until latest aqp is on CRAN
+      # close approximation
+      if(is.null(x.lim)) {
+        x.lim <- c(0.5, length(o$SPC) + 1)
+      }
+      
     }
     
     # bottom panel
@@ -135,7 +151,7 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
       col = col, 
       xlab = '', 
       ylab = '', 
-      xlim = c(0.5, length(o$SPC) + 1)
+      xlim = x.lim
     )
     
     # proportion axis
@@ -172,6 +188,10 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
         cex.id = ifelse(!is.null(.opArgs$cex.id), .opArgs$cex.id, 0.55),
         hz.distinctness.offset = 'hzd'
       )
+      
+      # appropriate xlim for plotting region setup by plotProfileDendrogram()
+      x.lim <- c(0.5, length(o$SPC) + 1)
+      
     } else {
       # profiles only
       plotSPC(
@@ -184,7 +204,18 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
         cex.id = ifelse(!is.null(.opArgs$cex.id), .opArgs$cex.id, 0.55),
         hz.distinctness.offset = 'hzd'
       )
+      
+      # get plotting details from aqp environment
+      lsp <- get('last_spc_plot', envir = aqp.env)
+      x.lim <- lsp$xlim
+      
+      ## TODO: temporary fix until latest aqp is on CRAN
+      # close approximation
+      if(is.null(x.lim)) {
+        x.lim <- c(0.5, length(o$SPC) + 1)
+      }
     }
+    
     
     
     # setup barplot
@@ -198,7 +229,7 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
       axes = FALSE, 
       xlab = '', 
       ylab = '', 
-      xlim = c(0.5, length(o$SPC) + 1), 
+      xlim = x.lim, 
       ylim = c(0, 1.2)
     )
     
@@ -223,6 +254,9 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
   on.exit({
     # reset original plotSPC options
     options(.aqp.plotSPC.args = .opArgs)
+    
+    # for R CMD check
+    aqp.env <- NULL
   })
   
 }

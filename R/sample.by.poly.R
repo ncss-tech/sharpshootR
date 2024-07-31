@@ -95,8 +95,16 @@ constantDensitySampling <- function(x, polygon.id='pID', parallel=FALSE, cores=N
     res <- res[[1]]
   }
   
+  idx <- apply(terra::relate(res, x, "within"), MARGIN = 1, which)
+  
+  # handle topologic overlap of polygons (point intersects multiple polygons)
+  if (is.list(idx)) {
+    # browser()
+    idx <- sapply(idx, `[`, 1)
+  }
+  
   # add polygon ID by intersection
-  res[[polygon.id]] <- x[[polygon.id]][[1]][apply(terra::relate(res, x, "intersects"), MARGIN = 1, which)]
+  res[[polygon.id]] <- x[[polygon.id]][[1]][idx]
 
   return(res)
 }

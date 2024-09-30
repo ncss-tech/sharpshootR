@@ -8,7 +8,7 @@ library(soilDB)
 
 
 ##
-bb <- '-120.9725 38.1485,-120.9725 38.2119,-120.8477 38.2119,-120.8477 38.1485,-120.9725 38.1485'
+bb <- '-120.8372 38.1860,-120.8372 38.2177,-120.7749 38.2177,-120.7749 38.1860,-120.8372 38.1860'
 
 
 
@@ -82,6 +82,24 @@ SoilTaxonomyDendrogram(
   depth.axis = list(line = -4),
   hz.distinctness.offset = 'hzd',
   max.depth = 200
+)
+
+
+SoilTaxonomyDendrogram(
+  spc = osd$SPC, 
+  KST.order = TRUE, 
+  y.offset = 0.4, 
+  scaling.factor = 0.03, 
+  cex.taxon.labels = 1,
+  cex.id = 1,
+  cex.names = 0.9,
+  width = 0.35, 
+  name.style = 'center-center', 
+  depth.axis = list(line = -4),
+  hz.distinctness.offset = 'hzd',
+  max.depth = 100, 
+  shrink = TRUE,
+  shrink.thin = 0.03 * 5
 )
 
 

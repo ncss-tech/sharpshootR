@@ -191,7 +191,7 @@ plotWB_lines <- function(WB, cols = c("#759CC9", "#EB6D6E", "#7FC47D"), line.col
   
   # annotate AWC
   AWC <- attr(WB, 'AWC')
-  mtext(sprintf("Storage: %s mm", AWC), side = 1,  at = 1, cex = 0.85, adj = 0, line = 2.5)
+  mtext(sprintf("Storage: %s mm", round(AWC)), side = 1,  at = 1, cex = 0.85, adj = 0, line = 2.5)
   
   # annotate total deficit
   sumD <- bquote(sum(Deficit)  ==  .(round(sum(WB$D)))~mm)

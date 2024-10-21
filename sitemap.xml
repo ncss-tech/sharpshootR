@@ -1,231 +1,79 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/sharpshootR-overview.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/CDEC.snow.courses.html</loc>
-  </url>
-  <url>
-    <loc>/reference/CDEC_StationInfo.html</loc>
-  </url>
-  <url>
-    <loc>/reference/CDECquery.html</loc>
-  </url>
-  <url>
-    <loc>/reference/CDECsnowQuery.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ESS_by_Moran_I.html</loc>
-  </url>
-  <url>
-    <loc>/reference/FFD.html</loc>
-  </url>
-  <url>
-    <loc>/reference/FFDplot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/HHM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/HenryTimeLine.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LL2PLSS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/Moran_I_ByRaster.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OSDexamples.html</loc>
-  </url>
-  <url>
-    <loc>/reference/PCP_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/PLSS2LL.html</loc>
-  </url>
-  <url>
-    <loc>/reference/SoilTaxonomyDendrogram.html</loc>
-  </url>
-  <url>
-    <loc>/reference/aggregateColorPlot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/amador.html</loc>
-  </url>
-  <url>
-    <loc>/reference/aspect.plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/colorMixtureVenn.html</loc>
-  </url>
-  <url>
-    <loc>/reference/component.adj.matrix.html</loc>
-  </url>
-  <url>
-    <loc>/reference/constantDensitySampling.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dailyWB.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dailyWB_SSURGO.html</loc>
-  </url>
-  <url>
-    <loc>/reference/diagnosticPropertyPlot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/diagnosticPropertyPlot2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dist.along.grad.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dueling.dendrograms.html</loc>
-  </url>
-  <url>
-    <loc>/reference/estimateSoilMoistureState.html</loc>
-  </url>
-  <url>
-    <loc>/reference/formatPLSS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/generateLineHash.html</loc>
-  </url>
-  <url>
-    <loc>/reference/geomorphBySoilSeries-SSURGO.html</loc>
-  </url>
-  <url>
-    <loc>/reference/huePositionPlot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hydOrder.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/isMineralSoilMaterial.html</loc>
-  </url>
-  <url>
-    <loc>/reference/iterateHydOrder.html</loc>
-  </url>
-  <url>
-    <loc>/reference/joinAdjacency.html</loc>
-  </url>
-  <url>
-    <loc>/reference/moistureStateProportions.html</loc>
-  </url>
-  <url>
-    <loc>/reference/moistureStateStats.html</loc>
-  </url>
-  <url>
-    <loc>/reference/moistureStateThreshold.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monthlyWB.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monthlyWB_summary.html</loc>
-  </url>
-  <url>
-    <loc>/reference/multinominal2logical.html</loc>
-  </url>
-  <url>
-    <loc>/reference/percentileDemo.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotAvailWater.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotGeomorphCrossSection.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotProfileDendrogram.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotSoilRelationChordGraph.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotSoilRelationGraph.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotTransect.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotWB.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotWB_lines.html</loc>
-  </url>
-  <url>
-    <loc>/reference/polygonAdjacency.html</loc>
-  </url>
-  <url>
-    <loc>/reference/prepareDailyClimateData.html</loc>
-  </url>
-  <url>
-    <loc>/reference/prepare_SSURGO_hydro_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/reconcileOSDGeomorph.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sample.by.poly.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sampleRasterStackByMU.html</loc>
-  </url>
-  <url>
-    <loc>/reference/samplingStability.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sharpshootR-package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/simpleWB.html</loc>
-  </url>
-  <url>
-    <loc>/reference/site_photos_kml.html</loc>
-  </url>
-  <url>
-    <loc>/reference/table5.2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/vizAnnualClimate.html</loc>
-  </url>
-  <url>
-    <loc>/reference/vizFlatsPosition.html</loc>
-  </url>
-  <url>
-    <loc>/reference/vizGeomorphicComponent.html</loc>
-  </url>
-  <url>
-    <loc>/reference/vizHillslopePosition.html</loc>
-  </url>
-  <url>
-    <loc>/reference/vizMountainPosition.html</loc>
-  </url>
-  <url>
-    <loc>/reference/vizSurfaceShape.html</loc>
-  </url>
-  <url>
-    <loc>/reference/vizTerracePosition.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/sharpshootR-overview.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/CDEC.snow.courses.html</loc></url>
+<url><loc>/reference/CDEC_StationInfo.html</loc></url>
+<url><loc>/reference/CDECquery.html</loc></url>
+<url><loc>/reference/CDECsnowQuery.html</loc></url>
+<url><loc>/reference/ESS_by_Moran_I.html</loc></url>
+<url><loc>/reference/FFD.html</loc></url>
+<url><loc>/reference/FFDplot.html</loc></url>
+<url><loc>/reference/HHM.html</loc></url>
+<url><loc>/reference/HenryTimeLine.html</loc></url>
+<url><loc>/reference/LL2PLSS.html</loc></url>
+<url><loc>/reference/Moran_I_ByRaster.html</loc></url>
+<url><loc>/reference/OSDexamples.html</loc></url>
+<url><loc>/reference/PCP_plot.html</loc></url>
+<url><loc>/reference/PLSS2LL.html</loc></url>
+<url><loc>/reference/SoilTaxonomyDendrogram.html</loc></url>
+<url><loc>/reference/aggregateColorPlot.html</loc></url>
+<url><loc>/reference/amador.html</loc></url>
+<url><loc>/reference/aspect.plot.html</loc></url>
+<url><loc>/reference/colorMixtureVenn.html</loc></url>
+<url><loc>/reference/component.adj.matrix.html</loc></url>
+<url><loc>/reference/constantDensitySampling.html</loc></url>
+<url><loc>/reference/dailyWB.html</loc></url>
+<url><loc>/reference/dailyWB_SSURGO.html</loc></url>
+<url><loc>/reference/diagnosticPropertyPlot.html</loc></url>
+<url><loc>/reference/diagnosticPropertyPlot2.html</loc></url>
+<url><loc>/reference/dist.along.grad.html</loc></url>
+<url><loc>/reference/dueling.dendrograms.html</loc></url>
+<url><loc>/reference/estimateSoilMoistureState.html</loc></url>
+<url><loc>/reference/formatPLSS.html</loc></url>
+<url><loc>/reference/generateLineHash.html</loc></url>
+<url><loc>/reference/geomorphBySoilSeries-SSURGO.html</loc></url>
+<url><loc>/reference/huePositionPlot.html</loc></url>
+<url><loc>/reference/hydOrder.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/isMineralSoilMaterial.html</loc></url>
+<url><loc>/reference/iterateHydOrder.html</loc></url>
+<url><loc>/reference/joinAdjacency.html</loc></url>
+<url><loc>/reference/moistureStateProportions.html</loc></url>
+<url><loc>/reference/moistureStateStats.html</loc></url>
+<url><loc>/reference/moistureStateThreshold.html</loc></url>
+<url><loc>/reference/monthlyWB.html</loc></url>
+<url><loc>/reference/monthlyWB_summary.html</loc></url>
+<url><loc>/reference/multinominal2logical.html</loc></url>
+<url><loc>/reference/percentileDemo.html</loc></url>
+<url><loc>/reference/plotAvailWater.html</loc></url>
+<url><loc>/reference/plotGeomorphCrossSection.html</loc></url>
+<url><loc>/reference/plotProfileDendrogram.html</loc></url>
+<url><loc>/reference/plotSoilRelationChordGraph.html</loc></url>
+<url><loc>/reference/plotSoilRelationGraph.html</loc></url>
+<url><loc>/reference/plotTransect.html</loc></url>
+<url><loc>/reference/plotWB.html</loc></url>
+<url><loc>/reference/plotWB_lines.html</loc></url>
+<url><loc>/reference/polygonAdjacency.html</loc></url>
+<url><loc>/reference/prepareDailyClimateData.html</loc></url>
+<url><loc>/reference/prepare_SSURGO_hydro_data.html</loc></url>
+<url><loc>/reference/reconcileOSDGeomorph.html</loc></url>
+<url><loc>/reference/sample.by.poly.html</loc></url>
+<url><loc>/reference/sampleRasterStackByMU.html</loc></url>
+<url><loc>/reference/samplingStability.html</loc></url>
+<url><loc>/reference/sharpshootR-package.html</loc></url>
+<url><loc>/reference/simpleWB.html</loc></url>
+<url><loc>/reference/site_photos_kml.html</loc></url>
+<url><loc>/reference/table5.2.html</loc></url>
+<url><loc>/reference/vizAnnualClimate.html</loc></url>
+<url><loc>/reference/vizFlatsPosition.html</loc></url>
+<url><loc>/reference/vizGeomorphicComponent.html</loc></url>
+<url><loc>/reference/vizHillslopePosition.html</loc></url>
+<url><loc>/reference/vizMountainPosition.html</loc></url>
+<url><loc>/reference/vizSurfaceShape.html</loc></url>
+<url><loc>/reference/vizTerracePosition.html</loc></url>
 </urlset>
+

@@ -39,7 +39,7 @@ Generate a plot representing percentiles of cumulative precipitation, given a hi
 This is very much a work in progress. Further examples at \url{https://ncss-tech.github.io/AQP/sharpshootR/CDEC.html}, and \url{https://ncss-tech.github.io/AQP/sharpshootR/cumulative-PPT.html}.
 }
 \seealso{
-\link{waterDayYear}
+\code{\link[soilDB:waterDayYear]{soilDB::waterDayYear()}}
 }
 \author{
 D.E. Beaudette

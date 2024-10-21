@@ -79,7 +79,7 @@
 #' @return nothing, this function is called to create graphical output
 #' @author D.E. Beaudette
 #' 
-#' @seealso [waterDayYear]
+#' @seealso [soilDB::waterDayYear()]
 #' @keywords hplots
 #' 
 #' @export

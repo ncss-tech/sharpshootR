@@ -1,3 +1,7 @@
+# sharpshootR 2.3.2 (2024-10-21)
+ * rebuild `OSDexamples` with modern `SoilProfileCollection` object
+ * CRAN release
+
 # sharpshootR 2.3.1 (2024-05-29)
  * moving vegan to SUGGESTS
  * CRAN release

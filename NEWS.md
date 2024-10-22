@@ -1,4 +1,4 @@
-# sharpshootR 2.3.2 (2024-10-21)
+# sharpshootR 2.3.2 (2024-10-22)
  * rebuild `OSDexamples` with modern `SoilProfileCollection` object
  * CRAN release
 

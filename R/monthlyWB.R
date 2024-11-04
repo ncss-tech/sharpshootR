@@ -205,16 +205,21 @@ monthlyWB <- function(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, ke
       
       # re-assemble into data.frame
       .res <- data.frame(
+        
         # total PPT, PET, U
         PPT = sum(i$PPT),
         PET = sum(i$PET),
         U = sum(i$U),
+        
         # final storage value
         S = i$S[.k],
+        
         # total AET
         ET = sum(i$ET),
+        
         # compute D last
         D = 0,
+        
         # these are constant, keep first
         month = i$month[1],
         mo = i$mo[1],
@@ -276,5 +281,17 @@ monthlyWB <- function(AWC, PPT, PET, S_init = 1, starting_month = 1, rep = 1, ke
   # done
   return(res)
 }
+
+
+##
+## temporary R-based implementation here
+##
+
+# https://github.com/hydromad/hydromad/blob/master/R/bucket.R
+# https://github.com/hydromad/hydromad/blob/master/src/bucket.c
+# https://github.com/hydromad/hydromad/issues/190
+
+
+
 
 

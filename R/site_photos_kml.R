@@ -38,7 +38,7 @@ site_photos_kml <- function(data, filename='photos.kml', make.image.grid=FALSE, 
 # apply to rows assoc. with single user site ID
 make_placemark <- function(data) {
   # extract site level data
-  s.info <- data[1, c('site_id', 'pedon_id', 'x_std', 'y_std')]
+  s.info <- data[1, c('usiteid', 'upedonid', 'longstddecimaldegrees', 'latstddecimaldegrees')]
 
   # placemark color assignment
   	if (!is.na(data$imagepath[1])) {
@@ -49,12 +49,12 @@ make_placemark <- function(data) {
   
   # assemble placemark
   p.1 <- paste('<Placemark>
-               <name>', s.info$site_id, '</name> 
+               <name>', s.info$usiteid, '</name> 
                <styleUrl>', icon, '</styleUrl>
                <Point>
-               <coordinates>' , s.info$x_std, ',' , s.info$y_std, '</coordinates>
+               <coordinates>' , s.info$longstddecimaldegrees, ',' , s.info$latstddecimaldegrees, '</coordinates>
                </Point>
-               <description><![CDATA[<tr><td width="100%"><p align="Left"></p></td></tr><a href="https://nasis.sc.egov.usda.gov/NasisReportsWebSite/limsreport.aspx?report_name=Pedon+Description+html+(userpedid)&pedon_id=' , s.info$pedon_id, '">Pedon Description Report</a>]]>
+               <description><![CDATA[<tr><td width="100%"><p align="Left"></p></td></tr><a href="https://nasis.sc.egov.usda.gov/NasisReportsWebSite/limsreport.aspx?report_name=Pedon+Description+html+(userpedid)&pedon_id=' , s.info$upedonid, '">Pedon Description Report</a>]]>
                <tr>
                <Snippet maxLines="0" id ="khSnippet701_copy11"></Snippet>
                </tr>
@@ -119,7 +119,7 @@ stop_kml <- function(filename) {
 }
 
 start_kml(filename)
-kml_placemarks <- plyr::dlply(data, 'site_id', .fun = make_placemark)
+kml_placemarks <- plyr::dlply(data, 'usiteid', .fun = make_placemark)
 kml_placemarks <- paste(kml_placemarks, collapse="\n")
 cat(kml_placemarks, file=filename, append = TRUE)
 stop_kml(filename)

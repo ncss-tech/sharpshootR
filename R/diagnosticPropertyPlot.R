@@ -37,48 +37,15 @@
 #' 
 #' @export
 #'
-#' @examples
-#' 
-#' \donttest{
-#' 
-#' if(require(aqp) &
-#'    require(soilDB) &
-#'    require(latticeExtra)
-#' ) {
-#'   
-#'   # sample data, an SPC
-#'   data(gopheridge, package='soilDB')
-#'   
-#'   # get depth class
-#'   sdc <- getSoilDepthClass(gopheridge, name = 'hzname')
-#'   site(gopheridge) <- sdc
-#'   
-#'   # diagnostic properties to consider, no need to convert to factors
-#'   v <- c('lithic.contact', 'paralithic.contact', 'argillic.horizon', 
-#'          'cambic.horizon', 'ochric.epipedon', 'mollic.epipedon', 'very.shallow',
-#'          'shallow', 'mod.deep', 'deep', 'very.deep')
-#'   
-#'   # base graphics
-#'   x <- diagnosticPropertyPlot(gopheridge, v, k=5)
-#'   
-#'   # lattice graphics
-#'   x <- diagnosticPropertyPlot2(gopheridge, v, k=3)
-#'   
-#'   # check output
-#'   str(x)
-#'   
-#' }
-#' 
-#' }
-diagnosticPropertyPlot <- function(f, v, k, grid.label='pedon_id', dend.label='pedon_id', sort.vars=TRUE) {
+diagnosticPropertyPlot <- function(f, v, k, grid.label = 'upedonid', dend.label = 'upedonid', sort.vars = TRUE) {
   
   # setup colors
   if(k <= 9 & k > 2) 
-    cols <- brewer.pal(n=k, name='Set1') 
+    cols <- brewer.pal(n = k, name='Set1') 
   if(k < 3) 
-    cols <- brewer.pal(n=3, name='Set1')
+    cols <- brewer.pal(n = 3, name='Set1')
   if(k > 9)
-    cols <- colorRampPalette(brewer.pal(n=9, name='Set1'))(k)
+    cols <- colorRampPalette(brewer.pal(n = 9, name = 'Set1'))(k)
   
   # get internal, unique ID
   id <- idname(f)
@@ -108,23 +75,23 @@ diagnosticPropertyPlot <- function(f, v, k, grid.label='pedon_id', dend.label='p
   }
   
   # convert to factors, we have to specify the levels as there are cases with all TRUE or FALSE
-  m <- as.data.frame(lapply(m, factor, levels=c('FALSE', 'TRUE')))
+  m <- as.data.frame(lapply(m, factor, levels = c('FALSE', 'TRUE')))
   
   # make a copy of the matrix for plotting, as numerical data and transpose
   m.plot <- t(as.matrix(as.data.frame(lapply(m, as.numeric))))
   
   # compute dissimilarity between profiles
-  d <- daisy(m, metric='gower')
+  d <- daisy(m, metric = 'gower')
   h.profiles <- as.hclust(diana(d))
   # store text labels for dendrogram
   h.profiles$labels <- as.character(s[[dend.label]]) # factors will break tiplabels()
   p <- as.phylo(h.profiles)
   
   # cut tree at user-specified number of groups
-  h.cut <- cutree(h.profiles, k=k)
+  h.cut <- cutree(h.profiles, k = k)
   
   # setup plot layout
-  layout(matrix(c(1,2), nrow=1, ncol=2), widths=c(1,1))
+  layout(matrix(c(1, 2), nrow = 1, ncol = 2), widths = c(1, 1))
   
   # get number of vars + number of profiles
   n.vars <- ncol(m)
@@ -136,15 +103,15 @@ diagnosticPropertyPlot <- function(f, v, k, grid.label='pedon_id', dend.label='p
   on.exit(par(op))
   
   # plot dendrogram
-  par(mar = c(0.5,1,5.5,1))
+  par(mar = c(0.5, 1, 5.5, 1))
   
   ### possible fix?
   # setup plotting region
   # plot(1,1, type='n', axes=FALSE, xlab='', ylab='', ylim=c(0.5, n.profiles+0.5))
   # par(new=TRUE)
   
-  plot(p, cex=0.75, label.offset=0.05, y.lim=c(1.125, n.profiles))
-  tiplabels(pch=15, col=cols[h.cut], cex=1.125, adj=0.52)
+  plot(p, cex = 0.75, label.offset = 0.05, y.lim = c(1.125, n.profiles))
+  tiplabels(pch = 15, col = cols[h.cut], cex = 1.125, adj = 0.52)
   
   ### debug:
 #   par(xpd=TRUE)
@@ -153,7 +120,7 @@ diagnosticPropertyPlot <- function(f, v, k, grid.label='pedon_id', dend.label='p
 #   
   ## note: transpose converts logical -> character, must re-init factors
   # compute dissimilarity between variables
-  d.vars <- daisy(data.frame(t(m), stringsAsFactors=TRUE), metric='gower')
+  d.vars <- daisy(data.frame(t(m), stringsAsFactors = TRUE), metric = 'gower')
   h.vars <- as.hclust(diana(d.vars))
   
   # order of profiles in dendrogram
@@ -167,21 +134,23 @@ diagnosticPropertyPlot <- function(f, v, k, grid.label='pedon_id', dend.label='p
     o.vars <- 1:length(v)
   
   # plot image matrix, with rows re-ordered according to dendrogram
-  par(mar=c(1,6,6,1))
-  image(x=1:n.vars, y=1:n.profiles, z=m.plot[o.vars, o.profiles], axes=FALSE, col=c(grey(0.9), 'RoyalBlue'), xlab='', ylab='', ylim=c(0.5, n.profiles+0.5))
-  axis(side=2, at=1:n.profiles, labels=s[[grid.label]][o.profiles], las=1, cex.axis=0.75, tick = FALSE)
-  axis(side=3, at=1:n.vars, labels=v[o.vars], las=2, cex.axis=0.75)
-  abline(h=1:(n.profiles+1)-0.5)
-  abline(v=1:(n.vars+1)-0.5)
+  par(mar = c(1, 6, 6, 1))
+  image(x = 1:n.vars, y = 1:n.profiles, z = m.plot[o.vars, o.profiles], axes = FALSE, col = c(grey(0.9), 'RoyalBlue'), xlab = '', ylab = '', ylim = c(0.5, n.profiles + 0.5))
+  axis(side = 2, at = 1:n.profiles, labels = s[[grid.label]][o.profiles], las = 1, cex.axis = 0.75, tick = FALSE)
+  axis(side = 3, at = 1:n.vars, labels = v[o.vars], las = 2, cex.axis = 0.75)
+  abline(h = 1:(n.profiles + 1) - 0.5)
+  abline(v = 1:(n.vars + 1) - 0.5)
+  
   # plot outside of plotting region
-  par(xpd=TRUE)
+  par(xpd = TRUE)
+  
   # this may require some tinkering
-  points(x=rep(0.35, times=n.profiles), y=1:n.profiles, col=cols[h.cut][o.profiles], pch=15)
-  par(xpd=FALSE)
+  points(x = rep(0.35, times = n.profiles), y = 1:n.profiles, col = cols[h.cut][o.profiles], pch = 15)
+  par(xpd = FALSE)
   
   # return values
-  rd <- cbind(s[, c(id, grid.label)], g=h.cut)
-  return(invisible(list(rd=rd, profile.order=o.profiles, var.order=o.vars)))
+  rd <- cbind(s[, c(id, grid.label)], g = h.cut)
+  return(invisible(list(rd = rd, profile.order = o.profiles, var.order = o.vars)))
 }
 
 
@@ -213,41 +182,8 @@ diagnosticPropertyPlot <- function(f, v, k, grid.label='pedon_id', dend.label='p
 #' 
 #' @export
 #'
-#' @examples
 #' 
-#' \donttest{
-#' 
-#' if(require(aqp) &
-#'    require(soilDB) &
-#'    require(latticeExtra)
-#' ) {
-#'   
-#'   # sample data, an SPC
-#'   data(gopheridge, package = 'soilDB')
-#'   
-#'   # get depth class
-#'   sdc <- getSoilDepthClass(gopheridge, name = 'hzname')
-#'   site(gopheridge) <- sdc
-#'   
-#'   # diagnostic properties to consider, no need to convert to factors
-#'   v <- c('lithic.contact', 'paralithic.contact', 'argillic.horizon', 
-#'          'cambic.horizon', 'ochric.epipedon', 'mollic.epipedon', 'very.shallow',
-#'          'shallow', 'mod.deep', 'deep', 'very.deep')
-#'   
-#'   # base graphics
-#'   x <- diagnosticPropertyPlot(gopheridge, v, k=5)
-#'   
-#'   # lattice graphics
-#'   x <- diagnosticPropertyPlot2(gopheridge, v, k=3)
-#'   
-#'   # check output
-#'   str(x)
-#'   
-#' }
-#' 
-#' }
-#' 
-diagnosticPropertyPlot2 <- function(f, v, k, grid.label='pedon_id', sort.vars=TRUE) {
+diagnosticPropertyPlot2 <- function(f, v, k, grid.label='upedonid', sort.vars=TRUE) {
   
   # sanity check: package requirements
   if(!requireNamespace('latticeExtra', quietly=TRUE))
@@ -362,7 +298,7 @@ diagnosticPropertyPlot2 <- function(f, v, k, grid.label='pedon_id', sort.vars=TR
 ## failed attempt to include multi-nominal variables
 ## not going to work with current implementation, mostly due to how colors are mapped to values in image()
 
-# diagnosticPropertyPlot3 <- function(f, v, k, grid.label='pedon_id', dend.label='pedon_id') {
+# diagnosticPropertyPlot3 <- function(f, v, k, grid.label='upedonid', dend.label='pedon_id') {
 #   
 #   # get internal, unique ID
 #   id <- idname(f)

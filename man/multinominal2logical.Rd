@@ -42,7 +42,7 @@ if(require(soilDB) &
   
   # visualize with some other diagnostic features
   x <- diagnosticPropertyPlot(loafercreek, v, k = 5, 
-                              grid.label = 'bedrckkind', dend.label = 'pedon_id')  
+                              grid.label = 'bedrckkind', dend.label = 'upedonid')  
 }
 
 }

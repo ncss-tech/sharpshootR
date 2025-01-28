@@ -1,3 +1,7 @@
+# sharpshootR 2.3.3 (2025-01-28)
+ * update SPC fields from data derived from NASIS (via examples and soilDB data)
+ * CRAN release
+
 # sharpshootR 2.3.2 (2024-10-22)
  * rebuild `OSDexamples` with modern `SoilProfileCollection` object
  * CRAN release

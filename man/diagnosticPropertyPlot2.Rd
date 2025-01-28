@@ -4,7 +4,7 @@
 \alias{diagnosticPropertyPlot2}
 \title{Diagnostic Property Plot (lattice)}
 \usage{
-diagnosticPropertyPlot2(f, v, k, grid.label = "pedon_id", sort.vars = TRUE)
+diagnosticPropertyPlot2(f, v, k, grid.label = "upedonid", sort.vars = TRUE)
 }
 \arguments{
 \item{f}{\code{SoilProfileCollection} object}
@@ -30,41 +30,6 @@ Generate a graphical description of the presence/absence of soil diagnostic prop
 }
 \details{
 This function attempts to display several pieces of information within a single figure. First, soil profiles are sorted according to the presence/absence of diagnostic features named in \code{v}. Second, these diagnostic features are sorted according to their distribution among soil profiles. Third, a binary grid is established with row-ordering of profiles based on step 1 and column-ordering based on step 2. Blue cells represent the presence of a diagnostic feature. Soils with similar diagnostic features should 'clump' together. See examples below.
-}
-\examples{
-
-\donttest{
-
-if(require(aqp) &
-   require(soilDB) &
-   require(latticeExtra)
-) {
-  
-  # sample data, an SPC
-  data(gopheridge, package = 'soilDB')
-  
-  # get depth class
-  sdc <- getSoilDepthClass(gopheridge, name = 'hzname')
-  site(gopheridge) <- sdc
-  
-  # diagnostic properties to consider, no need to convert to factors
-  v <- c('lithic.contact', 'paralithic.contact', 'argillic.horizon', 
-         'cambic.horizon', 'ochric.epipedon', 'mollic.epipedon', 'very.shallow',
-         'shallow', 'mod.deep', 'deep', 'very.deep')
-  
-  # base graphics
-  x <- diagnosticPropertyPlot(gopheridge, v, k=5)
-  
-  # lattice graphics
-  x <- diagnosticPropertyPlot2(gopheridge, v, k=3)
-  
-  # check output
-  str(x)
-  
-}
-
-}
-
 }
 \seealso{
 \code{\link{multinominal2logical}}

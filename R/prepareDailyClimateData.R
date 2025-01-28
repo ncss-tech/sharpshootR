@@ -23,7 +23,7 @@
   # note: this is incompatible with LazyData: true
   constants <- NULL
   # whoa: non-standard file naming...
-  load(system.file("data/constants.RData", package="Evapotranspiration")[1])
+  load(system.file("data/constants.RData", package = "Evapotranspiration")[1])
   cs <- constants
   
   # only need to modify elevation

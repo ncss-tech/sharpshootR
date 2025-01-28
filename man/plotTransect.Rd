@@ -97,7 +97,7 @@ groupedProfilePlot(mineralKing, groups='taxonname', print.id=FALSE)
 
 # setup point locations
 s <- site(mineralKing)
-xy <- st_as_sf(s, coords = c('x_std', 'y_std'))
+xy <- st_as_sf(s, coords = c('longstddecimaldegrees', 'latstddecimaldegrees'))
 st_crs(xy) <- 4326
 
 # convert to suitable projected cRS
@@ -109,28 +109,28 @@ par(mar = c(4.5, 4, 4, 1))
 
 # standard transect plot, profile sketches arranged along integer sequence
 plotTransect(mineralKing, xy, grad.var.name = 'elev_field',
-             grad.axis.title = 'Elevation (m)', label = 'pedon_id', name = 'hzname')
+             grad.axis.title = 'Elevation (m)', label = 'upedonid', name = 'hzname')
 
 # default behavior, attempt adjustments to prevent over-plot and preserve relative spacing
 # use set.seed() to fix outcome
 plotTransect(mineralKing, xy, grad.var.name = 'elev_field',
-             grad.axis.title = 'Elevation (m)', label = 'pedon_id',
+             grad.axis.title = 'Elevation (m)', label = 'upedonid',
              name = 'hzname', width = 0.15, spacing = 'relative')
 
 # attempt relative positioning based on scaled distances, no corrections for overlap
 # profiles are clustered in space and therefore over-plot
 plotTransect(mineralKing, xy, grad.var.name = 'elev_field',
-             grad.axis.title = 'Elevation (m)', label = 'pedon_id', name = 'hzname',
+             grad.axis.title = 'Elevation (m)', label = 'upedonid', name = 'hzname',
              width = 0.15, spacing = 'relative', fix.relative.pos = FALSE)
 
 # customize arguments to aqp::fixOverlap()
 plotTransect(mineralKing, xy, grad.var.name = 'elev_field', crs = crs.utm,
-             grad.axis.title = 'Elevation (m)', label = 'pedon_id', name = 'hzname',
+             grad.axis.title = 'Elevation (m)', label = 'upedonid', name = 'hzname',
              width = 0.15, spacing = 'relative',
              fix.relative.pos = list(maxIter=6000, adj=0.2, thresh=0.7))
 
 plotTransect(mineralKing, xy, grad.var.name = 'elev_field', crs = crs.utm,
-             grad.axis.title = 'Elevation (m)', label = 'pedon_id', name = 'hzname',
+             grad.axis.title = 'Elevation (m)', label = 'upedonid', name = 'hzname',
              width = 0.2, spacing = 'relative',
              fix.relative.pos = list(maxIter = 6000, adj = 0.2, thresh = 0.6),
              name.style = 'center-center')

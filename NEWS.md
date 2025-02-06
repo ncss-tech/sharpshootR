@@ -1,4 +1,4 @@
-# sharpshootR 2.3.3 (2025-01-28)
+# sharpshootR 2.3.3 (2025-02-06)
  * update SPC fields from data derived from NASIS (via examples and soilDB data)
  * CRAN release
 

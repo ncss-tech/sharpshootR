@@ -51,7 +51,7 @@ Depends: R (>= 3.5.0)
 Imports: grDevices, graphics, methods, stats, utils, aqp, ape, 
   soilDB, cluster, lattice,
   reshape2, scales, circular, RColorBrewer, plyr, 
-  digest, e1071, stringi, parallel, curl, grid
+  digest, e1071, stringi, curl, grid
 Additional_repositories: https://hydromad.github.io
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)

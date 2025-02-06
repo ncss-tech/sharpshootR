@@ -5,3 +5,5 @@ man/.Rhistory
 docs/reference/*.pdf
 tests/testthat/Rplots.pdf
 docs
+/doc/
+/Meta/

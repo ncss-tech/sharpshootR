@@ -1,4 +1,3 @@
-## TODO: parallel implementation
 
 #' Estimate Sampling Stability
 #' 

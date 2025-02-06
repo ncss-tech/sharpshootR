@@ -12,3 +12,5 @@ README.md
 ^revdep$
 ^CRAN-SUBMISSION$
 ^cran-comments\.md$
+^doc$
+^Meta$

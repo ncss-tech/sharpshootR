@@ -1,6 +1,24 @@
 
 
-constantDensitySampling <- function(x, polygon.id='pID', parallel=FALSE, cores=NULL, n.pts.per.ac=1, min.samples=5, sampling.type='regular') {
+#' @title Sample Polygons at a Fixed Density
+#' 
+#' @description
+#' Perform constant-density sampling of polygons.
+#' 
+#'
+#' @param x either `SpatVector` or object that can be coerced into one, should contain polygons registered to a planar coordinate reference system
+#' @param polygon.id character, name of column which contains a unique ID for each polygon
+#' @param n.pts.per.ac numeric, sampling density in "points per acre"
+#' @param min.samples integer, enforced minimum number of samples per polygon
+#' @param sampling.type character, sampling type passed to [terra::spatSample()]
+#'
+#' @return `SpatVector` of sample points
+#' @keywords manip
+#' @author D.E. Beaudette
+#' 
+#' @export
+#'
+constantDensitySampling <- function(x, polygon.id = 'pID', n.pts.per.ac = 1, min.samples = 5, sampling.type = 'regular') {
   
   if (!requireNamespace("terra")) {
     stop('please install the `terra` package', call. = FALSE)
@@ -21,43 +39,10 @@ constantDensitySampling <- function(x, polygon.id='pID', parallel=FALSE, cores=N
   if (length(x) == 0)
     return(NULL)
   
-  # retain proj4 information
+  # retain CRS information
   p4s <- terra::crs(x)
   
-  # ## see https://github.com/ncss-tech/sharpshootR/issues/10
-  # ## NOT ready for prime time, usually slower than sequential
-  # ## https://github.com/ncss-tech/sharpshootR/issues/10
-  # ## requires slightly more RAM
-  # ## significant overhead
-  # ## not worth doing when nrow(x) < number of cores
-  if (parallel) {
-    .Deprecated(msg = "`parallel` argument is deprecated")
-
-    # establish possible number of CPU cores if not specified
-    if (is.null(cores)) {
-      # the smaller: available CPU cores | number of polygons
-      cores <- min(c(parallel::detectCores(), nrow(x)))
-    }
-
-    # init nodes
-    ## TODO: optimal setting for useXDR ?
-    ## TODO: makeCluster() [platform agnostic] or makePSOCKcluster() [Windoze]
-    cl <- parallel::makeCluster(cores, useXDR = TRUE)
-
-    # parallel sampling
-    # sample and return a list, one element / valid polygon
-    res <- parallel::parLapply(cl = cl, X = split(x, 1:length(x)),
-                               fun = sample.by.poly,
-                               n.pts.per.ac = n.pts.per.ac,
-                               min.samples = min.samples,
-                               sampling.type = sampling.type,
-                               p4s = p4s)
-
-    # stop nodes
-    parallel::stopCluster(cl)
-  }
-
-    
+  
   # sequential processing
   # sample and return a list, one element / valid polygon
   res <- lapply(
@@ -102,11 +87,24 @@ constantDensitySampling <- function(x, polygon.id='pID', parallel=FALSE, cores=N
 }
 
 
-# sample by polygon, must be from a projected CRS
-# p: Polygon object
-# n: number of points per acre (results will be close)
-# min.samples: minimum requested samples / polygon
-# p4s: proj4string assigned to SpatialPoints object
+
+#' @title Sample a Single Polygon at a Target Density
+#' 
+#' @description
+#' Sample a single `SpatVector` polygon at a target density in "samples / acre".
+#' 
+#'
+#' @param p `SpatVector` containing a single polygon feature
+#' @param n.pts.per.ac numeric, sampling density in "points per acre"
+#' @param min.samples integer, enforced minimum number of samples per polygon
+#' @param sampling.type sampling.type character, sampling type passed to [terra::spatSample()]
+#' @param p4s output from [terra::crs()]
+#'
+#' @return `SpatVector` of sample points
+#' @keywords manip
+#' @author D.E. Beaudette
+#' 
+#' @export
 sample.by.poly <- function(p,
                            n.pts.per.ac = 1,
                            min.samples = 5,
@@ -147,7 +145,7 @@ sample.by.poly <- function(p,
       return(NULL)
     }
 
-    # assign original proj4 string
+    # assign original CRS
     if (!is.null(p4s) & !is.null(s.i))
       terra::crs(s.i) <- p4s
     

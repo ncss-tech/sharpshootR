@@ -5,7 +5,7 @@
 
 ## TODO:
 ##   1. abstract into smaller functions
-##   2. optimise for parallel execution
+##   2. optimize for parallel execution
 ##   3. keep track of time spent on various sub-tasks
 
 ## load raster stack into memory if possible

@@ -35,10 +35,9 @@ jobs:
 
       - uses: r-lib/actions/setup-r@v2
         with:
-          extra-repositories: 'http://ncss-tech.r-universe.dev'
+          extra-repositories: 'https://ncss-tech.r-universe.dev/'
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
-          use-public-rspm: true
 
       - name: Install hydromad
         run: |
@@ -54,9 +53,9 @@ jobs:
           
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck, hydromad=?ignore, Hmisc=?ignore-before-r=4.1.0, vegan=?ignore-before-r=4.1.0, circlize=?ignore-before-r=4.0.0 
+          extra-packages: any::rcmdcheck, any::aqp, any::soilDB, hydromad=?ignore, Hmisc=?ignore-before-r=4.1.0, vegan=?ignore-before-r=4.1.0, circlize=?ignore-before-r=4.0.0 
           cache: always
-          cache-version: 2
+          cache-version: 1
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2

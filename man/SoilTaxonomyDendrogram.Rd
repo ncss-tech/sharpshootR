@@ -97,6 +97,7 @@ This function looks for specific site-level attributes named: \code{"soilorder"}
 The \code{rotationOrder} argument uses \code{ape::rotateConstr()} to reorder leaves within the \code{hclust} representation of the ST hierarchy. Perfect sorting is not always possible.
 }
 \examples{
+\dontshow{if (requireNamespace("SoilTaxonomy", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 # built-in data, same as results from soilDB::fetchOSD()
 data("OSDexamples")
@@ -130,7 +131,7 @@ SoilTaxonomyDendrogram(
   font.taxon.labels = 1, cex.taxon.labels = 0.55,
   dend.type = 'cladogram', max.depth = 150
 )
-
+\dontshow{\}) # examplesIf}
 }
 \author{
 D.E. Beaudette

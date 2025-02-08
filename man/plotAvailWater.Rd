@@ -72,9 +72,10 @@ plotAvailWater(s, name.cex=1.25)
   
   
   # use some real data from SSURGO
-  if(requireNamespace("curl") &
-     curl::has_internet() &
-     require(soilDB)) {
+  if(requireNamespace("curl") &&
+     requireNamespace("httr") &&
+     curl::has_internet() &&
+     requireNamespace("soilDB")) {
     
     q <- "SELECT hzdept_r as hztop, hzdepb_r as hzbottom, 
 hzname as name, wsatiated_r/100.0 as sat, 

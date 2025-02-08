@@ -21,7 +21,7 @@ constantDensitySampling(
 
 \item{min.samples}{integer, enforced minimum number of samples per polygon}
 
-\item{sampling.type}{character, sampling type passed to \code{\link[terra:sample]{terra::spatSample()}}}
+\item{sampling.type}{character, sampling type passed to \code{\link[terra:spatSample]{terra::spatSample()}}}
 }
 \value{
 \code{SpatVector} of sample points

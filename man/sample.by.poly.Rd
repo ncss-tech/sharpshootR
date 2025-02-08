@@ -19,7 +19,7 @@ sample.by.poly(
 
 \item{min.samples}{integer, enforced minimum number of samples per polygon}
 
-\item{sampling.type}{sampling.type character, sampling type passed to \code{\link[terra:sample]{terra::spatSample()}}}
+\item{sampling.type}{sampling.type character, sampling type passed to \code{\link[terra:spatSample]{terra::spatSample()}}}
 
 \item{p4s}{output from \code{\link[terra:crs]{terra::crs()}}}
 }

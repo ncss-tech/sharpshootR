@@ -29,6 +29,7 @@ when \code{clust = FALSE} a vector of series names, in hydrologic ordering, othe
 Hydrologic Ordering of a Geomorphic Proportion Matrix
 }
 \examples{
+\dontshow{if (requireNamespace("dendextend", quietly = TRUE) ) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 # example data, similar to results from soilDB::fetchOSD(..., extended = TRUE)
 data("OSDexamples")
@@ -46,6 +47,7 @@ ordered = h
 # cluster results
 h <- hydOrder(OSDexamples$hillpos, g = 'hillpos', clust = TRUE)
 str(h)
+\dontshow{\}) # examplesIf}
 }
 \author{
 D.E. Beaudette

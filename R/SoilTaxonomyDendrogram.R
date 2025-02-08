@@ -44,7 +44,7 @@
 #' 
 #' @export
 #' 
-#' @examples 
+#' @examplesIf requireNamespace("SoilTaxonomy", quietly = TRUE)
 #' 
 #' # built-in data, same as results from soilDB::fetchOSD()
 #' data("OSDexamples")

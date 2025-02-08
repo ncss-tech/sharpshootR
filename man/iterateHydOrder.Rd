@@ -48,6 +48,7 @@ Iteratively Attempt Hydrologic Ordering of Geomorphic Proportion Matrix
 This function is used by the suite of geomorphic proportion visualization functions (\verb{viz*}) to attempt rotation of a dendrogram according to "hydrologic ordering" rules. A perfect rotation is not always possible, and reported as a match rate in the returned \code{score} value
 }
 \examples{
+\dontshow{if (requireNamespace("dendextend", quietly = TRUE) ) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 # example data, similar to results from soilDB::fetchOSD(..., extended = TRUE)
 data("OSDexamples")
@@ -74,7 +75,7 @@ plot(obj, type = 'b')
 hist(obj)
 
 # in this case the clustering of hillpos proportions has only two possible configurations
-
+\dontshow{\}) # examplesIf}
 }
 \author{
 D.E. Beaudette

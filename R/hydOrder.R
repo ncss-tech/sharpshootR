@@ -18,7 +18,7 @@
 #'    
 #' @export
 #'
-#' @examples 
+#' @examplesIf requireNamespace("dendextend", quietly = TRUE) 
 #' 
 #' # example data, similar to results from soilDB::fetchOSD(..., extended = TRUE)
 #' data("OSDexamples")

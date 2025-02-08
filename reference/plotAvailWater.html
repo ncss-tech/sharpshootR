@@ -155,9 +155,10 @@
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span>  <span class="co"># use some real data from SSURGO</span></span></span>
-<span class="r-in"><span>  <span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"curl"</span><span class="op">)</span> <span class="op">&amp;</span></span></span>
-<span class="r-in"><span>     <span class="fu">curl</span><span class="fu">::</span><span class="fu"><a href="https://jeroen.r-universe.dev/curl/reference/nslookup.html" class="external-link">has_internet</a></span><span class="op">(</span><span class="op">)</span> <span class="op">&amp;</span></span></span>
-<span class="r-in"><span>     <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ncss-tech/soilDB/" class="external-link">soilDB</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"curl"</span><span class="op">)</span> <span class="op">&amp;&amp;</span></span></span>
+<span class="r-in"><span>     <span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"httr"</span><span class="op">)</span> <span class="op">&amp;&amp;</span></span></span>
+<span class="r-in"><span>     <span class="fu">curl</span><span class="fu">::</span><span class="fu"><a href="https://jeroen.r-universe.dev/curl/reference/nslookup.html" class="external-link">has_internet</a></span><span class="op">(</span><span class="op">)</span> <span class="op">&amp;&amp;</span></span></span>
+<span class="r-in"><span>     <span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"soilDB"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>    </span></span>
 <span class="r-in"><span>    <span class="va">q</span> <span class="op">&lt;-</span> <span class="st">"SELECT hzdept_r as hztop, hzdepb_r as hzbottom, </span></span></span>
 <span class="r-in"><span><span class="st">hzname as name, wsatiated_r/100.0 as sat, </span></span></span>
@@ -179,6 +180,7 @@
 <span class="r-in"><span>    </span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required namespace: httr</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> single result set, returning a data.frame</span>
 <span class="r-plt img"><img src="plotAvailWater-3.png" alt="" width="768" height="475"></span>
 <span class="r-in"><span>  </span></span>

@@ -75,7 +75,7 @@ plotAvailWater(s, name.cex=1.25)
   if(requireNamespace("curl") &&
      requireNamespace("httr") &&
      curl::has_internet() &&
-     requireNamespace("soilDB")) {
+     require("soilDB")) {
     
     q <- "SELECT hzdept_r as hztop, hzdepb_r as hzbottom, 
 hzname as name, wsatiated_r/100.0 as sat, 

@@ -5,6 +5,8 @@ library(aqp, quietly = TRUE)
 suppressWarnings(library(cluster, quietly = TRUE))
 
 test_that("iterateHydOrder works as expected", {
+  skip_if_not_installed("dendextend")
+  
   
   # use local data
   data("OSDexamples")

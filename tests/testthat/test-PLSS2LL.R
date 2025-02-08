@@ -44,10 +44,11 @@ test_that("formatPLSS() works", {
 })
 
 test_that("PLSS2LL() works", {
-  
+  skip_if_not_installed("curl")
   skip_if_offline()
   skip_on_cran()
-  
+  skip_if_not_installed("httr")
+  skip_if_not_installed("jsonlite")
   # center of township, center of section
   # center of NE,NW,SE,SW corner of northeast corner
   p <- PLSS2LL(d)

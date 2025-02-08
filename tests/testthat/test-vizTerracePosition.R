@@ -3,10 +3,10 @@ context("vizTerracePosition")
 ## tests
 library(aqp, quietly = TRUE)
 suppressWarnings(library(cluster, quietly = TRUE))
-suppressWarnings(library(dendextend, quietly = TRUE))
-suppressWarnings(library(latticeExtra, quietly = TRUE))
 
 test_that("vizTerracePosition works as expected", {
+  skip_if_not_installed("dendextend")
+  skip_if_not_installed("latticeExtra")
   
   # use local data
   data("OSDexamples")

@@ -96,43 +96,6 @@ This function looks for specific site-level attributes named: \code{"soilorder"}
 
 The \code{rotationOrder} argument uses \code{ape::rotateConstr()} to reorder leaves within the \code{hclust} representation of the ST hierarchy. Perfect sorting is not always possible.
 }
-\examples{
-\dontshow{if (requireNamespace("SoilTaxonomy", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-
-# built-in data, same as results from soilDB::fetchOSD()
-data("OSDexamples")
-
-# examples using first 8 profiles
-
-# KST-style ordering
-SoilTaxonomyDendrogram(
-  OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
-  KST.order = TRUE, axis.line.offset = -4, scaling.factor = 0.014
-)
-
-# classic ordering, based on nominal scale variables (un-ordered factors)
-SoilTaxonomyDendrogram(
-  OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
-  KST.order = FALSE, axis.line.offset = -4, scaling.factor = 0.014
-)
-
-# adjust taxon label font and font size
-SoilTaxonomyDendrogram(
-  OSDexamples$SPC[1:15, ], width = 0.3, name.style = 'center-center',
-  KST.order = FALSE, axis.line.offset = -4, scaling.factor = 0.014,
-  font.taxon.labels = 2, cex.taxon.labels = 0.55
-)
-
-# cladogram vs. dendrogram
-# truncate profiles at 150cm
-SoilTaxonomyDendrogram(
-  OSDexamples$SPC[1:16, ], width = 0.3, name.style = 'center-center',
-  KST.order = TRUE, axis.line.offset = -4, scaling.factor = 0.02,
-  font.taxon.labels = 1, cex.taxon.labels = 0.55,
-  dend.type = 'cladogram', max.depth = 150
-)
-\dontshow{\}) # examplesIf}
-}
 \author{
 D.E. Beaudette
 }

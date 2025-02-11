@@ -44,40 +44,6 @@
 #' 
 #' @export
 #' 
-#' @examplesIf requireNamespace("SoilTaxonomy", quietly = TRUE)
-#' 
-#' # built-in data, same as results from soilDB::fetchOSD()
-#' data("OSDexamples")
-#' 
-#' # examples using first 8 profiles
-#' 
-#' # KST-style ordering
-#' SoilTaxonomyDendrogram(
-#'   OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
-#'   KST.order = TRUE, axis.line.offset = -4, scaling.factor = 0.014
-#' )
-#' 
-#' # classic ordering, based on nominal scale variables (un-ordered factors)
-#' SoilTaxonomyDendrogram(
-#'   OSDexamples$SPC[1:8, ], width = 0.3, name.style = 'center-center',
-#'   KST.order = FALSE, axis.line.offset = -4, scaling.factor = 0.014
-#' )
-#' 
-#' # adjust taxon label font and font size
-#' SoilTaxonomyDendrogram(
-#'   OSDexamples$SPC[1:15, ], width = 0.3, name.style = 'center-center',
-#'   KST.order = FALSE, axis.line.offset = -4, scaling.factor = 0.014,
-#'   font.taxon.labels = 2, cex.taxon.labels = 0.55
-#' )
-#' 
-#' # cladogram vs. dendrogram
-#' # truncate profiles at 150cm
-#' SoilTaxonomyDendrogram(
-#'   OSDexamples$SPC[1:16, ], width = 0.3, name.style = 'center-center',
-#'   KST.order = TRUE, axis.line.offset = -4, scaling.factor = 0.02,
-#'   font.taxon.labels = 1, cex.taxon.labels = 0.55,
-#'   dend.type = 'cladogram', max.depth = 150
-#' )
 #' 
 SoilTaxonomyDendrogram <- function(spc, 
                                    KST.order = TRUE, 

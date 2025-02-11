@@ -207,51 +207,6 @@
     <p>D.E. Beaudette</p>
     </div>
 
-    <div id="ref-examples">
-    <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># built-in data, same as results from soilDB::fetchOSD()</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"OSDexamples"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># examples using first 8 profiles</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># KST-style ordering</span></span></span>
-<span class="r-in"><span><span class="fu">SoilTaxonomyDendrogram</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="va">OSDexamples</span><span class="op">$</span><span class="va">SPC</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span>, <span class="op">]</span>, width <span class="op">=</span> <span class="fl">0.3</span>, name.style <span class="op">=</span> <span class="st">'center-center'</span>,</span></span>
-<span class="r-in"><span>  KST.order <span class="op">=</span> <span class="cn">TRUE</span>, axis.line.offset <span class="op">=</span> <span class="op">-</span><span class="fl">4</span>, scaling.factor <span class="op">=</span> <span class="fl">0.014</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `axis.line.offset` is now deprecated, please use `depth.axis` argument</span>
-<span class="r-plt img"><img src="SoilTaxonomyDendrogram-1.png" alt="" width="768" height="475"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># classic ordering, based on nominal scale variables (un-ordered factors)</span></span></span>
-<span class="r-in"><span><span class="fu">SoilTaxonomyDendrogram</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="va">OSDexamples</span><span class="op">$</span><span class="va">SPC</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span>, <span class="op">]</span>, width <span class="op">=</span> <span class="fl">0.3</span>, name.style <span class="op">=</span> <span class="st">'center-center'</span>,</span></span>
-<span class="r-in"><span>  KST.order <span class="op">=</span> <span class="cn">FALSE</span>, axis.line.offset <span class="op">=</span> <span class="op">-</span><span class="fl">4</span>, scaling.factor <span class="op">=</span> <span class="fl">0.014</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `axis.line.offset` is now deprecated, please use `depth.axis` argument</span>
-<span class="r-plt img"><img src="SoilTaxonomyDendrogram-2.png" alt="" width="768" height="475"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># adjust taxon label font and font size</span></span></span>
-<span class="r-in"><span><span class="fu">SoilTaxonomyDendrogram</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="va">OSDexamples</span><span class="op">$</span><span class="va">SPC</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, <span class="op">]</span>, width <span class="op">=</span> <span class="fl">0.3</span>, name.style <span class="op">=</span> <span class="st">'center-center'</span>,</span></span>
-<span class="r-in"><span>  KST.order <span class="op">=</span> <span class="cn">FALSE</span>, axis.line.offset <span class="op">=</span> <span class="op">-</span><span class="fl">4</span>, scaling.factor <span class="op">=</span> <span class="fl">0.014</span>,</span></span>
-<span class="r-in"><span>  font.taxon.labels <span class="op">=</span> <span class="fl">2</span>, cex.taxon.labels <span class="op">=</span> <span class="fl">0.55</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `axis.line.offset` is now deprecated, please use `depth.axis` argument</span>
-<span class="r-plt img"><img src="SoilTaxonomyDendrogram-3.png" alt="" width="768" height="475"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># cladogram vs. dendrogram</span></span></span>
-<span class="r-in"><span><span class="co"># truncate profiles at 150cm</span></span></span>
-<span class="r-in"><span><span class="fu">SoilTaxonomyDendrogram</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="va">OSDexamples</span><span class="op">$</span><span class="va">SPC</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">16</span>, <span class="op">]</span>, width <span class="op">=</span> <span class="fl">0.3</span>, name.style <span class="op">=</span> <span class="st">'center-center'</span>,</span></span>
-<span class="r-in"><span>  KST.order <span class="op">=</span> <span class="cn">TRUE</span>, axis.line.offset <span class="op">=</span> <span class="op">-</span><span class="fl">4</span>, scaling.factor <span class="op">=</span> <span class="fl">0.02</span>,</span></span>
-<span class="r-in"><span>  font.taxon.labels <span class="op">=</span> <span class="fl">1</span>, cex.taxon.labels <span class="op">=</span> <span class="fl">0.55</span>,</span></span>
-<span class="r-in"><span>  dend.type <span class="op">=</span> <span class="st">'cladogram'</span>, max.depth <span class="op">=</span> <span class="fl">150</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `axis.line.offset` is now deprecated, please use `depth.axis` argument</span>
-<span class="r-plt img"><img src="SoilTaxonomyDendrogram-4.png" alt="" width="768" height="475"></span>
-</code></pre></div>
-    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

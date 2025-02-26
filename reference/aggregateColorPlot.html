@@ -149,52 +149,6 @@
     <p>D.E. Beaudette</p>
     </div>
 
-    <div id="ref-examples">
-    <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ncss-tech/aqp" class="external-link">aqp</a></span><span class="op">)</span> <span class="op">&amp;</span></span></span>
-<span class="r-in"><span>   <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ncss-tech/soilDB/" class="external-link">soilDB</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  </span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">loafercreek</span>, package <span class="op">=</span> <span class="st">'soilDB'</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  </span></span>
-<span class="r-in"><span>  <span class="co"># generalize horizon names using REGEX rules</span></span></span>
-<span class="r-in"><span>  <span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Oi'</span>, <span class="st">'A'</span>, <span class="st">'BA'</span>,<span class="st">'Bt1'</span>,<span class="st">'Bt2'</span>,<span class="st">'Bt3'</span>,<span class="st">'Cr'</span>,<span class="st">'R'</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'O'</span>, <span class="st">'^A$|Ad|Ap|AB'</span>,<span class="st">'BA$|Bw'</span>, </span></span>
-<span class="r-in"><span>         <span class="st">'Bt1$|^B$'</span>,<span class="st">'^Bt$|^Bt2$'</span>,<span class="st">'^Bt3|^Bt4|CBt$|BCt$|2Bt|2CB$|^C$'</span>,<span class="st">'Cr'</span>,<span class="st">'R'</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">loafercreek</span><span class="op">$</span><span class="va">genhz</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/generalize.hz.html" class="external-link">generalize.hz</a></span><span class="op">(</span><span class="va">loafercreek</span><span class="op">$</span><span class="va">hzname</span>, <span class="va">n</span>, <span class="va">p</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  </span></span>
-<span class="r-in"><span>  <span class="co"># remove non-matching generalized horizon names</span></span></span>
-<span class="r-in"><span>  <span class="va">loafercreek</span><span class="op">$</span><span class="va">genhz</span><span class="op">[</span><span class="va">loafercreek</span><span class="op">$</span><span class="va">genhz</span> <span class="op">==</span> <span class="st">'not-used'</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span></span>
-<span class="r-in"><span>  <span class="va">loafercreek</span><span class="op">$</span><span class="va">genhz</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">loafercreek</span><span class="op">$</span><span class="va">genhz</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  </span></span>
-<span class="r-in"><span>  <span class="co"># aggregate color data, this function is from the `aqp` package</span></span></span>
-<span class="r-in"><span>  <span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/aggregateColor.html" class="external-link">aggregateColor</a></span><span class="op">(</span><span class="va">loafercreek</span>, <span class="st">'genhz'</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  </span></span>
-<span class="r-in"><span>  <span class="co"># plot</span></span></span>
-<span class="r-in"><span>  <span class="va">op</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>no.readonly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  </span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  </span></span>
-<span class="r-in"><span>  <span class="co"># vertical labels, the default</span></span></span>
-<span class="r-in"><span>  <span class="fu">aggregateColorPlot</span><span class="op">(</span><span class="va">a</span>, print.n.hz <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  </span></span>
-<span class="r-in"><span>  <span class="co"># horizontal labels</span></span></span>
-<span class="r-in"><span>  <span class="fu">aggregateColorPlot</span><span class="op">(</span><span class="va">a</span>, print.n.hz <span class="op">=</span> <span class="cn">TRUE</span>, label.orientation <span class="op">=</span> <span class="st">'h'</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  </span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  </span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: aqp</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> This is aqp 2.1.0</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: soilDB</span>
-<span class="r-plt img"><img src="aggregateColorPlot-1.png" alt="" width="768" height="475"></span>
-<span class="r-plt img"><img src="aggregateColorPlot-2.png" alt="" width="768" height="475"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
-</code></pre></div>
-    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

@@ -1,4 +1,6 @@
-# sharpshootR 2.3.3 (2025-02-11)
+# sharpshootR 2.4 (2025-03-01)
+ * breaking change: `plotProfileDendrogram()` moved to aqp
+ * breaking change: `aggregateColorPlot()` moved to aqp
  * update SPC fields from data derived from NASIS (via examples and soilDB data)
  * CRAN release
 

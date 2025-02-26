@@ -1,5 +1,5 @@
 ## TODO: sometimes CDEC returns no data... why?
-
+## TODO: move to soilDB-inspired package for climate data
 
 #' @title Easy Access to the CDEC API
 #' 
@@ -15,7 +15,7 @@
 #' 
 #' @param end ending date, in the format 'YYYY-MM-DD'
 #' 
-#' @return A \code{data.frame} object with the following fields: `datetime`, `year`, `month`, `value`.
+#' @return A `data.frame` with the following fields: `datetime`, `year`, `month`, `value`.
 #' 
 #' @references \url{http://cdec.water.ca.gov/queryCSV.html}
 #' 
@@ -23,7 +23,7 @@
 #' 
 #' @details 
 #' 
-#' Sensors that report data on an \code{interval} other than monthly ('M'), daily ('D'), or hourly ('H') can be queried with an `event` interval ('E'). Soil moisture and temperature sensors are an example of this type of reporting. See examples below.
+#' Sensors that report data on an `interval other than monthly ('M'), daily ('D'), or hourly ('H') can be queried with an `event` interval ('E'). Soil moisture and temperature sensors are an example of this type of reporting. See examples below.
 #' 
 #' \describe{
 #' \item{1.}{Station IDs can be found here: \url{http://cdec.water.ca.gov/staInfo.html}}
@@ -33,7 +33,7 @@
 #' \item{4.}{A new interactive map of CDEC stations can be found here: \url{http://cdec.water.ca.gov}}
 #' }
 #' 
-#' @seealso \code{\link{CDECsnowQuery}} \code{\link{CDEC_StationInfo}}
+#' @seealso [CDECsnowQuery()], [CDEC_StationInfo()]
 #' 
 CDECquery <- function(id, sensor, interval = 'D', start, end) {
   # important: change the default behavior of data.frame

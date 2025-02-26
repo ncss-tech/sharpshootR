@@ -12,7 +12,7 @@
 #' 
 #' @note Snow course locations, ID numbers, and other information can be found here: \url{http://cdec.water.ca.gov/misc/SnowCourses.html}
 #' 
-#' @return a `data.frame` object, see examples
+#' @return A `data.frame` with results from CDEC.
 #' 
 #' @references \url{http://cdec.water.ca.gov/cgi-progs/snowQuery}
 #' 

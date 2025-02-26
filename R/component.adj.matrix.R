@@ -16,7 +16,7 @@
 #' @param similarity logical, return a similarity matrix? (if `FALSE`, a distance matrix is returned)
 #' @param return.comm.matrix logical, return pseudo-community matrix? (if `TRUE` no adjacency matrix is created)
 #'
-#' @return a similarity matrix / adjacency matrix suitable for use with `igraph` functions or anything else that can accommodate a _similarity_ matrix.
+#' @return A similarity or adjacency matrix suitable for use with `igraph` functions or anything else that can accommodate a _similarity_ matrix.
 #' 
 #' @author D.E. Beaudette
 #' 
@@ -25,6 +25,7 @@
 #' @keywords manip
 #'
 #' @examples
+#' \donttest{
 #' if (requireNamespace("igraph") && requireNamespace("vegan")) {
 #'   # load sample data set
 #'   data(amador)
@@ -34,6 +35,7 @@
 #' 
 #'   # plot network diagram, with Amador soil highlighted
 #'   plotSoilRelationGraph(m, s = 'amador')
+#' }
 #' }
 component.adj.matrix <-function(d, mu = 'mukey', co = 'compname', wt = 'comppct_r', method = c('community.matrix', 'occurrence'), standardization = 'max', metric = 'jaccard', rm.orphans = TRUE, similarity = TRUE, return.comm.matrix = FALSE) {
 	

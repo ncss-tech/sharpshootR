@@ -15,11 +15,11 @@
 #'
 #' @export
 #'
-#' @return nothing returned, function is called to create graphical output
+#' @return This function is called to create graphical output, nothing returned.
 #'
 #' @examples
 #' 
-#' \dontrun{
+#' \donttest{
 #' if(requireNamespace("venn") & requireNamespace("gower")) {
 #' 
 #' chips <- c('10YR 8/1', '2.5YR 3/6', '10YR 2/2')

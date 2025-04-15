@@ -21,7 +21,6 @@
 <url><loc>/reference/PCP_plot.html</loc></url>
 <url><loc>/reference/PLSS2LL.html</loc></url>
 <url><loc>/reference/SoilTaxonomyDendrogram.html</loc></url>
-<url><loc>/reference/aggregateColorPlot.html</loc></url>
 <url><loc>/reference/amador.html</loc></url>
 <url><loc>/reference/aspect.plot.html</loc></url>
 <url><loc>/reference/colorMixtureVenn.html</loc></url>
@@ -36,7 +35,6 @@
 <url><loc>/reference/estimateSoilMoistureState.html</loc></url>
 <url><loc>/reference/formatPLSS.html</loc></url>
 <url><loc>/reference/generateLineHash.html</loc></url>
-<url><loc>/reference/geomorphBySoilSeries-SSURGO.html</loc></url>
 <url><loc>/reference/huePositionPlot.html</loc></url>
 <url><loc>/reference/hydOrder.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
@@ -52,7 +50,6 @@
 <url><loc>/reference/percentileDemo.html</loc></url>
 <url><loc>/reference/plotAvailWater.html</loc></url>
 <url><loc>/reference/plotGeomorphCrossSection.html</loc></url>
-<url><loc>/reference/plotProfileDendrogram.html</loc></url>
 <url><loc>/reference/plotSoilRelationChordGraph.html</loc></url>
 <url><loc>/reference/plotSoilRelationGraph.html</loc></url>
 <url><loc>/reference/plotTransect.html</loc></url>

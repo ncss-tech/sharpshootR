@@ -34,7 +34,7 @@ moistureStateThreshold <- function(x, id = 'compname', threshold = 'moist', oper
       # there may be case where there are no TRUE cases
       # converting to a factor ensures table dimensions are consistent
       tab <- table(
-        factor(expr, levels=c('FALSE', 'TRUE'))
+        factor(expr, levels = c('FALSE', 'TRUE'))
       )
       
       # convert to proportions

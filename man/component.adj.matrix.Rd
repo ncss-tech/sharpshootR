@@ -39,12 +39,13 @@ component.adj.matrix(
 \item{return.comm.matrix}{logical, return pseudo-community matrix? (if \code{TRUE} no adjacency matrix is created)}
 }
 \value{
-a similarity matrix / adjacency matrix suitable for use with \code{igraph} functions or anything else that can accommodate a \emph{similarity} matrix.
+A similarity or adjacency matrix suitable for use with \code{igraph} functions or anything else that can accommodate a \emph{similarity} matrix.
 }
 \description{
 Create an adjacency matrix from SSURGO component data
 }
 \examples{
+\donttest{
 if (requireNamespace("igraph") && requireNamespace("vegan")) {
   # load sample data set
   data(amador)
@@ -54,6 +55,7 @@ if (requireNamespace("igraph") && requireNamespace("vegan")) {
 
   # plot network diagram, with Amador soil highlighted
   plotSoilRelationGraph(m, s = 'amador')
+}
 }
 }
 \author{

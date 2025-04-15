@@ -1,9 +1,9 @@
 
 
 
-#' @title Line / Area Visualization for Monthly Water Balance
+#' @title Visualization of a monthly water balance using lines and areas
 #' 
-#' @description Pending.
+#' @description This function creates a graphical summary of a monthly water balance, typically estimated via [`monthlyWB()`].
 #' 
 #' @author J.M. Skovlin and D.E. Beaudette
 #'

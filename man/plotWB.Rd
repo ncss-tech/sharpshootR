@@ -25,9 +25,9 @@ plotWB(
 )
 }
 \arguments{
-\item{WB}{output from \code{monthlyWB()}}
+\item{WB}{output from \code{\link[=monthlyWB]{monthlyWB()}}}
 
-\item{AWC}{available water-holding capacity (mm), typically the value used in \code{monthlyWB()} and stored as an attribute of \code{WB}}
+\item{AWC}{available water-holding capacity (mm), typically the value used in \code{\link[=monthlyWB]{monthlyWB()}} and stored as an attribute of \code{WB}}
 
 \item{sw.col}{color for soil water ("storage)}
 
@@ -63,7 +63,7 @@ plotWB(
 nothing, function is called to generate graphical output
 }
 \description{
-This function offers one possible visualization for the results of \code{monthlyWB()}. Note that "surplus" water is stacked on top of "actual ET", and "deficit" water is stacked below "storage". Calculate actual values for "surplus" and "deficit" from the figure like this:
+This function offers one possible visualization for the results of \code{\link[=monthlyWB]{monthlyWB()}}. Note that "surplus" water is stacked on top of "actual ET", and "deficit" water is stacked below "storage". Calculate actual values for "surplus" and "deficit" from the figure like this:
 \itemize{
 \item surplus value = surplus - AET
 \item deficit value = deficit - storage

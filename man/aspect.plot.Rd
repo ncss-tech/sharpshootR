@@ -54,7 +54,7 @@ aspect.plot(
 \item{...}{further arguments passed to \code{circular::plot.circular}}
 }
 \value{
-invisibly returns circular stats
+This function is primarily called for graphical output, also invisibly returns circular stats.
 }
 \description{
 Plot a graphical summary of multiple aspect measurements on a circular diagram.
@@ -67,16 +67,19 @@ Manual adjustment of \code{p.bw} may be required in order to get an optimal circ
 }
 \examples{
 # simulate some data
-p.narrow <- runif(n=25, min=215, max=280)
-p.wide <- runif(n=25, min=0, max=270)
+p.narrow <- runif(n = 25, min = 215, max = 280)
+p.wide <- runif(n = 25, min = 0, max = 270)
 
 # set figure margins to 0, 2-column plot
 op <- par(no.readonly = TRUE)
-par(mar = c(0,0,0,0), mfcol = c(1,2))
+par(mar = c(0, 0, 0, 0), mfcol = c(1, 2))
 
 # plot, save circular stats 
-x <- aspect.plot(p.narrow, p.bw=10, plot.title='Soil A', pch=21, col='black', bg='RoyalBlue')
-y <- aspect.plot(p.wide, p.bw=10, plot.title='Soil B', pch=21, col='black', bg='RoyalBlue')
+x <- aspect.plot(p.narrow, p.bw = 10, 
+plot.title = 'Soil A', pch = 21, col = 'black', bg = 'RoyalBlue')
+
+y <- aspect.plot(p.wide, p.bw = 10, 
+plot.title = 'Soil B', pch = 21, col = 'black', bg = 'RoyalBlue')
 
 # reset output device options
 par(op) 

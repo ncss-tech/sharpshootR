@@ -16,7 +16,7 @@
 #' @param similarity logical, return a similarity matrix? (if `FALSE`, a distance matrix is returned)
 #' @param return.comm.matrix logical, return pseudo-community matrix? (if `TRUE` no adjacency matrix is created)
 #'
-#' @return A similarity or adjacency matrix suitable for use with `igraph` functions or anything else that can accommodate a _similarity_ matrix.
+#' @return A similarity or adjacency matrix suitable for use with `igraph` functions or anything else that can accommodate a *similarity* matrix.
 #' 
 #' @author D.E. Beaudette
 #' 

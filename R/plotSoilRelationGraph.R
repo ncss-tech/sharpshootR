@@ -10,13 +10,18 @@
 # normalize transparency logic and argument names: should all be "alpha"
 
 .maximum.spanning.tree <- function(x){
+  # sanity check
   stopifnot(requireNamespace("igraph"))
+  
   # convert cost representation of weights to "strength"
   igraph::E(x)$weight <- -1 *  igraph::E(x)$weight
+  
   # compute min spanning tree on "strength"
   x <- igraph::minimum.spanning.tree(x)
+  
   # convert "strength" representation of weights back to cost
   igraph::E(x)$weight <- -1 *  igraph::E(x)$weight
+  
   return(x)
 }
 

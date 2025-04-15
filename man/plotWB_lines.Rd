@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotWB_lines.R
 \name{plotWB_lines}
 \alias{plotWB_lines}
-\title{Line / Area Visualization for Monthly Water Balance}
+\title{Visualization of a monthly water balance using lines and areas}
 \usage{
 plotWB_lines(
   WB,
@@ -36,7 +36,7 @@ plotWB_lines(
 nothing, function is called to generate graphical output
 }
 \description{
-Pending.
+This function creates a graphical summary of a monthly water balance, typically estimated via \code{\link[=monthlyWB]{monthlyWB()}}.
 }
 \examples{
 

@@ -34,7 +34,7 @@ joinAdjacency <- function(x, vars = c('l_musym', 'r_musym')) {
   # remove multiple, keeping mean of edge weights
   g <- igraph::simplify(g, remove.multiple = TRUE, remove.loops = TRUE, edge.attr.comb = 'mean')
   
-  # save as weighted adjacancy matrix for plotting with sharpshootR functions
+  # save as weighted adjacency matrix for plotting with sharpshootR functions
   a <- igraph::get.adjacency(g, attr = 'weight')
   
   return(a)

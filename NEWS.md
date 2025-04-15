@@ -1,6 +1,7 @@
-# sharpshootR 2.4 (2025-03-01)
+# sharpshootR 2.4 (2025-04-15)
  * breaking change: `plotProfileDendrogram()` moved to aqp
  * breaking change: `aggregateColorPlot()` moved to aqp
+ * breaking change: removed deprecated functions `geomPosMountainProbability()`, `geomPosHillProbability()`, `surfaceShapeProbability()`, `hillslopeProbability()`
  * update SPC fields from data derived from NASIS (via examples and soilDB data)
  * CRAN release
 

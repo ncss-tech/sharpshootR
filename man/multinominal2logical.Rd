@@ -49,7 +49,7 @@ if(require(soilDB) &
 
 }
 \seealso{
-\code{\link{diagnosticPropertyPlot}}
+\code{\link[=diagnosticPropertyPlot]{diagnosticPropertyPlot()}}
 }
 \author{
 D.E. Beaudette

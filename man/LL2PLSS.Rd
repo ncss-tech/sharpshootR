@@ -24,10 +24,10 @@ Uses latitude and longitude coordinates to return the PLSS section geometry from
 This function accepts geographic coordinates and returns the PLSS fabric geometry to the quarter-quarter section. \code{returnlevel} defaults to 'I' which returns smallest intersected sectional aliquot geometry, 'S' will return the section geometry of the coordinates. See https://gis.blm.gov/arcgis/rest/services/Cadastral/BLM_Natl_PLSS_CadNSDI/MapServer for details.
 }
 \note{
-This function requires the following packages: \code{httr}, \code{jsonlite}, and \code{sp}.
+This function requires the following packages: httr, jsonlite, and sf.
 }
 \seealso{
-\code{\link{PLSS2LL}}, \code{\link{formatPLSS}}
+\code{\link[=PLSS2LL]{PLSS2LL()}}, \code{\link[=formatPLSS]{formatPLSS()}}
 }
 \author{
 D.E. Beaudette, Jay Skovlin, A.G. Brown

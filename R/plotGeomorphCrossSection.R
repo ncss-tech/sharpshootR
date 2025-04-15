@@ -17,6 +17,7 @@
 #' When `clust = TRUE`, especially for `SoilProfileCollections` with a wide range in depth, it may be necessary to adjust the `scaling.factor` argument to [aqp::plotSPC()] via: `options(.aqp.plotSPC.args = list(scaling.factor = 0.01))`. Larger values will increase the height of profile sketches.
 #' 
 #' @author D.E. Beaudette
+#' @return nothing, function is called to generate graphical output
 #' @export
 #'
 plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', clust = TRUE, col = c("#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#E41A1C"), ...) {

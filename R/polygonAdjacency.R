@@ -36,7 +36,7 @@ polygonAdjacency <- function(x, v = 'MUSYM', ...) {
   # list index references the original polygon number
   # each list item contains indexes to neighbors with the same map unit symbol
   common.polys <- list()
-    
+  
   # init empy list to store adjacency information via attribute `v`
   edge.list <- list()
   
@@ -82,5 +82,7 @@ polygonAdjacency <- function(x, v = 'MUSYM', ...) {
   a <- igraph::get.adjacency(g, attr = 'weight')
   
   # done
-  return(list(commonLines = polys.to.investigate, adjMat = a))
+  return(
+    list(commonLines = polys.to.investigate, adjMat = a)
+  )
 }

@@ -1,6 +1,6 @@
 #' @title Visualize Monthly Water Balance
 #' 
-#' @description This function offers one possible visualization for the results of `monthlyWB()`. Note that "surplus" water is stacked on top of "actual ET", and "deficit" water is stacked below "storage". Calculate actual values for "surplus" and "deficit" from the figure like this:
+#' @description This function offers one possible visualization for the results of [monthlyWB()]. Note that "surplus" water is stacked on top of "actual ET", and "deficit" water is stacked below "storage". Calculate actual values for "surplus" and "deficit" from the figure like this:
 #'    * surplus value = surplus - AET
 #'    * deficit value = deficit - storage
 #' 
@@ -8,9 +8,9 @@
 #' 
 #' @author D.E. Beaudette and J.M. Skovlin
 #' 
-#' @param WB output from `monthlyWB()`
+#' @param WB output from [monthlyWB()]
 #' 
-#' @param AWC available water-holding capacity (mm), typically the value used in `monthlyWB()` and stored as an attribute of `WB`
+#' @param AWC available water-holding capacity (mm), typically the value used in [monthlyWB()] and stored as an attribute of `WB`
 #' 
 #' @param ylim optional vector of y-axis limits, `c(-min, max)`, typically used when comparing drastically different water balances in the same figure. Default limits are usually best for a single water balance plot.
 #'

@@ -2,12 +2,6 @@
 ## TODO: fix sort.vars behavior...
 
 
-# f: SPC with diagnostic boolean variables
-# v: named variables
-# k: number of groups to highlight
-# id: id to print next to dendrogram
-# sort.vars: should variables be sorted according to similarity?
-
 
 #' @title Diagnostic Property Plot (base graphics)
 #' 
@@ -29,7 +23,7 @@
 #'   \item{\code{var.order}}{a vector containing the order of variables (column-order in figure), according to their distribution among profiles}
 #' }
 #' 
-#' @seealso \code{\link{multinominal2logical}}
+#' @seealso [multinominal2logical()]
 #' 
 #' @keywords hplots
 #' 

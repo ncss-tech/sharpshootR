@@ -14,7 +14,7 @@ CDECsnowQuery(course, start_yr, end_yr)
 \item{end_yr}{integer, the ending year (e.g. 2013)}
 }
 \value{
-a \code{data.frame} object, see examples
+A \code{data.frame} with results from CDEC.
 }
 \description{
 Get snow survey data (California only) from the CDEC website.

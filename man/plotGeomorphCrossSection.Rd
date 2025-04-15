@@ -26,6 +26,9 @@ plotGeomorphCrossSection(
 
 \item{\dots}{additional arguments to \code{\link[=iterateHydOrder]{iterateHydOrder()}}}
 }
+\value{
+nothing, function is called to generate graphical output
+}
 \description{
 Present a \code{SoilProfileCollection} aligned to a geomorphic summary as cross-section.
 }

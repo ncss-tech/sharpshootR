@@ -41,7 +41,7 @@ Generate a graphical description of the presence/absence of soil diagnostic prop
 This function attempts to display several pieces of information within a single figure. First, soil profiles are sorted according to the presence/absence of diagnostic features named in \code{v}. Second, these diagnostic features are sorted according to their distribution among soil profiles. Third, a binary grid is established with row-ordering of profiles based on step 1 and column-ordering based on step 2. Blue cells represent the presence of a diagnostic feature. Soils with similar diagnostic features should 'clump' together. See examples below.
 }
 \seealso{
-\code{\link{multinominal2logical}}
+\code{\link[=multinominal2logical]{multinominal2logical()}}
 }
 \author{
 D.E. Beaudette and J.M. Skovlin

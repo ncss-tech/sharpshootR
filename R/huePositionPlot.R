@@ -29,22 +29,22 @@
 #' @examples
 #' 
 #' \donttest{
+#' # adjust Munsell value and chroma for all hues
 #' huePositionPlot(value = 4, chroma = 4)
+#' # huePositionPlot(value = 6, chroma = 6)
+#' # huePositionPlot(value = 8, chroma = 8)
 #' 
-#' huePositionPlot(value = 6, chroma = 6)
+#' ## contour dE00 values from CIELBA (A,B) origin
+#' # huePositionPlot(value = 6, chroma = 6, contour.dE00 = TRUE, grid.res = 2)
 #' 
-#' huePositionPlot(value = 8, chroma = 8)
+#' ## shift origin to arbitrary CIELAB coordinates or Munsell color
+#' # huePositionPlot(origin = cbind(40, 5, 15), origin.cex = 0.5)
 #' 
-#' huePositionPlot(value = 6, chroma = 6, contour.dE00 = TRUE, grid.res = 2)
+#' # huePositionPlot(origin = '5G 6/4', origin.cex = 0.5)
 #' 
-#' # shift origin to arbitrary CIELAB coordinates or Munsell color
-#' huePositionPlot(origin = cbind(40, 5, 15), origin.cex = 0.5)
+#' # huePositionPlot(origin = '10YR 3/4', origin.cex = 0.5)
 #' 
-#' huePositionPlot(origin = '5G 6/4', origin.cex = 0.5)
-#' 
-#' huePositionPlot(origin = '10YR 3/4', origin.cex = 0.5)
-#' 
-#' huePositionPlot(value = 3, chroma = 4, origin = '10YR 3/4', origin.cex = 0.5)
+#' # huePositionPlot(value = 3, chroma = 4, origin = '10YR 3/4', origin.cex = 0.5)
 #' 
 #' }
 #' 

@@ -58,11 +58,15 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="2.4" id="sharpshootr-24-2025-04-15">sharpshootR 2.4 (2025-04-15)<a class="anchor" aria-label="anchor" href="#sharpshootr-24-2025-04-15"></a></h2>
+<h2 class="page-header" data-toc-text="2.4" id="sharpshootr-24-2025-04-16">sharpshootR 2.4 (2025-04-16)<a class="anchor" aria-label="anchor" href="#sharpshootr-24-2025-04-16"></a></h2>
 <ul><li>breaking change: <code><a href="https://rdrr.io/pkg/aqp/man/plotProfileDendrogram.html" class="external-link">plotProfileDendrogram()</a></code> moved to aqp</li>
 <li>breaking change: <code><a href="https://rdrr.io/pkg/aqp/man/aggregateColorPlot.html" class="external-link">aggregateColorPlot()</a></code> moved to aqp</li>
 <li>breaking change: removed deprecated functions <code>geomPosMountainProbability()</code>, <code>geomPosHillProbability()</code>, <code>surfaceShapeProbability()</code>, <code>hillslopeProbability()</code>
 </li>
+<li>
+<code><a href="../reference/plotSoilRelationGraph.html">plotSoilRelationGraph()</a></code> no longer uses <code>set.seed(1010101)</code> for deterministic output
+<ul><li>be sure it set a seed just before calling for reproducible output</li>
+</ul></li>
 <li>update SPC fields from data derived from NASIS (via examples and soilDB data)</li>
 <li>CRAN release</li>
 </ul></div>

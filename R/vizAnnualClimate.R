@@ -13,7 +13,7 @@
 #' 
 #' @author D.E. Beaudette
 #' 
-#' @seealso `vizHillslopePosition`
+#' @seealso [vizHillslopePosition()]
 #' 
 #' @return
 #' 

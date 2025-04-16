@@ -14,7 +14,7 @@ vizFlatsPosition(
 )
 }
 \arguments{
-\item{x}{\code{data.frame} as created by \code{soilDB::fetchOSD(..., extended=TRUE)}, see details}
+\item{x}{\code{data.frame} as created by \code{soilDB::fetchOSD(..., extended = TRUE)}, see details}
 
 \item{s}{an optional soil series name, highlighted in the figure}
 
@@ -24,7 +24,7 @@ vizFlatsPosition(
 
 \item{cols}{vector of colors}
 
-\item{\dots}{additional arguments to \verb{[iterateHydOrder]}: \verb{target = 0.9, maxIter = 20, j.amount = 0.05, verbose = FALSE}}
+\item{\dots}{additional arguments to \code{\link[=iterateHydOrder]{iterateHydOrder()}}: \verb{target = 0.9, maxIter = 20, j.amount = 0.05, verbose = FALSE}}
 }
 \value{
 A \code{list} with the following elements:

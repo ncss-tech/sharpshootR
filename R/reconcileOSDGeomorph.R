@@ -1,12 +1,14 @@
 
 
 #' @title Reconcile IDs between a SPC and associated geomorphic proportion table
+#' 
 #' @description This function can assist with linked visualizations that include soil morphology data stored in a `SoilProfileCollection` and geomorphic proportions stored in a `data.frame`, as returned by `soilDB::fetchOSD()`.
 #' 
 #' @param x resulting list from `soilDB::fetchOSD(..., extended = TRUE)`
 #' @param selection character, name of geomorphic proportion table
 #'
 #' @return a `list` with subset `SoilProfileCollection` and `data.frame` of geomorphic proportions, `selection` is preserved as an attribute.
+#' 
 #' @author D.E. Beaudette
 #' 
 #' @export

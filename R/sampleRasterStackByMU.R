@@ -43,7 +43,7 @@
 #'   \item{`Moran_I`}{a `data.frame` containing estimates Moran's I (index of spatial autocorrelation)}
 #' 	} 
 #' @author D.E. Beaudette
-#' @seealso \code{\link{constantDensitySampling}}, \code{\link{sample.by.poly}}
+#' @seealso [constantDensitySampling()], [sample.by.poly()]
 #' @keywords manip
 #' @export
 sampleRasterStackByMU <- function(mu,
@@ -309,57 +309,6 @@ sampleRasterStackByMU <- function(mu,
     )
   )
 }
-
-
-
-## Moran's I by polygon: very slow
-
-# 
-# ## TODO: this may be far too slow
-# if(estimateEffectiveSampleSize) {
-#   message(paste0('   Estimating effective sample size: ', i.name))
-#   
-#   # compute within each polygon: slightly faster
-#   ss <- list()
-#   # split spatial samples / extracted raster data by polygon into lists, indexed by pID
-#   s.polys <- split(s, as.character(s$pID))
-#   v.polys <- split(l[[i.name]]$value, as.character(l[[i.name]]$pID))
-#   
-#   # iterate over polygons
-#   for(this.poly in names(s.polys)) {
-#     
-#     ## TODO: errors here (?) when used from package, but not when sourced locally
-#     # starting sample size
-#     n <- nrow(s.polys[[this.poly]])
-#     
-#     ## TODO: errors here (?) when used from package, but not when sourced locally
-#     # attempt to compute Moran's I
-#     rho <- try(.Moran(s.polys[[this.poly]], v.polys[[this.poly]]), silent = TRUE)
-#     
-#     # if successful
-#     if(class(rho) != 'try-error') {
-#       # compute effective sample size and save
-#       n_eff <- .effective_n(n, rho)
-#       ss[[this.poly]] <- data.frame(Moran_I=round(rho, 3), n_eff=round(n_eff), n=n)
-#     }
-#     else {
-#       # otherwise use NA
-#       ss[[this.poly]] <- data.frame(Moran_I=NA, n_eff=NA, n=n)
-#     }
-#   }
-#   
-# } else { # otherwise return NA
-#   ## TODO: finish this
-#   # ss[[this.poly]] <- data.frame(Moran_I=NA, n_eff=NA, n=n)
-# }
-# 
-# 
-# 
-# # save stats computed by polygon to list indexed by raster name
-# ss <- ldply(ss)
-# names(ss)[1] <- 'pID'
-# l.s[[i.name]] <- ss
-# 
 
 
 

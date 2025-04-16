@@ -15,7 +15,7 @@
 #' 
 #' @param cols vector of colors
 #' 
-#' @param \dots additional arguments to `[iterateHydOrder]`: `target = 0.9, maxIter = 20, j.amount = 0.05, verbose = FALSE`
+#' @param \dots additional arguments to [iterateHydOrder()]: `target = 0.9, maxIter = 20, j.amount = 0.05, verbose = FALSE`
 #' 
 #' @return
 #' A `list` with the following elements:

@@ -31,7 +31,7 @@ Annual climate summaries for soil series, based on \code{latticeExtra::segplot},
 This function was designed for use with \code{soilDB::fetchOSD}. It might be possible to use with other sources of data but your mileage may vary. See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
 }
 \seealso{
-\code{vizHillslopePosition}
+\code{\link[=vizHillslopePosition]{vizHillslopePosition()}}
 }
 \author{
 D.E. Beaudette

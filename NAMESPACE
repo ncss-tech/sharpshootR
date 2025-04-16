@@ -26,6 +26,7 @@ importFrom(ape,
 )
 
 importFrom(aqp,
+           plotProfileDendrogram,
            plot,
            hzDistinctnessCodeToOffset,
            fixOverlap,

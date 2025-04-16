@@ -2,8 +2,7 @@
 
 #' @title Sample Polygons at a Fixed Density
 #' 
-#' @description
-#' Perform constant-density sampling of polygons.
+#' @description Perform constant-density sampling of polygons.
 #' 
 #'
 #' @param x either `SpatVector` or object that can be coerced into one, should contain polygons registered to a planar coordinate reference system

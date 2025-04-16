@@ -4,7 +4,7 @@
 #' 
 #' @description A unique display of surface shape (typically curvature) probability, suitable for across-slope or down-slope shape. Use the `title` argument to make this clear.
 #' 
-#' @param x \code{data.frame} as created by \code{soilDB::fetchOSD(..., extended=TRUE)}, see details
+#' @param x `data.frame` as created by `soilDB::fetchOSD(..., extended = TRUE)`, see details
 #' 
 #' @param s an optional soil series name, highlighted in the figure
 #' 
@@ -16,7 +16,7 @@
 #' 
 #' @param cols vector of colors
 #' 
-#' @param \dots additional arguments to `[iterateHydOrder]`: `target = 0.9, maxIter = 20, j.amount = 0.05, verbose = FALSE`
+#' @param \dots additional arguments to [iterateHydOrder()]: `target = 0.9, maxIter = 20, j.amount = 0.05, verbose = FALSE`
 #' 
 #' @return
 #' A `list` with the following elements:

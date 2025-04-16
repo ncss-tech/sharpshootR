@@ -79,9 +79,14 @@ The maximum spanning tree + edges with weights > n-th quantile is an experimenta
 The \code{graph.mode} argument is passed to \code{igraph::graph_from_adjacency_matrix()} and determines how vertex relationships are coded in the adjacency matrix \code{m}. Typically, the default value of 'upper' (the upper triangle of \code{m} contains adjacency information) is the desired mode. If \code{m} contains directional information, set \code{graph.mode} to 'directed'. This has the side-effect of altering the default community detection algorithm from \code{igraph::cluster_fast_greedy} to \code{igraph::cluster_walktrap}.
 }
 \note{
-This function is a work in progress, ideas welcome.
+The default output for \code{plot.style=network} is nondeterministic when using most igraph layouts, including the default \code{igraph::layour_with_fr}. Previous versions of sharpshootR hard-coded a random seed via \code{set.seed(1010101)}. Consider adding this if you are trying to recreate previous output.
 }
 \examples{
+
+# consider setting a random seed for consistent output from run to run
+# prior releases of sharpshootR used:
+# set.seed(1010101)
+
 if (requireNamespace("igraph") && requireNamespace("vegan")) {
   # load sample data set
   data(amador)

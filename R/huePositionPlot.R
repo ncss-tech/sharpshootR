@@ -28,7 +28,7 @@
 #'
 #' @examples
 #' 
-#' \dontrun{
+#' \donttest{
 #' huePositionPlot(value = 4, chroma = 4)
 #' 
 #' huePositionPlot(value = 6, chroma = 6)

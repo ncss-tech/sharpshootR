@@ -53,7 +53,7 @@
 #' @param delete.singletons optionally delete vertices with no edges (`degree == 0`)
 #' @param ... further arguments passed to plotting function
 #' 
-#' @note This function is a work in progress, ideas welcome.
+#' @note The default output for `plot.style=network` is nondeterministic when using most igraph layouts, including the default `igraph::layour_with_fr`. Previous versions of sharpshootR hard-coded a random seed via `set.seed(1010101)`. Consider adding this if you are trying to recreate previous output.
 #' 
 #' @details Vertex size is based on a normalized index of connectivity: 
 #' 
@@ -75,6 +75,11 @@
 #' @export
 #'
 #' @examples
+#' 
+#' # consider setting a random seed for consistent output from run to run
+#' # prior releases of sharpshootR used:
+#' # set.seed(1010101)
+#' 
 #' if (requireNamespace("igraph") && requireNamespace("vegan")) {
 #'   # load sample data set
 #'   data(amador)
@@ -298,8 +303,8 @@ plotSoilRelationGraph <- function(m, s='', plot.style = c('network', 'dendrogram
   font.vect[which(names(g.com.membership) == s)] <- 2
   
   if (plot.style == 'network') {
-    # note: seed being reset behind the scenes might be unexpected for users
-    set.seed(1010101) # consistent output
+    # removed 2025-04-16 based on feedback from CRAN reviewers
+    # set.seed(1010101) 
     plot(
       g,
       layout = g.layout,

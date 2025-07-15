@@ -1,11 +1,13 @@
-#' @title formatPLSS
-#' @description Format PLSS information into a coded format that can be digested by PLSS web service.
+
+
+#' @title Format Public Land Survey System (PLSS) Components
+#' @description Format Public Land Survey System (PLSS) components into a string that can be interpreted by the US Bureau of Land Management (BLM) PLSS encoding and decoding web service.
 #'
-#' @param p data.frame with chunks of PLSS coordinates
+#' @param p `data.frame` with components of a PLSS description
 #' @param type an option to format protracted blocks 'PB', unprotracted blocks 'UP', or standard section number 'SN' (default).
-#' @details This function is typically accessed as a helper function to prepare data for use within `PLSS2LL()` function.
+#' @details This function is typically accessed as a helper function to prepare data for use by the `PLSS2LL()` function.
+#' 
 #'
-#' @note This function expects that the `Polygon` object has coordinates associated with a projected CRS-- e.g. units of meters.
 #' @author D.E. Beaudette, Jay Skovlin, A.G. Brown
 #' @seealso [PLSS2LL()]
 #' @note This function requires the following packages: stringi.
@@ -13,7 +15,7 @@
 #' @export
 #'
 #' @examples
-#' # create some data
+#' # create PLSS description components
 #' d <- data.frame(
 #'   id = 1:3,
 #'   qq = c('SW', 'SW', 'SE'),
@@ -25,11 +27,13 @@
 #'   m = 'MT20',
 #'   stringsAsFactors = FALSE
 #' )
-#' # add column names
-#'
-#' names(d) <- c('id', 'qq', 'q', 's', 't', 'r', 'type', 'm')
+
 #' # generate formatted PLSS codes
-#' formatPLSS(d, type='SN')
+#' # and save back to original data.frame
+#' d$plssid <- formatPLSS(d, type = 'SN')
+#' 
+#' # convert to geographic coordinates
+#' # PLSS2LL(d)
 #' 
 formatPLSS <- function(p, type = 'SN') {
   # check for required packages
@@ -53,10 +57,10 @@ formatPLSS <- function(p, type = 'SN') {
   p <- as.data.frame(p)
   
   # force conversions to appropriate data type
-  p[,required_chr] <- lapply(p[,required_chr, drop = FALSE], as.character)
+  p[ ,required_chr] <- lapply(p[ ,required_chr, drop = FALSE], as.character)
   
   if (sum(optional_chr %in% colnames(p)) > 0) {
-    p[,optional_chr] <- lapply(p[,optional_chr, drop = FALSE], as.character)
+    p[ ,optional_chr] <- lapply(p[ ,optional_chr, drop = FALSE], as.character)
   }
   
   if (optional_int %in% colnames(p)) {
@@ -89,6 +93,10 @@ formatPLSS <- function(p, type = 'SN') {
       p.t <- stri_match_first_regex(p$t[i], pattern = '([0-9]+)([N|S])')[2:3]
       p.r <- stri_match_first_regex(p$r[i], pattern = '([0-9]+)([E|W])')[2:3]
       
+      ## TODO: accommodate T and R values > 99
+      ##       -> no 0-padding with 3-digit T/R
+      ## https://github.com/ncss-tech/sharpshootR/issues/62
+      
       # pad T/R codes with 0
       p.t[1] <- stri_pad(p.t[1], width = 2, pad = '0')
       p.r[1] <- stri_pad(p.r[1], width = 2, pad = '0')
@@ -103,6 +111,12 @@ formatPLSS <- function(p, type = 'SN') {
       # replace NA -> '' IN S, Q and QQ sections
       p.q <- ifelse(is.na(p$q[i]), '', p$q[i])
       p.qq <- ifelse(is.na(p$qq[i]), '', p$qq[i])
+      
+      
+      ## TODO: accommodate T and R values > 99
+      ##       -> no 0-padding with 3-digit T/R
+      ## this line is breaking e.g. T149N
+      ## https://github.com/ncss-tech/sharpshootR/issues/62
       
       # format the first chunk
       f.1 <- ifelse(nchar(p.s) == 0, 
@@ -154,18 +168,18 @@ formatPLSS <- function(p, type = 'SN') {
   if (any(sapply(f[p.good], nchar) != p.expected.nchar[p.good]))
     warning("one or more formatted PLSS strings does not match expected length")
   if (any(is.na(p.expected.nchar)))
-    warning("one or more expected lengths is NA") # generally shouldnt happen?
+    warning("one or more expected lengths is NA") # generally shouldn't happen?
   if (any(is.na(f)))
     warning("one or more results is NA; check with `attr(,'na.action')`") # this most common user-level errors
   return(f)
 }
 
-.expectedPLSSnchar <- function(p, type = 'SN', optional_names = c("s","qq","q")) {
+.expectedPLSSnchar <- function(p, type = 'SN', optional_names = c("s", "qq", "q")) {
   # calculate expected number of characters
   .hasZeroLen <- function(x) return(is.na(x) | x == "")
   p.expected.nchar <- 25 - ((rowSums(do.call('cbind', lapply(p[, optional_names, drop = FALSE], .hasZeroLen)[optional_names])))*2)
   # note that while it is possible to specify only one of q/qq -- 
-  # it does not appear that the API accepts, so we warn accordingly in formatPLSS expected length wont be right
+  # it does not appear that the API accepts, so we warn accordingly in formatPLSS() expected length wont be right
   
   naopt <- which(apply(is.na(p[,optional_names]) | p$type == "PB", 1, function(b) any(b)))
   if (type == 'PB') { # type=PB -5
@@ -338,6 +352,11 @@ LL2PLSS <- function(x, y, returnlevel = c('I', 'S')) {
   # convert JSON -> list
   r <- jsonlite::fromJSON(httr::content(r, as = 'text'), flatten = TRUE)
   
+  ## TODO: requires more testing of the web service result
+  ##        - check for error component
+  ##        - nest flow control
+  ## https://github.com/ncss-tech/sharpshootR/issues/62
+  
   # handling when no coords returned
   if (inherits(r$coordinates, 'list') &
       length(r$coordinates) == 0) {
@@ -366,14 +385,14 @@ LL2PLSS <- function(x, y, returnlevel = c('I', 'S')) {
 }
 
 
-#' @title PLSS2LL
-#' @description Fetch latitude and longitude (centroid) coordinates for coded PLSS information from the BLM PLSS web service.
-#' @param p `data.frame` with chunks of PLSS definition
-#' @param plssid column name containing PLSS ID
+#' @title Lookup Geographic Coordinates for Public Land Survey System Descriptions
+#' @description Fetch geographic coordinates by Public Land Survey System (PLSS)  description from the BLM PLSS web service. Coordinates represent the centroid of each PLSS aliquot defined in `p`.
+#' @param p `data.frame` containing (at least) PLSS aliquot part identifiers. These can be generated by [formatPLSS()].
+#' @param plssid column name containing PLSS aliquot part identifiers.
 #'
 #' @return A `data.frame` of PLSS codes and coordinates.
 #' @author D.E. Beaudette, Jay Skovlin, A.G. Brown
-#' @note This function expects that the input `p` will have a 'plssid' column generated by the [formatPLSS()] function. Requires the following packages: httr, and jsonlite.
+#' @note Requires the following packages: httr and jsonlite.
 #' @seealso [LL2PLSS()], [formatPLSS()]
 #' @export
 #'

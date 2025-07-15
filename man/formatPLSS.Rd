@@ -2,12 +2,12 @@
 % Please edit documentation in R/PLSS2LL.R
 \name{formatPLSS}
 \alias{formatPLSS}
-\title{formatPLSS}
+\title{Format Public Land Survey System (PLSS) Components}
 \usage{
 formatPLSS(p, type = "SN")
 }
 \arguments{
-\item{p}{data.frame with chunks of PLSS coordinates}
+\item{p}{\code{data.frame} with components of a PLSS description}
 
 \item{type}{an option to format protracted blocks 'PB', unprotracted blocks 'UP', or standard section number 'SN' (default).}
 }
@@ -15,18 +15,16 @@ formatPLSS(p, type = "SN")
 A vector of PLSS codes.
 }
 \description{
-Format PLSS information into a coded format that can be digested by PLSS web service.
+Format Public Land Survey System (PLSS) components into a string that can be interpreted by the US Bureau of Land Management (BLM) PLSS encoding and decoding web service.
 }
 \details{
-This function is typically accessed as a helper function to prepare data for use within \code{PLSS2LL()} function.
+This function is typically accessed as a helper function to prepare data for use by the \code{PLSS2LL()} function.
 }
 \note{
-This function expects that the \code{Polygon} object has coordinates associated with a projected CRS-- e.g. units of meters.
-
 This function requires the following packages: stringi.
 }
 \examples{
-# create some data
+# create PLSS description components
 d <- data.frame(
   id = 1:3,
   qq = c('SW', 'SW', 'SE'),
@@ -38,11 +36,12 @@ d <- data.frame(
   m = 'MT20',
   stringsAsFactors = FALSE
 )
-# add column names
-
-names(d) <- c('id', 'qq', 'q', 's', 't', 'r', 'type', 'm')
 # generate formatted PLSS codes
-formatPLSS(d, type='SN')
+# and save back to original data.frame
+d$plssid <- formatPLSS(d, type = 'SN')
+
+# convert to geographic coordinates
+# PLSS2LL(d)
 
 }
 \seealso{

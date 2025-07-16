@@ -3,9 +3,18 @@
 #' @title Format Public Land Survey System (PLSS) Components
 #' @description Format Public Land Survey System (PLSS) components into a string that can be interpreted by the US Bureau of Land Management (BLM) PLSS encoding and decoding web service.
 #'
-#' @param p `data.frame` with components of a PLSS description
-#' @param type an option to format protracted blocks 'PB', unprotracted blocks 'UP', or standard section number 'SN' (default).
-#' @details This function is typically accessed as a helper function to prepare data for use by the `PLSS2LL()` function.
+#' @param p `data.frame` with components of a PLSS description, see details.
+#' @details This function is typically accessed as a helper function to prepare data for use by the `PLSS2LL()` function. The `data.frame` 'p' must contain:
+#'  * id: a unique ID over rows
+#'  * t: township number and direction
+#'  * r: range number and direction
+#'  * m: base meridian code
+#'  * type: one of 'SN', 'PB', or 'UN'
+#'
+#'and can optioninally contain:
+#'  * s: section number
+#'  * q: quarter section specification
+#'  * qq: quarter-quarter section specification
 #' 
 #'
 #' @author D.E. Beaudette, Jay Skovlin, A.G. Brown
@@ -29,12 +38,12 @@
 
 #' # generate formatted PLSS codes
 #' # and save back to original data.frame
-#' d$plssid <- formatPLSS(d, type = 'SN')
+#' d$plssid <- formatPLSS(d)
 #' 
 #' # convert to geographic coordinates
 #' # PLSS2LL(d)
 #' 
-formatPLSS <- function(p, type = 'SN') {
+formatPLSS <- function(p) {
   # check for required packages
   if(!requireNamespace('stringi', quietly = TRUE))
     stop('please install the `stringi` package', call.=FALSE)
@@ -45,7 +54,7 @@ formatPLSS <- function(p, type = 'SN') {
   optional_int <- c("s")
   
   if (!inherits(p, 'data.frame') || !all(required_chr %in% colnames(p)))
-    stop('p must be a data.frame containing columns: id, t, r, type, m; and optionally: s, qq, q')
+    stop('p must be a data.frame containing columns: id, t, r, type, m; and optionally: s, q, qq')
   
   if (any(optional_chr %in% colnames(p))) {
     if (!"q" %in% optional_chr)
@@ -79,7 +88,7 @@ formatPLSS <- function(p, type = 'SN') {
   p.bad.idx <- which(!p.good)
   
   # calculate expected number of characters
-  p.expected.nchar <- .expectedPLSSnchar(p, type = type, optional_names = optional_names)
+  p.expected.nchar <- .expectedPLSSnchar(p, optional_names = optional_names)
   
   # expected length is internal, not really necessary to create below warning
   # if (length(p.bad.idx) > 0)
@@ -88,6 +97,9 @@ formatPLSS <- function(p, type = 'SN') {
   for (i in 1:nrow(p)) {
     # skip incomplete (NA-containing) rows
     if (!i %in% p.bad.idx) {
+      # request type
+      type <- p$type[i]
+      
       # split Township / Range into elements, case sensitive
       p.t <- stri_match_first_regex(p$t[i], pattern = '([0-9]+)([N|S])')[2:3]
       p.r <- stri_match_first_regex(p$r[i], pattern = '([0-9]+)([E|W])')[2:3]
@@ -184,21 +196,24 @@ formatPLSS <- function(p, type = 'SN') {
   return(f)
 }
 
-.expectedPLSSnchar <- function(p, type = 'SN', optional_names = c("s", "qq", "q")) {
+.expectedPLSSnchar <- function(p, optional_names = c("s", "qq", "q")) {
   # calculate expected number of characters
   .hasZeroLen <- function(x) return(is.na(x) | x == "")
+  
   p.expected.nchar <- 25 - ((rowSums(do.call('cbind', lapply(p[, optional_names, drop = FALSE], .hasZeroLen)[optional_names])))*2)
+  
   # note that while it is possible to specify only one of q/qq -- 
   # it does not appear that the API accepts, so we warn accordingly in formatPLSS() expected length wont be right
+  naopt <- which(apply(is.na(p[ ,optional_names]) | p$type == "PB", 1, function(b) any(b)))
   
-  naopt <- which(apply(is.na(p[,optional_names]) | p$type == "PB", 1, function(b) any(b)))
-  if (type == 'PB') { # type=PB -5
-    p.expected.nchar <- p.expected.nchar - 5
-  } else {
-    if(any(is.na(p[,'s']))) { # section missing -4
-      p.expected.nchar[is.na(p[,'s'])] <- p.expected.nchar[is.na(p[,'s'])] - 4
-    }
-  }
+  # account for type = PB: -5
+  .idx <- which(p$type == 'PB')
+  p.expected.nchar[.idx] <- p.expected.nchar[.idx] - 5
+  
+  # account for missing section: -4
+  .idx <- which(any(is.na(p[ ,'s'])))
+  p.expected.nchar[.idx] <- p.expected.nchar[.idx] - 4
+  
   return(p.expected.nchar)
 }
 
@@ -362,34 +377,46 @@ LL2PLSS <- function(x, y, returnlevel = c('I', 'S')) {
   # convert JSON -> list
   r <- jsonlite::fromJSON(httr::content(r, as = 'text'), flatten = TRUE)
   
-  ## TODO: requires more testing of the web service result
-  ##        - check for error component
-  ##        - nest flow control
-  ## https://github.com/ncss-tech/sharpshootR/issues/62
-  
-  # handling when no coords returned
-  if (inherits(r$coordinates, 'list') &
-      length(r$coordinates) == 0) {
-    r <- data.frame(plssid = p, lat = NA, lon = NA)
-    res <- r
+  # test for an error condition
+  # usually poorly-formatted PLSS
+  if(!is.null(r$error)) {
+    .msg <- sprintf("%s: %s", p, r$error$message)
+    message(.msg)
+    # use NA coordinates
+    res <- data.frame(plssid = p, lat = NA, lon = NA, .note = 'invalid PLSS specification')
+    
   } else {
-    # keep only coordinates
-    r <- r$coordinates
-    
-    if (is.null(r))
-      return(NULL)
-    
-    # request that are less than QQ precision will return multiple QQ centers
-    # keep the mean coordinates - get to one set of lat/lon coords
-    if (nrow(r) >= 0) {
-      r <- data.frame(
-        plssid = p, 
-        t(colMeans(r[, 2:3], na.rm = TRUE))
-      )
+    # successful request
+    if(r$status == 'success') {
+      # NOTE: r$coordinates$plssid is laundered
+      # copy original from r$trs
+      r$coordinates$plssid <- r$trs
+      
+      # keep only 'coordinates' data.frame
+      r <- r$coordinates
+      
+      # request that are less than QQ precision will return multiple QQ centers
+      # flatten via mean coordinates
+      if (nrow(r) > 1) {
+        r <- data.frame(
+          plssid = p, 
+          t(colMeans(r[, 2:3], na.rm = TRUE))
+        )
+      }
+      
+      r[['.note']] <- 'success'
+      res <- r
+    } else{
+      # NOTE: could be related to aberrations in the PLSS fabric
+      # stats == 'fail'
+      .msg <- sprintf("%s: %s", p, r$statusmsg)
+      message(.msg)
+      # return NA coordinates
+      res <- data.frame(plssid = p, lat = NA, lon = NA, .note = 'no results')
     }
-    res <- r
+    
   }
-  # reset rownames
+  
   row.names(res) <- NULL
   return(res)
 }

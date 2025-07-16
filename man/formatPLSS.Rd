@@ -4,12 +4,10 @@
 \alias{formatPLSS}
 \title{Format Public Land Survey System (PLSS) Components}
 \usage{
-formatPLSS(p, type = "SN")
+formatPLSS(p)
 }
 \arguments{
-\item{p}{\code{data.frame} with components of a PLSS description}
-
-\item{type}{an option to format protracted blocks 'PB', unprotracted blocks 'UP', or standard section number 'SN' (default).}
+\item{p}{\code{data.frame} with components of a PLSS description, see details.}
 }
 \value{
 A vector of PLSS codes.
@@ -18,7 +16,21 @@ A vector of PLSS codes.
 Format Public Land Survey System (PLSS) components into a string that can be interpreted by the US Bureau of Land Management (BLM) PLSS encoding and decoding web service.
 }
 \details{
-This function is typically accessed as a helper function to prepare data for use by the \code{PLSS2LL()} function.
+This function is typically accessed as a helper function to prepare data for use by the \code{PLSS2LL()} function. The \code{data.frame} 'p' must contain:
+\itemize{
+\item id: a unique ID over rows
+\item t: township number and direction
+\item r: range number and direction
+\item m: base meridian code
+\item type: one of 'SN', 'PB', or 'UN'
+}
+
+and can optioninally contain:
+\itemize{
+\item s: section number
+\item q: quarter section specification
+\item qq: quarter-quarter section specification
+}
 }
 \note{
 This function requires the following packages: stringi.
@@ -37,7 +49,7 @@ d <- data.frame(
 )
 # generate formatted PLSS codes
 # and save back to original data.frame
-d$plssid <- formatPLSS(d, type = 'SN')
+d$plssid <- formatPLSS(d)
 
 # convert to geographic coordinates
 # PLSS2LL(d)

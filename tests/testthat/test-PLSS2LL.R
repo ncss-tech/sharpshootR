@@ -43,7 +43,8 @@ test_that("PLSS2LL() with large township", {
   .res <- data.frame(
     plssid = c("ND051490N0920W0SN270A"),
     lat = c(47.6957),
-    lon = c(-102.4394)
+    lon = c(-102.4394),
+    .note = 'success'
   )
   
   # original PLSS codes, same order
@@ -57,8 +58,6 @@ test_that("PLSS2LL() with large township", {
 
 
 test_that("formatPLSS() variations", {
-  
-  
   
   d <- data.frame(id = 1:6, plssid = formatPLSS(data.frame(
     id = 1:6,
@@ -128,7 +127,8 @@ test_that("PLSS2LL() works", {
     lat = c(35.7536314968672, 35.7763284345201, 35.7818162070088, 
             35.7818389778208, 35.7781355594337, 35.7781460719862),
     lon = c(-117.883828112581, -117.857196264745, -117.85049298053, 
-            -117.854957052084, -117.850511838394, -117.854968737876)
+            -117.854957052084, -117.850511838394, -117.854968737876),
+    .note = 'success'
   )
   
   # original PLSS codes, same order

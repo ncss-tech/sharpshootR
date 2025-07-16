@@ -33,8 +33,7 @@ d <- data.frame(
   t = c('T36N', 'T35N', 'T35N'),
   r = c('R29W', 'R28W', 'R28W'),
   type = 'SN',
-  m = 'MT20',
-  stringsAsFactors = FALSE
+  m = 'MT20'
 )
 # generate formatted PLSS codes
 # and save back to original data.frame

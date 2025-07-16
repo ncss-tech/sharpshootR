@@ -24,8 +24,7 @@
 #'   t = c('T36N', 'T35N', 'T35N'),
 #'   r = c('R29W', 'R28W', 'R28W'),
 #'   type = 'SN',
-#'   m = 'MT20',
-#'   stringsAsFactors = FALSE
+#'   m = 'MT20'
 #' )
 
 #' # generate formatted PLSS codes
@@ -98,8 +97,8 @@ formatPLSS <- function(p, type = 'SN') {
       ## https://github.com/ncss-tech/sharpshootR/issues/62
       
       # pad T/R codes with 0
-      p.t[1] <- stri_pad(p.t[1], width = 2, pad = '0')
-      p.r[1] <- stri_pad(p.r[1], width = 2, pad = '0')
+      p.t[1] <- stri_pad_left(p.t[1], width = 3, pad = '0')
+      p.r[1] <- stri_pad_left(p.r[1], width = 3, pad = '0')
       
       # add extra '0' between T/R code and direction
       p.t <- paste0(p.t, collapse = '0')
@@ -117,11 +116,22 @@ formatPLSS <- function(p, type = 'SN') {
       ##       -> no 0-padding with 3-digit T/R
       ## this line is breaking e.g. T149N
       ## https://github.com/ncss-tech/sharpshootR/issues/62
+      # 
+      # # format the first chunk
+      # f.1 <- ifelse(nchar(p.s) == 0, 
+      #               paste0(paste0(c(p$m[i], p.t, p.r), collapse="0"), "0"), # no section
+      #               paste0(c(p$m[i], p.t, p.r, paste0("SN", p.s, "0", 'A')), collapse = '0'))       # with section
       
-      # format the first chunk
-      f.1 <- ifelse(nchar(p.s) == 0, 
-                    paste0(paste0(c(p$m[i], p.t, p.r), collapse="0"), "0"), # no section
-                    paste0(c(p$m[i], p.t, p.r, paste0("SN", p.s, "0", 'A')), collapse = '0'))       # with section
+      # format first chunk
+      if(nchar(p.s) == 0) {
+        # description missing section
+        f.1 <- paste0(paste0(c(p$m[i], p.t, p.r), collapse = ""), "0")
+      } else {
+        # description includes section
+        f.1 <- paste0(c(p$m[i], p.t, p.r, '0', paste0("SN", p.s, "0", 'A')), collapse = '')
+      }
+      
+      
       
       # format the (optional) Q and QQ sections
       f.2 <- paste0(p.qq, p.q)

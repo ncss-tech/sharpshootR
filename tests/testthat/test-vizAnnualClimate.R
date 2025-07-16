@@ -7,9 +7,14 @@ suppressWarnings(library(cluster, quietly = TRUE))
 test_that("vizAnnualClimate works as expected", {
   skip_if_not_installed("dendextend")
   skip_if_not_installed("latticeExtra")
+  
   # use local data
   data("OSDexamples")
   a <- OSDexamples$climate.annual
+  
+  # PALAU is missing climate data, no PRISM data available outside CONUS
+  a <- na.omit(a)
+  
   
   # with / without highlight
   res <- vizAnnualClimate(a)

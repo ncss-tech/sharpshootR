@@ -52,7 +52,7 @@ importFrom(curl,
 
 importFrom(stringi,
   stri_match_first_regex,
-  stri_pad,
+  stri_pad_left,
   stri_replace_all_fixed,
   stri_sub,
   stri_length

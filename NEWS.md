@@ -1,4 +1,10 @@
-# sharpshootR 2.4 (2025-04-16)
+# sharpshootR 2.4 (2025-07-15)
+ * fixed bug in `formatPLSS()`, affecting township and range values >99
+ * rebuilt example data `table5.2`, now without NA in the adjacency matrix (igraph compatibility)
+ * rebuilt example data `OSDexamples`
+
+
+# sharpshootR 2.3.3 (2025-04-16)
  * breaking change: `plotProfileDendrogram()` moved to aqp
  * breaking change: `aggregateColorPlot()` moved to aqp
  * breaking change: removed deprecated functions `geomPosMountainProbability()`, `geomPosHillProbability()`, `surfaceShapeProbability()`, `hillslopeProbability()`

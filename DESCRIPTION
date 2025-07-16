@@ -3,7 +3,7 @@ Type: Package
 Encoding: UTF-8
 Title: A Soil Survey Toolkit
 Description: A collection of data processing, visualization, and export functions to support soil survey operations. Many of the functions build on the `SoilProfileCollection` S4 class provided by the aqp package, extending baseline visualization to more elaborate depictions in the context of spatial and taxonomic data. While this package is primarily developed by and for the USDA-NRCS, in support of the National Cooperative Soil Survey, the authors strive for generalization sufficient to support any soil survey operation. Many of the included functions are used by the SoilWeb suite of websites and movile applications. These functions are provided here, with additional documentation, to enable others to replicate high quality versions of these figures for their own purposes.
-Version: 2.3.3
+Version: 2.4
 Authors@R: c(
   person(given="Dylan", family="Beaudette", role = c("cre", "aut"), email = "dylan.beaudette@usda.gov"), 
   person(given="Jay", family="Skovlin", role = c("aut")), 

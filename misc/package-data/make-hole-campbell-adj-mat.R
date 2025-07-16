@@ -3,8 +3,9 @@ library(igraph)
 # table 5.2 from
 # Hole, F.D. and J.B. Campbell. Soil Landscape Analysis. Rowman Allanheld, 1985.
 
-# hand-keyed
-x <- read.table('table-5.2.txt', sep = ',')
+# hand-keyed values
+# lower-triangle is encoded as NA
+x <- read.table('misc/package-data/table-5.2.txt', sep = ',')
 
 # check: OK
 str(x)
@@ -18,6 +19,10 @@ dimnames(x) <- list(nm, nm)
 
 # check: OK
 x
+
+# 2025-07-01: igraph does not accept NA in adj matrix
+x[lower.tri(x)] <- 0
+
 
 # note special incantation to get the "correct" graph structure
 g <- graph_from_adjacency_matrix(x, mode = 'upper', diag = FALSE, weighted = TRUE)
@@ -35,4 +40,7 @@ plot(cm, g, vertex.label.family = 'sans')
 
 # rename / save
 table5.2 <- x
-save(table5.2, file = '../data/table5.2.rda')
+save(table5.2, file = 'data/table5.2.rda', compress = 'xz')
+
+
+

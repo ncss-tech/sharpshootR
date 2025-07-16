@@ -7,7 +7,7 @@
 vizAnnualClimate(climate.data, IQR.cex = 1, s = NULL, s.col = "firebrick", ...)
 }
 \arguments{
-\item{climate.data}{Annual climate summaries, as returned from \code{soilDB::fetchOSD(..., extended=TRUE)}}
+\item{climate.data}{Annual climate summaries, as returned from \code{soilDB::fetchOSD(..., extended = TRUE)}, should not contain NA values}
 
 \item{IQR.cex}{scaling factor for bar representing interquartile range}
 
@@ -28,7 +28,7 @@ A \code{list} with the following elements:
 Annual climate summaries for soil series, based on \code{latticeExtra::segplot}, based on 5th, 25th, 50th, 75th, and 95th percentiles. Input data should be from \code{soilDB::fetchOSD}.
 }
 \details{
-This function was designed for use with \code{soilDB::fetchOSD}. It might be possible to use with other sources of data but your mileage may vary. See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+This function was designed for use with \code{soilDB::fetchOSD()}. It might be possible to use with other sources of data but your mileage may vary. See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
 }
 \seealso{
 \code{\link[=vizHillslopePosition]{vizHillslopePosition()}}

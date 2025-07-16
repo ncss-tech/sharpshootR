@@ -3,13 +3,13 @@
 #' 
 #' @description Annual climate summaries for soil series, based on `latticeExtra::segplot`, based on 5th, 25th, 50th, 75th, and 95th percentiles. Input data should be from `soilDB::fetchOSD`.
 #'
-#' @param climate.data Annual climate summaries, as returned from `soilDB::fetchOSD(..., extended=TRUE)`
+#' @param climate.data Annual climate summaries, as returned from `soilDB::fetchOSD(..., extended = TRUE)`, should not contain NA values
 #' @param IQR.cex scaling factor for bar representing interquartile range
 #' @param s a soil series name, e.g. "LUCY", to highlight
 #' @param s.col color for highlighted soil series
 #' @param ... further arguments passed to `latticeExtra::segplot`
 #' 
-#' @details This function was designed for use with `soilDB::fetchOSD`. It might be possible to use with other sources of data but your mileage may vary. See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+#' @details This function was designed for use with `soilDB::fetchOSD()`. It might be possible to use with other sources of data but your mileage may vary. See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
 #' 
 #' @author D.E. Beaudette
 #' 

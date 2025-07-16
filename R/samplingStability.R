@@ -1,7 +1,7 @@
 
-#' Estimate Sampling Stability
+#' @title Estimate Sampling Stability
 #' 
-#' Stability is defined as the width of the 5th-95th percentile range, over n.reps replications of median estimates associated with sampling events. The resulting width is scaled by the population median and returned as a fraction.
+#' @description Stability is defined as the width of the 5th-95th percentile range, over n.reps replications of median estimates associated with sampling events. The resulting width is scaled by the population median and returned as a fraction.
 #' 
 #' @param mu map unit polygons, must have polygon ID, must be in CRS with units of meters
 #' @param r SpatRaster

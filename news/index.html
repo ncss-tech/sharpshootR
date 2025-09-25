@@ -58,7 +58,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="2.4" id="sharpshootr-24-2025-07-15">sharpshootR 2.4 (2025-07-15)<a class="anchor" aria-label="anchor" href="#sharpshootr-24-2025-07-15"></a></h2>
+<h2 class="page-header" data-toc-text="2.4" id="sharpshootr-24-2025-09-25">sharpshootR 2.4 (2025-09-25)<a class="anchor" aria-label="anchor" href="#sharpshootr-24-2025-09-25"></a></h2>
 <ul><li>fixed bug in <code><a href="../reference/formatPLSS.html">formatPLSS()</a></code>, affecting township and range values &gt;99</li>
 <li>rebuilt example data <code>table5.2</code>, now without NA in the adjacency matrix (igraph compatibility)</li>
 <li>rebuilt example data <code>OSDexamples</code>
@@ -66,8 +66,8 @@
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.3.3" id="sharpshootr-233-2025-04-16">sharpshootR 2.3.3 (2025-04-16)<small>2025-04-17</small><a class="anchor" aria-label="anchor" href="#sharpshootr-233-2025-04-16"></a></h2>
-<ul><li>breaking change: <code><a href="https://rdrr.io/pkg/aqp/man/plotProfileDendrogram.html" class="external-link">plotProfileDendrogram()</a></code> moved to aqp</li>
-<li>breaking change: <code><a href="https://rdrr.io/pkg/aqp/man/aggregateColorPlot.html" class="external-link">aggregateColorPlot()</a></code> moved to aqp</li>
+<ul><li>breaking change: <code><a href="https://ncss-tech.github.io/aqp/reference/plotProfileDendrogram.html" class="external-link">plotProfileDendrogram()</a></code> moved to aqp</li>
+<li>breaking change: <code><a href="https://ncss-tech.github.io/aqp/reference/aggregateColorPlot.html" class="external-link">aggregateColorPlot()</a></code> moved to aqp</li>
 <li>breaking change: removed deprecated functions <code>geomPosMountainProbability()</code>, <code>geomPosHillProbability()</code>, <code>surfaceShapeProbability()</code>, <code>hillslopeProbability()</code>
 </li>
 <li>
@@ -107,9 +107,9 @@
 <li>added a few more soil hydraulic properties to <code><a href="../reference/prepare_SSURGO_hydro_data.html">prepare_SSURGO_hydro_data()</a></code>
 </li>
 <li>
-<code><a href="../reference/plotGeomorphCrossSection.html">plotGeomorphCrossSection()</a></code> now respects <code><a href="https://rdrr.io/pkg/aqp/man/SoilProfileCollection-plotting-methods.html" class="external-link">aqp::plotSPC()</a></code> arguments via <code>options(.aqp.plotSPC.args = list(...))</code>
+<code><a href="../reference/plotGeomorphCrossSection.html">plotGeomorphCrossSection()</a></code> now respects <code><a href="https://ncss-tech.github.io/aqp/reference/SoilProfileCollection-plotting-methods.html" class="external-link">aqp::plotSPC()</a></code> arguments via <code>options(.aqp.plotSPC.args = list(...))</code>
 </li>
-<li>removing some hard-coded arguments passed through to <code><a href="https://rdrr.io/pkg/aqp/man/SoilProfileCollection-plotting-methods.html" class="external-link">aqp::plotSPC()</a></code>
+<li>removing some hard-coded arguments passed through to <code><a href="https://ncss-tech.github.io/aqp/reference/SoilProfileCollection-plotting-methods.html" class="external-link">aqp::plotSPC()</a></code>
 </li>
 <li>
 <code><a href="../reference/SoilTaxonomyDendrogram.html">SoilTaxonomyDendrogram()</a></code> gains argument to adjust taxon label font</li>
@@ -154,7 +154,7 @@
 <li>
 <code><a href="../reference/plotWB.html">plotWB()</a></code> aesthetic fixes and additional arguments, including manual specification of y-axis limits</li>
 <li>
-<code><a href="https://rdrr.io/pkg/aqp/man/aggregateColorPlot.html" class="external-link">aggregateColorPlot()</a></code> gets a new argument for setting label orientation</li>
+<code><a href="https://ncss-tech.github.io/aqp/reference/aggregateColorPlot.html" class="external-link">aggregateColorPlot()</a></code> gets a new argument for setting label orientation</li>
 <li>geomorphic <code>viz*</code> functions now use an iterative approach to re-arrange dendrogram according to “hydologic ordering”</li>
 <li>hydrologic ordering functions now exported: <code><a href="../reference/hydOrder.html">hydOrder()</a></code> and <code><a href="../reference/iterateHydOrder.html">iterateHydOrder()</a></code>
 </li>
@@ -162,7 +162,7 @@
 <li>new function <code>reconcileOSDGeomorp()</code> convenience function for reconciling SPC and geomorphic summary tables as returned by <code><a href="http://ncss-tech.github.io/soilDB/reference/fetchOSD.html" class="external-link">soilDB::fetchOSD()</a></code>
 </li>
 <li>
-<code><a href="https://rdrr.io/pkg/aqp/man/plotProfileDendrogram.html" class="external-link">plotProfileDendrogram()</a></code> gains argument for re-ordering dendrogram as close to original profile IDs as possible</li>
+<code><a href="https://ncss-tech.github.io/aqp/reference/plotProfileDendrogram.html" class="external-link">plotProfileDendrogram()</a></code> gains argument for re-ordering dendrogram as close to original profile IDs as possible</li>
 <li>
 <code><a href="../reference/dueling.dendrograms.html">dueling.dendrograms()</a></code> has been deprecated, please use <code><a href="https://talgalili.github.io/dendextend/reference/tanglegram.html" class="external-link">dendextend::tanglegram()</a></code> for similar tasks</li>
 </ul></div>

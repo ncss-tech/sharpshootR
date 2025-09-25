@@ -67,7 +67,7 @@
 <span>  <span class="va">s</span>,</span>
 <span>  <span class="va">xy</span>,</span>
 <span>  <span class="va">grad.var.name</span>,</span>
-<span>  grad.var.order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/aqp/man/site.html" class="external-link">site</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span><span class="op">[[</span><span class="va">grad.var.name</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>  grad.var.order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="fu"><a href="https://ncss-tech.github.io/aqp/reference/site.html" class="external-link">site</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span><span class="op">[[</span><span class="va">grad.var.name</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>  transect.col <span class="op">=</span> <span class="st">"RoyalBlue"</span>,</span>
 <span>  tick.number <span class="op">=</span> <span class="fl">7</span>,</span>
 <span>  y.offset <span class="op">=</span> <span class="fl">100</span>,</span>
@@ -134,11 +134,11 @@
 
 
 <dt id="arg-fix-relative-pos">fix.relative.pos<a class="anchor" aria-label="anchor" href="#arg-fix-relative-pos"></a></dt>
-<dd><p>adjust relative positions in the presence of overlap, <code>FALSE</code> to suppress, otherwise list of arguments to <code><a href="https://rdrr.io/pkg/aqp/man/fixOverlap.html" class="external-link">aqp::fixOverlap</a></code></p></dd>
+<dd><p>adjust relative positions in the presence of overlap, <code>FALSE</code> to suppress, otherwise list of arguments to <code><a href="https://ncss-tech.github.io/aqp/reference/fixOverlap.html" class="external-link">aqp::fixOverlap</a></code></p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>further arguments passed to <code><a href="https://rdrr.io/pkg/aqp/man/SoilProfileCollection-plotting-methods.html" class="external-link">aqp::plotSPC</a></code>.</p></dd>
+<dd><p>further arguments passed to <code><a href="https://ncss-tech.github.io/aqp/reference/SoilProfileCollection-plotting-methods.html" class="external-link">aqp::plotSPC</a></code>.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -169,12 +169,12 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ncss-tech/aqp" class="external-link">aqp</a></span><span class="op">)</span> <span class="op">&amp;</span> </span></span>
+<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://ncss-tech.github.io/aqp/" class="external-link">aqp</a></span><span class="op">)</span> <span class="op">&amp;</span> </span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span> <span class="op">&amp;</span></span></span>
 <span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ncss-tech/soilDB/" class="external-link">soilDB</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>   </span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ncss-tech/aqp" class="external-link">aqp</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ncss-tech.github.io/aqp/" class="external-link">aqp</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ncss-tech/soilDB/" class="external-link">soilDB</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -187,10 +187,10 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># quick overview</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/aqp/man/groupedProfilePlot.html" class="external-link">groupedProfilePlot</a></span><span class="op">(</span><span class="va">mineralKing</span>, groups<span class="op">=</span><span class="st">'taxonname'</span>, print.id<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ncss-tech.github.io/aqp/reference/groupedProfilePlot.html" class="external-link">groupedProfilePlot</a></span><span class="op">(</span><span class="va">mineralKing</span>, groups<span class="op">=</span><span class="st">'taxonname'</span>, print.id<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># setup point locations</span></span></span>
-<span class="r-in"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/aqp/man/site.html" class="external-link">site</a></span><span class="op">(</span><span class="va">mineralKing</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ncss-tech.github.io/aqp/reference/site.html" class="external-link">site</a></span><span class="op">(</span><span class="va">mineralKing</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">xy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">s</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'longstddecimaldegrees'</span>, <span class="st">'latstddecimaldegrees'</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">xy</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">4326</span></span></span>
 <span class="r-in"><span></span></span>

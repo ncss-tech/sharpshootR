@@ -51,47 +51,50 @@ install.packages(p)
 ``` r
 library(sharpshootR)
 library(aqp)
-data(loafercreek, package = 'soilDB')
 
-# generalize horizon names using REGEX rules
-n <- c('Oi', 'A', 'BA','Bt1','Bt2','Bt3','Cr','R')
-p <- c('O', '^A$|Ad|Ap|AB','BA$|Bw', 
-       'Bt1$|^B$','^Bt$|^Bt2$','^Bt3|^Bt4|CBt$|BCt$|2Bt|2CB$|^C$','Cr','R')
-loafercreek$genhz <- generalize.hz(loafercreek$hzname, n, p)
+# some example soil series, from soilDB::fetchOSD()
+data("OSDexamples")
 
-# remove non-matching generalized horizon names
-loafercreek$genhz[loafercreek$genhz == 'not-used'] <- NA
-loafercreek$genhz <- factor(loafercreek$genhz)
+# extract Soil Profile Collection
+x <- OSDexamples$SPC
 
-# aggregate color data, this function is from the `aqp` package
-a <- aggregateColor(loafercreek, 'genhz', k = 8)
+# use the first 10 profiles
+x <- x[1:10, ]
 
-# plot
-par(mar=c(4.5, 1.25, 1, 0.25))
-aggregateColorPlot(a, print.n.hz = TRUE)
+# arrange according to subgroup classification
+SoilTaxonomyDendrogram(
+  x, 
+  KST.order = TRUE,
+  scaling.factor = 0.02,
+  cex.taxon.labels = 0.75,
+  width = 0.33, 
+  max.depth = 150, 
+  depth.axis = list(line = -3, cex = 0.8, style = 'compact'),
+  hz.distinctness.offset = 'hzd'
+  )
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.svg" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="864" style="display: block; margin: auto;" />
 
 ## Citation
 
 ``` r
 citation("sharpshootR")
-#> 
 #> To cite package 'sharpshootR' in publications use:
 #> 
-#>   Beaudette D, Skovlin J, Roecker S, Brown A (2023). _sharpshootR: A
-#>   Soil Survey Toolkit_. R package version 2.2,
-#>   <https://CRAN.R-project.org/package=sharpshootR>.
+#>   Beaudette D, Skovlin J, Roecker S, Brown A (????). _sharpshootR: A
+#>   Soil Survey Toolkit_. doi:10.32614/CRAN.package.sharpshootR
+#>   <https://doi.org/10.32614/CRAN.package.sharpshootR>, R package
+#>   version 2.4, <https://CRAN.R-project.org/package=sharpshootR>.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
 #>   @Manual{,
 #>     title = {sharpshootR: A Soil Survey Toolkit},
 #>     author = {Dylan Beaudette and Jay Skovlin and Stephen Roecker and Andrew Brown},
-#>     year = {2023},
-#>     note = {R package version 2.2},
+#>     note = {R package version 2.4},
 #>     url = {https://CRAN.R-project.org/package=sharpshootR},
+#>     doi = {10.32614/CRAN.package.sharpshootR},
 #>   }
 ```
 

@@ -1,4 +1,8 @@
-# sharpshootR 2.4 (2025-09-25)
+# sharpshootR development (2025-09-27)
+
+
+# sharpshootR 2.4 (2025-09-26)
+ * CRAN release
  * fixed bug in `formatPLSS()`, affecting township and range values >99
  * rebuilt example data `table5.2`, now without NA in the adjacency matrix (igraph compatibility)
  * rebuilt example data `OSDexamples`

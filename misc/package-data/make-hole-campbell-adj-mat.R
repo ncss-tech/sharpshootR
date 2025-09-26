@@ -22,7 +22,7 @@ x
 
 # 2025-07-01: igraph does not accept NA in adj matrix
 x[lower.tri(x)] <- 0
-
+diag(x) <- 0
 
 # note special incantation to get the "correct" graph structure
 g <- graph_from_adjacency_matrix(x, mode = 'upper', diag = FALSE, weighted = TRUE)

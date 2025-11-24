@@ -4,7 +4,7 @@
 #' 
 #' @description Query CDEC Website for Sensor Details
 #'
-#' @param s character, a single CDEC station ID (e.g. 'HHM')
+#' @param s character, a single CDEC station ID (e.g. 'HHM', 'SPN', 'ALI')
 #' 
 #' @details This function requires the `rvest` package.
 #'
@@ -18,11 +18,15 @@
 #'
 CDEC_StationInfo <- function(s) {
   # check for required packages
-  if(!requireNamespace('rvest', quietly = TRUE) | !requireNamespace('xml2', quietly = TRUE))
-    stop('please install the `rvest` package', call.=FALSE)
+  if(!requireNamespace('rvest', quietly = TRUE) | !requireNamespace('xml2', quietly = TRUE)) {
+    stop('please install the `rvest` and `xml2` packages', call. = FALSE)
+  }
+    
   
   # scrape HTML tables from the results
-  u <- sprintf("http://cdec.water.ca.gov/dynamicapp/staMeta?station_id=%s", s)
+  # base URL as of 2025-11-24: https://cdec.water.ca.gov/dynamicapp/staMeta?station_id=
+  #
+  u <- sprintf("https://cdec.water.ca.gov/dynamicapp/staMeta?station_id=%s", s)
   h <- xml2::read_html(u)
   
   # get H2 elements: station name stored here
@@ -30,6 +34,12 @@ CDEC_StationInfo <- function(s) {
   
   # get tables: data are stored here
   hn <- rvest::html_nodes(h, "table")
+  
+  # typical structure (2025-11-24)
+  # [[1]] -> station metadata
+  # [[2]] -> NULL
+  # [[3]] -> sensor metadata
+  # [[4]] -> comments (may be missing)
   
   # make sure there are some results to process, there should be 2 or 3 tables
   if(length(as.list(hn)) > 0) {
@@ -57,7 +67,7 @@ CDEC_StationInfo <- function(s) {
     # add site name
     site.meta$Name <- stn.name
     
-    # strip non-numeric chars from coordinates | elevation and convert to numeric
+    # strip non-numeric chars from coordinates | elevation
     site.meta$Longitude <- as.numeric(gsub("[^0-9\\.]", "", site.meta$Longitude))
     site.meta$Latitude <- as.numeric(gsub("[^0-9\\.]", "", site.meta$Latitude))
     site.meta$Elevation <- as.numeric(gsub("[^0-9\\.]", "", site.meta$Elevation))
@@ -66,16 +76,16 @@ CDEC_StationInfo <- function(s) {
     row.names(site.meta) <- NULL
     
     ## sensors, can be converted into data.frame
-    sensor.meta <- as.data.frame(rvest::html_table(hn[[2]]))
+    sensor.meta <- as.data.frame(rvest::html_table(hn[[3]]))
     names(sensor.meta) <- c('sensor_details', 'sensor', 'interval', 'sensor_name', 'collection_method', 'period_of_record')
     
     # comments, may be missing
-    if(length(hn) > 2) {
+    if(length(hn) > 3) {
       # this will fail if the table is empty
       site.comments <- try(
         suppressWarnings(
           as.data.frame(
-            rvest::html_table(hn[[3]])
+            rvest::html_table(hn[[4]])
           )
         ), silent = TRUE
       )

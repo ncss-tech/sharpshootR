@@ -7,7 +7,7 @@
 CDEC_StationInfo(s)
 }
 \arguments{
-\item{s}{character, a single CDEC station ID (e.g. 'HHM')}
+\item{s}{character, a single CDEC station ID (e.g. 'HHM', 'SPN', 'ALI')}
 }
 \value{
 A \code{list} object containing site metadata, sensor metadata, and possibly comments about the site.

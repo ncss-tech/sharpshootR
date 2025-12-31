@@ -1,4 +1,6 @@
-# sharpshootR development (2025-09-27)
+# sharpshootR 2.4.1 (2025-11-24)
+ * now depends on R >= 4.1.0
+ * bug fix in `CDEC_StationInfo()`
 
 
 # sharpshootR 2.4 (2025-09-26)

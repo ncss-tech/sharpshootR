@@ -3,7 +3,7 @@
 #' @title Hydrologic Ordering of a Geomorphic Proportion Matrix
 #'
 #' @param x x `data.frame`, geomorphic proportion matrix, as created by `soilDB::fetchOSD(..., extended=TRUE)`
-#' @param g character, name of geomorphic summary table, one of: `c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape')`
+#' @param g character, name of geomorphic summary table, one of: `c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape', 'geomorphons')`
 #' @param clust logical, perform clustering of geomorphic proportion matrix
 #' @param j.amount amount of noise applied to rows having a duplicate proportion vector, passed to `jitter()`
 #'
@@ -39,18 +39,19 @@
 hydOrder <- function(x, g, clust = TRUE, j.amount = 0) {
   
   # sanity checks
-  stopifnot(g %in% c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape'))
+  stopifnot(g %in% c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape', 'geomorphons'))
   stopifnot(inherits(x, 'data.frame'))
   
   # scoring used to create hydrologic ordering
   g.stats <- switch(
     g,
-    'geomcomp' = c(4, 2, 1, 1, -2, -4),
-    'hillpos'  = c(-4, -2, 0.1, 2, 4),
-    'flats'    = c(-2, 0, 0, 2),
-    'terrace'  = c(-1, 1),
-    'mtnpos'   = c(4, 2, 1, 1, -2, -4),
-    'shape'    = c(-4, 1, 4, 5, 6)
+    'geomcomp'    = c(4, 2, 1, 1, -2, -4),
+    'hillpos'     = c(-4, -2, 0.1, 2, 4),
+    'flats'       = c(-2, 0, 0, 2),
+    'terrace'     = c(-1, 1),
+    'mtnpos'      = c(4, 2, 1, 1, -2, -4),
+    'shape'       = c(-4, 1, 4, 5, 6),
+    'geomorphons' = c(0, 4, 3, 2, 1, 0.1, -1, -2, -3, -4)  # TODO: adjust after finding some good examples
   )
   
   # series name is always in the first column

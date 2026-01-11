@@ -7,7 +7,7 @@
 #' @details This function is used by the suite of geomorphic proportion visualization functions (`viz*`) to attempt rotation of a dendrogram according to "hydrologic ordering" rules. A perfect rotation is not always possible, and reported as a match rate in the returned `score` value
 #'
 #' @param x `data.frame` geomorphic proportion matrix, as created by `soilDB::fetchOSD(..., extended=TRUE)`
-#' @param g name of geomorphic summary table, one of: `c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape')`
+#' @param g name of geomorphic summary table, one of: `c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape', 'geomorphons')`
 #' @param target numeric, target match rate
 #' @param maxIter integer, maximum number of perturbations of geomorphic probability matrix
 #' @param j.amount numeric, amount of noise applied to rows with too few unique values, passed to `jitter()`
@@ -60,7 +60,7 @@
 iterateHydOrder <- function(x, g, target = 0.9, maxIter = 20, j.amount = 0.05, verbose = FALSE, trace = FALSE) {
   
   # sanity checks
-  stopifnot(g %in% c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape'))
+  stopifnot(g %in% c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape', 'geomorphons'))
   stopifnot(inherits(x, 'data.frame'))
   
   # initial conditions

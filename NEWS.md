@@ -1,5 +1,6 @@
-# sharpshootR 2.4.1 (2025-11-24)
+# sharpshootR 2.4.1 (development)
  * now depends on R >= 4.1.0
+ # bug fix in `PCP_plot()`, filter incomplete water years from exemplar selection
  * bug fix in `CDEC_StationInfo()`
 
 

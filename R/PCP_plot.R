@@ -36,7 +36,16 @@
 
 
 # get years and total PPT which are closest to given percentiles of annual PPT
+# after removing incomplete years
 .exemplarYears <- function(d) {
+  
+  
+  # remove incomplete years (< 330 days)
+  days.per.year <- table(d$water_year)
+  idx <- which(days.per.year < 300)
+  if(length(idx) > 0) {
+    d <- d[-which(d$water_year %in% names(idx)), ]
+  }
   
   # annual PPT by water year
   ppt.by.wy <- tapply(d$cumulative_ppt, d$water_year, max, na.rm = TRUE)
@@ -60,7 +69,7 @@
 ## TODO: this.year should default to the last year in the series
 ## TODO: explain differences between exemplar years and boxplot at current water day -- not the same
 
-## TODO: remove current WY from exemplars if not at the end of the year
+
 
 #' @title Percentiles of Cumulative Precipitation
 #' 

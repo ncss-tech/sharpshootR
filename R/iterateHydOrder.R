@@ -1,6 +1,8 @@
 
 ## TODO: add short-circuit for cases where a perfect match isn't possible 
 
+## TODO: default j.amount is too high for single-position ties: the resulting dendrogram makes it look like ties have more distance than they really do (0)
+
 
 #' @title Iteratively Attempt Hydrologic Ordering of Geomorphic Proportion Matrix
 #' 
@@ -57,7 +59,7 @@
 #' # in this case the clustering of hillpos proportions has only two possible configurations
 
 #' 
-iterateHydOrder <- function(x, g, target = 0.9, maxIter = 20, j.amount = 0.05, verbose = FALSE, trace = FALSE) {
+iterateHydOrder <- function(x, g, target = 0.9, maxIter = 20, j.amount = 0.02, verbose = FALSE, trace = FALSE) {
   
   # sanity checks
   stopifnot(g %in% c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape', 'geomorphons'))

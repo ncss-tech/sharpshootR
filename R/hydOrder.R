@@ -5,7 +5,9 @@
 #' @param x x `data.frame`, geomorphic proportion matrix, as created by `soilDB::fetchOSD(..., extended=TRUE)`
 #' @param g character, name of geomorphic summary table, one of: `c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape', 'geomorphons')`
 #' @param clust logical, perform clustering of geomorphic proportion matrix
-#' @param j.amount amount of noise applied to rows having a duplicate proportion vector, passed to `jitter()`
+#' @param j.amount amount of noise applied to rows having a duplicate proportion vector, passed to `jitter()`. The default values of 0.001 should be a good starting point. Values larger than 0.1 will lead to unstable results.
+#' 
+#' @note Setting `j.amount = 0` will cause [jitter()] to use its own default of `x / 50`.
 #'
 #' @author D.E. Beaudette
 #'
@@ -36,7 +38,7 @@
 #' # cluster results
 #' h <- hydOrder(OSDexamples$hillpos, g = 'hillpos', clust = TRUE)
 #' str(h)
-hydOrder <- function(x, g, clust = TRUE, j.amount = 0) {
+hydOrder <- function(x, g, clust = TRUE, j.amount = 0.001) {
   
   # sanity checks
   stopifnot(g %in% c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape', 'geomorphons'))
@@ -96,9 +98,17 @@ hydOrder <- function(x, g, clust = TRUE, j.amount = 0) {
       
       # add noise to affected rows
       for(i in problem.idx) {
-        x.prop[i, ] <- jitter(unlist(x.prop[i, ]), amount = j.amount)
+        # when amount = 0, jitter() interprets as x/50
+        # jittering must be constrained to positive values
+        .j <- abs(jitter(unlist(x.prop[i, ]), amount = j.amount))
+        # data + noise must sum to 1
+        .j <- .j / sum(.j)
+        x.prop[i, ] <- .j
       }
     }
+    
+    # debugging
+    # print(knitr::kable(x.prop, digits = 3))
     
     
     # cluster proportions
@@ -110,11 +120,17 @@ hydOrder <- function(x, g, clust = TRUE, j.amount = 0) {
       )
     )
     
+    ## TODO: flatten lowest branches between ties to reflect that these are in fact the same
+    
+    
     # attempt rotate clustering according to hydrologic ordering
     # perfect ordering not possible when there are many ties
     x.d.hydro <- dendextend::rotate(x.d, order = x$series[hyd.order])
     
+    
     ## TODO: consider using ape pkg since we are already importing from it
+    ## * rotation is not the same as dendextend::rotate()
+    ## 
     # x.d.hydro <- as.hclust(ape::rotateConstr(as.phylo(x.d), constraint = x$series[hyd.order]))
     
     # number of exact matches

@@ -1,7 +1,7 @@
 
 ## TODO: add short-circuit for cases where a perfect match isn't possible 
 
-## TODO: default j.amount is too high for single-position ties: the resulting dendrogram makes it look like ties have more distance than they really do (0)
+## TODO: modify hclust object after jittering (ties present) set branch height -> 0
 
 
 #' @title Iteratively Attempt Hydrologic Ordering of Geomorphic Proportion Matrix
@@ -12,7 +12,7 @@
 #' @param g name of geomorphic summary table, one of: `c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape', 'geomorphons')`
 #' @param target numeric, target match rate
 #' @param maxIter integer, maximum number of perturbations of geomorphic probability matrix
-#' @param j.amount numeric, amount of noise applied to rows with too few unique values, passed to `jitter()`
+#' @param j.amount numeric, amount of noise applied to rows with too few unique values, passed to [hydOrder()]
 #' @param verbose logical, additional output printed via message
 #' @param trace logical, additional list of results for each iteration
 #' 
@@ -59,7 +59,7 @@
 #' # in this case the clustering of hillpos proportions has only two possible configurations
 
 #' 
-iterateHydOrder <- function(x, g, target = 0.9, maxIter = 20, j.amount = 0.02, verbose = FALSE, trace = FALSE) {
+iterateHydOrder <- function(x, g, target = 0.9, maxIter = 20, j.amount = 0.001, verbose = FALSE, trace = FALSE) {
   
   # sanity checks
   stopifnot(g %in% c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape', 'geomorphons'))

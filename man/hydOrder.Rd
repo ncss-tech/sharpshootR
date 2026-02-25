@@ -4,16 +4,16 @@
 \alias{hydOrder}
 \title{Hydrologic Ordering of a Geomorphic Proportion Matrix}
 \usage{
-hydOrder(x, g, clust = TRUE, j.amount = 0)
+hydOrder(x, g, clust = TRUE, j.amount = 0.001)
 }
 \arguments{
 \item{x}{x \code{data.frame}, geomorphic proportion matrix, as created by \code{soilDB::fetchOSD(..., extended=TRUE)}}
 
-\item{g}{character, name of geomorphic summary table, one of: \code{c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape')}}
+\item{g}{character, name of geomorphic summary table, one of: \code{c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape', 'geomorphons')}}
 
 \item{clust}{logical, perform clustering of geomorphic proportion matrix}
 
-\item{j.amount}{amount of noise applied to rows having a duplicate proportion vector, passed to \code{jitter()}}
+\item{j.amount}{amount of noise applied to rows having a duplicate proportion vector, passed to \code{jitter()}. The default values of 0.001 should be a good starting point. Values larger than 0.1 will lead to unstable results.}
 }
 \value{
 when \code{clust = FALSE} a vector of series names, in hydrologic ordering, otherwise a \code{list} with the following elements:
@@ -28,8 +28,11 @@ when \code{clust = FALSE} a vector of series names, in hydrologic ordering, othe
 \description{
 Hydrologic Ordering of a Geomorphic Proportion Matrix
 }
+\note{
+Setting \code{j.amount = 0} will cause \code{\link[=jitter]{jitter()}} to use its own default of \code{x / 50}.
+}
 \examples{
-\dontshow{if (requireNamespace("dendextend", quietly = TRUE) ) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (requireNamespace("dendextend", quietly = TRUE) ) withAutoprint(\{ # examplesIf}
 
 # example data, similar to results from soilDB::fetchOSD(..., extended = TRUE)
 data("OSDexamples")

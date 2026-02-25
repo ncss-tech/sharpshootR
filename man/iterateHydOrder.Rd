@@ -9,7 +9,7 @@ iterateHydOrder(
   g,
   target = 0.9,
   maxIter = 20,
-  j.amount = 0.05,
+  j.amount = 0.001,
   verbose = FALSE,
   trace = FALSE
 )
@@ -17,13 +17,13 @@ iterateHydOrder(
 \arguments{
 \item{x}{\code{data.frame} geomorphic proportion matrix, as created by \code{soilDB::fetchOSD(..., extended=TRUE)}}
 
-\item{g}{name of geomorphic summary table, one of: \code{c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape')}}
+\item{g}{name of geomorphic summary table, one of: \code{c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape', 'geomorphons')}}
 
 \item{target}{numeric, target match rate}
 
 \item{maxIter}{integer, maximum number of perturbations of geomorphic probability matrix}
 
-\item{j.amount}{numeric, amount of noise applied to rows with too few unique values, passed to \code{jitter()}}
+\item{j.amount}{numeric, amount of noise applied to rows with too few unique values, passed to \code{\link[=hydOrder]{hydOrder()}}}
 
 \item{verbose}{logical, additional output printed via message}
 
@@ -48,7 +48,7 @@ Iteratively Attempt Hydrologic Ordering of Geomorphic Proportion Matrix
 This function is used by the suite of geomorphic proportion visualization functions (\verb{viz*}) to attempt rotation of a dendrogram according to "hydrologic ordering" rules. A perfect rotation is not always possible, and reported as a match rate in the returned \code{score} value
 }
 \examples{
-\dontshow{if (requireNamespace("dendextend", quietly = TRUE) ) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (requireNamespace("dendextend", quietly = TRUE) ) withAutoprint(\{ # examplesIf}
 
 # example data, similar to results from soilDB::fetchOSD(..., extended = TRUE)
 data("OSDexamples")

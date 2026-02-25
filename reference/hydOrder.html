@@ -63,7 +63,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">hydOrder</span><span class="op">(</span><span class="va">x</span>, <span class="va">g</span>, clust <span class="op">=</span> <span class="cn">TRUE</span>, j.amount <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">hydOrder</span><span class="op">(</span><span class="va">x</span>, <span class="va">g</span>, clust <span class="op">=</span> <span class="cn">TRUE</span>, j.amount <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -75,7 +75,7 @@
 
 
 <dt id="arg-g">g<a class="anchor" aria-label="anchor" href="#arg-g"></a></dt>
-<dd><p>character, name of geomorphic summary table, one of: <code>c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape')</code></p></dd>
+<dd><p>character, name of geomorphic summary table, one of: <code>c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape', 'geomorphons')</code></p></dd>
 
 
 <dt id="arg-clust">clust<a class="anchor" aria-label="anchor" href="#arg-clust"></a></dt>
@@ -83,7 +83,7 @@
 
 
 <dt id="arg-j-amount">j.amount<a class="anchor" aria-label="anchor" href="#arg-j-amount"></a></dt>
-<dd><p>amount of noise applied to rows having a duplicate proportion vector, passed to <code><a href="https://rdrr.io/r/base/jitter.html" class="external-link">jitter()</a></code></p></dd>
+<dd><p>amount of noise applied to rows having a duplicate proportion vector, passed to <code><a href="https://rdrr.io/r/base/jitter.html" class="external-link">jitter()</a></code>. The default values of 0.001 should be a good starting point. Values larger than 0.1 will lead to unstable results.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -94,6 +94,10 @@
 <li><p><code>match.rate</code>: fraction of series matching target hydrologic ordering, after clustering + rotation</p></li>
 <li><p><code>obj</code>: objective function value (sum of squared rank differences), used by <code><a href="iterateHydOrder.html">iterateHydOrder()</a></code></p></li>
 </ul></div>
+    <div id="note">
+    <h2>Note</h2>
+    <p>Setting <code>j.amount = 0</code> will cause <code><a href="https://rdrr.io/r/base/jitter.html" class="external-link">jitter()</a></code> to use its own default of <code>x / 50</code>.</p>
+    </div>
     <div id="author">
     <h2>Author</h2>
     <p>D.E. Beaudette</p>
@@ -138,8 +142,8 @@
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">h</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ clust          :List of 7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ merge      : int [1:16, 1:2] -4 1 2 -10 -7 -5 -3 -9 4 7 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ height     : num [1:16] 0.00286 0.03416 0.04003 0.09577 0.10301 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ merge      : int [1:16, 1:2] -13 -4 2 -10 -7 -5 -3 -9 4 7 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ height     : num [1:16] 0.00104 0.00286 0.0195 0.09577 0.10301 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ order      : int [1:17] 9 11 3 6 8 10 1 7 12 2 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ labels     : chr [1:17] "AMADOR" "ARGONAUT" "CECIL" "DRUMMER" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ call       : language diana(x = daisy(x.prop, type = list(numeric = 1:n.prop)))</span>

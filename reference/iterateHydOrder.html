@@ -68,7 +68,7 @@
 <span>  <span class="va">g</span>,</span>
 <span>  target <span class="op">=</span> <span class="fl">0.9</span>,</span>
 <span>  maxIter <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>  j.amount <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  j.amount <span class="op">=</span> <span class="fl">0.001</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  trace <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -83,7 +83,7 @@
 
 
 <dt id="arg-g">g<a class="anchor" aria-label="anchor" href="#arg-g"></a></dt>
-<dd><p>name of geomorphic summary table, one of: <code>c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape')</code></p></dd>
+<dd><p>name of geomorphic summary table, one of: <code>c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape', 'geomorphons')</code></p></dd>
 
 
 <dt id="arg-target">target<a class="anchor" aria-label="anchor" href="#arg-target"></a></dt>
@@ -95,7 +95,7 @@
 
 
 <dt id="arg-j-amount">j.amount<a class="anchor" aria-label="anchor" href="#arg-j-amount"></a></dt>
-<dd><p>numeric, amount of noise applied to rows with too few unique values, passed to <code><a href="https://rdrr.io/r/base/jitter.html" class="external-link">jitter()</a></code></p></dd>
+<dd><p>numeric, amount of noise applied to rows with too few unique values, passed to <code><a href="hydOrder.html">hydOrder()</a></code></p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
@@ -136,18 +136,18 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># perform several iterations, keep the best one</span></span></span>
 <span class="r-in"><span><span class="va">h2</span> <span class="op">&lt;-</span> <span class="fu">iterateHydOrder</span><span class="op">(</span><span class="va">OSDexamples</span><span class="op">$</span><span class="va">hillpos</span>, <span class="st">'hillpos'</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 41.2% match rate after 20 iterations</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 35.3% match rate after 20 iterations</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># compare: only slightly better match rate achieved</span></span></span>
 <span class="r-in"><span><span class="va">h1</span><span class="op">$</span><span class="va">match.rate</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3529412</span>
 <span class="r-in"><span><span class="va">h2</span><span class="op">$</span><span class="va">match.rate</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4117647</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3529412</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return trace log for eval of objective function</span></span></span>
 <span class="r-in"><span><span class="co"># increase max iterations</span></span></span>
 <span class="r-in"><span><span class="va">h2</span> <span class="op">&lt;-</span> <span class="fu">iterateHydOrder</span><span class="op">(</span><span class="va">OSDexamples</span><span class="op">$</span><span class="va">hillpos</span>, <span class="st">'hillpos'</span>, maxIter <span class="op">=</span> <span class="fl">100</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span>, trace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 41.2% match rate after 100 iterations</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 35.3% match rate after 100 iterations</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># inspect objective function evolution</span></span></span>
 <span class="r-in"><span><span class="va">tr</span> <span class="op">&lt;-</span> <span class="va">h2</span><span class="op">$</span><span class="va">trace</span></span></span>

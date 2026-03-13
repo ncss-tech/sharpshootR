@@ -14,6 +14,11 @@
 #' 
 #' @description A unique display of landform position probability.
 #' 
+#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+#' 
+#' @note Default colors are from `PNWColors::pnw_palette('Bay')`.
+#' 
+#' 
 #' @param x `data.frame` as created by `soilDB::fetchOSD(..., extended = TRUE)`, see details
 #' 
 #' @param s an optional soil series name, highlighted in the figure
@@ -35,7 +40,6 @@
 #'    * `clust`: `hclust` object
 #'    * `match.rate`: fraction of series matching target hydrologic ordering, after clustering + rotation
 #' 
-#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. Default colors are from `PNWColors::pnw_palette('Bay')`.
 #' 
 #' @author D.E. Beaudette
 #' 

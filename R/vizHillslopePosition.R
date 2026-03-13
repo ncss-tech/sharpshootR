@@ -3,6 +3,11 @@
 #' 
 #' @description A unique display of hillslope position probability.
 #' 
+#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+#' 
+#' @note Default colors are from `PNWColors::pnw_palette('Shuksan2')`. Original colors: `c("#2B83BA", "#ABDDA4", "#FFFFBF", "#FDAE61", "#D7191C")`.
+#' 
+#' 
 #' @param x `data.frame` as created by `soilDB::fetchOSD(..., extended = TRUE)`
 #' 
 #' @param s an optional soil series name, highlighted in the figure
@@ -22,7 +27,6 @@
 #'    * `clust`: `hclust` object
 #'    * `match.rate`: fraction of series matching target hydrologic ordering, after clustering + rotation 
 #' 
-#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. Default colors are from `PNWColors::pnw_palette('Shuksan2')`.
 #' 
 #' @author D.E. Beaudette
 #' 

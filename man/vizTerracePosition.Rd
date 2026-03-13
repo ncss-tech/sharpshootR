@@ -36,10 +36,24 @@ A \code{list} with the following elements:
 }
 }
 \description{
-A unique display of terraced landform position probability.
+This function creates a graphical summary of geomorphic position proportions, as returned by \code{soilDB::fetchOSD(..., extended = TRUE)}. Stacked barplots are arranged according to an expected hydrologic gradient from "higher" to "lower" relative positions in a theoretical landscape.
+
+Example geomorphic position data:\tabular{lrrrr}{
+   series \tab Tread \tab Riser \tab n \tab shannon_entropy \cr
+   CAPSHAW \tab 0.974 \tab 0.026 \tab 39 \tab 0.172 \cr
+   GUTHRIE \tab 1.000 \tab 0.000 \tab 86 \tab 0.000 \cr
+   LEE \tab 1.000 \tab 0.000 \tab 42 \tab 0.000 \cr
+   LOBELVILLE \tab 1.000 \tab 0.000 \tab 26 \tab 0.000 \cr
+   TAFT \tab 1.000 \tab 0.000 \tab 90 \tab 0.000 \cr
+   TARKLIN \tab 0.660 \tab 0.340 \tab 53 \tab 0.924 \cr
+   TRACE \tab 1.000 \tab 0.000 \tab 12 \tab 0.000 \cr
+}
 }
 \details{
-See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. Default colors are from \code{PNWColors::pnw_palette('Shuksan2')}.
+See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+}
+\note{
+Default colors are from \code{PNWColors::pnw_palette('Shuksan2')}. Original colors: \code{c("#2B83BA", "#FDAE61")}
 }
 \author{
 D.E. Beaudette

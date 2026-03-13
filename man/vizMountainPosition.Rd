@@ -39,7 +39,10 @@ A \code{list} with the following elements:
 A unique display of mountain slope position probability.
 }
 \details{
-See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. Default colors are from \code{PNWColors::pnw_palette('Cascades')}.
+See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+}
+\note{
+Default colors are from \code{PNWColors::pnw_palette('Cascades')}. Original colors: \code{c("#D53E4F", "#FC8D59", "#FEE08B", "#E6F598", "#99D594", "#3288BD")}
 }
 \author{
 D.E. Beaudette

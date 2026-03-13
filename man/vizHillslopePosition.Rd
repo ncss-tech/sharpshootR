@@ -39,7 +39,10 @@ A \code{list} with the following elements:
 A unique display of hillslope position probability.
 }
 \details{
-See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. Default colors are from \code{PNWColors::pnw_palette('Shuksan2')}.
+See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+}
+\note{
+Default colors are from \code{PNWColors::pnw_palette('Shuksan2')}. Original colors: \code{c("#2B83BA", "#ABDDA4", "#FFFFBF", "#FDAE61", "#D7191C")}.
 }
 \author{
 D.E. Beaudette

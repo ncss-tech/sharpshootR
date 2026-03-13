@@ -39,7 +39,10 @@ A \code{list} with the following elements:
 A unique display of landform position probability.
 }
 \details{
-See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. Default colors are from \code{PNWColors::pnw_palette('Shuksan2')}.
+See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+}
+\note{
+Default colors are from \code{PNWColors::pnw_palette('Shuksan2')}.
 }
 \author{
 D.E. Beaudette

@@ -7,6 +7,10 @@
 #' 
 #' @description A unique display of surface shape (typically curvature) probability, suitable for across-slope or down-slope shape. Use the `title` argument to make this clear.
 #' 
+#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+#' 
+#' @note Default colors are from `PNWColors::pnw_palette('Bay')`. Original colors: `c("#2B83BA", "#FFFFBF", "#D7191C", "#808080", "darkgreen")`.
+#' 
 #' @param x `data.frame` as created by `soilDB::fetchOSD(..., extended = TRUE)`, see details
 #' 
 #' @param s an optional soil series name, highlighted in the figure
@@ -27,8 +31,7 @@
 #'    * `order`: 1D ordering from `cluster::diana`
 #'    * `clust`: `hclust` object
 #'    * `match.rate`: fraction of series matching target hydrologic ordering, after clustering + rotation
-#' 
-#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+#'
 #' 
 #' @author D.E. Beaudette
 #' 

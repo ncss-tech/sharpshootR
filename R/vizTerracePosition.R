@@ -2,7 +2,24 @@
 
 #' @title Visual Summary of Terraced Landform Positions
 #' 
-#' @description A unique display of terraced landform position probability.
+#' @description This function creates a graphical summary of geomorphic position proportions, as returned by `soilDB::fetchOSD(..., extended = TRUE)`. Stacked barplots are arranged according to an expected hydrologic gradient from "higher" to "lower" relative positions in a theoretical landscape.
+#' 
+#' 
+#' Example geomorphic position data:
+#'  
+#' |series     | Tread| Riser|  n| shannon_entropy|
+#' |:----------|-----:|-----:|--:|---------------:|
+#' |CAPSHAW    | 0.974| 0.026| 39|           0.172|
+#' |GUTHRIE    | 1.000| 0.000| 86|           0.000|
+#' |LEE        | 1.000| 0.000| 42|           0.000|
+#' |LOBELVILLE | 1.000| 0.000| 26|           0.000|
+#' |TAFT       | 1.000| 0.000| 90|           0.000|
+#' |TARKLIN    | 0.660| 0.340| 53|           0.924|
+#' |TRACE      | 1.000| 0.000| 12|           0.000|
+#' 
+#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. 
+#' 
+#' @note Default colors are from `PNWColors::pnw_palette('Shuksan2')`. Original colors: `c("#2B83BA", "#FDAE61")`
 #' 
 #' @param x `data.frame` as created by `soilDB::fetchOSD(..., extended = TRUE)`, see details
 #' 
@@ -23,7 +40,6 @@
 #'    * `clust`: `hclust` object
 #'    * `match.rate`: fraction of series matching target hydrologic ordering, after clustering + rotation 
 #' 
-#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. Default colors are from `PNWColors::pnw_palette('Shuksan2')`.
 #' 
 #' @author D.E. Beaudette
 #' 

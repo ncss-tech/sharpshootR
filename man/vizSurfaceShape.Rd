@@ -44,6 +44,9 @@ A unique display of surface shape (typically curvature) probability, suitable fo
 \details{
 See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
 }
+\note{
+Default colors are from \code{PNWColors::pnw_palette('Bay')}. Original colors: \code{c("#2B83BA", "#FFFFBF", "#D7191C", "#808080", "darkgreen")}.
+}
 \author{
 D.E. Beaudette
 }

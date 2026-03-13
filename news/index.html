@@ -58,11 +58,18 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="2.4.1" id="sharpshootr-241-development">sharpshootR 2.4.1 (development)<a class="anchor" aria-label="anchor" href="#sharpshootr-241-development"></a></h2>
-<ul><li>now depends on R &gt;= 4.1.0 # bug fix in <code><a href="../reference/PCP_plot.html">PCP_plot()</a></code>, filter incomplete water years from exemplar selection</li>
+<h2 class="page-header" data-toc-text="2.5" id="sharpshootr-25-development">sharpshootR 2.5 (development)<a class="anchor" aria-label="anchor" href="#sharpshootr-25-development"></a></h2>
+<ul><li>now depends on R &gt;= 4.1.0</li>
+<li>bug fix in <code><a href="../reference/PCP_plot.html">PCP_plot()</a></code>, filter incomplete water years from exemplar selection</li>
 <li>bug fix in <code><a href="../reference/CDEC_StationInfo.html">CDEC_StationInfo()</a></code>
 </li>
+<li>bug fix in <code><a href="../reference/vizSurfaceShape.html">vizSurfaceShape()</a></code>, no return value</li>
 <li>better handling of ties in <code><a href="../reference/hydOrder.html">hydOrder()</a></code> and <code>viz*()</code> functions which depend on this value when there are ties in geomorphic position proportions (<a href="https://github.com/ncss-tech/sharpshootR/issues/63" class="external-link">#63</a>)</li>
+<li>new function <code><a href="../reference/vizGeomorphons.html">vizGeomorphons()</a></code> for geomorphon summaries returned by <code><a href="http://ncss-tech.github.io/soilDB/reference/fetchOSD.html" class="external-link">soilDB::fetchOSD()</a></code>
+</li>
+<li>geomorphic <code>viz*</code> functions now use thinner lines and have new default colors, inspired by <a href="https://github.com/jakelawlor/PNWColors" class="external-link">PNWColors</a> package</li>
+<li>
+<code><a href="../reference/plotGeomorphCrossSection.html">plotGeomorphCrossSection()</a></code> gets new colors, and support for: ‘geomcomp’, ‘flats’, ‘terraces’, ‘shape_across’, ‘shape_down’, ‘geomorphons’</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.4" id="sharpshootr-24-2025-09-26">sharpshootR 2.4 (2025-09-26)<small>2025-09-26</small><a class="anchor" aria-label="anchor" href="#sharpshootr-24-2025-09-26"></a></h2>

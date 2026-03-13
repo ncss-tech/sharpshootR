@@ -68,8 +68,9 @@
 <span>  s <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  annotations <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  annotation.cex <span class="op">=</span> <span class="fl">0.75</span>,</span>
-<span>  cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"grey"</span>, <span class="st">"#A71B4B"</span>, <span class="st">"#DE5925"</span>, <span class="st">"#F39B29"</span>, <span class="st">"#FBD476"</span>, <span class="st">"#FEFDBE"</span>, <span class="st">"#A5E8AD"</span>,</span>
-<span>    <span class="st">"#22C4B3"</span>, <span class="st">"#0090B5"</span>, <span class="st">"#584B9F"</span><span class="op">)</span>,</span>
+<span>  clust <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#CCCCCC"</span>, <span class="st">"#CF4F3F"</span>, <span class="st">"#D86D40"</span>, <span class="st">"#E29048"</span>, <span class="st">"#E5B35A"</span>, <span class="st">"#E9D772"</span>, <span class="st">"#86AC7D"</span>,</span>
+<span>    <span class="st">"#3D8399"</span>, <span class="st">"#2E657F"</span>, <span class="st">"#1F4867"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -94,6 +95,10 @@
 <dd><p>annotation label scaling factor</p></dd>
 
 
+<dt id="arg-clust">clust<a class="anchor" aria-label="anchor" href="#arg-clust"></a></dt>
+<dd><p>logical, order rows using divisive hierarchical clustering and include dendrogram?</p></dd>
+
+
 <dt id="arg-cols">cols<a class="anchor" aria-label="anchor" href="#arg-cols"></a></dt>
 <dd><p>vector of colors</p></dd>
 
@@ -111,7 +116,7 @@
 </ul></div>
     <div id="details">
     <h2>Details</h2>
-    <p>See the <a href="http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html" class="external-link">Soil Series Query Functions</a> tutorial for more information.</p>
+    <p>See the <a href="http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html" class="external-link">Soil Series Query Functions</a> tutorial for more information. Default colors are from <code>PNWColors::pnw_palette('Bay')</code>.</p>
     </div>
     <div id="author">
     <h2>Author</h2>

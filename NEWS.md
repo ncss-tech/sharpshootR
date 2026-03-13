@@ -1,8 +1,12 @@
-# sharpshootR 2.4.1 (development)
+# sharpshootR 2.5 (development)
  * now depends on R >= 4.1.0
- # bug fix in `PCP_plot()`, filter incomplete water years from exemplar selection
+ * bug fix in `PCP_plot()`, filter incomplete water years from exemplar selection
  * bug fix in `CDEC_StationInfo()`
+ * bug fix in `vizSurfaceShape()`, no return value
  * better handling of ties in `hydOrder()` and `viz*()` functions which depend on this value when there are ties in geomorphic position proportions (#63)
+ * new function `vizGeomorphons()` for geomorphon summaries returned by `soilDB::fetchOSD()`
+ * geomorphic `viz*` functions now use thinner lines and have new default colors, inspired by [PNWColors](https://github.com/jakelawlor/PNWColors) package
+ * `plotGeomorphCrossSection()` gets new colors, and support for: 'geomcomp', 'flats', 'terraces', 'shape_across', 'shape_down', 'geomorphons'
 
 
 # sharpshootR 2.4 (2025-09-26)

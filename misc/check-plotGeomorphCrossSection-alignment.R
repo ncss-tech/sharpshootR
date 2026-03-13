@@ -11,6 +11,9 @@ library(soilDB)
 bb <- '-120.8372 38.1860,-120.8372 38.2177,-120.7749 38.2177,-120.7749 38.1860,-120.8372 38.1860'
 
 
+## TX045
+# bb <- '-101.3237 34.5037,-101.3237 34.5711,-101.1752 34.5711,-101.1752 34.5037,-101.3237 34.5037'
+
 
 ## assemble AOI polygon into WKT
 wkt <- sprintf('POLYGON((%s))', bb)
@@ -119,6 +122,30 @@ options(.aqp.plotSPC.args = list(width = 0.35, scaling.factor = 0.021, max.depth
 par(mar = c(0.5, 0, 0, 2), bg = 'black', fg = 'white')
 plotGeomorphCrossSection(osd, type = 'line')
 plotGeomorphCrossSection(osd, type = 'bar')
+
+plotGeomorphCrossSection(osd, type = 'line', g = 'geomcomp')
+plotGeomorphCrossSection(osd, type = 'bar', g = 'geomcomp')
+
+plotGeomorphCrossSection(osd, type = 'line', g = 'terrace')
+plotGeomorphCrossSection(osd, type = 'bar', g = 'terrace')
+
+# may not have enough data
+plotGeomorphCrossSection(osd, type = 'line', g = 'flats')
+plotGeomorphCrossSection(osd, type = 'bar', g = 'flats')
+
+
+# difficult to understand lines
+plotGeomorphCrossSection(osd, type = 'line', g = 'geomorphons', lwd = 0.25)
+plotGeomorphCrossSection(osd, type = 'bar', g = 'geomorphons', border = NA)
+
+
+plotGeomorphCrossSection(osd, type = 'line', g = 'shape_across')
+plotGeomorphCrossSection(osd, type = 'bar', g = 'shape_across')
+
+plotGeomorphCrossSection(osd, type = 'line', g = 'shape_down')
+plotGeomorphCrossSection(osd, type = 'bar', g = 'shape_down')
+
+
 
 
 options(.aqp.plotSPC.args = list(width = 0.35, max.depth = 100, cex.id = 0.7))

@@ -13,7 +13,7 @@
 #' 
 #' @export
 #'
-reconcileOSDGeomorph <- function(x, selection = c('hillpos', 'geomcomp', 'flats', 'mtnpos', 'terrace', 'shape_across', 'shape_down')) {
+reconcileOSDGeomorph <- function(x, selection = c('hillpos', 'geomcomp', 'flats', 'mtnpos', 'terrace', 'shape_across', 'shape_down', 'geomorphons')) {
   
   # satisfy R CMD check
   series <- NULL

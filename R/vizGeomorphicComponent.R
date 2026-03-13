@@ -23,12 +23,12 @@
 #'    * `clust`: `hclust` object
 #'    * `match.rate`: fraction of series matching target hydrologic ordering, after clustering + rotation
 #' 
-#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. Default colors are from `PNWColors::pnw_palette('Shuksan2')`.
 #' 
 #' @author D.E. Beaudette
 #' 
 #' 
-vizGeomorphicComponent <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#D53E4F", "#FC8D59", "#FEE08B", "#E6F598", "#99D594", "#3288BD"), ...) {
+vizGeomorphicComponent <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#A8554E", "#DD9174", "#F6D4A9", "#DEE5D3", "#9FB9D9", "#5D74A5"), ...) {
   
   # sanity checks on input
   if(!inherits(x, 'data.frame')) {
@@ -68,7 +68,7 @@ vizGeomorphicComponent <- function(x, s = NULL, annotations = TRUE, annotation.c
   names(x.long)[2] <- 'geomcomp'
   
   # make some colors, and set style
-  tps <- list(superpose.polygon=list(col = cols, lwd = 2, lend = 2))
+  tps <- list(superpose.polygon=list(col = cols, lwd = 1, lend = 2))
   
   ## all of the fancy ordering + dendrogram require > 1 series
   if(n.series > 1) {

@@ -9,7 +9,7 @@ vizGeomorphicComponent(
   s = NULL,
   annotations = TRUE,
   annotation.cex = 0.75,
-  cols = c("#D53E4F", "#FC8D59", "#FEE08B", "#E6F598", "#99D594", "#3288BD"),
+  cols = c("#A8554E", "#DD9174", "#F6D4A9", "#DEE5D3", "#9FB9D9", "#5D74A5"),
   ...
 )
 }
@@ -39,7 +39,7 @@ A \code{list} with the following elements:
 A unique display of landform position probability.
 }
 \details{
-See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. Default colors are from \code{PNWColors::pnw_palette('Shuksan2')}.
 }
 \author{
 D.E. Beaudette

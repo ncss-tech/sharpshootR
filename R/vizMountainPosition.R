@@ -1,4 +1,8 @@
-## TODO: provide examples for adjusting legend size / spacing
+
+# updated colors
+# .cols <- rev(PNWColors::pnw_palette('Cascades', n = 6))
+# dput(.cols)
+
 
 #' @title Visual Summary of Mountain Slope Positions
 #' 
@@ -23,12 +27,12 @@
 #'    * `clust`: `hclust` object
 #'    * `match.rate`: fraction of series matching target hydrologic ordering, after clustering + rotation
 #' 
-#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. Default colors are from `PNWColors::pnw_palette('Cascades')`.
 #' 
 #' @author D.E. Beaudette
 #' 
 #' 
-vizMountainPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#D53E4F", "#FC8D59", "#FEE08B", "#E6F598", "#99D594", "#3288BD"), ...) {
+vizMountainPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#88a2b9", "#677e8e", "#e2e260", "#dec000", "#516823", "#2d4030"), ...) {
   
   # sanity checks on input
   if(!inherits(x, 'data.frame')) {
@@ -75,7 +79,7 @@ vizMountainPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex 
   
   # make some colors, and set style
   # cols <- brewer.pal(6, 'Spectral')
-  tps <- list(superpose.polygon=list(col=cols, lwd=2, lend=2))
+  tps <- list(superpose.polygon = list(col = cols, lwd = 1, lend = 2))
   
   
   ## all of the fancy ordering + dendrogram require > 1 series

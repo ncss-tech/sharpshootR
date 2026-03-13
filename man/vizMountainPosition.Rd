@@ -9,7 +9,7 @@ vizMountainPosition(
   s = NULL,
   annotations = TRUE,
   annotation.cex = 0.75,
-  cols = c("#D53E4F", "#FC8D59", "#FEE08B", "#E6F598", "#99D594", "#3288BD"),
+  cols = c("#88a2b9", "#677e8e", "#e2e260", "#dec000", "#516823", "#2d4030"),
   ...
 )
 }
@@ -39,7 +39,7 @@ A \code{list} with the following elements:
 A unique display of mountain slope position probability.
 }
 \details{
-See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. Default colors are from \code{PNWColors::pnw_palette('Cascades')}.
 }
 \author{
 D.E. Beaudette

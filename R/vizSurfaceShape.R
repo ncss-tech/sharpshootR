@@ -1,4 +1,7 @@
-## TODO: provide examples for adjusting legend size / spacing
+# updated colors
+# .cols <- c(PNWColors::pnw_palette('Bay', n = 3), '#808080', 'darkgreen')
+# .cols <- colorspace::desaturate(.cols, amount = 0.2)
+# dput(.cols)
 
 #' @title Visual Summary of Surface Shape
 #' 
@@ -30,7 +33,7 @@
 #' @author D.E. Beaudette
 #' 
 #' 
-vizSurfaceShape <- function(x, title = 'Surface Shape', s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#2B83BA", "#FFFFBF", "#D7191C", "#808080", "darkgreen"), ...) {
+vizSurfaceShape <- function(x, title = 'Surface Shape', s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#3D8399", "#E9D772", "#CF4F3F", "#808080", "#226222"), ...) {
   
   # sanity checks on input
   if(!inherits(x, 'data.frame')) {
@@ -76,7 +79,7 @@ vizSurfaceShape <- function(x, title = 'Surface Shape', s = NULL, annotations = 
   # colorspace::swatchplot(cols)
   
   # setup plot styling
-  tps <- list(superpose.polygon = list(col = cols, lwd = 2, lend = 2))
+  tps <- list(superpose.polygon = list(col = cols, lwd = 1, lend = 2))
   
   ## all of the fancy ordering + dendrogram require > 1 series
   if(n.series > 1) {
@@ -194,5 +197,7 @@ vizSurfaceShape <- function(x, title = 'Surface Shape', s = NULL, annotations = 
     clust = x.d.hydro, 
     match.rate = .match.rate
   )
+  
+  return(res)
 }
 

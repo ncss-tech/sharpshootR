@@ -67,7 +67,7 @@ iterateHydOrder <- function(x, g, target = 0.9, maxIter = 20, j.amount = 0.001, 
   
   # initial conditions
   .iter <- 1
-  .ho <- hydOrder(x, g = g, j.amount = 0)
+  .ho <- hydOrder(x, g = g, j.amount = 0.00001)
   .obj <- .ho$obj
   .hyd.order <- .ho$hyd.order
   .clust.hyd.order <- .ho$clust.hyd.order

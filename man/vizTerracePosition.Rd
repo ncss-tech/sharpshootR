@@ -9,7 +9,7 @@ vizTerracePosition(
   s = NULL,
   annotations = TRUE,
   annotation.cex = 0.75,
-  cols = c("#2B83BA", "#FDAE61"),
+  cols = c("#5d74a5", "#fef7c7"),
   ...
 )
 }
@@ -39,7 +39,7 @@ A \code{list} with the following elements:
 A unique display of terraced landform position probability.
 }
 \details{
-See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. Default colors are from \code{PNWColors::pnw_palette('Shuksan2')}.
 }
 \author{
 D.E. Beaudette

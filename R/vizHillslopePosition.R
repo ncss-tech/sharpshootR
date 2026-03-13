@@ -1,5 +1,3 @@
-## TODO: provide examples for adjusting legend size / spacing
-## TODO: consider other colors: https://github.com/BlakeRMills/MetBrewer
 
 #' @title Visual Summary of Hillslope Position
 #' 
@@ -24,11 +22,11 @@
 #'    * `clust`: `hclust` object
 #'    * `match.rate`: fraction of series matching target hydrologic ordering, after clustering + rotation 
 #' 
-#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. Default colors are from `PNWColors::pnw_palette('Shuksan2')`.
 #' 
 #' @author D.E. Beaudette
 #' 
-vizHillslopePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#2B83BA", "#ABDDA4", "#FFFFBF", "#FDAE61", "#D7191C"), ...) {
+vizHillslopePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#5d74a5", "#b0cbe7", "#fef7c7", "#eba07e", "#a8554e"), ...) {
   
   # sanity checks on input
   if(!inherits(x, 'data.frame')) {
@@ -71,7 +69,7 @@ vizHillslopePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex
   # cols <- rev(brewer.pal(5, 'Spectral'))
   
   # setup plot styling
-  tps <- list(superpose.polygon = list(col = cols, lwd = 2, lend = 2))
+  tps <- list(superpose.polygon = list(col = cols, lwd = 1, lend = 2))
   
   ## all of the fancy ordering + dendrogram require > 1 series
   if(n.series > 1) {

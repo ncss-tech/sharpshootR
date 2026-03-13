@@ -7,7 +7,7 @@
 reconcileOSDGeomorph(
   x,
   selection = c("hillpos", "geomcomp", "flats", "mtnpos", "terrace", "shape_across",
-    "shape_down")
+    "shape_down", "geomorphons")
 )
 }
 \arguments{

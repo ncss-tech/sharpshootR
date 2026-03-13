@@ -1,7 +1,14 @@
-## TODO: provide examples for adjusting legend size / spacing
 
 # default colors:
 # dput(c('grey', hcl.colors(n = 9, palette = 'spectral')))
+
+# updated colors
+# .cols <- c(grey(0.8), rev(PNWColors::pnw_palette('Bay', n = 9)))
+# .cols <- colorspace::desaturate(.cols, amount = 0.2)
+# dput(.cols)
+
+
+
 
 #' @title Visual Summary of Hill Landform Positions
 #' 
@@ -15,6 +22,8 @@
 #' 
 #' @param annotation.cex annotation label scaling factor
 #' 
+#' @param clust logical, order rows using divisive hierarchical clustering and include dendrogram?
+#' 
 #' @param cols vector of colors
 #' 
 #' @param \dots additional arguments to [iterateHydOrder()]: `target = 0.9, maxIter = 20, j.amount = 0.001, verbose = FALSE`
@@ -26,12 +35,12 @@
 #'    * `clust`: `hclust` object
 #'    * `match.rate`: fraction of series matching target hydrologic ordering, after clustering + rotation
 #' 
-#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. Default colors are from `PNWColors::pnw_palette('Bay')`.
 #' 
 #' @author D.E. Beaudette
 #' 
 #' 
-vizGeomorphons <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("grey", "#A71B4B", "#DE5925", "#F39B29", "#FBD476", "#FEFDBE", "#A5E8AD", "#22C4B3", "#0090B5", "#584B9F"), ...) {
+vizGeomorphons <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, clust = TRUE, cols = c("#CCCCCC", "#CF4F3F", "#D86D40", "#E29048", "#E5B35A", "#E9D772", "#86AC7D", "#3D8399", "#2E657F", "#1F4867"), ...) {
   
   # sanity checks on input
   if(!inherits(x, 'data.frame')) {
@@ -71,29 +80,46 @@ vizGeomorphons <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.7
   names(x.long)[2] <- 'geomorphons'
   
   # make some colors, and set style
-  tps <- list(superpose.polygon = list(col = cols, lwd = 2, lend = 2))
+  tps <- list(superpose.polygon = list(col = cols, lwd = 0.5, lend = 2))
   
   ## all of the fancy ordering + dendrogram require > 1 series
   if(n.series > 1) {
     
-    # iteratively apply hydrologic ordering, 
-    .res <- iterateHydOrder(x, g = 'geomorphons', ...)
-    x.d.hydro <- .res$clust
-    .match.rate <- .res$match.rate
-    
-    # re-order labels levels based on clustering
-    x.long$series <- factor(x.long$series, levels = x$series[x.d.hydro$order])
-    
-    # dendrogram synced to bars
-    leg <- list(
-      right = list(
-        fun = latticeExtra::dendrogramGrob,
-        args = list(
-          x = as.dendrogram(x.d.hydro), 
-          side = "right", 
-          size = 10)
+    if(clust) {
+      # iteratively apply hydrologic ordering, 
+      .res <- iterateHydOrder(x, g = 'geomorphons', ...)
+      x.d.hydro <- .res$clust
+      .match.rate <- .res$match.rate
+      
+      # re-order labels levels based on clustering
+      x.long$series <- factor(x.long$series, levels = x$series[x.d.hydro$order])
+      
+      # dendrogram synced to bars
+      leg <- list(
+        right = list(
+          fun = latticeExtra::dendrogramGrob,
+          args = list(
+            x = as.dendrogram(x.d.hydro), 
+            side = "right", 
+            size = 10)
+        )
       )
-    )
+    } else {
+      # apply hydrologic ordering, 
+      .res <- hydOrder(x, g = 'geomorphons', clust = FALSE)
+      
+      # re-order labels levels based on clustering
+      x.long$series <- factor(x.long$series, levels = .res)
+      
+      # convert hydrologic ordering of series names -> integer order for figure annotation
+      x.d.hydro <- list(order = match(.res, x$series))
+      .match.rate <- NA
+      
+      # no dendrogram legend
+      leg <- list()
+    }
+    
+    
     
   } else {
     # singleton

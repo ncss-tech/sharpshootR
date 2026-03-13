@@ -7,22 +7,29 @@
 plotGeomorphCrossSection(
   x,
   type = c("line", "bar"),
-  g = "hillpos",
+  g = c("hillpos", "geomcomp", "terrace", "flats", "geomorphons", "shape_across",
+    "shape_down"),
   clust = TRUE,
-  col = c("#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#E41A1C"),
+  col = NULL,
+  lwd = 1,
+  border.col = NA,
   ...
 )
 }
 \arguments{
-\item{x}{resulting list from \code{soilDB::fetchOSD(..., extended = TRUE)}}
+\item{x}{list from \code{soilDB::fetchOSD(..., extended = TRUE)}}
 
 \item{type}{character, 'line' for line plot or 'bar' for barplot of geomorphic proportions}
 
-\item{g}{character, select a geomorphic summary. Currently 'hillpos' (2D hillslope position) is the only supported choice.}
+\item{g}{character, select a geomorphic summary ('hillpos', 'geomcomp', 'terrace', 'flats', 'geomorphons', 'shape_across', 'shape_down')}
 
 \item{clust}{logical, use clustering order of geomorphic proportions (\code{TRUE}) or exact hydrologic ordering (\code{FALSE}), see \code{\link[=hydOrder]{hydOrder()}}}
 
-\item{col}{character vector of colors}
+\item{col}{character vector of colors, must match number of geomorphic position levels}
+
+\item{lwd}{numeric, line width for line plots}
+
+\item{border.col}{color used for stacked barplot outlines, default is NA (no color)}
 
 \item{\dots}{additional arguments to \code{\link[=iterateHydOrder]{iterateHydOrder()}}}
 }

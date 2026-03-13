@@ -24,12 +24,12 @@
 #'    * `clust`: `hclust` object
 #'    * `match.rate`: fraction of series matching target hydrologic ordering, after clustering + rotation
 #' 
-#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. Default colors are from `PNWColors::pnw_palette('Shuksan2')`.
 #' 
 #' @author D.E. Beaudette
 #' 
 #' 
-vizFlatsPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#2B83BA", "#ABDDA4", "#FFFFBF", "#FDAE61", "#D7191C"), ...) {
+vizFlatsPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#5d74a5", "#b0cbe7", "#fef7c7", "#a8554e"), ...) {
   
   # sanity checks on input
   if(!inherits(x, 'data.frame')) {
@@ -72,7 +72,7 @@ vizFlatsPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0
   # cols <- rev(brewer.pal(5, 'Spectral'))
   
   # plot style
-  tps <- list(superpose.polygon=list(col=cols, lwd=2, lend=2))
+  tps <- list(superpose.polygon = list(col = cols, lwd = 1, lend = 2))
   
   ## all of the fancy ordering + dendrogram require > 1 series
   if(n.series > 1) {

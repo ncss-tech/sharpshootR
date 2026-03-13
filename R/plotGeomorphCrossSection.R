@@ -2,14 +2,25 @@
 # * generalize to other gemorphic summaries (everything hard-coded for hillslope position)
 # * encode Shannon entropy: values are computed row-wise, data plotted as columns
 
+# old default colors for hillpos: c("#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#E41A1C")
+
 
 #' @title Present a `SoilProfileCollection` aligned to a geomorphic summary as cross-section.
 #'
-#' @param x resulting list from `soilDB::fetchOSD(..., extended = TRUE)`
+#' @param x list from `soilDB::fetchOSD(..., extended = TRUE)`
+#' 
 #' @param type character, 'line' for line plot or 'bar' for barplot of geomorphic proportions
-#' @param g character, select a geomorphic summary. Currently 'hillpos' (2D hillslope position) is the only supported choice.
+#' 
+#' @param g character, select a geomorphic summary ('hillpos', 'geomcomp', 'terrace', 'flats', 'geomorphons', 'shape_across', 'shape_down')
+#' 
 #' @param clust logical, use clustering order of geomorphic proportions (`TRUE`) or exact hydrologic ordering (`FALSE`), see [`hydOrder()`]
-#' @param col character vector of colors
+#' 
+#' @param col character vector of colors, must match number of geomorphic position levels
+#' 
+#' @param lwd numeric, line width for line plots
+#' 
+#' @param border.col color used for stacked barplot outlines, default is NA (no color)
+#' 
 #' @param \dots additional arguments to [`iterateHydOrder()`]
 #' 
 #' @details Additional arguments to [aqp::plotSPC()] can be provided using `options(.aqp.plotSPC.args = list(...))`. For example, adjustments to maximum depth and profile width can be set via: `options(.aqp.plotSPC.args = list(max.depth = 150, width = 0.35)`. Default arguments can be reset with `options(.aqp.plotSPC.args = NULL`).
@@ -20,7 +31,7 @@
 #' @return nothing, function is called to generate graphical output
 #' @export
 #'
-plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', clust = TRUE, col = c("#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#E41A1C"), ...) {
+plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = c('hillpos', 'geomcomp', 'terrace', 'flats', 'geomorphons', 'shape_across', 'shape_down'), clust = TRUE, col = NULL, lwd = 1, border.col = NA, ...) {
   
   # satisfy R CMD check
   series <- NULL
@@ -32,11 +43,8 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
   # sanity checks
   type <- match.arg(type)
   
-  # eventually others will be supported
-  # stopifnot(g %in% c('geomcomp', 'hillpos', 'flats', 'terrace', 'mtnpos', 'shape'))
-  
-  # for now, just hillpos
-  stopifnot(g %in% c('hillpos'))
+  # limit to support geomorphic summaries
+  g <- match.arg(g)
   
   # the latest soilDB::fetchOSD() will automatically encode horizon distinctness offset
   # backwards compatibility
@@ -49,8 +57,51 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
     )
   }
   
+  # if not provided, select from default colors
+  if(is.null(col)) {
+    col <- switch(
+      g,
+      'hillpos' = c("#1F4867", "#3D8399", "#E9D772", "#E29048", "#CF4F3F"),
+      'geomcomp' = c("#CF4F3F", "#DD8244", "#E6B95E", "#99B479", "#37778F", "#1F4867"), 
+      'terrace' = c("#1F4867", "#E29048"),
+      'flats' = c("#5d74a5", "#b0cbe7", "#fef7c7", "#a8554e"),
+      'geomorphons' = c("#CCCCCC", "#CF4F3F", "#D86D40", "#E29048", "#E5B35A", "#E9D772", "#86AC7D", "#3D8399", "#2E657F", "#1F4867"),
+      'shape_across' = c("#3D8399", "#E9D772", "#CF4F3F", "#808080", "#226222"),
+      'shape_down' = c("#3D8399", "#E9D772", "#CF4F3F", "#808080", "#226222")
+    )
+  }
+  
+  
+  ## TODO: consider variable defaults for barplot borders
+  # # default barplot border colors
+  # if(is.null(border.col)) {
+  #   border.col <- switch(
+  #     g,
+  #     'geomorphons' = NA,
+  #     par('fg')
+  #   )  
+  # }
+  
+  
+  
   # reconcile possible missing IDs
-  o <- reconcileOSDGeomorph(x, 'hillpos')
+  o <- reconcileOSDGeomorph(x, g)
+  
+  # select the appropriate proportion columns indices
+  col.idx <- switch(
+    g,
+    'hillpos' =     2:6,
+    'geomcomp' =    2:7,
+    'terrace' =     2:3,
+    'flats' =       2:5,
+    'geomorphons' = 2:11,
+    'shape_across' = 2:6,
+    'shape_down' = 2:6
+  )
+  
+  # hydrologic ordering functions expect 'shape' instead of full name
+  # remmove suffix
+  g <- gsub('_across|_down', '', g)
   
   if(clust) {
     # perform clustering, keep only the hclust object
@@ -58,18 +109,18 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
     res <- iterateHydOrder(o$geom, g = g, ...)$clust
   } else {
     # no clustering, just a plotting index
-    res <- match(hydOrder(o$geom, g = 'hillpos', clust = FALSE), profile_id(o$SPC))
+    res <- match(hydOrder(o$geom, g = g, clust = FALSE), profile_id(o$SPC))
   }
   
   # re-order rows of geomorphic proportion matrix
   if(clust) {
     # re-order geomorphic proportions according to clustering
     hp <- o$geom[res$order, ]
-    nm <- names(hp[, 2:6]) 
+    nm <- names(hp[, col.idx]) 
   } else {
     # re-order geomorphic proportions according to raw hydrologic ordering
     hp <- o$geom[res, ]
-    nm <- names(hp[, 2:6])
+    nm <- names(hp[, col.idx])
   }
   
   
@@ -77,14 +128,14 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
   ## saving for future ideas, may involve smaller point sizes or something like that for near-zero values
   
   # # convert near-zero proportions to NA
-  # for(i in 2:6) {
+  # for(i in col.idx) {
   #   idx <- which(hp[, i] < 0.0001)
   #   if(length(idx) > 0) {
   #     hp[idx, i] <- NA
   #   }
   # }
-    
-    
+  
+  
   
   if(type == 'line') {
     
@@ -144,19 +195,21 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
     # bottom panel
     # arrange geomorphic proportion line plot
     matplot(
-      y = hp[, 2:6], 
+      y = hp[, col.idx], 
       type = 'b', 
       lty = 1, 
+      lwd = lwd,
       pch = 16, 
       axes = FALSE, 
       col = col, 
       xlab = '', 
       ylab = '', 
-      xlim = x.lim
+      xlim = x.lim,
+      ylim = c(0, 1.2)
     )
     
     # proportion axis
-    axis(side = 4, line = -1, las = 1, cex.axis = 0.7, col.axis = par('fg'))
+    axis(side = 4, at = seq(0, 1, by = 0.2), line = -1, las = 1, cex.axis = 0.7, col.axis = par('fg'))
     
     # legend
     legend('topleft', legend = rev(nm), col = rev(col), pch = 16, bty = 'n', cex = 0.8, pt.cex = 2, horiz = TRUE, inset = c(0.01, 0.01))
@@ -222,11 +275,12 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
     # setup barplot
     sp <- c(1.5, rep(1, times = length(o$SPC) - 1))
     barplot(
-      height = t(as.matrix(hp[, 2:6])), 
+      height = t(as.matrix(hp[, col.idx])), 
       beside = FALSE, 
       width = 0.5, 
       space = sp, 
       col = col, 
+      border = border.col,
       axes = FALSE, 
       xlab = '', 
       ylab = '', 
@@ -249,6 +303,8 @@ plotGeomorphCrossSection <- function(x, type = c('line', 'bar'), g = 'hillpos', 
     legend(x = 0.75, y = 1.2, legend = rev(nm), col = rev(col), pch = 15, bty = 'n', cex = 0.8, pt.cex = 1.25, horiz = TRUE)
     mtext('Proportion', side = 2, line = -2, font = 2)
     
+    # proportion axis
+    axis(side = 4, at = seq(0, 1, by = 0.2), line = -1, las = 1, cex.axis = 0.7, col.axis = par('fg'))
   }
   
   # cleanup

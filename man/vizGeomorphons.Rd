@@ -9,8 +9,9 @@ vizGeomorphons(
   s = NULL,
   annotations = TRUE,
   annotation.cex = 0.75,
-  cols = c("grey", "#A71B4B", "#DE5925", "#F39B29", "#FBD476", "#FEFDBE", "#A5E8AD",
-    "#22C4B3", "#0090B5", "#584B9F"),
+  clust = TRUE,
+  cols = c("#CCCCCC", "#CF4F3F", "#D86D40", "#E29048", "#E5B35A", "#E9D772", "#86AC7D",
+    "#3D8399", "#2E657F", "#1F4867"),
   ...
 )
 }
@@ -22,6 +23,8 @@ vizGeomorphons(
 \item{annotations}{logical, add number of record and normalized Shannon entropy values}
 
 \item{annotation.cex}{annotation label scaling factor}
+
+\item{clust}{logical, order rows using divisive hierarchical clustering and include dendrogram?}
 
 \item{cols}{vector of colors}
 
@@ -40,7 +43,7 @@ A \code{list} with the following elements:
 A unique display of landform position probability.
 }
 \details{
-See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. Default colors are from \code{PNWColors::pnw_palette('Bay')}.
 }
 \author{
 D.E. Beaudette

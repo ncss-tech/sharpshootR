@@ -10,7 +10,7 @@ vizSurfaceShape(
   s = NULL,
   annotations = TRUE,
   annotation.cex = 0.75,
-  cols = c("#2B83BA", "#FFFFBF", "#D7191C", "#808080", "darkgreen"),
+  cols = c("#3D8399", "#E9D772", "#CF4F3F", "#808080", "#226222"),
   ...
 )
 }

@@ -149,7 +149,7 @@ vizFlatsPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0
                        as.character(round(H[x.d.hydro$order], 2)), 
                        x = x.pos.H, 
                        y = y.pos,
-                       gp = gpar(cex = annotation.cex, font = 3)
+                       gp = gpar(cex = annotation.cex, font = 1)
                      )
                      
                      # annotation labels
@@ -157,7 +157,7 @@ vizFlatsPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0
                        c('N', 'H'), 
                        x = c(x.pos.N, x.pos.H), 
                        y = y.pos.annotation,
-                       gp = gpar(cex = annotation.cex, font = c(2, 4))
+                       gp = gpar(cex = annotation.cex, font = c(2, 2))
                      )  
                    }
                    

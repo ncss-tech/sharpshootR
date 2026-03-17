@@ -29,6 +29,10 @@
 #' 
 #' @param clust logical, order rows using divisive hierarchical clustering and include dendrogram?
 #' 
+#' @param dend.size numeric, space reserved for dendrogram when `clust = TRUE`: values between 3-10 are about right
+#' 
+#' @param dend.type character, one of 'rectangle' or 'triangle', when `clust = TRUE`
+#' 
 #' @param cols vector of colors
 #' 
 #' @param \dots additional arguments to [iterateHydOrder()]: `target = 0.9, maxIter = 20, j.amount = 0.001, verbose = FALSE`
@@ -44,7 +48,9 @@
 #' @author D.E. Beaudette
 #' 
 #' 
-vizGeomorphons <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, clust = TRUE, cols = c("#CCCCCC", "#CF4F3F", "#D86D40", "#E29048", "#E5B35A", "#E9D772", "#86AC7D", "#3D8399", "#2E657F", "#1F4867"), ...) {
+vizGeomorphons <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, clust = TRUE, dend.size = 5, dend.type = c('rectangle', 'triangle'), cols = c("#CCCCCC", "#CF4F3F", "#D86D40", "#E29048", "#E5B35A", "#E9D772", "#86AC7D", "#3D8399", "#2E657F", "#1F4867"), ...) {
+  
+  dend.type <- match.arg(dend.type)
   
   # sanity checks on input
   if(!inherits(x, 'data.frame')) {
@@ -105,7 +111,9 @@ vizGeomorphons <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.7
           args = list(
             x = as.dendrogram(x.d.hydro), 
             side = "right", 
-            size = 10)
+            size = dend.size, 
+            type = dend.type
+          )
         )
       )
     } else {

@@ -5,8 +5,14 @@
  * bug fix in `vizSurfaceShape()`, no return value
  * better handling of ties in `hydOrder()` and `viz*()` functions which depend on this value when there are ties in geomorphic position proportions (#63)
  * new function `vizGeomorphons()` for geomorphon summaries returned by `soilDB::fetchOSD()`
- * geomorphic `viz*` functions now use thinner lines and have new default colors, inspired by [PNWColors](https://github.com/jakelawlor/PNWColors) package
- * `plotGeomorphCrossSection()` gets new colors, and support for: 'geomcomp', 'flats', 'terraces', 'shape_across', 'shape_down', 'geomorphons'
+ * geomorphic `viz*` function updates:
+   - thinner linewidths on stacked barcharts 
+   - new default colors, inspired by [PNWColors](https://github.com/jakelawlor/PNWColors) package
+   - new arguments to adjust styling
+   - new argument `cluster` for toggling ordering and dendrogram from divisive hierarchical clustering of proportions
+ * `plotGeomorphCrossSection()` updates: 
+   - new default colors
+   - support for: 'geomcomp', 'flats', 'terraces', 'shape_across', 'shape_down', 'geomorphons'
 
 
 # sharpshootR 2.4 (2025-09-26)

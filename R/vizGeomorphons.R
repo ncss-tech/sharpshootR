@@ -50,6 +50,7 @@
 #' 
 vizGeomorphons <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, clust = TRUE, dend.size = 5, dend.type = c('rectangle', 'triangle'), cols = c("#CCCCCC", "#CF4F3F", "#D86D40", "#E29048", "#E5B35A", "#E9D772", "#86AC7D", "#3D8399", "#2E657F", "#1F4867"), ...) {
   
+  # sanity check
   dend.type <- match.arg(dend.type)
   
   # sanity checks on input

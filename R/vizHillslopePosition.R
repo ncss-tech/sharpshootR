@@ -38,6 +38,9 @@
 #' 
 vizHillslopePosition <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, clust = TRUE, dend.size = 5, dend.type = c('rectangle', 'triangle'), cols = c("#5d74a5", "#b0cbe7", "#fef7c7", "#eba07e", "#a8554e"), ...) {
   
+  # sanity check
+  dend.type <- match.arg(dend.type)
+  
   # sanity checks on input
   if(!inherits(x, 'data.frame')) {
     stop('x must be a data.frame', call. = FALSE)

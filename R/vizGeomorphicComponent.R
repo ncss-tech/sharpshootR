@@ -16,6 +16,12 @@
 #' 
 #' @param annotation.cex annotation label scaling factor
 #' 
+#' @param clust logical, order rows using divisive hierarchical clustering and include dendrogram?
+#' 
+#' @param dend.size numeric, space reserved for dendrogram when `clust = TRUE`: values between 3-10 are about right
+#' 
+#' @param dend.type character, one of 'rectangle' or 'triangle', when `clust = TRUE`
+#' 
 #' @param cols vector of colors
 #' 
 #' @param \dots additional arguments to [iterateHydOrder()]: `target = 0.9, maxIter = 20, j.amount = 0.001, verbose = FALSE`
@@ -31,7 +37,10 @@
 #' @author D.E. Beaudette
 #' 
 #' 
-vizGeomorphicComponent <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, cols = c("#A8554E", "#DD9174", "#F6D4A9", "#DEE5D3", "#9FB9D9", "#5D74A5"), ...) {
+vizGeomorphicComponent <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.75, clust = TRUE, dend.size = 5, dend.type = c('rectangle', 'triangle'), cols = c("#A8554E", "#DD9174", "#F6D4A9", "#DEE5D3", "#9FB9D9", "#5D74A5"), ...) {
+  
+  # sanity check
+  dend.type <- match.arg(dend.type)
   
   # sanity checks on input
   if(!inherits(x, 'data.frame')) {
@@ -91,7 +100,9 @@ vizGeomorphicComponent <- function(x, s = NULL, annotations = TRUE, annotation.c
         args = list(
           x = as.dendrogram(x.d.hydro), 
           side = "right", 
-          size = 10)
+          size = dend.size, 
+          type = dend.type
+        )
       )
     )
     

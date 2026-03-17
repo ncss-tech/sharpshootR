@@ -97,26 +97,41 @@ vizMountainPosition <- function(x, s = NULL, annotations = TRUE, annotation.cex 
   ## all of the fancy ordering + dendrogram require > 1 series
   if(n.series > 1) {
     
-    # iteratively apply hydrologic ordering, 
-    .res <- iterateHydOrder(x, g = 'mtnpos', ...)
-    x.d.hydro <- .res$clust
-    .match.rate <- .res$match.rate
-    
-    # re-order labels levels based on clustering
-    x.long$series <- factor(x.long$series, levels = x$series[x.d.hydro$order])
-    
-    # dendrogram synced to bars
-    leg <- list(
-      right = list(
-        fun = latticeExtra::dendrogramGrob,
-        args = list(
-          x = as.dendrogram(x.d.hydro), 
-          side = "right", 
-          size = dend.size, 
-          type = dend.type
+    if(clust) {
+      # iteratively apply hydrologic ordering, 
+      .res <- iterateHydOrder(x, g = 'mtnpos', ...)
+      x.d.hydro <- .res$clust
+      .match.rate <- .res$match.rate
+      
+      # re-order labels levels based on clustering
+      x.long$series <- factor(x.long$series, levels = x$series[x.d.hydro$order])
+      
+      # dendrogram synced to bars
+      leg <- list(
+        right = list(
+          fun = latticeExtra::dendrogramGrob,
+          args = list(
+            x = as.dendrogram(x.d.hydro), 
+            side = "right", 
+            size = dend.size, 
+            type = dend.type
+          )
         )
       )
-    )
+    } else {
+      # apply hydrologic ordering, 
+      .res <- hydOrder(x, g = 'mtnpos', clust = FALSE)
+      
+      # re-order labels levels based on clustering
+      x.long$series <- factor(x.long$series, levels = .res)
+      
+      # convert hydrologic ordering of series names -> integer order for figure annotation
+      x.d.hydro <- list(order = match(.res, x$series))
+      .match.rate <- NA
+      
+      # no dendrogram legend
+      leg <- list()
+    }
     
   } else {
     # singleton

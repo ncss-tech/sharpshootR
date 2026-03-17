@@ -96,6 +96,7 @@ vizSurfaceShape <- function(x, title = 'Surface Shape', s = NULL, annotations = 
   ## all of the fancy ordering + dendrogram require > 1 series
   if(n.series > 1) {
     
+    if(clust) {
     # iteratively apply hydrologic ordering, 
     .res <- iterateHydOrder(x, g = 'shape', ...)
     x.d.hydro <- .res$clust
@@ -116,6 +117,21 @@ vizSurfaceShape <- function(x, title = 'Surface Shape', s = NULL, annotations = 
         )
       )
     )
+    
+    } else {
+      # apply hydrologic ordering, 
+      .res <- hydOrder(x, g = 'shape', clust = FALSE)
+      
+      # re-order labels levels based on clustering
+      x.long$series <- factor(x.long$series, levels = .res)
+      
+      # convert hydrologic ordering of series names -> integer order for figure annotation
+      x.d.hydro <- list(order = match(.res, x$series))
+      .match.rate <- NA
+      
+      # no dendrogram legend
+      leg <- list()
+    }
     
   } else {
     # singleton

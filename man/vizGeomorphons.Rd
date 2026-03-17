@@ -10,6 +10,8 @@ vizGeomorphons(
   annotations = TRUE,
   annotation.cex = 0.75,
   clust = TRUE,
+  dend.size = 5,
+  dend.type = c("rectangle", "triangle"),
   cols = c("#CCCCCC", "#CF4F3F", "#D86D40", "#E29048", "#E5B35A", "#E9D772", "#86AC7D",
     "#3D8399", "#2E657F", "#1F4867"),
   ...
@@ -25,6 +27,10 @@ vizGeomorphons(
 \item{annotation.cex}{annotation label scaling factor}
 
 \item{clust}{logical, order rows using divisive hierarchical clustering and include dendrogram?}
+
+\item{dend.size}{numeric, space reserved for dendrogram when \code{clust = TRUE}: values between 3-10 are about right}
+
+\item{dend.type}{character, one of 'rectangle' or 'triangle', when \code{clust = TRUE}}
 
 \item{cols}{vector of colors}
 

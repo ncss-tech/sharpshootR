@@ -9,6 +9,9 @@ vizTerracePosition(
   s = NULL,
   annotations = TRUE,
   annotation.cex = 0.75,
+  clust = TRUE,
+  dend.size = 5,
+  dend.type = c("rectangle", "triangle"),
   cols = c("#5d74a5", "#fef7c7"),
   ...
 )
@@ -21,6 +24,12 @@ vizTerracePosition(
 \item{annotations}{logical, add number of record and normalized Shannon entropy values}
 
 \item{annotation.cex}{annotation label scaling factor}
+
+\item{clust}{logical, order rows using divisive hierarchical clustering and include dendrogram?}
+
+\item{dend.size}{numeric, space reserved for dendrogram when \code{clust = TRUE}: values between 3-10 are about right}
+
+\item{dend.type}{character, one of 'rectangle' or 'triangle', when \code{clust = TRUE}}
 
 \item{cols}{vector of colors}
 

@@ -80,6 +80,9 @@ TRACE1.0000.000120.000
 <span>  s <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  annotations <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  annotation.cex <span class="op">=</span> <span class="fl">0.75</span>,</span>
+<span>  clust <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  dend.size <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  dend.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rectangle"</span>, <span class="st">"triangle"</span><span class="op">)</span>,</span>
 <span>  cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#5d74a5"</span>, <span class="st">"#fef7c7"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -103,6 +106,18 @@ TRACE1.0000.000120.000
 
 <dt id="arg-annotation-cex">annotation.cex<a class="anchor" aria-label="anchor" href="#arg-annotation-cex"></a></dt>
 <dd><p>annotation label scaling factor</p></dd>
+
+
+<dt id="arg-clust">clust<a class="anchor" aria-label="anchor" href="#arg-clust"></a></dt>
+<dd><p>logical, order rows using divisive hierarchical clustering and include dendrogram?</p></dd>
+
+
+<dt id="arg-dend-size">dend.size<a class="anchor" aria-label="anchor" href="#arg-dend-size"></a></dt>
+<dd><p>numeric, space reserved for dendrogram when <code>clust = TRUE</code>: values between 3-10 are about right</p></dd>
+
+
+<dt id="arg-dend-type">dend.type<a class="anchor" aria-label="anchor" href="#arg-dend-type"></a></dt>
+<dd><p>character, one of 'rectangle' or 'triangle', when <code>clust = TRUE</code></p></dd>
 
 
 <dt id="arg-cols">cols<a class="anchor" aria-label="anchor" href="#arg-cols"></a></dt>

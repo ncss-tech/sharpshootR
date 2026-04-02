@@ -6,7 +6,7 @@
  * better handling of ties in `hydOrder()` and `viz*()` functions which depend on this value when there are ties in geomorphic position proportions (#63)
  * new function `vizGeomorphons()` for geomorphon summaries returned by `soilDB::fetchOSD()`
  * geomorphic `viz*` function updates:
-   - thinner linewidths on stacked barcharts 
+   - thinner line width on stacked barcharts 
    - new default colors, inspired by [PNWColors](https://github.com/jakelawlor/PNWColors) package
    - new arguments to adjust styling
    - new argument `cluster` for toggling ordering and dendrogram from divisive hierarchical clustering of proportions

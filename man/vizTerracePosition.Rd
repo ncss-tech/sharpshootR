@@ -59,7 +59,7 @@ Example geomorphic position data:\tabular{lrrrr}{
 }
 }
 \details{
-See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. In the presence of ties within \code{x}, a small amount of jittering is applied to proportions to assist with the hydrologic ordering step (only when \code{clust = TRUE}).
 }
 \note{
 Default colors are from \code{PNWColors::pnw_palette('Shuksan2')}. Original colors: \code{c("#2B83BA", "#FDAE61")}

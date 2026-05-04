@@ -48,10 +48,10 @@ A \code{list} with the following elements:
 }
 }
 \description{
-A unique display of surface shape (typically curvature) probability, suitable for across-slope or down-slope shape. Use the \code{title} argument to make this clear.
+This function creates a graphical summary of surface shape (also described as surface curvature, across or down-slope), as returned by \code{soilDB::fetchOSD(..., extended = TRUE)}. Stacked barplots are arranged according to an expected hydrologic gradient from "higher" to "lower" relative positions in a theoretical landscape.
 }
 \details{
-See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. In the presence of ties within \code{x}, a small amount of jittering is applied to proportions to assist with the hydrologic ordering step (only when \code{clust = TRUE}).
 }
 \note{
 Default colors are from \code{PNWColors::pnw_palette('Bay')}. Original colors: \code{c("#2B83BA", "#FFFFBF", "#D7191C", "#808080", "darkgreen")}.

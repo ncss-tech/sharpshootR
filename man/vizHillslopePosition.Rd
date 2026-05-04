@@ -45,10 +45,10 @@ A \code{list} with the following elements:
 }
 }
 \description{
-A unique display of hillslope position probability.
+This function creates a graphical summary of 2D hillslope position proportions, as returned by \code{soilDB::fetchOSD(..., extended = TRUE)}. Stacked barplots are arranged according to an expected hydrologic gradient from "higher" to "lower" relative positions in a theoretical landscape.
 }
 \details{
-See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. In the presence of ties within \code{x}, a small amount of jittering is applied to proportions to assist with the hydrologic ordering step (only when \code{clust = TRUE}).
 }
 \note{
 Default colors are from \code{PNWColors::pnw_palette('Shuksan2')}. Original colors: \code{c("#2B83BA", "#ABDDA4", "#FFFFBF", "#FDAE61", "#D7191C")}.

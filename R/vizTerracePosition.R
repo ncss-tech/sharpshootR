@@ -17,7 +17,7 @@
 #' |TARKLIN    | 0.660| 0.340| 53|           0.924|
 #' |TRACE      | 1.000| 0.000| 12|           0.000|
 #' 
-#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. 
+#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. In the presence of ties within `x`, a small amount of jittering is applied to proportions to assist with the hydrologic ordering step (only when `clust = TRUE`).
 #' 
 #' @note Default colors are from `PNWColors::pnw_palette('Shuksan2')`. Original colors: `c("#2B83BA", "#FDAE61")`
 #' 

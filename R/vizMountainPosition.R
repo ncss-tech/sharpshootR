@@ -6,9 +6,9 @@
 
 #' @title Visual Summary of Mountain Slope Positions
 #' 
-#' @description A unique display of mountain slope position probability.
+#' @description This function creates a graphical summary of mountain slope position proportions, as returned by `soilDB::fetchOSD(..., extended = TRUE)`. Stacked barplots are arranged according to an expected hydrologic gradient from "higher" to "lower" relative positions in a theoretical landscape.
 #' 
-#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. In the presence of ties within `x`, a small amount of jittering is applied to proportions to assist with the hydrologic ordering step (only when `clust = TRUE`).
 #' 
 #' @note Default colors are from `PNWColors::pnw_palette('Cascades')`. Original colors: `c("#D53E4F", "#FC8D59", "#FEE08B", "#E6F598", "#99D594", "#3288BD")`
 #' 

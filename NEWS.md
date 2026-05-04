@@ -1,4 +1,5 @@
-# sharpshootR 2.5 (development)
+# sharpshootR 2.5 (2026-05-04)
+ * CRAN release
  * now depends on R >= 4.1.0
  * bug fix in `PCP_plot()`, filter incomplete water years from exemplar selection
  * bug fix in `CDEC_StationInfo()`

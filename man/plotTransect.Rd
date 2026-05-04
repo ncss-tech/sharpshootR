@@ -12,7 +12,7 @@ plotTransect(
   transect.col = "RoyalBlue",
   tick.number = 7,
   y.offset = 100,
-  scaling.factor = 0.5,
+  scaling.factor = 0.75,
   distance.axis.title = "Distance Along Transect (km)",
   grad.axis.title = NULL,
   dist.scaling.factor = 1000,
@@ -93,7 +93,7 @@ op <- par(no.readonly = TRUE)
 
 # quick overview
 par(mar=c(1,1,2,1))
-groupedProfilePlot(mineralKing, groups='taxonname', print.id=FALSE)
+groupedProfilePlot(mineralKing, groups = 'taxonname', print.id = FALSE)
 
 # setup point locations
 s <- site(mineralKing)
@@ -108,28 +108,29 @@ xy <- st_transform(xy, 26911)
 par(mar = c(4.5, 4, 4, 1))
 
 # standard transect plot, profile sketches arranged along integer sequence
-plotTransect(mineralKing, xy, grad.var.name = 'elev_field',
-             grad.axis.title = 'Elevation (m)', label = 'upedonid', name = 'hzname')
+plotTransect(mineralKing, xy, grad.var.name = 'elev',
+             grad.axis.title = 'Elevation (m)', label = 'upedonid', name = 'hzname', 
+             scaling.factor = 1)
 
 # default behavior, attempt adjustments to prevent over-plot and preserve relative spacing
 # use set.seed() to fix outcome
-plotTransect(mineralKing, xy, grad.var.name = 'elev_field',
+plotTransect(mineralKing, xy, grad.var.name = 'elev',
              grad.axis.title = 'Elevation (m)', label = 'upedonid',
              name = 'hzname', width = 0.15, spacing = 'relative')
 
 # attempt relative positioning based on scaled distances, no corrections for overlap
 # profiles are clustered in space and therefore over-plot
-plotTransect(mineralKing, xy, grad.var.name = 'elev_field',
+plotTransect(mineralKing, xy, grad.var.name = 'elev',
              grad.axis.title = 'Elevation (m)', label = 'upedonid', name = 'hzname',
              width = 0.15, spacing = 'relative', fix.relative.pos = FALSE)
 
 # customize arguments to aqp::fixOverlap()
-plotTransect(mineralKing, xy, grad.var.name = 'elev_field', crs = crs.utm,
+plotTransect(mineralKing, xy, grad.var.name = 'elev', crs = crs.utm,
              grad.axis.title = 'Elevation (m)', label = 'upedonid', name = 'hzname',
              width = 0.15, spacing = 'relative',
              fix.relative.pos = list(maxIter=6000, adj=0.2, thresh=0.7))
 
-plotTransect(mineralKing, xy, grad.var.name = 'elev_field', crs = crs.utm,
+plotTransect(mineralKing, xy, grad.var.name = 'elev', crs = crs.utm,
              grad.axis.title = 'Elevation (m)', label = 'upedonid', name = 'hzname',
              width = 0.2, spacing = 'relative',
              fix.relative.pos = list(maxIter = 6000, adj = 0.2, thresh = 0.6),

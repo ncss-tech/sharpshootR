@@ -1,9 +1,9 @@
 
 #' @title Visual Summary of Hillslope Position
 #' 
-#' @description A unique display of hillslope position probability.
+#' @description This function creates a graphical summary of 2D hillslope position proportions, as returned by `soilDB::fetchOSD(..., extended = TRUE)`. Stacked barplots are arranged according to an expected hydrologic gradient from "higher" to "lower" relative positions in a theoretical landscape.
 #' 
-#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+#' @details See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. In the presence of ties within `x`, a small amount of jittering is applied to proportions to assist with the hydrologic ordering step (only when `clust = TRUE`).
 #' 
 #' @note Default colors are from `PNWColors::pnw_palette('Shuksan2')`. Original colors: `c("#2B83BA", "#ABDDA4", "#FFFFBF", "#FDAE61", "#D7191C")`.
 #' 

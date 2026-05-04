@@ -45,10 +45,10 @@ A \code{list} with the following elements:
 }
 }
 \description{
-A unique display of landform position probability.
+This function creates a graphical summary of geomorphic position proportions, as returned by \code{soilDB::fetchOSD(..., extended = TRUE)}. Stacked barplots are arranged according to an expected hydrologic gradient from "higher" to "lower" relative positions in a theoretical landscape.
 }
 \details{
-See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information.
+See the \href{http://ncss-tech.github.io/AQP/soilDB/soil-series-query-functions.html}{Soil Series Query Functions} tutorial for more information. In the presence of ties within \code{x}, a small amount of jittering is applied to proportions to assist with the hydrologic ordering step (only when \code{clust = TRUE}).
 }
 \note{
 Default colors are from \code{PNWColors::pnw_palette('Shuksan2')}. Previous colors: \code{c("#D53E4F", "#FC8D59", "#FEE08B", "#E6F598", "#99D594", "#3288BD")}.

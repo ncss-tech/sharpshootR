@@ -71,7 +71,7 @@
 <span>  transect.col <span class="op">=</span> <span class="st">"RoyalBlue"</span>,</span>
 <span>  tick.number <span class="op">=</span> <span class="fl">7</span>,</span>
 <span>  y.offset <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>  scaling.factor <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  scaling.factor <span class="op">=</span> <span class="fl">0.75</span>,</span>
 <span>  distance.axis.title <span class="op">=</span> <span class="st">"Distance Along Transect (km)"</span>,</span>
 <span>  grad.axis.title <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  dist.scaling.factor <span class="op">=</span> <span class="fl">1000</span>,</span>
@@ -187,7 +187,7 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># quick overview</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://ncss-tech.github.io/aqp/reference/groupedProfilePlot.html" class="external-link">groupedProfilePlot</a></span><span class="op">(</span><span class="va">mineralKing</span>, groups<span class="op">=</span><span class="st">'taxonname'</span>, print.id<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ncss-tech.github.io/aqp/reference/groupedProfilePlot.html" class="external-link">groupedProfilePlot</a></span><span class="op">(</span><span class="va">mineralKing</span>, groups <span class="op">=</span> <span class="st">'taxonname'</span>, print.id <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># setup point locations</span></span></span>
 <span class="r-in"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ncss-tech.github.io/aqp/reference/site.html" class="external-link">site</a></span><span class="op">(</span><span class="va">mineralKing</span><span class="op">)</span></span></span>
@@ -202,28 +202,29 @@
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4.5</span>, <span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># standard transect plot, profile sketches arranged along integer sequence</span></span></span>
-<span class="r-in"><span><span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, <span class="va">xy</span>, grad.var.name <span class="op">=</span> <span class="st">'elev_field'</span>,</span></span>
-<span class="r-in"><span>             grad.axis.title <span class="op">=</span> <span class="st">'Elevation (m)'</span>, label <span class="op">=</span> <span class="st">'upedonid'</span>, name <span class="op">=</span> <span class="st">'hzname'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, <span class="va">xy</span>, grad.var.name <span class="op">=</span> <span class="st">'elev'</span>,</span></span>
+<span class="r-in"><span>             grad.axis.title <span class="op">=</span> <span class="st">'Elevation (m)'</span>, label <span class="op">=</span> <span class="st">'upedonid'</span>, name <span class="op">=</span> <span class="st">'hzname'</span>, </span></span>
+<span class="r-in"><span>             scaling.factor <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># default behavior, attempt adjustments to prevent over-plot and preserve relative spacing</span></span></span>
 <span class="r-in"><span><span class="co"># use set.seed() to fix outcome</span></span></span>
-<span class="r-in"><span><span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, <span class="va">xy</span>, grad.var.name <span class="op">=</span> <span class="st">'elev_field'</span>,</span></span>
+<span class="r-in"><span><span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, <span class="va">xy</span>, grad.var.name <span class="op">=</span> <span class="st">'elev'</span>,</span></span>
 <span class="r-in"><span>             grad.axis.title <span class="op">=</span> <span class="st">'Elevation (m)'</span>, label <span class="op">=</span> <span class="st">'upedonid'</span>,</span></span>
 <span class="r-in"><span>             name <span class="op">=</span> <span class="st">'hzname'</span>, width <span class="op">=</span> <span class="fl">0.15</span>, spacing <span class="op">=</span> <span class="st">'relative'</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># attempt relative positioning based on scaled distances, no corrections for overlap</span></span></span>
 <span class="r-in"><span><span class="co"># profiles are clustered in space and therefore over-plot</span></span></span>
-<span class="r-in"><span><span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, <span class="va">xy</span>, grad.var.name <span class="op">=</span> <span class="st">'elev_field'</span>,</span></span>
+<span class="r-in"><span><span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, <span class="va">xy</span>, grad.var.name <span class="op">=</span> <span class="st">'elev'</span>,</span></span>
 <span class="r-in"><span>             grad.axis.title <span class="op">=</span> <span class="st">'Elevation (m)'</span>, label <span class="op">=</span> <span class="st">'upedonid'</span>, name <span class="op">=</span> <span class="st">'hzname'</span>,</span></span>
 <span class="r-in"><span>             width <span class="op">=</span> <span class="fl">0.15</span>, spacing <span class="op">=</span> <span class="st">'relative'</span>, fix.relative.pos <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># customize arguments to aqp::fixOverlap()</span></span></span>
-<span class="r-in"><span><span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, <span class="va">xy</span>, grad.var.name <span class="op">=</span> <span class="st">'elev_field'</span>, crs <span class="op">=</span> <span class="va">crs.utm</span>,</span></span>
+<span class="r-in"><span><span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, <span class="va">xy</span>, grad.var.name <span class="op">=</span> <span class="st">'elev'</span>, crs <span class="op">=</span> <span class="va">crs.utm</span>,</span></span>
 <span class="r-in"><span>             grad.axis.title <span class="op">=</span> <span class="st">'Elevation (m)'</span>, label <span class="op">=</span> <span class="st">'upedonid'</span>, name <span class="op">=</span> <span class="st">'hzname'</span>,</span></span>
 <span class="r-in"><span>             width <span class="op">=</span> <span class="fl">0.15</span>, spacing <span class="op">=</span> <span class="st">'relative'</span>,</span></span>
 <span class="r-in"><span>             fix.relative.pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>maxIter<span class="op">=</span><span class="fl">6000</span>, adj<span class="op">=</span><span class="fl">0.2</span>, thresh<span class="op">=</span><span class="fl">0.7</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, <span class="va">xy</span>, grad.var.name <span class="op">=</span> <span class="st">'elev_field'</span>, crs <span class="op">=</span> <span class="va">crs.utm</span>,</span></span>
+<span class="r-in"><span><span class="fu">plotTransect</span><span class="op">(</span><span class="va">mineralKing</span>, <span class="va">xy</span>, grad.var.name <span class="op">=</span> <span class="st">'elev'</span>, crs <span class="op">=</span> <span class="va">crs.utm</span>,</span></span>
 <span class="r-in"><span>             grad.axis.title <span class="op">=</span> <span class="st">'Elevation (m)'</span>, label <span class="op">=</span> <span class="st">'upedonid'</span>, name <span class="op">=</span> <span class="st">'hzname'</span>,</span></span>
 <span class="r-in"><span>             width <span class="op">=</span> <span class="fl">0.2</span>, spacing <span class="op">=</span> <span class="st">'relative'</span>,</span></span>
 <span class="r-in"><span>             fix.relative.pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>maxIter <span class="op">=</span> <span class="fl">6000</span>, adj <span class="op">=</span> <span class="fl">0.2</span>, thresh <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span>,</span></span>

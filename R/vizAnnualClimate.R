@@ -78,24 +78,16 @@ vizAnnualClimate <- function(climate.data, IQR.cex = 1, s = NULL, s.col = 'fireb
   # get current settings
   tps <- trellis.par.get()
   
-  ## TODO: figure this logic out
-  ## 
-  ## essentially: use the color specified as an argument if present, otherwise use bette defaults than standard lattice
-  ##
-  # # override some trellis defaults if not specified
-  # if(! is.null(extra.args$col)) {
-  #   tps$plot.line$col <- extra.args$col
-  # }
-  
   # get color vector from current trellis settings
   tps.cols <- tps$plot.line$col
   
-  # attempt to highlight named series by lowering chroma of other series
+  # highlight named series
   if(! is.null(s)) {
     
     ### !!! whoa, the color vector has to match the original label order, NOT the new ordering -- WTF !!!
     # index to the series of interest
-    s.idx <- grep(s, x=climate.data.wide.h$labels, ignore.case = TRUE)
+    .pat <- sprintf('^%s$', s)
+    s.idx <- grep(.pat, x = climate.data.wide.h$labels, ignore.case = TRUE)
     
     # expand color vector to the total number of series
     # this should account for multiple colors
@@ -140,14 +132,14 @@ vizAnnualClimate <- function(climate.data, IQR.cex = 1, s = NULL, s.col = 'fireb
                   # segplot
                   latticeExtra::panel.segplot(x, y, z, subscripts=subscripts, ...)
                 }, 
-                yscale.components=function(..., s.to.bold=s) {
+                yscale.components = function(..., s.to.bold = s) {
                   temp <- yscale.components.default(...) 
     
                   if(!is.null(s.to.bold)) {
                     temp$left$labels$labels <-   
                       sapply( temp$left$labels$labels, 
                               function(x) {
-                                if(grepl(s.to.bold, x, ignore.case = TRUE)) { 
+                                if(grepl(sprintf('^%s$', s.to.bold), x, ignore.case = TRUE)) { 
                                   as.expression(bquote( bold(.(x)))) 
                                 } else { 
                                   as.expression(bquote(.(x)))

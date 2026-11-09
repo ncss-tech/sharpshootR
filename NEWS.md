@@ -1,3 +1,6 @@
+# sharpshootR 2.5.1 (development)
+ * `viz*` functions now search for exact soil series name `s`
+
 # sharpshootR 2.5 (2026-05-04)
  * CRAN release
  * now depends on R >= 4.1.0

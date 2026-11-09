@@ -40,9 +40,9 @@ nothing, function is called to generate graphical output
 Present a \code{SoilProfileCollection} aligned to a geomorphic summary as cross-section.
 }
 \details{
-Additional arguments to \code{\link[aqp:SoilProfileCollection-plotting-methods]{aqp::plotSPC()}} can be provided using \code{options(.aqp.plotSPC.args = list(...))}. For example, adjustments to maximum depth and profile width can be set via: \verb{options(.aqp.plotSPC.args = list(max.depth = 150, width = 0.35)}. Default arguments can be reset with \verb{options(.aqp.plotSPC.args = NULL}).
+Additional arguments to \code{\link[aqp:plotSPC]{aqp::plotSPC()}} can be provided using \code{options(.aqp.plotSPC.args = list(...))}. For example, adjustments to maximum depth and profile width can be set via: \verb{options(.aqp.plotSPC.args = list(max.depth = 150, width = 0.35)}. Default arguments can be reset with \verb{options(.aqp.plotSPC.args = NULL}).
 
-When \code{clust = TRUE}, especially for \code{SoilProfileCollections} with a wide range in depth, it may be necessary to adjust the \code{scaling.factor} argument to \code{\link[aqp:SoilProfileCollection-plotting-methods]{aqp::plotSPC()}} via: \code{options(.aqp.plotSPC.args = list(scaling.factor = 0.01))}. Larger values will increase the height of profile sketches.
+When \code{clust = TRUE}, especially for \code{SoilProfileCollections} with a wide range in depth, it may be necessary to adjust the \code{scaling.factor} argument to \code{\link[aqp:plotSPC]{aqp::plotSPC()}} via: \code{options(.aqp.plotSPC.args = list(scaling.factor = 0.01))}. Larger values will increase the height of profile sketches.
 }
 \author{
 D.E. Beaudette

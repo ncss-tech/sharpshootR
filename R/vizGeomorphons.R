@@ -199,14 +199,14 @@ vizGeomorphons <- function(x, s = NULL, annotations = TRUE, annotation.cex = 0.7
                    }
                    
                  }, 
-                 yscale.components=function(..., s.to.bold=s) {
+                 yscale.components = function(..., s.to.bold = s) {
                    temp <- yscale.components.default(...) 
                    
                    if(!is.null(s.to.bold)) {
                      temp$left$labels$labels <-   
                        sapply( temp$left$labels$labels, 
                                function(x) {
-                                 if(grepl(s.to.bold, x, ignore.case = TRUE)) { 
+                                 if(grepl(sprintf('^%s$', s.to.bold), x, ignore.case = TRUE)) { 
                                    as.expression(bquote( bold(.(x)))) 
                                  } else { 
                                    as.expression(bquote(.(x)))

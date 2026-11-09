@@ -25,7 +25,7 @@ huePositionPlot(
 
 \item{label.cex}{scaling for color chip}
 
-\item{contour.dE00}{logical, add dE00 contours from \code{origin}, imlpicitly \code{TRUE} when \code{origin} is not \code{NULL}}
+\item{contour.dE00}{logical, add dE00 contours from \code{origin}, implicitly \code{TRUE} when \code{origin} is not \code{NULL}}
 
 \item{origin}{point used for distance comparisons can be either single row matrix of CIELAB coordinates, a character vector specifying a Munsell color. By default (\code{NULL}) represents CIELAB coordinates (L,0,0), where L is a constant value determined by \code{value} and \code{chroma}. See examples.}
 
@@ -33,7 +33,7 @@ huePositionPlot(
 
 \item{grid.res}{grid resolution for contours, units are CIELAB A/B coordinates. Caution, small values result in many pair-wise distances which could take a very long time.}
 
-\item{...}{additional arguments to \code{\link[=contour]{contour()}}}
+\item{...}{additional arguments to \code{\link[graphics:contour]{graphics::contour()}}}
 }
 \value{
 nothing, function is called to generate graphical output

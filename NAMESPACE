@@ -1,3 +1,4 @@
+# TODO: have roxygen create this file
 
 importFrom("grDevices", "colorRampPalette", "grey", "col2rgb", "rgb")
 

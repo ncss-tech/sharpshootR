@@ -12,7 +12,7 @@
 #' 
 #' @param label.cex scaling for color chip 
 #' 
-#' @param contour.dE00 logical, add dE00 contours from `origin`, imlpicitly `TRUE` when `origin` is not `NULL` 
+#' @param contour.dE00 logical, add dE00 contours from `origin`, implicitly `TRUE` when `origin` is not `NULL` 
 #' 
 #' @param origin point used for distance comparisons can be either single row matrix of CIELAB coordinates, a character vector specifying a Munsell color. By default (`NULL`) represents CIELAB coordinates (L,0,0), where L is a constant value determined by `value` and `chroma`. See examples.
 #' 
@@ -20,7 +20,7 @@
 #' 
 #' @param grid.res grid resolution for contours, units are CIELAB A/B coordinates. Caution, small values result in many pair-wise distances which could take a very long time.
 #' 
-#' @param ... additional arguments to [contour()]
+#' @param ... additional arguments to [graphics::contour()]
 #'
 #' @export
 #' 

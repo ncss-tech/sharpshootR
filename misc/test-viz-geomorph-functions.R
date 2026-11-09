@@ -4,9 +4,13 @@ library(PNWColors)
 
 cols <- pnw_palette('Shuksan2', n = 5)
 
-s <- 'redding'
+
+# marsh previously matched in MARSHAN 
+s <- 'marsh'
 ss <- siblings(s)
 z <- fetchOSD(c(s, ss$sib$sibling), extended = TRUE)
+
+vizAnnualClimate(z$climate.annual, s = s)
 
 vizHillslopePosition(z$hillpos, s = s)
 
@@ -26,7 +30,7 @@ vizGeomorphons(z$geomorphons, s = s)
 # .cols <- c(PNWColors::pnw_palette('Bay', n = 3), '#808080', 'darkgreen')
 # .cols <- colorspace::desaturate(.cols, amount = 0.2)
 
-vizSurfaceShape(z$shape_across)
+vizSurfaceShape(z$shape_across, s = s)
 
 
 

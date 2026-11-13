@@ -1,3 +1,30 @@
+library(aqp)
+library(soilDB)
+library(sharpshootR)
+library(SoilTaxonomy)
+
+s <- c('AMADOR', 'AUBURN', 'PENTZ', 'galt', 'LOAFERCREEK', 'INKS', 'PARDEE')
+
+x <- fetchOSD(s)
+
+
+res1 <- SoilTaxonomyDendrogram(x, KST.order = TRUE)
+res1$dist
+
+
+
+res2 <- SoilTaxonomyDendrogram(x, KST.order = FALSE)
+res2$dist
+
+
+# pts <- MASS::sammon(res1$dist)
+# 
+# plot(pts$points)
+
+
+
+##
+
 library(soilDB)
 library(aqp)
 library(SoilTaxonomy)

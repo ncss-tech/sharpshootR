@@ -160,8 +160,14 @@ SoilTaxonomyDendrogram <- function(spc,
 	# copy soil ID to row.names, so that they are preserved in the distance matrix
 	row.names(s) <- s[[idname(spc)]]
 	
+	## TODO: since each subsequent piece of the classification is a child of the previous
+	#        consider weighting using geometric sequence
+	
+	.w <- c(4, 2, 1, 0.5)
+	.w <- c(1, 1, 1, 1)
+	
 	# compute distance matrix from specified levels
-	s.dist <- daisy(s[, level, drop = FALSE], metric = 'gower')
+	s.dist <- daisy(s[, level, drop = FALSE], metric = 'gower', weights = .w)
 	
 	if (cluster.method == "divisive") {
 	  # cluster::diana is the default/"divisive" method

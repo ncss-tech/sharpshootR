@@ -1,39 +1,85 @@
 ## TODO: update depth axis argument to aqp 2.0 style once on CRAN
+
 ## TODO: adapt to use plotSPC options
+
+## TODO: determine optimal weighting scheme for hierarchical systems
+#        since each subsequent piece of the classification is a child of the previous
+#        consider weighting using geometric sequence
+
+# wt <- c(4, 2, 1, 0.5)
+# wt <- c(1, 1, 1, 1)
+# wt <- c(0.5, 1, 2, 4)
+
+## TODO: what does it mean to retain all levels of e.g. subgroup classification vs. subset of levels present (factor coding)
+
+
+## TODO: think about alternative distance metrics for hierarchical classes
+
+
+
 
 
 #' @title Soil Taxonomy Dendrogram
 #' 
 #' @description Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimilarity matrix is computed using Gower's distance metric for nominal (`KST.order = FALSE`) or ordinal (`KST.order = TRUE`) scale variables, based on soil order, suborder, greatgroup, and subgroup taxa.
 #'
-#' @param spc a `SoilProfileCollection` object, typically returned by `soilDB::fetchOSD`
-#' @param KST.order logical, encode / cluster taxa via ordinal factors, based on ordering within Keys to Soil Taxonomy
+#' @param spc a `SoilProfileCollection` object, typically returned by `soilDB::fetchOSD()`
+#' 
+#' @param KST.order logical, encode / cluster taxa via ordinal factors, based on ordering within Keys to Soil Taxonomy. See details.
+#' 
+#' @param allLevels logical, use the full set of taxa from Keys to Soil Taxonomy (`TRUE`), or just those present in `spc` (`FALSE`). See details.
+#' 
 #' @param rotationOrder character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right; exact ordering is not always possible
+#' 
 #' @param level character. One or more site-level columns in `spc`. Default: `"soilorder"`, `"suborder"`, `"greatgroup"` and `"subgroup"`
+#' 
+#' @param wt numeric vector, same length as `level`, weighting for levels of classification, passed to [cluster::daisy()], see details
+#' 
 #' @param cluster.method Either "divisive" (`cluster::diana()`; default) or "agglomerative" (`cluster::agnes()`)
-#' @param cluster.args Optional: additional arguments for `cluster::diana()` or `cluster::agnes()` cluster methods
+#' 
+#' @param cluster.args Optional: additional arguments for [cluster::diana() or [cluster::agnes()] cluster methods
+#' 
 #' @param name column name containing horizon names
-#' @param name.style passed to `aqp::plotSPC`
-#' @param id.style passed to `aqp::plotSPC`
+#' 
+#' @param name.style passed to `aqp::plotSPC()`
+#' 
+#' @param id.style passed to `aqp::plotSPC()`
+#' 
 #' @param max.depth depth at which profiles are truncated for plotting
+#' 
 #' @param n.depth.ticks suggested number of ticks on the depth axis
+#' 
 #' @param scaling.factor scaling factor used to convert depth units into plotting units
+#' 
 #' @param cex.names character scaling for horizon names
+#' 
 #' @param cex.id character scaling for profile IDs
+#' 
 #' @param width width of profiles
+#' 
 #' @param y.offset vertical offset between dendrogram and profiles
+#' 
 #' @param shrink logical, should long horizon names be shrunk by 80% ?
+#' 
 #' @param font.id integer, font style applied to profile id, default is 2 (bold)
+#' 
 #' @param cex.taxon.labels numeric, character scaling for taxonomic information
+#' 
 #' @param font.taxon.labels integer, font style applied to taxa labels, default is 3 (italic)
+#' 
 #' @param dend.color dendrogram line color
+#' 
 #' @param dend.width dendrogram line width
+#' 
 #' @param dend.type dendrogram type, passed to `plot.phylo()`, either "phylogram" or "cladogram"
+#' 
 #' @param ... additional arguments to `aqp::plotSPC`
 #' 
 #' @details This function looks for specific site-level attributes named: `"soilorder"`, `"suborder"`, `"greatgroup"`, and `"subgroup"`, or their NASIS physical column name analogues `"taxorder"`, `"taxsuborder"`, `"taxgrtgroup"`, and `"taxsubgrp"`. See \url{https://github.com/ncss-tech/sharpshootR/blob/master/misc/soilTaxonomyDendrogram-examples.R} for some examples.
 #' 
 #' The `rotationOrder` argument uses `ape::rotateConstr()` to reorder leaves within the `hclust` representation of the ST hierarchy. Perfect sorting is not always possible.
+#' 
+#' Weighting levels of Soil Taxonomy will only have an effect when `KST.order = TRUE`.
 #'
 #' @return An invisibly-returned list containing:
 #'
@@ -47,6 +93,7 @@
 #' 
 SoilTaxonomyDendrogram <- function(spc, 
                                    KST.order = TRUE, 
+                                   allLevels = TRUE,
                                    rotationOrder = NULL, 
                                    level = c(
                                      soilorder = "soilorder",
@@ -54,6 +101,7 @@ SoilTaxonomyDendrogram <- function(spc,
                                      greatgroup = "greatgroup",
                                      subgroup = "subgroup"
                                    ),
+                                   wt = c(1, 1, 1, 1),
                                    cluster.method = c("divisive", "agglomerative"),
                                    cluster.args = list(),
                                    name = 'hzname', 
@@ -80,6 +128,11 @@ SoilTaxonomyDendrogram <- function(spc,
   
   # dendrogram type, passed to plot.phylo
   dend.type <- match.arg(tolower(dend.type), c("phylogram", "cladogram"), several.ok = FALSE)
+  
+  # weighting vector should have the same length as specified levels within classification
+  if(length(level) != length(wt)) {
+    stop('`wt` should have the same length as `level`')
+  }
   
   # attempt KST-based ordering:
   # 1. setup ordinal factors based on order of taxa with each level of ST hierarchy
@@ -108,11 +161,20 @@ SoilTaxonomyDendrogram <- function(spc,
       spc$subgroup <- spc$taxsubgrp
     }
     
-    # create ordered factors, dropping unused levels, ignore case
-    .soilorder <- droplevels(factor(tolower(spc$soilorder), levels = ST_unique_list$order, ordered = TRUE))
-    .suborder <- droplevels(factor(tolower(spc$suborder), levels = ST_unique_list$suborder, ordered = TRUE))
-    .greatgroup <- droplevels(factor(tolower(spc$greatgroup), levels = ST_unique_list$greatgroup, ordered = TRUE))
-    .subgroup <- droplevels(factor(tolower(spc$subgroup), levels = ST_unique_list$subgroup, ordered = TRUE))
+    # create ordered factors ignore case
+    # use full levels from KST
+    if(allLevels) {
+      .soilorder <- factor(tolower(spc$soilorder), levels = ST_unique_list$order, ordered = TRUE)
+      .suborder <- factor(tolower(spc$suborder), levels = ST_unique_list$suborder, ordered = TRUE)
+      .greatgroup <- factor(tolower(spc$greatgroup), levels = ST_unique_list$greatgroup, ordered = TRUE)
+      .subgroup <- factor(tolower(spc$subgroup), levels = ST_unique_list$subgroup, ordered = TRUE)
+    } else {
+      # use subset of levels present
+      .soilorder <- droplevels(factor(tolower(spc$soilorder), levels = ST_unique_list$order, ordered = TRUE))
+      .suborder <- droplevels(factor(tolower(spc$suborder), levels = ST_unique_list$suborder, ordered = TRUE))
+      .greatgroup <- droplevels(factor(tolower(spc$greatgroup), levels = ST_unique_list$greatgroup, ordered = TRUE))
+      .subgroup <- droplevels(factor(tolower(spc$subgroup), levels = ST_unique_list$subgroup, ordered = TRUE))  
+    }
     
     # check for NA (obsolete taxa / typos); fall back to nominal factors
     if (any(is.na(.soilorder))) {
@@ -160,14 +222,8 @@ SoilTaxonomyDendrogram <- function(spc,
 	# copy soil ID to row.names, so that they are preserved in the distance matrix
 	row.names(s) <- s[[idname(spc)]]
 	
-	## TODO: since each subsequent piece of the classification is a child of the previous
-	#        consider weighting using geometric sequence
-	
-	.w <- c(4, 2, 1, 0.5)
-	.w <- c(1, 1, 1, 1)
-	
 	# compute distance matrix from specified levels
-	s.dist <- daisy(s[, level, drop = FALSE], metric = 'gower', weights = .w)
+	s.dist <- daisy(s[, level, drop = FALSE], metric = 'gower', weights = wt)
 	
 	if (cluster.method == "divisive") {
 	  # cluster::diana is the default/"divisive" method

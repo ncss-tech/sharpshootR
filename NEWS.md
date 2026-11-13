@@ -1,5 +1,7 @@
 # sharpshootR 2.5.1 (development)
- * `viz*` functions now search for exact soil series name `s`
+ * `viz*` functions use anchored search for soil series `s` in profile IDs, avoids errors with nested soil series names
+   - for example, MARSH and MARSHAN
+ * `SoilTaxonomyDendrogram()` gains additional arguments to control setting levels within ordinal interpretation of KST
 
 # sharpshootR 2.5 (2026-05-04)
  * CRAN release

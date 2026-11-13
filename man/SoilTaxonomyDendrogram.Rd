@@ -7,9 +7,11 @@
 SoilTaxonomyDendrogram(
   spc,
   KST.order = TRUE,
+  allLevels = TRUE,
   rotationOrder = NULL,
   level = c(soilorder = "soilorder", suborder = "suborder", greatgroup = "greatgroup",
     subgroup = "subgroup"),
+  wt = c(1, 1, 1, 1),
   cluster.method = c("divisive", "agglomerative"),
   cluster.args = list(),
   name = "hzname",
@@ -33,23 +35,27 @@ SoilTaxonomyDendrogram(
 )
 }
 \arguments{
-\item{spc}{a \code{SoilProfileCollection} object, typically returned by \code{soilDB::fetchOSD}}
+\item{spc}{a \code{SoilProfileCollection} object, typically returned by \code{soilDB::fetchOSD()}}
 
-\item{KST.order}{logical, encode / cluster taxa via ordinal factors, based on ordering within Keys to Soil Taxonomy}
+\item{KST.order}{logical, encode / cluster taxa via ordinal factors, based on ordering within Keys to Soil Taxonomy. See details.}
+
+\item{allLevels}{logical, use the full set of taxa from Keys to Soil Taxonomy (\code{TRUE}), or just those present in \code{spc} (\code{FALSE}). See details.}
 
 \item{rotationOrder}{character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right; exact ordering is not always possible}
 
 \item{level}{character. One or more site-level columns in \code{spc}. Default: \code{"soilorder"}, \code{"suborder"}, \code{"greatgroup"} and \code{"subgroup"}}
 
+\item{wt}{numeric vector, same length as \code{level}, weighting for levels of classification, passed to \code{\link[cluster:daisy]{cluster::daisy()}}, see details}
+
 \item{cluster.method}{Either "divisive" (\code{cluster::diana()}; default) or "agglomerative" (\code{cluster::agnes()})}
 
-\item{cluster.args}{Optional: additional arguments for \code{cluster::diana()} or \code{cluster::agnes()} cluster methods}
+\item{cluster.args}{Optional: additional arguments for [cluster::diana() or \code{\link[cluster:agnes]{cluster::agnes()}} cluster methods}
 
 \item{name}{column name containing horizon names}
 
-\item{name.style}{passed to \code{aqp::plotSPC}}
+\item{name.style}{passed to \code{aqp::plotSPC()}}
 
-\item{id.style}{passed to \code{aqp::plotSPC}}
+\item{id.style}{passed to \code{aqp::plotSPC()}}
 
 \item{n.depth.ticks}{suggested number of ticks on the depth axis}
 
@@ -95,6 +101,8 @@ Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profil
 This function looks for specific site-level attributes named: \code{"soilorder"}, \code{"suborder"}, \code{"greatgroup"}, and \code{"subgroup"}, or their NASIS physical column name analogues \code{"taxorder"}, \code{"taxsuborder"}, \code{"taxgrtgroup"}, and \code{"taxsubgrp"}. See \url{https://github.com/ncss-tech/sharpshootR/blob/master/misc/soilTaxonomyDendrogram-examples.R} for some examples.
 
 The \code{rotationOrder} argument uses \code{ape::rotateConstr()} to reorder leaves within the \code{hclust} representation of the ST hierarchy. Perfect sorting is not always possible.
+
+Weighting levels of Soil Taxonomy will only have an effect when \code{KST.order = TRUE}.
 }
 \author{
 D.E. Beaudette

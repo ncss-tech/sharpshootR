@@ -69,9 +69,9 @@
 <span></span>
 <span><span class="fu">DAF.G</span><span class="op">(</span><span class="va">x</span>, threshold <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">DAF.B</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="fu">DAF.B</span><span class="op">(</span><span class="va">x</span>, steepness <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">DAF.D</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">DAF.D</span><span class="op">(</span><span class="va">x</span>, threshold <span class="op">=</span> <span class="fl">0.8</span>, intercept <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -95,11 +95,15 @@
 
 
 <dt id="arg-intercept">intercept<a class="anchor" aria-label="anchor" href="#arg-intercept"></a></dt>
-<dd><p>y-intercept, use to limit the minimum AET/PET ratio, must be within (0, 1)</p></dd>
+<dd><p>AET/PET value when soil moisture fraction is 0</p></dd>
 
 
 <dt id="arg-threshold">threshold<a class="anchor" aria-label="anchor" href="#arg-threshold"></a></dt>
-<dd><p>soil moisture fraction threshold above which AET/PET is constant. within (0, 1)</p></dd>
+<dd><p>soil moisture fraction threshold above which AET/PET is constant</p></dd>
+
+
+<dt id="arg-steepness">steepness<a class="anchor" aria-label="anchor" href="#arg-steepness"></a></dt>
+<dd><p>number between 0 and 2.5</p></dd>
 
 </dl></div>
     <div id="value">

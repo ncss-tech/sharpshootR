@@ -7,7 +7,7 @@
 SoilTaxonomyDendrogram(
   spc,
   KST.order = TRUE,
-  allLevels = TRUE,
+  allLevels = FALSE,
   rotationOrder = NULL,
   level = c(soilorder = "soilorder", suborder = "suborder", greatgroup = "greatgroup",
     subgroup = "subgroup"),
@@ -37,9 +37,9 @@ SoilTaxonomyDendrogram(
 \arguments{
 \item{spc}{a \code{SoilProfileCollection} object, typically returned by \code{soilDB::fetchOSD()}}
 
-\item{KST.order}{logical, encode / cluster taxa via ordinal factors, based on ordering within Keys to Soil Taxonomy. See details.}
+\item{KST.order}{logical, encode / cluster taxa via ordinal factors, based on ordering within Keys to Soil Taxonomy.}
 
-\item{allLevels}{logical, use the full set of taxa from Keys to Soil Taxonomy (\code{TRUE}), or just those present in \code{spc} (\code{FALSE}). See details.}
+\item{allLevels}{logical, use the full set of taxa from Keys to Soil Taxonomy (\code{TRUE}), or just those present in \code{spc} (\code{FALSE}).}
 
 \item{rotationOrder}{character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right; exact ordering is not always possible}
 
@@ -95,14 +95,18 @@ An invisibly-returned list containing:
 }
 }
 \description{
-Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimilarity matrix is computed using Gower's distance metric for nominal (\code{KST.order = FALSE}) or ordinal (\code{KST.order = TRUE}) scale variables, based on soil order, suborder, greatgroup, and subgroup taxa.
+This function generates a very specific output using a very specific input: soil profile sketches positioned near the terminal nodes of a dendrogram. Soil profile sketches are created from the \code{SoilProfileCollection} object specified via \code{spc} argument, using \code{\link[aqp:plotSPC]{aqp::plotSPC()}}. The dendrogram is created by hierarchical clustering of a distance matrix, developed from soil classification data (site-level attributes of \code{spc}) as specified in \code{levels}. This function was developed and tested with the intention that soil classification data specified in \code{levels} is the top four levels of Soil Taxonomy. If available, it is possible to use two or more levels of any hierarchical classification system.
+
+When using taxa from Soil Taxonomy it is possible to interpret levels as ordered factors, based on the order in which taxa "key out" in the 13th edition of The Keys to Soil Taxonomy (\code{KST.order = TRUE}). Setting \code{KST.order = FALSE} will encode taxa levels as a nominal factors. This will have a large impact on calculated distances. The \code{allLevels} and \code{wt} arguments can be used to further customize the determination of pair-wise distances.
 }
 \details{
 This function looks for specific site-level attributes named: \code{"soilorder"}, \code{"suborder"}, \code{"greatgroup"}, and \code{"subgroup"}, or their NASIS physical column name analogues \code{"taxorder"}, \code{"taxsuborder"}, \code{"taxgrtgroup"}, and \code{"taxsubgrp"}. See \url{https://github.com/ncss-tech/sharpshootR/blob/master/misc/soilTaxonomyDendrogram-examples.R} for some examples.
 
 The \code{rotationOrder} argument uses \code{ape::rotateConstr()} to reorder leaves within the \code{hclust} representation of the ST hierarchy. Perfect sorting is not always possible.
 
-Weighting levels of Soil Taxonomy will only have an effect when \code{KST.order = TRUE}.
+Weighting levels of Soil Taxonomy will only have an effect when \code{KST.order = TRUE}. Weights supplied via \code{wt} will have a small, but noticeable effect on the resulting distance matrix and hierarchical clustering.
+
+Reasonable default arguments to \code{\link[aqp:plotSPC]{aqp::plotSPC()}} are used in the default arguments to this function. Given the wide range in output device settings and number of profiles in \code{spc}, you may need to make adjustments. The \code{scaling.factor} and \code{y.offset} arguments are the most common place where adjustments will be required. The \code{max.depth} argument cane be used to truncate deeper profiles with a ragged bottom effect, helpful when there is a wide range in profile depth within \code{spc}. See the \code{\link[aqp:plotSPC]{aqp::plotSPC()}} manual page for additional ways in which sketches and the depth axis can be adjusted.
 }
 \author{
 D.E. Beaudette

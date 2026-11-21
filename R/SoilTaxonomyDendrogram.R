@@ -15,19 +15,22 @@
 
 ## TODO: think about alternative distance metrics for hierarchical classes
 
-
+## TODO: consider abstracting the profile distances out of this function and into ... aqp?
 
 
 
 #' @title Soil Taxonomy Dendrogram
 #' 
-#' @description Plot a dendrogram based on the first 4 levels of Soil Taxonomy, with soil profiles hanging below. A dissimilarity matrix is computed using Gower's distance metric for nominal (`KST.order = FALSE`) or ordinal (`KST.order = TRUE`) scale variables, based on soil order, suborder, greatgroup, and subgroup taxa.
+#' @description This function generates a very specific output using a very specific input: soil profile sketches positioned near the terminal nodes of a dendrogram. Soil profile sketches are created from the `SoilProfileCollection` object specified via `spc` argument, using [aqp::plotSPC()]. The dendrogram is created by hierarchical clustering of a distance matrix, developed from soil classification data (site-level attributes of `spc`) as specified in `levels`. This function was developed and tested with the intention that soil classification data specified in `levels` is the top four levels of Soil Taxonomy. If available, it is possible to use two or more levels of any hierarchical classification system.
+#' 
+#' When using taxa from Soil Taxonomy it is possible to interpret levels as ordered factors, based on the order in which taxa "key out" in the 13th edition of The Keys to Soil Taxonomy (`KST.order = TRUE`). Setting `KST.order = FALSE` will encode taxa levels as a nominal factors. This will have a large impact on calculated distances. The `allLevels` and `wt` arguments can be used to further customize the determination of pair-wise distances.
+#' 
 #'
 #' @param spc a `SoilProfileCollection` object, typically returned by `soilDB::fetchOSD()`
 #' 
-#' @param KST.order logical, encode / cluster taxa via ordinal factors, based on ordering within Keys to Soil Taxonomy. See details.
+#' @param KST.order logical, encode / cluster taxa via ordinal factors, based on ordering within Keys to Soil Taxonomy.
 #' 
-#' @param allLevels logical, use the full set of taxa from Keys to Soil Taxonomy (`TRUE`), or just those present in `spc` (`FALSE`). See details.
+#' @param allLevels logical, use the full set of taxa from Keys to Soil Taxonomy (`TRUE`), or just those present in `spc` (`FALSE`).
 #' 
 #' @param rotationOrder character vector of profile IDs with desired ordering of leaves in the dendrogram from left to right; exact ordering is not always possible
 #' 
@@ -79,8 +82,11 @@
 #' 
 #' The `rotationOrder` argument uses `ape::rotateConstr()` to reorder leaves within the `hclust` representation of the ST hierarchy. Perfect sorting is not always possible.
 #' 
-#' Weighting levels of Soil Taxonomy will only have an effect when `KST.order = TRUE`.
-#'
+#' Weighting levels of Soil Taxonomy will only have an effect when `KST.order = TRUE`. Weights supplied via `wt` will have a small, but noticeable effect on the resulting distance matrix and hierarchical clustering.
+#' 
+#' Reasonable default arguments to [aqp::plotSPC()] are used in the default arguments to this function. Given the wide range in output device settings and number of profiles in `spc`, you may need to make adjustments. The `scaling.factor` and `y.offset` arguments are the most common place where adjustments will be required. The `max.depth` argument cane be used to truncate deeper profiles with a ragged bottom effect, helpful when there is a wide range in profile depth within `spc`. See the [aqp::plotSPC()] manual page for additional ways in which sketches and the depth axis can be adjusted.
+#' 
+#' 
 #' @return An invisibly-returned list containing:
 #'
 #'   * `dist`: pair-wise dissimilarity matrix
@@ -93,7 +99,7 @@
 #' 
 SoilTaxonomyDendrogram <- function(spc, 
                                    KST.order = TRUE, 
-                                   allLevels = TRUE,
+                                   allLevels = FALSE,
                                    rotationOrder = NULL, 
                                    level = c(
                                      soilorder = "soilorder",
@@ -137,10 +143,10 @@ SoilTaxonomyDendrogram <- function(spc,
   # attempt KST-based ordering:
   # 1. setup ordinal factors based on order of taxa with each level of ST hierarchy
   # 2. rotate dendrogram to reflect ordering of subgroups within keys
-  if (KST.order) {
+  if(KST.order) {
     
     # requires SoilTaxonomy >= 0.1.5 (2022-02-15)
-    if (!requireNamespace('SoilTaxonomy', quietly = TRUE)) {
+    if(!requireNamespace('SoilTaxonomy', quietly = TRUE)) {
       stop('please install the `SoilTaxonomy` package', call. = FALSE)
     }
     
@@ -148,16 +154,16 @@ SoilTaxonomyDendrogram <- function(spc,
     load(system.file("data/ST_unique_list.rda", package = "SoilTaxonomy")[1])
     
     # support for NASIS physical column names (NASIS possibly should be default?)
-    if (is.null(spc$soilorder) & !is.null(spc$taxorder)) {
+    if(is.null(spc$soilorder) & !is.null(spc$taxorder)) {
       spc$soilorder <- spc$taxorder
     }
-    if (is.null(spc$suborder) & !is.null(spc$taxsuborder)) {
+    if(is.null(spc$suborder) & !is.null(spc$taxsuborder)) {
       spc$suborder <- spc$taxsuborder
     }    
-    if (is.null(spc$greatgroup) & !is.null(spc$taxgrtgroup)) {
+    if(is.null(spc$greatgroup) & !is.null(spc$taxgrtgroup)) {
       spc$greatgroup <- spc$taxgrtgroup
     }    
-    if (is.null(spc$subgroup) & !is.null(spc$taxsubgrp)) {
+    if(is.null(spc$subgroup) & !is.null(spc$taxsubgrp)) {
       spc$subgroup <- spc$taxsubgrp
     }
     
@@ -177,22 +183,22 @@ SoilTaxonomyDendrogram <- function(spc,
     }
     
     # check for NA (obsolete taxa / typos); fall back to nominal factors
-    if (any(is.na(.soilorder))) {
+    if(any(is.na(.soilorder))) {
       .soilorder <- factor(spc$soilorder, ordered = FALSE)
       message('obsolete soil order or typo, reverting to nominal factors')
     }
     
-    if (any(is.na(.suborder))) {
+    if(any(is.na(.suborder))) {
       .suborder <- factor(spc$suborder, ordered = FALSE)
       message('obsolete suborder or typo, reverting to nominal factors')
     }
     
-    if (any(is.na(.greatgroup))) {
+    if(any(is.na(.greatgroup))) {
       .greatgroup <- factor(spc$greatgroup, ordered = FALSE)
       message('obsolete greatgroup or typo, reverting to nominal factors')
     }
     
-    if (any(is.na(.subgroup))) {
+    if(any(is.na(.subgroup))) {
       .subgroup <- factor(spc$subgroup, ordered = FALSE)
       message('obsolete subgroup or typo, reverting to nominal factors')
     }
@@ -204,7 +210,7 @@ SoilTaxonomyDendrogram <- function(spc,
     spc$subgroup <- .subgroup
     
     # rotate as close to KST ordering as possible
-    if (is.null(rotationOrder)) {
+    if(is.null(rotationOrder)) {
       rotationOrder <- profile_id(spc)[order(spc[[level[length(level)]]])]
     }
     
@@ -225,7 +231,7 @@ SoilTaxonomyDendrogram <- function(spc,
 	# compute distance matrix from specified levels
 	s.dist <- daisy(s[, level, drop = FALSE], metric = 'gower', weights = wt)
 	
-	if (cluster.method == "divisive") {
+	if(cluster.method == "divisive") {
 	  # cluster::diana is the default/"divisive" method
 	  s.clust <- do.call(cluster::diana, c(list(x = s.dist), cluster.args))
 	} else if (cluster.method == "agglomerative") {
@@ -238,9 +244,9 @@ SoilTaxonomyDendrogram <- function(spc,
 	
 	## 2022-05-04: switching to ape rotation methods
 	# requires vector of tip labels
-	if (!is.null(rotationOrder)) {
+	if(!is.null(rotationOrder)) {
 	  # check that none are missing
-	  if (all(rotationOrder %in% profile_id(spc)) && length(rotationOrder) == length(spc)) {
+	  if(all(rotationOrder %in% profile_id(spc)) && length(rotationOrder) == length(spc)) {
 	    # attempt rotation, may not give the exact ordering
 	    dend <- rotateConstr(dend, constraint = rotationOrder) 
 	  } else {

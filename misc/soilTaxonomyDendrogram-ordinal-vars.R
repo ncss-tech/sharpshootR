@@ -62,7 +62,38 @@ title('Equal - Increasing', line = -2)
 
 
 
+##
 
+
+par(mfrow = c(2, 1))
+
+d1 <- SoilTaxonomyDendrogram(x, KST.order = TRUE, depth.axis = list(line = -2.5, style = 'compact', cex = 0.66), wt = c(1, 1, 1, 1), max.depth = 150, font.taxon.labels = 1, cex.taxon.labels = 0.75, width = 0.33)
+mtext('Ordinal', side = 1, at = 0.5, font = 2, line = -2, adj = 0)
+
+d2 <- SoilTaxonomyDendrogram(x, KST.order = TRUE, allLevels = TRUE, depth.axis = list(line = -2.5, style = 'compact', cex = 0.66), wt = c(4, 2, 1, 0.5), max.depth = 150, font.taxon.labels = 1, cex.taxon.labels = 0.75, width = 0.33)
+mtext('Ordinal All Levels', side = 1, at = 0.5, font = 2, line = -2, adj = 0)
+
+
+
+m1 <- as.matrix(d1$dist)
+diag(m1) <- NA
+
+m2 <- as.matrix(d2$dist)
+diag(m2) <- NA
+
+par(mfcol = c(1, 2))
+
+corrplot(m1, method = 'color', type = 'upper', col = hcl.colors(25, palette = 'zissou1'), is.corr = FALSE, na.label = '-', col.lim = c(0, 1), tl.col = 'black', tl.cex = 0.85)
+mtext('Ordinal', side = 1, at = 1, font = 2, line = -2)
+
+corrplot(m2, method = 'color', type = 'upper', col = hcl.colors(25, palette = 'zissou1'), is.corr = FALSE, na.label = '-', col.lim = c(0, 1), tl.col = 'black', tl.cex = 0.85)
+mtext('Ordinal All Levels', side = 1, at = 1, font = 2, line = -2)
+
+
+
+
+
+##
 
 
 

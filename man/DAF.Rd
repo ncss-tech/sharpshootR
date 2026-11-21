@@ -14,9 +14,9 @@ DAF.C(x, intercept = 0)
 
 DAF.G(x, threshold = 0.75)
 
-DAF.B(x)
+DAF.B(x, steepness = 1)
 
-DAF.D(x)
+DAF.D(x, threshold = 0.8, intercept = 0)
 }
 \arguments{
 \item{s}{character, selection of declining availability function by name ('B', 'C', 'D', 'G')}
@@ -27,9 +27,11 @@ DAF.D(x)
 
 \item{x}{ordered sequence of VWC in (0, 1)}
 
-\item{intercept}{y-intercept, use to limit the minimum AET/PET ratio, must be within (0, 1)}
+\item{intercept}{AET/PET value when soil moisture fraction is 0}
 
-\item{threshold}{soil moisture fraction threshold above which AET/PET is constant. within (0, 1)}
+\item{threshold}{soil moisture fraction threshold above which AET/PET is constant}
+
+\item{steepness}{number between 0 and 2.5}
 }
 \value{
 nothing, function called for graphical output

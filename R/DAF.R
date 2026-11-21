@@ -1,3 +1,4 @@
+
 ##
 ##
 ##
@@ -140,28 +141,69 @@ DAF.G <- function(x, threshold = 0.75) {
   return(.res)
 }
 
-## TODO: make tunable
-#' @title DAF "G"
+#' @title DAF "B"
 #' @rdname DAF
 #' @param x ordered sequence of VWC in (0, 1)
+#' @param steepness number between 0 and 2.5
 #' @return AET/PET ratio in (0, 1)
 #' @export
 #' @keywords internal
-DAF.B <- function(x) {
+DAF.B <- function(x, steepness = 1) {
   
-  pmax(pmin(4 * x / (3 * x^1 + 1), 1), 0)
+  pmax(pmin(4 * x / (3 * x^steepness + 1), 1), 0)
   
 }
 
-## TODO: make tunable
 # tunable curve "D"
 #' @rdname DAF
 #' @param x ordered sequence of VWC in (0, 1)
+#' @param threshold soil moisture fraction threshold above which AET/PET is constant
+#' @param intercept AET/PET value when soil moisture fraction is 0
 #' @return AET/PET ratio in (0, 1)
 #' @export
 #' @keywords internal
-DAF.D <- function(x) {
-  pmin(1, 1.5 * x^2)
+DAF.D <- function(x, threshold = 0.8, intercept = 0) {
+  
+  # constrain to reasonable range
+  if(threshold < 0.001 | threshold > 1) {
+    stop('threshold should be within 0.001 <= x <= 1')
+  }
+  
+  if(intercept < 0 | intercept >= 1) {
+    stop('intercept should be within 0 <= x < 1')
+  }
+  
+  # a parabola can be defined with three points
+  # limit one of those points to pass through (0, intercept)
+  # limit the other two to pass through (-threshold, 1) and (threshold, 1)
+  
+  # 3 systems of equations
+  # 3 unknowns
+  # y = ax^2 + bx + c
+  
+  # coefficients
+  A <- matrix(
+    rbind(
+      c((-threshold)^2, -threshold, 1),
+      c(0, 0, 1),
+      c(threshold^2, threshold, 1)
+    ), nrow = 3,
+  )
+  
+  # known y values
+  b <- matrix(
+    c(1, intercept, 1), 
+    nrow = 3
+  )
+  
+  # safely invert and multiply
+  s <- solve(A, b)
+  s <- as.vector(s)
+  
+  # curve = 1 for all x beyond threshold
+  # constrain to 0-1
+  pmax(pmin((s[1] * x^2) + (s[2] * x) + s[3], 1), 0)
+  
 }
 
 
